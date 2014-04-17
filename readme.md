@@ -2,7 +2,7 @@
 
 The official Laravel local development environment.
 
-- [Introdution](#introduction)
+- [Introduction](#introduction)
 - [Included Software](#included-software)
 - [Installation & Setup](#installation-and-setup)
 - [Daily Usage](#general-usage)
