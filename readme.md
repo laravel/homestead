@@ -25,10 +25,10 @@ Setup for easily hosting multiple projects on various Nginx sites.
 
 ## Ports
 
-SSH: 2222
-HTTP: 8000
-MySQL: 33060
-Postgres: 54320
+- SSH: 2222
+- HTTP: 8000
+- MySQL: 33060
+- Postgres: 54320
 
 ## Adding More Nginx Sites
 
