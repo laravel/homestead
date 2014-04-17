@@ -62,7 +62,7 @@ On Windows, you may install [Git](http://git-scm.com/) and use the `Git Bash` sh
 
 ### Launch The Vagrant Box
 
-Once you have edited the `Homestead.yaml` to your liking, run the `vagrant up` command from the Homestead directory in your terminal. Vagrant will boot up the virtual machine, and configure your shared folders and Nginx sites automatically!
+Once you have edited the `Homestead.yaml` to your liking, run the `vagrant up` command from the Homestead directory in your terminal. Vagrant will boot the virtual machine, and configure your shared folders and Nginx sites automatically!
 
 Don't forget to add the "domains" for your Nginx sites to the `hosts` file on your machine! The `hosts` file will redirect your requests for the local domains into your Homestead environment. On Mac and Linux, this file is located at `/etc/hosts`. On Windows, it is located at `C:\Windows\System32\drivers\etc\hosts`. The lines you add to this file will look like the following:
 
