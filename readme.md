@@ -95,7 +95,7 @@ Alternatively, you may use the `serve` script that is available on your Homestea
 
 	serve domain.app /home/vagrant/Code/path/to/public/directory
 
-> **Note:** After running the `serve` command, don't forget to add the new site to the `hosts` file on your main machine!
+> **Note:** After running the `serve` command, do not forget to add the new site to the `hosts` file on your main machine!
 
 <a name="ports"></a>
 ## Ports
