@@ -83,7 +83,7 @@ To connect to your Homestead environment via SSH, you should connect to `127.0.0
 
 ### Connecting To Your Databases
 
-Once you have your Homestead environment up and running, then what? First, you probably want to know how to connect to the MySQL or Postgres database on your virtual machine. To connect to your databases from your main machine via Navicat or Sequel Pro, you should connect to `127.0.0.1` and port 33060 (MySQL) or 54320 (Postgres). The username and password for both databases is `vagrant` / `secret`.
+To connect to your MySQL or Postgres database from your main machine via Navicat or Sequel Pro, you should connect to `127.0.0.1` and port 33060 (MySQL) or 54320 (Postgres). The username and password for both databases is `vagrant` / `secret`.
 
 > **Note:** You should only use these non-standard ports when connecting to the databases from your main machine. You will use the default 3306 and 5432 ports in your Laravel database configuration file since Laravel is running _within_ the Virtual Machine.
 
