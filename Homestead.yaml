@@ -1,0 +1,13 @@
+---
+key: /Users/taylor/.ssh/id_rsa.pub
+
+folders:
+    - map: /Users/taylor/Code
+      to: /home/vagrant/Code
+
+sites:
+    - map: laravel.app
+      to: /home/vagrant/Code/Laravel/plain/public
+
+    - map: framework.app
+      to: /home/vagrant/Code/Laravel/app/public
