@@ -8,6 +8,7 @@ The official Laravel local development environment.
 - [Daily Usage](#general-usage)
 - [Ports](#ports)
 
+<a name="introduction"></a>
 ## Introduction
 
 Laravel strives to make the entire PHP development experience delightful, including your local development environment. [Vagrant](http://vagrantup.com) provides a simple, elegant way to manage and provision Virtual Machines.
@@ -16,6 +17,7 @@ Laravel Homestead is a pre-packaged Vagrant "box" that provides you a wonderful 
 
 Homestead runs on any Windows, Mac, and Linux, and includes the Nginx web server, PHP 5.5, MySQL, and all of the other goodies you need to develop amazing Laravel applications.
 
+<a name="included-software"></a>
 ## Included Software
 
 - Ubuntu 14.04
@@ -29,6 +31,7 @@ Homestead runs on any Windows, Mac, and Linux, and includes the Nginx web server
 - Beanstalkd
 - Fabric + HipChat Extension
 
+<a name="installation-and-setup"></a>
 ## Installation & Setup
 
 ### Installing VirtualBox & Vagrant
@@ -49,11 +52,13 @@ Once the box has been added to your Vagrant installation, you should clone or do
 
 ### Edit The Homestead.yaml File
 
-Next, you should edit the `Homestead.yaml` file included in the repository. In this file, you can configure the path to your public SSH key, as well as the folders you wish to be shared between your main machine and the Homestead virtual machine. On Mac and Linux, you can generally create an SSH key pair using the following command:
+Next, you should edit the `Homestead.yaml` file included in the repository. In this file, you can configure the path to your public SSH key, as well as the folders you wish to be shared between your main machine and the Homestead virtual machine.
+
+Don't have an SSH key? On Mac and Linux, you can generally create an SSH key pair using the following command:
 
 	ssh-keygen -t rsa -C "your@email.com"
 
-On Windows, you may install [Git](http://git-scm.com/) and use the `Git Bash` shell included with Git to issue the command above.
+On Windows, you may install [Git](http://git-scm.com/) and use the `Git Bash` shell included with Git to issue the command above. Alternatively, you may use [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) and [PuTTYgen](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
 
 ### Launch The Vagrant Box
 
