@@ -30,6 +30,11 @@ class Homestead
       s.args = [File.read(settings["key"])]
     end
 
+    # Copy The Bash Aliases
+    config.vm.provision "shell" do |s|
+      s.inline = "cp /vagrant/aliases /home/vagrant/.bash_aliases"
+    end
+
     # Register All Of The Configured Shared Folders
     settings["folders"].each do |folder|
       config.vm.synced_folder folder["map"], folder["to"]
