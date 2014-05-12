@@ -1,16 +1,13 @@
 ---
-authorize: /Users/taylor/.ssh/id_rsa.pub
+authorize: /Users/me/.ssh/id_rsa.pub
 
 keys:
-    - /Users/taylor/.ssh/id_rsa
+    - /Users/me/.ssh/id_rsa
 
 folders:
-    - map: /Users/taylor/Code
+    - map: /Users/me/Code
       to: /home/vagrant/Code
 
 sites:
-    - map: laravel.app
-      to: /home/vagrant/Code/Laravel/plain/public
-
-    - map: framework.app
-      to: /home/vagrant/Code/Laravel/app/public
+    - map: homestead.app
+      to: /home/vagrant/Code/Laravel/public
