@@ -19,15 +19,19 @@ class Homestead
     config.vm.network "forwarded_port", guest: 3306, host: 33060
     config.vm.network "forwarded_port", guest: 5432, host: 54320
 
-    # Generate An SSH Key For The Box
-    config.vm.provision "shell" do |s|
-      s.inline = "sudo -u vagrant ssh-keygen -f /home/vagrant/.ssh/id_rsa -t rsa -N ''"
-    end
-
     # Configure The Public Key For SSH Access
     config.vm.provision "shell" do |s|
       s.inline = "echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
-      s.args = [File.read(settings["key"])]
+      s.args = [File.read(settings["authorize"])]
+    end
+
+    # Copy The SSH Private Keys To The Box
+    settings["keys"].each do |key|
+      config.vm.provision "shell" do |s|
+        s.privileged = false
+        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
+        s.args = [File.read(key), key.split('/').last]
+      end
     end
 
     # Copy The Bash Aliases

@@ -1,5 +1,8 @@
 ---
-key: /Users/taylor/.ssh/id_rsa.pub
+authorize: /Users/taylor/.ssh/id_rsa.pub
+
+keys:
+    - /Users/taylor/.ssh/id_rsa
 
 folders:
     - map: /Users/taylor/Code
