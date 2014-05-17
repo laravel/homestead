@@ -51,5 +51,13 @@ class Homestead
           s.args = [site["map"], site["to"]]
       end
     end
+
+    # Create All The Configured Databases
+    settings["databases"].each do |database|
+      config.vm.provision "shell" do |s|
+          s.inline = "bash /vagrant/scripts/database.sh $1 $2"
+          s.args = [database["name"], database["type"]]
+      end
+    end
   end
 end
