@@ -1,8 +1,8 @@
 VAGRANTFILE_API_VERSION = "2"
 
 require 'yaml'
-require './scripts/homestead.rb'
+require __dir__ + '/scripts/homestead.rb'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  Homestead.configure(config, YAML::load(File.read('./Homestead.yaml')))
+  Homestead.configure(config, YAML::load(File.read(__dir__ + '/Homestead.yaml')))
 end
