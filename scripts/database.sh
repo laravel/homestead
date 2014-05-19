@@ -5,9 +5,11 @@ name=$1
 type=$2
 
 if [[ $type == "MySQL" ]]; then
-    mysql -u root -psecret -e "CREATE DATABASE IF NOT EXISTS $name;"
+    mysql -u homestead -psecret -e "CREATE DATABASE IF NOT EXISTS $name;"
 fi
 
 if [[ $type == "Postgres" ]]; then
-    echo 'implement Postgress'
+    export PGPASSWORD=secret
+    createdb --host 127.0.0.1 --username homestead --no-password $name
+    unset PGPASSWORD
 fi
