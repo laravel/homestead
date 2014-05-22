@@ -36,7 +36,7 @@ block="server {
 }
 "
 
-echo "$block" >> "/etc/nginx/sites-available/$1"
+echo "$block" > "/etc/nginx/sites-available/$1"
 ln -s "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 service nginx restart
 service php5-fpm restart
