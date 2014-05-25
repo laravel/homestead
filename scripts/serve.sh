@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+red='\033[0;31m'
+green='\033[0;32m'
+NC='\033[0m'
+
 block="server {
     listen 80;
     server_name $1;
@@ -35,8 +39,13 @@ block="server {
     }
 }
 "
-
-echo "$block" > "/etc/nginx/sites-available/$1"
-ln -s "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
-service nginx restart
-service php5-fpm restart
+if [[ -z $1 || -z $2 ]]; then
+    echo -e "${red}Error: \`serve\` expects two parameters:${NC}"
+    echo -e "\n   ${green}serve domain.app /home/vagrant/path/to/public/directory${NC}\n"
+    exit 0
+else
+    echo "$block" > "/etc/nginx/sites-available/$1"
+    ln -s "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
+    service nginx restart
+    service php5-fpm restart
+fi
