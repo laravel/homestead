@@ -11,3 +11,9 @@ folders:
 sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
+
+:vmc:
+    # Enter percentage as whole number (e.g. 25)
+    :cpu: 25
+    :ram: 2048
+    :ip: 192.168.33.10

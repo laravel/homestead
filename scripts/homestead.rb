@@ -4,15 +4,27 @@ class Homestead
     config.vm.box = "laravel/homestead"
     config.vm.hostname = "homestead"
 
+    # Load VM Configuration
+    settings[:vmc][:ram] ||= "2048"
+    settings[:vmc][:ip] ||= "192.168.33.50"
+    settings[:vmc][:cpu] ||= "25"
+    if settings[:vmc][:cpu] >= 100
+      settings[:vmc][:cpu] = "25"
+    end
+
+
     # Configure A Private Network IP
-    config.vm.network :private_network, ip: "192.168.33.10"
+    #config.vm.network :private_network, ip: "192.168.33.10"
+    config.vm.network :private_network, ip: settings[:vmc][:ip]
 
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
+      vb.customize ["modifyvm", :id, "--memory", settings[:vmc][:ram]]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", settings[:vmc][:cpu]]
     end
+
 
     # Configure Port Forwarding To The Box
     config.vm.network "forwarded_port", guest: 80, host: 8000
