@@ -15,3 +15,9 @@ folders:
 sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
+
+databases:
+    postgresql:
+        -
+    mysql:
+        - 

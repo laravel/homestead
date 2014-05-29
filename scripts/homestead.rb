@@ -52,5 +52,27 @@ class Homestead
           s.args = [site["map"], site["to"]]
       end
     end
+
+    # Create PostgreSQL Databases
+    settings["databases"]["postgresql"].each do |postgresql|
+      if !(postgresql.nil?)
+        config.vm.provision "shell" do |s|
+          s.privileged = false
+          s.inline = "export PGPASSWORD=secret;createdb -U homestead -h localhost \"$1\";"
+          s.args = postgresql
+        end
+      end
+    end
+
+    # Create MySQL Databases
+    settings["databases"]["mysql"].each do |mysql|
+      if !(mysql.nil?)
+        config.vm.provision "shell" do |s|
+          s.privileged = false
+          s.inline = "export MYSQL_PWD=secret;mysql -u homestead -h localhost -e \"create database $1\";"
+          s.args = mysql
+        end
+      end
+    end
   end
 end
