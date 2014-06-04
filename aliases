@@ -5,7 +5,15 @@ alias h='cd ~'
 alias c='clear'
 
 function serve() {
-	sudo dos2unix /vagrant/scripts/serve.sh
-	sudo bash /vagrant/scripts/serve.sh "$1" "$2"
+	if [ ! -z "$1" ]; then
+		if [ ! -z "$2" ]; then
+			sudo dos2unix /vagrant/scripts/serve.sh
+			sudo bash /vagrant/scripts/serve.sh "$1" "$2"
+		else	
+    			echo "Please supply a path structure"
+    		fi
+ 	else	
+    		echo "Please provide a domain name"
+	fi
 }
 
