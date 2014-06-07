@@ -3,18 +3,18 @@ ip: "192.168.10.10"
 memory: 2048
 cpus: 1
 
-authorize: /Users/taylor/.ssh/id_rsa.pub
+authorize: /Users/me/.ssh/id_rsa.pub
 
 keys:
-    - /Users/taylor/.ssh/id_rsa
+    - /Users/me/.ssh/id_rsa
 
 folders:
-    - map: /Users/taylor/Code
+    - map: /Users/me/Code
       to: /home/vagrant/Code
 
 sites:
     - map: homestead.app
-      to: /home/vagrant/Code/Laravel/plain/public
+      to: /home/vagrant/Code/Laravel/public
 
 variables:
     - key: APP_ENV
