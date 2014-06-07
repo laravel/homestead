@@ -15,3 +15,7 @@ folders:
 sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
+
+environment:
+    - variable: APP_ENV
+      value: local
