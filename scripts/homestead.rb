@@ -67,8 +67,8 @@ class Homestead
 	if settings.has_key?("databases")
       settings["databases"].each do |db|
         config.vm.provision "shell" do |s|
-            s.inline = "bash /vagrant/scripts/mysql_database.sh $1 $2 $3 $4"
-            s.args = [db["db"], db["user"], db["pass"], settings["dbrootpass"]]
+            s.inline = "mysql -u root -p$1 -e \"CREATE DATABASE $2\""
+            s.args = [settings["dbrootpass"], db["db"]]
         end
       end
     end

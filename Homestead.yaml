@@ -24,5 +24,4 @@ dbrootpass: secret
 
 databases:
     - db: new_app_db
-      user: app_db_user
-      pass: password
+    - db: new_app_db2
