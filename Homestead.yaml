@@ -19,3 +19,10 @@ sites:
 variables:
     - key: APP_ENV
       value: local
+
+dbrootpass: secret
+
+databases:
+    - db: new_app_db
+      user: app_db_user
+      pass: password
