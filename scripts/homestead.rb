@@ -52,5 +52,10 @@ class Homestead
           s.args = [site["map"], site["to"]]
       end
     end
+    
+    # Update composer
+    config.vm.provision "shell" do |s|
+      s.inline = "/usr/local/bin/composer self-update"
+    end
   end
 end
