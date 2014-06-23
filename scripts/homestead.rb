@@ -62,5 +62,10 @@ class Homestead
         end
       end
     end
+
+    # Update Composer on Provision
+    config.vm.provision "shell" do |s|
+      s.inline = "/usr/local/bin/composer self-update"
+    end
   end
 end
