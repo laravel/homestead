@@ -42,7 +42,7 @@ class Homestead
 
     # Register All Of The Configured Shared Folders
     settings["folders"].each do |folder|
-      config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
+      config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, :nfs => true
     end
 
     # Install All The Configured Nginx Sites
