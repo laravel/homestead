@@ -42,7 +42,15 @@ class Homestead
 
     # Register All Of The Configured Shared Folders
     settings["folders"].each do |folder|
-      config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
+      if folder.key?("options")
+        # Options hash takes precedence
+        options = folder["options"]
+      else
+        # Check for type key for backwards compatibility
+        options = Hash.new
+        options[:type] = folder.key?("type") ? folder["type"] : nil
+      end
+      config.vm.synced_folder folder["map"], folder["to"], options
     end
 
     # Install All The Configured Nginx Sites
