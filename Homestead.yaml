@@ -3,13 +3,13 @@ ip: "192.168.10.10"
 memory: 2048
 cpus: 1
 
-authorize: /Users/me/.ssh/id_rsa.pub
+authorize: ~/.ssh/id_rsa.pub
 
 keys:
-    - /Users/me/.ssh/id_rsa
+    - ~/.ssh/id_rsa
 
 folders:
-    - map: /Users/me/Code
+    - map: ~/Code
       to: /home/vagrant/Code
 
 sites:
