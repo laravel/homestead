@@ -19,3 +19,6 @@ sites:
 variables:
     - key: APP_ENV
       value: local
+
+commands:
+    - composer self-update

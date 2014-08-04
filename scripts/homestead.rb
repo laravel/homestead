@@ -62,5 +62,14 @@ class Homestead
         end
       end
     end
+
+    # Run Any Optional Commands
+    if settings.has_key?("commands")
+      settings["commands"].each do |command|
+        config.vm.provision "shell" do |s|
+            s.inline = command
+        end
+      end
+    end
   end
 end
