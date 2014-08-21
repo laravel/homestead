@@ -52,6 +52,14 @@ class Homestead
           s.args = [site["map"], site["to"]]
       end
     end
+    
+    # Setup all the databases
+    settings["databases"].each do |db|
+      config.vm.provision "shell" do |s|
+          s.inline = "/usr/bin/mysql -uhomestead -psecret -e 'CREATE DATABASE IF NOT EXISTS \'$1\';'"
+          s.args = [db["schema"]]
+      end
+    end
 
     # Configure All Of The Server Environment Variables
     if settings.has_key?("variables")
