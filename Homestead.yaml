@@ -16,6 +16,10 @@ sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
 
+# Create MySQL database schemas at provisioning-time
+databases:
+    #- schema: database
+    
 variables:
     - key: APP_ENV
       value: local
