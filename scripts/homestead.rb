@@ -17,6 +17,7 @@ class Homestead
 
     # Configure Port Forwarding To The Box
     config.vm.network "forwarded_port", guest: 80, host: 8000
+    config.vm.network "forwarded_port", guest: 443, host: 44300
     config.vm.network "forwarded_port", guest: 3306, host: 33060
     config.vm.network "forwarded_port", guest: 5432, host: 54320
 
@@ -49,6 +50,14 @@ class Homestead
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
           s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
+          s.args = [site["map"], site["to"]]
+      end
+    end
+
+    # Install All The Configured Nginx Sites (HTTPS)
+    settings["sites"].each do |site|
+      config.vm.provision "shell" do |s|
+          s.inline = "bash /vagrant/scripts/serve_https.sh $1 $2"
           s.args = [site["map"], site["to"]]
       end
     end
