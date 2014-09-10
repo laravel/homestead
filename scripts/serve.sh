@@ -4,7 +4,7 @@ block="server {
     listen 80;
     server_name $1;
     root $2;
-
+    
     index index.html index.htm index.php;
 
     charset utf-8;
@@ -33,6 +33,9 @@ block="server {
     location ~ /\.ht {
         deny all;
     }
+    
+    # custom settings
+    $3
 }
 "
 
