@@ -40,3 +40,6 @@ echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 service nginx restart
 service php5-fpm restart
+
+#add timezone support to MySQL
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
