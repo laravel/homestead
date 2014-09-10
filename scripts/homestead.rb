@@ -1,4 +1,8 @@
 class Homestead
+  def Homestead.crontab_value_of(input)
+    input != nil && input != '*' ? input : "\\*"
+  end
+  
   def Homestead.configure(config, settings)
     # Configure The Box
     config.vm.box = "laravel/homestead"
@@ -44,6 +48,20 @@ class Homestead
     settings["folders"].each do |folder|
       config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
     end
+    
+    config.vm.provision "shell" do |s|
+      s.inline = "cat /dev/null > /home/vagrant/.crontabs"
+    end
+    
+    settings["crontabs"].each do |crontab|
+      config.vm.provision "shell" do |s|
+        s.inline = "echo #{Homestead.crontab_value_of(crontab["minute"])} #{Homestead.crontab_value_of(crontab["hour"])} #{Homestead.crontab_value_of(crontab["monthday"])} #{Homestead.crontab_value_of(crontab["month"])} #{Homestead.crontab_value_of(crontab["weekday"])} #{crontab["command"] } >> /home/vagrant/.crontabs"
+      end
+    end
+    
+    config.vm.provision "shell" do |s|
+      s.inline = "crontab -u root /home/vagrant/.crontabs"
+    end
 
     # Install All The Configured Nginx Sites
     settings["sites"].each do |site|
@@ -52,8 +70,8 @@ class Homestead
             s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
             s.args = [site["map"], site["to"]]
           else
-            s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
-            s.args = [site["map"], site["to"]]
+            s.inline = "bash /vagrant/scripts/serve.sh \"$1\" \"$2\" \"$3\""
+            s.args = [site["map"], site["to"], "#{ site.reject{ |key, value| key == "map" || key == "to" }.map{ |key, value| "#{key} #{value};" }.join(' ') }"]
           end
       end
     end
