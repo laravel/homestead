@@ -45,6 +45,9 @@ class Homestead
       config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
     end
 
+    # install crontabs
+    Homestead.install_cron_tabs(config, setings)
+
     # Install All The Configured Nginx Sites
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
@@ -67,5 +70,28 @@ class Homestead
         end
       end
     end
+  end
+
+  def Homestead.install_cron_tabs(config, setings)
+    # empty /home/vagrant/.crontabs file
+    config.vm.provision "shell" do |s|
+      s.inline = "cat /dev/null > /home/vagrant/.crontabs"
+    end
+
+    # fill /home/vagrant/.crontabs file with crontab rows
+    settings["crontabs"].each do |crontab|
+      config.vm.provision "shell" do |s|
+        s.inline = "echo #{Homestead.crontab_value_of(crontab["minute"])} #{Homestead.crontab_value_of(crontab["hour"])} #{Homestead.crontab_value_of(crontab["monthday"])} #{Homestead.crontab_value_of(crontab["month"])} #{Homestead.crontab_value_of(crontab["weekday"])} #{crontab["command"] } >> /home/vagrant/.crontabs"
+      end
+    end
+
+    # install all crontabs from /home/vagrant/.crontabs file for 'root'
+    config.vm.provision "shell" do |s|
+      s.inline = "crontab -u root /home/vagrant/.crontabs"
+    end
+  end
+
+  def Homestead.crontab_value_of(input)
+    input != nil && input != '*' ? input : "\\*"
   end
 end
