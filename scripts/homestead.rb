@@ -46,7 +46,7 @@ class Homestead
     end
 
     # install crontabs
-    Homestead.install_cron_tabs(config, setings)
+    Homestead.install_cron_tabs(config, settings)
 
     # Install All The Configured Nginx Sites
     settings["sites"].each do |site|
@@ -72,7 +72,7 @@ class Homestead
     end
   end
 
-  def Homestead.install_cron_tabs(config, setings)
+  def Homestead.install_cron_tabs(config, settings)
     # empty /home/vagrant/.crontabs file
     config.vm.provision "shell" do |s|
       s.inline = "cat /dev/null > /home/vagrant/.crontabs"
