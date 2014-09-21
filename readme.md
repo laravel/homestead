@@ -7,7 +7,7 @@ Official documentation [is located here](http://laravel.com/docs/homestead?versi
 ## Additional Functionality
 
 * Provides helper scripts for booting, destroying and editing the homestead environment.
-* Sets up firewall rules on OS X to forward port 8000 to 80.
+* Sets up firewall rules to forward port 8000 to 80.
 * Automatically adds virtual hosts from Homestead.yaml to /etc/hosts.
 * Flushes firewall rules on destroy.
 * Removes virtual hosts on destroy.
@@ -25,19 +25,22 @@ Make sure you have vagrant and virtualbox installed.
 Navigate to the path you want the homestead to be installed.
 Install as follows:
 ```
-clone https://github.com/miagg/Homestead.git
+git clone https://github.com/miagg/homestead.git
 cd Homestead
-vagrant box add laravel/Homstead
+cp Homestead-sample.yaml Homestead.yaml
+vagrant box add laravel/Homestead
 ```
 
-Add the following aliases to your .bash_profile or .bash_aliases
+Add the following aliases to your `~\.bash_profile` or `~\.bash_aliases`
 ```
 alias vm='ssh vagrant@127.0.0.1 -p 2200'
 alias vmup="pushd ~/Homestead >/dev/null && bash vmup.sh && popd >/dev/null"
 alias vmdown="pushd ~/Homestead >/dev/null && bash vmdown.sh && popd >/dev/null"
 alias vmedit="pushd ~/Homestead >/dev/null && bash vmedit.sh && popd >/dev/null"
 ```
-Change `~/Homestead` to your instasllation path.
+Change `~/Homestead` to your installation path.
+
+Use `vmedit` to set your shared folders and sites. See original documentation [here](http://laravel.com/docs/homestead?version=4.2).
 
 ## Usage
 
@@ -55,6 +58,7 @@ SSH into the virtual machine
 3. Destroys the homestead.
 
 ### vmedit
-1. Opens up Homestead.yaml (configuration file) with the predefined editor (default: sublime)
+1. Opens up Homestead.yaml (configuration file) with the predefined editor (default: sublime).
 2. If any changes are detected it resets virtual hosts to /etc/hosts and provisions the machine.
 
+To change the editor: edit vmedit.sh and set your editor in line 4. Example: `EDITOR='nano'`
