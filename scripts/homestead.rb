@@ -57,7 +57,7 @@ class Homestead
     # Install All The Configured Nginx Sites (HTTPS)
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
-          s.inline = "bash /vagrant/scripts/serve_https.sh $1 $2"
+          s.inline = "bash /vagrant/scripts/serve-https.sh $1 $2"
           s.args = [site["map"], site["to"]]
       end
     end
