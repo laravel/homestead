@@ -2,6 +2,7 @@
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
+hosts_file_additions: true
 
 authorize: ~/.ssh/id_rsa.pub
 
