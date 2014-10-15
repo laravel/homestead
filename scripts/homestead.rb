@@ -59,7 +59,7 @@ class Homestead
     end
 
     # Updating the hosts file with all the sites that are defined in Homestead.yaml
-    if Vagrant.has_plugin?("vagrant-hostsupdater") && site["hosts_file_additions"] == true
+    if Vagrant.has_plugin?("vagrant-hostsupdater") && settings["hosts_file_additions"] == true
         hosts = []
         settings["sites"].each do |site|
           hosts.push(site["map"])
