@@ -15,6 +15,11 @@ folders:
 sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
+    - map: homesteadtwo.app
+      to: /home/vagrant/Code/Laraveltwo/public
+
+databases:
+    - name: homesteadtwo
 
 variables:
     - key: APP_ENV
