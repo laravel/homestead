@@ -1,5 +1,5 @@
 ---
-ip: "192.168.10.10"
+ip: "10.0.2.100"
 memory: 2048
 cpus: 1
 
@@ -9,17 +9,21 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
+    - map: ~/Workspace
+      to: /home/vagrant/Workspace
 
 sites:
-    - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
-    - map: homesteadtwo.app
-      to: /home/vagrant/Code/Laraveltwo/public
+    - map: horizon.app
+      to: /home/vagrant/Workspace/PB/HorizonPrototype/public
+    - map: upsdemo.app
+      to: /home/vagrant/Workspace/PB/UPSLabelDemo
+    - map: ubbdemo.app
+      to: /home/vagrant/Workspace/PB/UBBDemo/public
+    - map: defaultsite.app
+      to: /home/vagrant/Workspace/PB/DefaultSite
 
 databases:
-    - name: homesteadtwo
+    - name: ubb
 
 variables:
     - key: APP_ENV

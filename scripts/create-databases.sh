@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 DB=$1;
 #clean up first
-echo "Droping database $DB if it already exists.";
+echo "Dropping database $DB if it already exists.";
 mysql -uhomestead -psecret -e "DROP DATABASE IF EXISTS $DB";
 
 echo "Creating new database $DB";
