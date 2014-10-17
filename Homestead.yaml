@@ -9,21 +9,17 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Workspace
-      to: /home/vagrant/Workspace
+    - map: ~/Code
+      to: /home/vagrant/Code
 
 sites:
-    - map: horizon.app
-      to: /home/vagrant/Workspace/PB/HorizonPrototype/public
-    - map: upsdemo.app
-      to: /home/vagrant/Workspace/PB/UPSLabelDemo
-    - map: ubbdemo.app
-      to: /home/vagrant/Workspace/PB/UBBDemo/public
-    - map: defaultsite.app
-      to: /home/vagrant/Workspace/PB/DefaultSite
+    - map: homestead.app
+      to: /home/vagrant/Code/Laravel/public
+    - map: homesteadtwo.app
+      to: /home/vagrant/Code/Laraveltwo/public
 
 databases:
-    - name: ubb
+    - name: homesteadtwo
 
 variables:
     - key: APP_ENV
