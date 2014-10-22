@@ -3,6 +3,7 @@ class Homestead
     # Configure The Box
     config.vm.box = "laravel/homestead"
     config.vm.hostname = "homestead"
+    config.ssh.pty = true
 
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
