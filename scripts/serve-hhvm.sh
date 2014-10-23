@@ -42,3 +42,10 @@ ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 service nginx restart
 service php5-fpm restart
 service hhvm restart
+
+case "$1" in
+  *.local)
+    /vagrant/script/avahi-aliases/avahi-aliases -add $1
+    service avahi-aliases restart
+    ;;
+esac

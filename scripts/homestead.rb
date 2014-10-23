@@ -20,6 +20,11 @@ class Homestead
     config.vm.network "forwarded_port", guest: 3306, host: 33060
     config.vm.network "forwarded_port", guest: 5432, host: 54320
 
+    config.vm.provision "shell" do |s|
+      s.inline = "bash /vagrant/scripts/avahi-aliases/install.sh && : > /etc/avahi/aliases"
+      s.args = []
+    end
+
     # Configure The Public Key For SSH Access
     config.vm.provision "shell" do |s|
       s.inline = "echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
@@ -56,6 +61,21 @@ class Homestead
             s.args = [site["map"], site["to"]]
           end
       end
+    end
+
+    # Advertise aliases for all sites in /etc/nginx/sites-enabled. 
+    # This accounts for sites that were originally created 
+    # via `serve <domain> <path>`, but that don't have corresponding 
+    # definitions in Homestead.yaml
+    config.vm.provision "shell" do |s|
+      s.inline = "
+      for i in /etc/nginx/sites-enabled/* ; do 
+        if [[ \"$i\" == *.local ]] ; then
+          /vagrant/scripts/avahi-aliases/avahi-aliases -add \"$(basename \"$i\")\"
+        fi
+      done
+      service avahi-aliases restart"
+      s.args = []
     end
 
     # Configure All Of The Server Environment Variables
