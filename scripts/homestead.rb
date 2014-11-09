@@ -68,5 +68,16 @@ class Homestead
         end
       end
     end
+
+    # Create the databases and users
+	if settings.has_key?("databases")
+      settings["databases"].each do |db|
+        config.vm.provision "shell" do |s|
+            s.inline = "mysql -u root -p$1 -e \"CREATE DATABASE $2\""
+            s.args = [settings["dbrootpass"], db["db"]]
+        end
+      end
+    end
+
   end
 end
