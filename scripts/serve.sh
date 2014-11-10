@@ -40,3 +40,10 @@ echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 service nginx restart
 service php5-fpm restart
+
+case "$1" in
+  *.local)
+    /vagrant/scripts/avahi-aliases/avahi-aliases -add $1
+    service avahi-aliases restart
+    ;;
+esac

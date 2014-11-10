@@ -1,0 +1,168 @@
+#!/bin/bash
+
+cnf_file="/etc/avahi/aliases"
+aliases=""
+
+function usage() {
+    echo "$0: unknown command $1"
+    echo "usage: $0 [add|remove [<alias> [<alias> [...]]]]"
+}
+
+function add_alias() {
+  aliases+=("$1")
+}
+
+function remove_alias() {
+  local result=()
+  for j in "${aliases[@]}" ; do
+    [ "$j" == "$1" ] && continue
+    result+=("$j")
+  done
+  aliases=("${result[@]}")
+}
+
+function list_aliases() {
+  # drop duplicates and print to console
+  printf -- '%s\n' "${aliases[@]}" |  awk '!x[$0]++'
+}
+
+function serve_aliases() {
+  if [ ${#aliases} == 0 ] ; then
+    echo "no aliases to advertise"
+    return 0;
+  fi
+
+  exec -c -a "$(basename $0): running" python <<'EOF'
+
+# avahi-aliasd.py
+#
+# Anounces hostname aliases (CNAMEs) for this host on the local bonjour network
+# via the avahi-daemon.  The list of aliases is managed in "/etc/avahid/aliases".
+#
+# This script is based on the example provided by avahi:
+#   http://www.avahi.org/wiki/Examples/PythonPublishAlias
+#
+
+import dbus
+import avahi
+from gi.repository import GObject
+from dbus.mainloop.glib import DBusGMainLoop
+from encodings.idna import ToASCII
+
+# Got these from /usr/include/avahi-common/defs.h
+CLASS_IN = 0x01
+TYPE_CNAME = 0x05
+TTL = 60
+
+bus = dbus.SystemBus()
+server = dbus.Interface(bus.get_object(avahi.DBUS_NAME, avahi.DBUS_PATH_SERVER),
+    avahi.DBUS_INTERFACE_SERVER)
+group = None
+
+def publish_cname(group, cname, aname):
+    global bus, server, rdata
+
+    rdata = createRR(aname)
+    cname = encode_dns(cname)
+
+    group.AddRecord(avahi.IF_UNSPEC, avahi.PROTO_UNSPEC, dbus.UInt32(0),
+        cname, CLASS_IN, TYPE_CNAME, TTL, rdata)
+
+
+def encode_dns(name):
+    out = []
+    for part in name.split('.'):
+        if len(part) == 0: continue
+        out.append(ToASCII(part))
+    return '.'.join(out)
+
+def createRR(name):
+    out = []
+    for part in name.split('.'):
+        if len(part) == 0: continue
+        out.append(chr(len(part)))
+        out.append(ToASCII(part))
+    out.append('\0')
+    return ''.join(out)
+
+if __name__ == '__main__':
+    import time, sys, locale
+
+    DBusGMainLoop( set_as_default=True )
+    main_loop = GObject.MainLoop()
+
+    domains = set()
+    for line in open("/etc/avahi/aliases"):
+        line = line.strip('\n')
+        if len(line) == 0:
+            continue
+        domains.add(line)
+
+    if group is None:
+        group = dbus.Interface(
+            bus.get_object( avahi.DBUS_NAME, server.EntryGroupNew()),
+            avahi.DBUS_INTERFACE_ENTRY_GROUP)
+
+    thisHost = server.GetHostNameFqdn()
+    for name in domains:
+        name = unicode(name, locale.getpreferredencoding())
+        publish_cname(group, name, thisHost)
+
+    group.Commit()
+
+    try:
+        main_loop.run()
+    except KeyboardInterrupt:
+        pass
+
+    if not group is None:
+        group.Free()
+EOF
+}
+
+cmd='-list'
+should_write_aliases=0
+
+# read conf file
+[ -e "$cnf_file" ] &&
+  IFS=$'\n' read -d '' -r -a aliases < "$cnf_file"
+
+if [ $# == 0 ] ; then
+  list_aliases
+  exit $?
+fi
+
+for arg in "${@:1}" ; do
+  case "$arg" in
+    "-list")
+      list_aliases
+      ;;
+    "-serve")
+      serve_aliases
+      exit $?
+      ;;
+    "-add"|"-remove")
+      cmd="${arg,,}"
+      continue
+      ;;
+    *)
+      case "$cmd" in
+        -add)
+          add_alias "$arg"
+          should_write_aliases=1
+          ;;
+        -remove)
+          remove_alias "$arg"
+          should_write_aliases=1
+          ;;
+        *)
+          ;;
+      esac
+  esac
+done
+
+if [ "$should_write_aliases" == 1 ] ; then
+  list_aliases > "$cnf_file"
+fi
+
+

@@ -13,7 +13,7 @@ folders:
       to: /home/vagrant/Code
 
 sites:
-    - map: homestead.app
+    - map: mysite.homestead.local
       to: /home/vagrant/Code/Laravel/public
 
 variables:
