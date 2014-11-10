@@ -48,6 +48,7 @@ class Homestead
 
     # Install All The Configured Nginx Sites
     settings["sites"].each do |site|
+      next if site.has_key?("locked") && site["locked"]
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
             s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
