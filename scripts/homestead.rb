@@ -49,12 +49,16 @@ class Homestead
     # Install All The Configured Nginx Sites
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
+          # the domain name you use in the 'map' field will be replaced inside the 'to' field using the placeholder %domain%
+          # if the placeholder don't exist, use the 'map' field value
+          to = site["to"].index("%") ? site["to"].sub("%domain%", site["map"]) : site["to"]
+
           if (site.has_key?("hhvm") && site["hhvm"])
             s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
-            s.args = [site["map"], site["to"]]
+            s.args = [site["map"], to]
           else
             s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
-            s.args = [site["map"], site["to"]]
+            s.args = [site["map"], to]
           end
       end
     end
