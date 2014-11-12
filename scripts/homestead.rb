@@ -43,7 +43,12 @@ class Homestead
 
     # Register All Of The Configured Shared Folders
     settings["folders"].each do |folder|
-      config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
+      if folder['map'] != '' && folder['to'] != ''
+        config.vm.synced_folder folder["map"], folder["to"], 
+          id: folder["id"],
+          type: "rsync",
+          rsync__auto: "true"
+      end
     end
 
     # Install All The Configured Nginx Sites
