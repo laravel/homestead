@@ -1,4 +1,8 @@
 class Homestead
+  def Homestead.crontab_value_of(input)
+    input != nil && input != '*' ? input : "\\*"
+  end
+  
   def Homestead.configure(config, settings)
     # Configure The Box
     config.vm.box = "laravel/homestead"
@@ -53,8 +57,8 @@ class Homestead
             s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
             s.args = [site["map"], site["to"]]
           else
-            s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
-            s.args = [site["map"], site["to"]]
+            s.inline = "bash /vagrant/scripts/serve.sh \"$1\" \"$2\" \"$3\""
+            s.args = [site["map"], site["to"], "#{ site.reject{ |key, value| key == "map" || key == "to" }.map{ |key, value| "#{key} #{value};" }.join(' ') }"]
           end
       end
     end
