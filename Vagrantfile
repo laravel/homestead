@@ -7,4 +7,5 @@ require path + '/scripts/homestead.rb'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   Homestead.configure(config, YAML::load(File.read(path + '/Homestead.yaml')))
+  config.vm.provision "shell", path: "scripts/after.sh"
 end
