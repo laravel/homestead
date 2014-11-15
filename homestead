@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists(__DIR__.'/vendor/autoload.php'))
+{
+	require __DIR__.'/vendor/autoload.php';
+}
+else
+{
+	require __DIR__.'/../../autoload.php';
+}
+
+$app = new Symfony\Component\Console\Application('Laravel Homestead', '2.0.0');
+$app->add(new Laravel\Homestead\DestroyCommand);
+$app->add(new Laravel\Homestead\DirectoryCommand);
+$app->add(new Laravel\Homestead\HaltCommand);
+$app->add(new Laravel\Homestead\InitCommand);
+$app->add(new Laravel\Homestead\UpCommand);
+$app->add(new Laravel\Homestead\UpdateCommand);
+
+$app->run();
