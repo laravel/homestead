@@ -1,5 +1,5 @@
 ---
-ip: "10.0.2.100"
+ip: "192.168.10.10"
 memory: 2048
 cpus: 1
 
@@ -18,8 +18,11 @@ sites:
     - map: homesteadtwo.app
       to: /home/vagrant/Code/Laraveltwo/public
 
-databases:
-    - name: homesteadtwo
+mysql:
+    - homestead
+
+postgres:
+    - homestead
 
 variables:
     - key: APP_ENV
