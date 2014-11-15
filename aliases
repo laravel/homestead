@@ -4,6 +4,8 @@ alias ...="cd ../.."
 alias h='cd ~'
 alias c='clear'
 
+alias npm='npm --no-bin-links'
+
 function serve() {
 	if [[ "$1" && "$2" ]]
 	then
