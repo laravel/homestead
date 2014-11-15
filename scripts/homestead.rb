@@ -68,5 +68,13 @@ class Homestead
         end
       end
     end
+
+    # create project databases
+    settings["databases"].each do |db|
+        config.vm.provision "shell" do |s|
+            s.path = "./scripts/create-databases.sh"
+            s.args = [db["name"]]
+        end
+    end
   end
 end
