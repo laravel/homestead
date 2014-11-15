@@ -84,5 +84,16 @@ class Homestead
         end
       end
     end
+
+    # Configure Git User
+    if settings.has_key?("git")
+      settings["git"].each do |g|
+        config.vm.provision "shell" do |s|
+            s.privileged = false
+            s.inline = "git config --global user.name \"$1\" && git config --global user.email \"$2\""
+            s.args = [g["name"], g["email"]]
+        end
+      end
+    end
   end
 end

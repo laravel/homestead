@@ -27,3 +27,7 @@ postgres:
 variables:
     - key: APP_ENV
       value: local
+
+git:
+    - name: User
+      email: user@email.com
