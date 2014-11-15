@@ -17,5 +17,6 @@ $app->add(new Laravel\Homestead\HaltCommand);
 $app->add(new Laravel\Homestead\InitCommand);
 $app->add(new Laravel\Homestead\UpCommand);
 $app->add(new Laravel\Homestead\UpdateCommand);
+$app->add(new Laravel\Homestead\SshCommand);
 
 $app->run();
