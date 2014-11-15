@@ -59,16 +59,13 @@ class Homestead
       end
     end
 
-    # Configure All Of The Configured MySQL Databases
-    settings["mysql"].each do |db|
+    # Configure All Of The Configured Databases
+    settings["databases"].each do |db|
         config.vm.provision "shell" do |s|
             s.path = "./scripts/create-mysql.sh"
             s.args = [db]
         end
-    end
 
-    # Configure All Of The Configured Postgres Databases
-    settings["postgres"].each do |db|
         config.vm.provision "shell" do |s|
             s.path = "./scripts/create-postgres.sh"
             s.args = [db]

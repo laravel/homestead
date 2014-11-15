@@ -16,10 +16,7 @@ sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
 
-mysql:
-    - homestead
-
-postgres:
+databases:
     - homestead
 
 variables:
