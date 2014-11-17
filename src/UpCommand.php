@@ -27,12 +27,29 @@ class UpCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$process = new Process('vagrant up', realpath(__DIR__.'/../'), null, null, null);
+		$command = 'vagrant up';
+		
+		if($this->option('provision'))
+			$command .= ' --provision';
+			
+		$process = new Process($command, realpath(__DIR__.'/../'), null, null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{
 			$output->write($line);
 		});
+	}
+	
+	/**
+	 * Get the console command options.
+	 * 
+	 * @return array
+	 */
+	public function getOptions()
+	{
+		return array(
+			array('provision', null, InputOption::VALUE_NONE, 'Provision the Homestead machine.', false),	
+		);
 	}
 
 }
