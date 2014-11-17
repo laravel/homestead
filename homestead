@@ -16,7 +16,9 @@ function homestead_path()
 }
 
 $app = new Symfony\Component\Console\Application('Laravel Homestead', '2.0.0');
+
 $app->add(new Laravel\Homestead\DestroyCommand);
+$app->add(new Laravel\Homestead\EditCommand);
 $app->add(new Laravel\Homestead\HaltCommand);
 $app->add(new Laravel\Homestead\InitCommand);
 $app->add(new Laravel\Homestead\ResumeCommand);
