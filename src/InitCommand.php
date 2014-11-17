@@ -40,6 +40,11 @@ class InitCommand extends Command {
 		copy(__DIR__.'/stubs/after.sh', $directory.'/after.sh');
 		copy(__DIR__.'/stubs/aliases', $directory.'/aliases');
 
+		file_put_contents(
+			__DIR__.'/../var/config.json',
+			json_encode(['directory' => realpath($directory)], JSON_PRETTY_PRINT)
+		);
+
 		$output->writeln('<comment>Creating Homestead.yaml file...</comment> <info>✔</info>');
 		$output->writeln('<comment>Homestead.yaml file created at:</comment> '.$directory.'/Homestead.yaml');
 	}
