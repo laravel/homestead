@@ -27,26 +27,19 @@ class InitCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$directory = $_SERVER['HOME'].'/.homestead';
-
-		if (is_dir($directory))
+		if (is_dir(homestead_path()))
 		{
 			throw new \InvalidArgumentException("Homestead has already been initialized.");
 		}
 
-		mkdir($directory);
+		mkdir(homestead_path());
 
-		copy(__DIR__.'/stubs/Homestead.yaml', $directory.'/Homestead.yaml');
-		copy(__DIR__.'/stubs/after.sh', $directory.'/after.sh');
-		copy(__DIR__.'/stubs/aliases', $directory.'/aliases');
-
-		file_put_contents(
-			__DIR__.'/../var/config.json',
-			json_encode(['directory' => realpath($directory)], JSON_PRETTY_PRINT)
-		);
+		copy(__DIR__.'/stubs/Homestead.yaml', homestead_path().'/Homestead.yaml');
+		copy(__DIR__.'/stubs/after.sh', homestead_path().'/after.sh');
+		copy(__DIR__.'/stubs/aliases', homestead_path().'/aliases');
 
 		$output->writeln('<comment>Creating Homestead.yaml file...</comment> <info>✔</info>');
-		$output->writeln('<comment>Homestead.yaml file created at:</comment> '.$directory.'/Homestead.yaml');
+		$output->writeln('<comment>Homestead.yaml file created at:</comment> '.homestead_path().'/Homestead.yaml');
 	}
 
 }
