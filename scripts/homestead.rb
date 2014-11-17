@@ -14,6 +14,7 @@ class Homestead
       vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] ||= "1"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
 
     # Configure Port Forwarding To The Box
