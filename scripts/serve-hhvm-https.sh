@@ -40,9 +40,6 @@ block="server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME \$document_root$fastcgi_script_name;
         include fastcgi_params;
-        fastcgi_intercept_errors on;
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
     }
 
     location ~ /\.ht {
