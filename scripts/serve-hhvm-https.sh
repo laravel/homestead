@@ -61,8 +61,8 @@ openssl req \
     -out /etc/nginx/ssl/$1.crt \
     2> /dev/null
 
-echo "$block" > "/etc/nginx/sites-available/https_$1"
-ln -fs "/etc/nginx/sites-available/https_$1" "/etc/nginx/sites-enabled/https_$1"
+echo "$block" > "/etc/nginx/sites-available/$1_https"
+ln -fs "/etc/nginx/sites-available/$1_https" "/etc/nginx/sites-enabled/$1_https"
 service nginx restart
 service php5-fpm restart
 service hhvm restart
