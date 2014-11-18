@@ -5,16 +5,15 @@ block="server {
     server_name $1;
     root $2;
 
-    ssl                  on;
-    ssl_certificate      /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key  /etc/nginx/ssl/$1.key;
+    ssl on;
+    ssl_certificate /etc/nginx/ssl/$1.crt;
+    ssl_certificate_key /etc/nginx/ssl/$1.key;
 
-    ssl_session_timeout  5m;
+    ssl_session_timeout 5m;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
-    ssl_prefer_server_ciphers   on;
-
+    ssl_prefer_server_ciphers on;
 
     index index.html index.htm index.php;
 
@@ -35,7 +34,7 @@ block="server {
     sendfile off;
 
     location ~ \.php$ {
-        fastcgi_param  HTTPS on;  
+        fastcgi_param HTTPS on;  
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_index index.php;
