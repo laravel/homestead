@@ -12,6 +12,9 @@ else
 
 function homestead_path()
 {
+	if ( ! isset($_SERVER['HOME']))
+		return getenv('AppData').'/Homestead';
+
 	return $_SERVER['HOME'].'/.homestead';
 }
 

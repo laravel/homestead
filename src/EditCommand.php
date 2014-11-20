@@ -27,7 +27,16 @@ class EditCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$process = new Process('open ~/.homestead/Homestead.yaml', realpath(__DIR__.'/../'), null, null, null);
+		if (defined('PHP_WINDOWS_VERSION_BUILD'))
+		{
+			$command = 'start '.getenv('AppData').'/Homestead/Homstead.yaml';
+		}
+		else
+		{
+			$command = 'open ~/.homestead/Homestead.yaml';
+		}
+
+		$process = new Process($command, realpath(__DIR__.'/../'), null, null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{
