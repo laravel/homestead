@@ -12,6 +12,8 @@ else
 
 function homestead_path()
 {
+	$homePath = (isset($_SERVER['HOMEPATH'])) ? $_SERVER['HOMEPATH'] : $_SERVER['HOME'];
+	return $homePath.'/.homestead';
 	return $_SERVER['HOME'].'/.homestead';
 }
 
