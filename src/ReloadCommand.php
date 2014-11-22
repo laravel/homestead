@@ -2,6 +2,7 @@
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -16,7 +17,7 @@ class ReloadCommand extends Command {
 	{
 		$this->setName('reload')
                   ->setDescription('Reload the Homestead machine')
-		          ->addOption('provision', null, InputOption::VALUE_NONE, 'Run the provisioners on the box.');
+				  ->addOption('provision', null, InputOption::VALUE_NONE, 'Run the provisioners on the box.');
 	}
 
 	/**
