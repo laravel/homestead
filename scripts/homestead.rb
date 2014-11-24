@@ -77,6 +77,7 @@ class Homestead
             s.args = [var["key"], var["value"]]
         end
       end
+
       config.vm.provision "shell" do |s|
           s.inline = "service php5-fpm restart"
       end
