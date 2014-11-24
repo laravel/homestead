@@ -12,7 +12,7 @@ else
 
 function homestead_path()
 {
-	return $_SERVER['HOME'].'/.homestead';
+	return ( isset($_SERVER['HOME']) ? $_SERVER['HOME'] : $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'] ) . DIRECTORY_SEPARATOR . '.homestead';
 }
 
 $app = new Symfony\Component\Console\Application('Laravel Homestead', '2.0.0');
