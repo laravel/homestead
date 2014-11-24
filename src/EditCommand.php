@@ -19,16 +19,6 @@ class EditCommand extends Command {
 	}
 
 	/**
-	 * Find the correct executable to run depending of the OS.
-	 *
-	 * @return string
-	 */
-	protected function executableName()
-	{
-		return strpos(strtoupper(PHP_OS), 'WIN') === 0 ? 'start' : 'open';
-	}
-
-	/**
 	 * Execute the command.
 	 *
 	 * @param  \Symfony\Component\Console\Input\InputInterface  $input
@@ -37,13 +27,24 @@ class EditCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$commandLine = $this->executableName() .' '.homestead_path().'/Homestead.yaml';
-		$process = new Process($commandLine, realpath(__DIR__.'/../'), null, null, null);
+		$command = $this->executable().' '.homestead_path().'/Homestead.yaml';
+
+		$process = new Process($command, realpath(__DIR__.'/../'), null, null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{
 			$output->write($line);
 		});
+	}
+
+	/**
+	 * Find the correct executable to run depending on the OS.
+	 *
+	 * @return string
+	 */
+	protected function executable()
+	{
+		return strpos(strtoupper(PHP_OS), 'WIN') === 0 ? 'start' : 'open';
 	}
 
 }
