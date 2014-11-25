@@ -44,6 +44,10 @@ class EditCommand extends Command {
 	 */
 	protected function executable()
 	{
+		if (getenv('EDITOR') !== false)
+		{
+			return getenv('EDITOR');
+		}
 		return strpos(strtoupper(PHP_OS), 'WIN') === 0 ? 'start' : 'open';
 	}
 
