@@ -29,10 +29,10 @@ $app->add(new Laravel\Homestead\EditCommand);
 $app->add(new Laravel\Homestead\HaltCommand);
 $app->add(new Laravel\Homestead\InitCommand);
 $app->add(new Laravel\Homestead\ResumeCommand);
+$app->add(new Laravel\Homestead\RunCommand);
 $app->add(new Laravel\Homestead\UpCommand);
 $app->add(new Laravel\Homestead\UpdateCommand);
 $app->add(new Laravel\Homestead\SshCommand);
-$app->add(new Laravel\Homestead\RunCommand);
 $app->add(new Laravel\Homestead\StatusCommand);
 $app->add(new Laravel\Homestead\SuspendCommand);
 

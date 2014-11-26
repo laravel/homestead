@@ -2,9 +2,9 @@
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class RunCommand extends Command {
 
@@ -21,8 +21,8 @@ class RunCommand extends Command {
 			->addArgument('ssh-command', InputArgument::REQUIRED, 'The command to pass through to the virtual machine.');
 }
 
-/**
- * Execute the command.
+	/**
+	 * Execute the command.
 	 *
 	 * @param  \Symfony\Component\Console\Input\InputInterface  $input
 	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output
@@ -33,6 +33,7 @@ class RunCommand extends Command {
 		chdir(__DIR__.'/../');
 
 		$command = $input->getArgument('ssh-command');
+
 		passthru('vagrant ssh -c "'.$command.'"');
 	}
 
