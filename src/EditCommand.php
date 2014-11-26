@@ -44,7 +44,17 @@ class EditCommand extends Command {
 	 */
 	protected function executable()
 	{
-		return strpos(strtoupper(PHP_OS), 'WIN') === 0 ? 'start' : 'open';
+		if(strpos(strtoupper(PHP_OS), 'WIN') === 0)
+		{
+			return 'start';
+		}
+		
+		if(strtoupper(PHP_OS) === 'LINUX')
+		{
+			return 'xdg-open';
+		}
+		
+		return 'open';
 	}
 
 }
