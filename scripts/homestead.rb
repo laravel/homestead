@@ -37,6 +37,9 @@ class Homestead
         s.args = [File.read(File.expand_path(key)), key.split('/').last]
       end
     end
+    
+    # Configure agent forwarding
+    config.ssh.forward_agent = settings["ssh_agent_forwarding"] ||= false
 
     # Register All Of The Configured Shared Folders
     settings["folders"].each do |folder|
