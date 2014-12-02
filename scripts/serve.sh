@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 block="server {
-    listen 80;
-    server_name $1 $3;
+    listen 80 $3;
+    server_name $1;
     root "$2";
 
     index index.html index.htm index.php;
