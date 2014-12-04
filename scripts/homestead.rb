@@ -24,8 +24,10 @@ class Homestead
     config.vm.network "forwarded_port", guest: 5432, host: 54320
 
     # Add custom port options from configuration settings
-    settings["ports"].each do |port|
-      config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"] ||= "tcp"
+    if settings.has_key?("ports")
+      settings["ports"].each do |port|
+        config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"] ||= "tcp"
+      end
     end
 
     # Configure The Public Key For SSH Access
