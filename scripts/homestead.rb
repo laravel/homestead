@@ -54,6 +54,15 @@ class Homestead
             s.args = [site["map"], site["to"]]
           end
       end
+      config.vm.provision "shell" do |s|
+          if (site.has_key?("hhvm") && site["hhvm"])
+            s.inline = "bash /vagrant/scripts/serve-hhvm-https.sh $1 $2"
+            s.args = [site["map"], site["to"]]
+          else
+            s.inline = "bash /vagrant/scripts/serve-https.sh $1 $2"
+            s.args = [site["map"], site["to"]]
+          end
+      end
     end
 
     # Configure All Of The Configured Databases
