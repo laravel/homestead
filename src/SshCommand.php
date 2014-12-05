@@ -29,7 +29,21 @@ class SshCommand extends Command {
 	{
 		chdir(__DIR__.'/../');
 
-		passthru('VAGRANT_DOTFILE_PATH="~/.homestead/.vagrant" vagrant ssh');
+		passthru($this->setEnvironmentCommand() . ' vagrant ssh');
+	}
+
+	protected function setEnvironmentCommand()
+	{
+		if ($this->isWindows()) {
+			return 'SET VAGRANT_DOTFILE_PATH='.$_ENV['VAGRANT_DOTFILE_PATH'].' &&';
+		}
+
+		return 'VAGRANT_DOTFILE_PATH="'.$_ENV['VAGRANT_DOTFILE_PATH'].'"';
+	}
+
+	protected function isWindows()
+	{
+		return strpos(strtoupper(PHP_OS), 'WIN') === 0;
 	}
 
 }

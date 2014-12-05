@@ -29,7 +29,7 @@ class EditCommand extends Command {
 	{
 		$command = $this->executable().' '.homestead_path().'/Homestead.yaml';
 
-		$process = new Process($command, realpath(__DIR__.'/../'), $_ENV, null, null);
+		$process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{

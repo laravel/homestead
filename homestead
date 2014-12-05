@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$_ENV['VAGRANT_DOTFILE_PATH'] = '~/.homestead/.vagrant';
+$_ENV['VAGRANT_DOTFILE_PATH'] = homestead_path().DIRECTORY_SEPARATOR.'.vagrant';
 
 if (file_exists(__DIR__.'/vendor/autoload.php'))
 {

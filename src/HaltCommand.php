@@ -27,7 +27,7 @@ class HaltCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$process = new Process('vagrant halt', realpath(__DIR__.'/../'), $_ENV, null, null);
+		$process = new Process('vagrant halt', realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{
