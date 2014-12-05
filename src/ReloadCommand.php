@@ -34,7 +34,7 @@ class ReloadCommand extends Command {
         if ($input->getOption('provision'))
             $command .= ' --provision';
 
-        $process = new Process($command, realpath(__DIR__.'/../'), null, null, null);
+        $process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
 
         $process->run(function($type, $line) use ($output)
         {
