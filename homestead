@@ -38,5 +38,6 @@ $app->add(new Laravel\Homestead\SshCommand);
 $app->add(new Laravel\Homestead\StatusCommand);
 $app->add(new Laravel\Homestead\SuspendCommand);
 $app->add(new Laravel\Homestead\ProvisionCommand);
+$app->add(new Laravel\Homestead\ReloadCommand);
 
 $app->run();
