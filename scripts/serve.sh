@@ -19,8 +19,6 @@ block="server {
     access_log off;
     error_log  /var/log/nginx/$1-error.log error;
 
-    error_page 404 /index.php;
-
     sendfile off;
 
     location ~ \.php$ {
