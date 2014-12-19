@@ -76,6 +76,11 @@ class Homestead
             s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
             s.args = [var["key"], var["value"]]
         end
+        
+        config.vm.provision "shell" do |s|
+            s.inline = "echo \"\n#Set Homestead environment variable\nexport $1=$2\" >> /home/vagrant/.profile"
+            s.args = [var["key"], var["value"]]
+        end
       end
 
       config.vm.provision "shell" do |s|
