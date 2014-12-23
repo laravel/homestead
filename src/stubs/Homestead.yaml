@@ -22,3 +22,11 @@ databases:
 variables:
     - key: APP_ENV
       value: local
+
+# blackfire:
+# 	server:
+# 		id: id
+# 		token: token
+# 	client:
+# 		id: id
+# 		token: token

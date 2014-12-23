@@ -46,46 +46,54 @@ class Homestead
     # Install All The Configured Nginx Sites
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
-          if (site.has_key?("hhvm") && site["hhvm"])
-            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
-            s.args = [site["map"], site["to"]]
-          else
-            s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
-            s.args = [site["map"], site["to"]]
-          end
+        if (site.has_key?("hhvm") && site["hhvm"])
+          s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
+          s.args = [site["map"], site["to"]]
+        else
+          s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
+          s.args = [site["map"], site["to"]]
+        end
       end
     end
 
     # Configure All Of The Configured Databases
     settings["databases"].each do |db|
-        config.vm.provision "shell" do |s|
-            s.path = "./scripts/create-mysql.sh"
-            s.args = [db]
-        end
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/create-mysql.sh"
+        s.args = [db]
+      end
 
-        config.vm.provision "shell" do |s|
-            s.path = "./scripts/create-postgres.sh"
-            s.args = [db]
-        end
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/create-postgres.sh"
+        s.args = [db]
+      end
     end
 
     # Configure All Of The Server Environment Variables
     if settings.has_key?("variables")
       settings["variables"].each do |var|
         config.vm.provision "shell" do |s|
-            s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
-            s.args = [var["key"], var["value"]]
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
+          s.args = [var["key"], var["value"]]
         end
       end
 
       config.vm.provision "shell" do |s|
-          s.inline = "service php5-fpm restart"
+        s.inline = "service php5-fpm restart"
       end
     end
 
     # Update Composer On Every Provision
     config.vm.provision "shell" do |s|
       s.inline = "/usr/local/bin/composer self-update"
+    end
+
+    # Configure Blackfire.io
+    if settings.has_key?("blackfire")
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/blackfire.sh"
+        s.args = [settings["blackfire"]["server"]["id"], settings["blackfire"]["server"]["token"], settings["blackfire"]["client"]["id"], settings["blackfire"]["client"]["token"]]
+      end
     end
   end
 end
