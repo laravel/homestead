@@ -22,9 +22,9 @@ block="server {
     error_page 404 /index.php;
 
     sendfile off;
-    
+
     client_max_body_size 100m;
-    
+
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php5-fpm.sock;
