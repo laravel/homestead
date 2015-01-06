@@ -7,6 +7,8 @@ homesteadYamlPath = File.expand_path("~/.homestead/Homestead.yaml")
 afterScriptPath = File.expand_path("~/.homestead/after.sh")
 aliasesPath = File.expand_path("~/.homestead/aliases")
 
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
 require_relative 'scripts/homestead.rb'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
