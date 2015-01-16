@@ -27,7 +27,7 @@ class ProvisionCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$command = 'vagrant provisiom';
+		$command = 'vagrant provision';
 
 		$process = new Process($command, realpath(__DIR__.'/../'), $_ENV, null, null);
 
