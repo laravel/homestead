@@ -14,7 +14,7 @@ class ProvisionCommand extends Command {
 	 */
 	protected function configure()
 	{
-		$this->setName('up')
+		$this->setName('provision')
 			->setDescription('Provisions the running Homestead machine');
 	}
 
