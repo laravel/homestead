@@ -17,7 +17,8 @@ class UpCommand extends Command {
 	{
 		$this->setName('up')
                   ->setDescription('Start the Homestead machine')
-				  ->addOption('provision', null, InputOption::VALUE_NONE, 'Run the provisioners on the box.');
+				  ->addOption('provision', null, InputOption::VALUE_NONE, 'Run the provisioners on the box.')
+				  ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'Back the machine with a specific provider.', 'virtualbox');
 	}
 
 	/**
@@ -30,9 +31,10 @@ class UpCommand extends Command {
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
 		$command = 'vagrant up';
+		$command .= ' --provider '.$input->getOption('provider');
 
 		if ($input->getOption('provision'))
-			$command .= ' --provision';
+			$command .= ' --provision';			
 
 		$process = new Process($command, realpath(__DIR__.'/../'), $_ENV, null, null);
 
