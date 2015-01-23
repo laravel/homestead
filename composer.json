@@ -1,5 +1,5 @@
 {
-    "name": "laravel/homestead",
+    "name": "ivonunes/homestead",
     "description": "A virtual machine for web artisans.",
     "require": {
         "php": ">=5.4",
@@ -21,5 +21,5 @@
     "bin": [
         "homestead"
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
