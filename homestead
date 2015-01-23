@@ -2,6 +2,7 @@
 <?php
 
 $_ENV['VAGRANT_DOTFILE_PATH'] = '~/.homestead/.vagrant';
+$_ENV['HOME'] = getenv('HOME');
 
 if (file_exists(__DIR__.'/vendor/autoload.php'))
 {
