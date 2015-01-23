@@ -25,7 +25,7 @@ class Homestead
 
     # Configure The Public Key For SSH Access
     config.vm.provision "shell" do |s|
-      s.inline = "echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
+      s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
       s.args = [File.read(File.expand_path(settings["authorize"]))]
     end
 
@@ -47,10 +47,10 @@ class Homestead
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
-            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
+            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 \"$2\""
             s.args = [site["map"], site["to"]]
           else
-            s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
+            s.inline = "bash /vagrant/scripts/serve.sh $1 \"$2\""
             s.args = [site["map"], site["to"]]
           end
       end
