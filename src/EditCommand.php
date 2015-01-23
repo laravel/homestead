@@ -52,7 +52,8 @@ class EditCommand extends Command {
 		{
 			return 'open';
 		}
+
 		return 'xdg-open';
 	}
-	
+
 }
