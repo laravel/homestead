@@ -4,6 +4,8 @@ class Homestead
     config.vm.box = "laravel/homestead"
     config.vm.hostname = "homestead"
 
+    ENV['VAGRANT_DEFAULT_PROVIDER'] = settings["provider"] ||= "virtualbox"
+
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
 
@@ -15,6 +17,12 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+    end
+
+    # Configure A Few VMWare Settings
+    config.vm.provider "vmware_fusion" do |v|
+      v.vmx["memsize"] = settings["memory"] ||= "2048"
+      v.vmx["numvcpus"] = settings["cpus"] ||= "1"
     end
 
     # Configure Port Forwarding To The Box
