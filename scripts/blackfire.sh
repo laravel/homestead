@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-xdebug="/etc/php5/fpm/conf.d/20-xdebug.ini"
-
 agent="[blackfire]
 ca-cert=
 collector=https://blackfire.io
@@ -24,11 +22,8 @@ timeout=15s
 echo "$agent" > "/etc/blackfire/agent"
 echo "$client" > "/home/vagrant/.blackfire.ini"
 
-# Disable xdebug
-if [ -f $xdebug ]; then
-	rm $xdebug
-	service hhvm restart
-	service php5-fpm restart
-fi
-
+# Disable xdebug to prevent conflict
+php5dismod xdebug
+service hhvm restart
+service php5-fpm restart
 service blackfire-agent restart

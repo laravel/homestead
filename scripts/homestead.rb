@@ -104,7 +104,7 @@ class Homestead
     if settings.has_key?("blackfire")
       config.vm.provision "shell" do |s|
         s.path = "./scripts/blackfire.sh"
-        s.args = [settings["blackfire"]["server"]["id"], settings["blackfire"]["server"]["token"], settings["blackfire"]["client"]["id"], settings["blackfire"]["client"]["token"]]
+        s.args = [settings["blackfire"]["id"], settings["blackfire"]["token"]]
       end
     end
   end
