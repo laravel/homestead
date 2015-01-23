@@ -22,6 +22,8 @@ class Homestead
     config.vm.network "forwarded_port", guest: 443, host: 44300
     config.vm.network "forwarded_port", guest: 3306, host: 33060
     config.vm.network "forwarded_port", guest: 5432, host: 54320
+    config.vm.network "forwarded_port", guest: 9200, host: 9200
+    config.vm.network "forwarded_port", guest: 35729, host: 35729
 
     # Configure The Public Key For SSH Access
     config.vm.provision "shell" do |s|
