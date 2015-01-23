@@ -47,11 +47,17 @@ class Homestead
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
-            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2"
+            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 $2 $3"
             s.args = [site["map"], site["to"]]
+            if (site.has_key?("default"))
+              s.args.push "default_server"
+            end
           else
-            s.inline = "bash /vagrant/scripts/serve.sh $1 $2"
+            s.inline = "bash /vagrant/scripts/serve.sh $1 $2 $3"
             s.args = [site["map"], site["to"]]
+            if (site.has_key?("default"))
+              s.args.push "default_server"
+            end
           end
       end
     end
