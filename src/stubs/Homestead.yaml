@@ -17,7 +17,7 @@ sites:
       to: /home/vagrant/Code/Laravel/public
 
 databases:
-    - homestead
+    - db: homestead
 
 variables:
     - key: APP_ENV
