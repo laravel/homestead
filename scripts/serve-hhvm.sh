@@ -35,10 +35,10 @@ block="server {
 }
 "
 
-if [ ! -f "/etc/nginx/sites-available/$1" ];
+if [ ! -f "/etc/nginx/sites-available/$1" ]; then
     echo "$block" > "/etc/nginx/sites-available/$1"
 fi
-if [ ! -f "/etc/nginx/sites-enabled/$1" ];
+if [ ! -f "/etc/nginx/sites-enabled/$1" ]; then
     ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 fi
 service nginx restart
