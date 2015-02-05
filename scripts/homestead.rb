@@ -95,6 +95,17 @@ class Homestead
       end
     end
 
+    # Setup locale
+    config.vm.provision "shell" do |s|
+      s.inline = 'if ! grep -q "LANGUAGE=" /etc/environment; then echo "LANGUAGE=en_US.UTF-8" >> /etc/environment; fi'
+    end
+    config.vm.provision "shell" do |s|
+      s.inline = 'if ! grep -q "LC_ALL=" /etc/environment; then echo "LC_ALL=en_US.UTF-8" >> /etc/environment; fi'
+    end
+    config.vm.provision "shell" do |s|
+      s.inline = 'if ! grep -q "LANG=" /etc/environment; then echo "LANG=en_US.UTF-8" >> /etc/environment; fi'
+    end
+
     # Update Composer On Every Provision
     config.vm.provision "shell" do |s|
       s.inline = "/usr/local/bin/composer self-update"
