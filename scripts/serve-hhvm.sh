@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 block="server {
-    listen 80;
+    listen $3;
     server_name $1;
     root \"$2\";
 
