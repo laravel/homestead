@@ -2,7 +2,7 @@ class Homestead
   def Homestead.configure(config, settings)
     # Configure The Box
     config.vm.box = "laravel/homestead"
-    config.vm.hostname = settings["hostname"] ||= "homestead"
+    config.vm.hostname = "homestead"
 
     # Configure A Publicly Route VM NEtwork Interface with Static IP
     config.vm.network "public_network", ip: settings["ip"], bridge: 'en1: Ethernet 2'
