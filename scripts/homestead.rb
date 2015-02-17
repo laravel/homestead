@@ -5,7 +5,7 @@ class Homestead
     config.vm.hostname = "homestead"
 
     # Configure A Private Network IP
-    config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+    #config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
 
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
@@ -18,10 +18,10 @@ class Homestead
     end
 
     # Configure Port Forwarding To The Box
-    config.vm.network "forwarded_port", guest: 80, host: 8000
-    config.vm.network "forwarded_port", guest: 443, host: 44300
-    config.vm.network "forwarded_port", guest: 3306, host: 33060
-    config.vm.network "forwarded_port", guest: 5432, host: 54320
+    #config.vm.network "forwarded_port", guest: 80, host: 8000
+    #config.vm.network "forwarded_port", guest: 443, host: 44300
+    #config.vm.network "forwarded_port", guest: 3306, host: 33060
+    #config.vm.network "forwarded_port", guest: 5432, host: 54320
 
     # Add Custom Ports From Configuration
     if settings.has_key?("ports")
