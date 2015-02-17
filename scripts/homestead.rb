@@ -7,6 +7,9 @@ class Homestead
     # Configure A Private Network IP
     #config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
 
+    # Configure A Publicly Route VM NEtwork Interface with Static IP
+    config.vm.network "public_network", ip: settings["ip"], bridge: 'en1: Ethernet 2'
+
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
       vb.name = 'homestead'
