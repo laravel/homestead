@@ -4,9 +4,6 @@ class Homestead
     config.vm.box = "laravel/homestead"
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
-    # Configure A Private Network IP
-    #config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
-
     # Configure A Publicly Route VM NEtwork Interface with Static IP
     config.vm.network "public_network", ip: settings["ip"], bridge: 'en1: Ethernet 2'
 
@@ -15,16 +12,8 @@ class Homestead
       vb.name = 'homestead'
       vb.customize ["modifyvm", :id, "--memory", settings["memory"] ||= "2048"]
       vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] ||= "1"]
-      #vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-      #vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
-
-    # Configure Port Forwarding To The Box
-    #config.vm.network "forwarded_port", guest: 80, host: 8000
-    #config.vm.network "forwarded_port", guest: 443, host: 44300
-    #config.vm.network "forwarded_port", guest: 3306, host: 33060
-    #config.vm.network "forwarded_port", guest: 5432, host: 54320
 
     # Add Custom Ports From Configuration
     if settings.has_key?("ports")
