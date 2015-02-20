@@ -15,7 +15,8 @@ class EditCommand extends Command {
 	protected function configure()
 	{
 		$this->setName('edit')
-                  ->setDescription('Edit the Homestead.yaml file');
+			->setDescription('Edit the Homestead.yaml file')
+			->addArgument('name');
 	}
 
 	/**
@@ -27,7 +28,14 @@ class EditCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$command = $this->executable().' '.homestead_path().'/Homestead.yaml';
+		$envName = $input->getArgument('name');
+		if (is_null($envName))
+		{
+			$envName = 'Homestead';
+		}
+		$configureFilePath = homestead_path()."/{$envName}.yaml";
+
+		$command = $this->executable().' '.$configureFilePath;
 
 		$process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
 
