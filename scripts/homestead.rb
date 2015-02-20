@@ -6,6 +6,8 @@ class Homestead
 
     # Configure A Publicly Route VM NEtwork Interface with Static IP
     config.vm.network "public_network", ip: settings["ip"], bridge: 'en1: Ethernet 2'
+    config.vm.network :private_network, ip: "10.11.12.13"
+
 
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
