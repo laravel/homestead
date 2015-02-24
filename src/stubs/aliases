@@ -16,3 +16,10 @@ function serve() {
 	fi
 }
 
+function vendor_bin() {
+        if [ -d "./vendor/bin" ]; then
+                export PATH=$PATH:./vendor/bin;
+        else
+                echo "project root vendor/bin directory not found";
+        fi
+}
