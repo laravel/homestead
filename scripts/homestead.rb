@@ -58,6 +58,7 @@ class Homestead
             s.args = [site["map"], site["to"]]
           else
             s.inline = "bash /vagrant/scripts/serve.sh $1 \"$2\""
+            s.inline = "bash /vagrant/scripts/serve-dev-ssl.sh $1 \"$2\""
             s.args = [site["map"], site["to"]]
           end
       end
