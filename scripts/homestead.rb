@@ -65,23 +65,23 @@ class Homestead
 
     # Configure All Of The Configured Databases
     settings["databases"].each do |db|
-        config.vm.provision "shell" do |s|
-            s.path = "./scripts/create-mysql.sh"
-            s.args = [db]
-        end
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/create-mysql.sh"
+        s.args = [db]
+      end
 
-        config.vm.provision "shell" do |s|
-            s.path = "./scripts/create-postgres.sh"
-            s.args = [db]
-        end
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/create-postgres.sh"
+        s.args = [db]
+      end
     end
 
     # Configure All Of The Server Environment Variables
     if settings.has_key?("variables")
       settings["variables"].each do |var|
         config.vm.provision "shell" do |s|
-            s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
-            s.args = [var["key"], var["value"]]
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
+          s.args = [var["key"], var["value"]]
         end
 
         config.vm.provision "shell" do |s|
@@ -91,13 +91,21 @@ class Homestead
       end
 
       config.vm.provision "shell" do |s|
-          s.inline = "service php5-fpm restart"
+        s.inline = "service php5-fpm restart"
       end
     end
 
     # Update Composer On Every Provision
     config.vm.provision "shell" do |s|
       s.inline = "/usr/local/bin/composer self-update"
+    end
+
+    # Configure Blackfire.io
+    if settings.has_key?("blackfire")
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/blackfire.sh"
+        s.args = [settings["blackfire"]["id"], settings["blackfire"]["token"]]
+      end
     end
   end
 end
