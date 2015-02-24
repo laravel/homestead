@@ -54,11 +54,11 @@ class Homestead
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
-            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 \"$2\""
-            s.args = [site["map"], site["to"]]
+            s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 \"$2\" $3"
+            s.args = [site["map"], site["to"], site["port"] ||= 80]
           else
-            s.inline = "bash /vagrant/scripts/serve.sh $1 \"$2\""
-            s.args = [site["map"], site["to"]]
+            s.inline = "bash /vagrant/scripts/serve.sh $1 \"$2\" $3"
+            s.args = [site["map"], site["to"], site["port"] ||= 80]
           end
       end
     end
