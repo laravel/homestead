@@ -2,7 +2,7 @@
 
 block="server {
     listen $3;
-    server_name $1;
+    server_name $1$4;
     root \"$2\";
 
     index index.html index.htm index.php;
