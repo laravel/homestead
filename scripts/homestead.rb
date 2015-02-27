@@ -31,17 +31,21 @@ class Homestead
     end
 
     # Configure The Public Key For SSH Access
-    config.vm.provision "shell" do |s|
-      s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
-      s.args = [File.read(File.expand_path(settings["authorize"]))]
+    if settings.include? 'authorize'
+      config.vm.provision "shell" do |s|
+        s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
+        s.args = [File.read(File.expand_path(settings["authorize"]))]
+      end
     end
 
     # Copy The SSH Private Keys To The Box
-    settings["keys"].each do |key|
-      config.vm.provision "shell" do |s|
-        s.privileged = false
-        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
-        s.args = [File.read(File.expand_path(key)), key.split('/').last]
+    if settings.include? 'keys'
+      settings["keys"].each do |key|
+        config.vm.provision "shell" do |s|
+          s.privileged = false
+          s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
+          s.args = [File.read(File.expand_path(key)), key.split('/').last]
+        end
       end
     end
 
