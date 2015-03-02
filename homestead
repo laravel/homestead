@@ -15,9 +15,9 @@ else
 
 function homestead_path()
 {
-	if (isset($_SERVER['HOMESTEAD_HOME']))
+	if (isset($_ENV['HOMESTEAD_HOME']))
 	{
-		return $_SERVER['HOMESTEAD_HOME'].'/.homestead';
+		return $_ENV['HOMESTEAD_HOME'].'/.homestead';
 	}
 	else
 	{
