@@ -25,7 +25,6 @@ class Homestead
       v.name = 'homestead'
       v.memory = settings["memory"] ||= "2048"
       v.cpus = settings["cpus"] ||= "1"
-      v.guest = "ubuntu-64"
     end
 
     # Configure VMware Fusion Settings
@@ -33,7 +32,6 @@ class Homestead
       v.name = 'homestead'
       v.memory = settings["memory"] ||= "2048"
       v.cpus = settings["cpus"] ||= "1"
-      v.guest = "ubuntu-64"
     end
 
     # Configure Port Forwarding To The Box
