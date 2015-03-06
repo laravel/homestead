@@ -3,9 +3,9 @@ require 'yaml'
 
 VAGRANTFILE_API_VERSION = "2"
 
-homesteadYamlPath = File.expand_path("#{ENV['HOMESTEAD_HOME']}/.homestead/Homestead.yaml")
-afterScriptPath = File.expand_path("#{ENV['HOMESTEAD_HOME']}/.homestead/after.sh")
-aliasesPath = File.expand_path("#{ENV['HOMESTEAD_HOME']}/.homestead/aliases")
+homesteadYamlPath = File.expand_path("~/.homestead/Homestead.yaml")
+afterScriptPath = File.expand_path("~/.homestead/after.sh")
+aliasesPath = File.expand_path("~/.homestead/aliases")
 
 require_relative 'scripts/homestead.rb'
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$_ENV['HOMESTEAD_HOME'] = getenv('HOMESTEAD_HOME') ? getenv('HOMESTEAD_HOME') : getenv('HOME');
+$_ENV['HOME'] = getenv('HOME');
 $_ENV['VAGRANT_DOTFILE_PATH'] = homestead_path().DIRECTORY_SEPARATOR.'.vagrant';
 
 if (file_exists(__DIR__.'/vendor/autoload.php'))
@@ -15,9 +15,9 @@ else
 
 function homestead_path()
 {
-	if (isset($_ENV['HOMESTEAD_HOME']))
+	if (isset($_SERVER['HOME']))
 	{
-		return $_ENV['HOMESTEAD_HOME'].'/.homestead';
+		return $_SERVER['HOME'].'/.homestead';
 	}
 	else
 	{
