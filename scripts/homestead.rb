@@ -1,6 +1,6 @@
 class Homestead
   def Homestead.configure(config, settings)
-    # Set the vm provider
+    # Set The VM Provider
     ENV['VAGRANT_DEFAULT_PROVIDER'] = settings["provider"] ||= "virtualbox"
 
     # Configure The Box
