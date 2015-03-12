@@ -20,10 +20,14 @@ class Homestead
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
 
-    config.vm.provider "vmware_fusion" do |v|
-      v.name = 'homestead'
-      v.memory = settings["memory"] ||= "2048"
-      v.cpus = settings["cpus"] ||= "1"
+    # Configure A Few VMware Settings
+    ["vmware_fusion", "vmware_workstation"].each do |vmware|
+      config.vm.provider vmware do |v|
+        v.vmx["displayName"] = "homestead"
+        v.vmx["memsize"] = settings["memory"] ||= 2048
+        v.vmx["numvcpus"] = settings["cpus"] ||= 1
+        v.vmx["guestOS"] = "ubuntu-64"
+      end
     end
 
     # Configure Port Forwarding To The Box
