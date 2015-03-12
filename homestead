@@ -25,7 +25,13 @@ function homestead_path()
 	}
 }
 
-$app = new Symfony\Component\Console\Application('Laravel Homestead', '2.0.13');
+function homestead_local_path() {
+	if (getcwd()) {
+		return getcwd().DIRECTORY_SEPARATOR.'homestead';
+	}
+}
+
+$app = new Symfony\Component\Console\Application('Laravel Homestead', '2.x.x');
 
 $app->add(new Laravel\Homestead\DestroyCommand);
 $app->add(new Laravel\Homestead\EditCommand);

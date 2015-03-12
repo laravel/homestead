@@ -27,7 +27,10 @@ class SshCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		chdir(__DIR__.'/../');
+
+		$path = realpath(homestead_local_path()) ?: realpath(__DIR__.'/../');
+
+		chdir($path);
 
 		passthru($this->setEnvironmentCommand() . ' vagrant ssh');
 	}

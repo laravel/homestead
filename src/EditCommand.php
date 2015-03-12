@@ -27,9 +27,12 @@ class EditCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$command = $this->executable().' '.homestead_path().'/Homestead.yaml';
 
-		$process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
+		$path = realpath(homestead_local_path()) ?: homestead_path();
+
+		$command = $this->executable().' '.$path.'/Homestead.yaml';
+
+		$process = new Process($command, $path, array_merge($_SERVER, $_ENV), null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{

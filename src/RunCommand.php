@@ -30,7 +30,9 @@ class RunCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		chdir(__DIR__.'/../');
+		$path = realpath(homestead_local_path()) ?: realpath(__DIR__.'/../');
+
+		chdir($path);
 
 		$command = $input->getArgument('ssh-command');
 

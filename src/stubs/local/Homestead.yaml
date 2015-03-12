@@ -1,0 +1,25 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+url: homestead.app
+
+# Directory to serve from
+public: public
+
+databases:
+    - homestead
+
+variables:
+    - key: APP_ENV
+      value: local
+
+# blackfire:
+#     - id: foo
+#       token: bar
