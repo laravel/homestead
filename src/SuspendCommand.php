@@ -27,7 +27,10 @@ class SuspendCommand extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
-		$process = new Process('vagrant suspend', realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
+
+		$path = realpath(homestead_local_path()) ?: realpath(__DIR__.'/../');
+
+		$process = new Process('vagrant suspend', $path, array_merge($_SERVER, $_ENV), null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{

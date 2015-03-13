@@ -34,7 +34,12 @@ class UpCommand extends Command {
 		if ($input->getOption('provision'))
 			$command .= ' --provision';
 
-		$process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
+
+
+
+		$path = realpath(homestead_local_path()) ?: realpath(__DIR__.'/../');
+
+		$process = new Process($command, $path, array_merge($_SERVER, $_ENV), null, null);
 
 		$process->run(function($type, $line) use ($output)
 		{
