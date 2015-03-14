@@ -20,6 +20,5 @@
     },
     "bin": [
         "homestead"
-    ],
-    "minimum-stability": "stable"
+    ]
 }
