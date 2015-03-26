@@ -122,10 +122,10 @@ class Homestead
       config.vm.provision "shell" do |s|
         s.path = "./scripts/blackfire.sh"
         s.args = [
-          settings["blackfire"][0]["sid"],
-          settings["blackfire"][0]["stoken"],
-          settings["blackfire"][0]["cid"],
-          settings["blackfire"][0]["ctoken"]
+          settings["blackfire"][0]["server-id"],
+          settings["blackfire"][0]["server-token"],
+          settings["blackfire"][0]["client-id"],
+          settings["blackfire"][0]["client-token"]
         ]
       end
     end

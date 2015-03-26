@@ -25,7 +25,7 @@ variables:
       value: local
 
 # blackfire:
-#     - cid: foo
-#       ctoken: bar
-#       sid: foo
-#       stoken: bar
+#     - client-id: foo
+#       client-token: bar
+#       server-id: foo
+#       server-token: bar
