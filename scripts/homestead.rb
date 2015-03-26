@@ -93,6 +93,11 @@ class Homestead
       end
     end
 
+    # run the owl scripts
+    config.vm.provision "shell" do |s|
+      s.path = "./scripts/owl-setup.sh"
+    end
+
     # Configure All Of The Server Environment Variables
     if settings.has_key?("variables")
       settings["variables"].each do |var|
