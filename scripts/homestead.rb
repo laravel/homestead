@@ -64,7 +64,8 @@ class Homestead
 
     # Register All Of The Configured Shared Folders
     settings["folders"].each do |folder|
-      config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
+      mount_opts = folder["type"] == "nfs" ? ['actimeo=1'] : []
+      config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, mount_options: mount_opts
     end
 
     # Install All The Configured Nginx Sites
