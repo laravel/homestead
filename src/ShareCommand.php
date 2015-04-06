@@ -4,10 +4,8 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Process\Exception\RuntimeException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -185,7 +183,7 @@ class ShareCommand extends Command
 				$table->render();
 				$output->writeln('');
 
-				$questionHelper->ask($input, $output, new ConfirmationQuestion('Sites are now available. Press <question>ENTER</question> to gracefully shut down the sharing session', true));
+				$questionHelper->ask($input, $output, new ConfirmationQuestion('Sites are now available. Press <question>ENTER</question> to gracefully stop the sharing session', true));
 
 				break;
 			}
@@ -195,9 +193,7 @@ class ShareCommand extends Command
 
 		if (!$share->isRunning() && !$share->isSuccessful())
 		{
-			$output->writeln("<error>Could not share Homestead machine due to an error</error>\n" . $share->getErrorOutput());
-
-			return 1;
+			throw new RuntimeException('Could not share Homestead machine: ' . $share->getErrorOutput());
 		}
 
 		/*
