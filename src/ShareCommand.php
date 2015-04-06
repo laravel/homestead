@@ -107,7 +107,7 @@ class ShareCommand extends Command
 		$builder->setTimeout(null);
 
 		$builder->addEnvironmentVariables($_ENV);
-		$builder->setWorkingDirectory(realpath(__DIR__.'/../'));
+		$builder->setWorkingDirectory(realpath(__DIR__ . '/../'));
 
 		$share = $builder->getProcess();
 		$share->start();
@@ -147,8 +147,18 @@ class ShareCommand extends Command
 
 					$progress->setMessage($hostname);
 
-					// Invoke "serve ..."
-					$process = $this->_buildServe($hostname, $site['to'], (isset($site['hhvm']) && $site['hhvm']));
+					// Invoke "serve[-hhvm].sh..."
+					$script = (isset($site['hhvm']) && $site['hhvm']) ? 'serve-hhvm.sh' : 'serve.sh';
+					$port = (isset($site['port']) && $site['port']) ? $site['port'] : 80;
+
+					$builder = new ProcessBuilder(array('ssh', '--command', sprintf('sudo /vagrant/scripts/%s %s %s %d', $script, $hostname, $site['to'], $port)));
+					$builder->setPrefix('vagrant');
+					$builder->setTimeout(null);
+
+					$builder->addEnvironmentVariables($_ENV);
+					$builder->setWorkingDirectory(realpath(__DIR__.'/../'));
+
+					$process = $builder->getProcess();
 					$process->run();
 
 					if (!$process->isSuccessful())
@@ -188,6 +198,7 @@ class ShareCommand extends Command
 		if (!$share->isRunning() && !$share->isSuccessful())
 		{
 			$output->writeln("<error>Could not share Homestead machine due to an error</error>\n" . $share->getErrorOutput());
+
 			return 1;
 		}
 
@@ -206,7 +217,14 @@ class ShareCommand extends Command
 		{
 			$progress->setMessage($site['hostname']);
 
-			$process = $this->_buildStopServe($site['hostname']);
+			$builder = new ProcessBuilder(array('ssh', '--command', sprintf('sudo /vagrant/scripts/stop-serve.sh %s', $site['hostname'])));
+			$builder->setPrefix('vagrant');
+			$builder->setTimeout(null);
+
+			$builder->addEnvironmentVariables($_ENV);
+			$builder->setWorkingDirectory(realpath(__DIR__.'/../'));
+
+			$process = $builder->getProcess();
 			$process->run();
 
 			if (!$process->isSuccessful())
@@ -223,47 +241,5 @@ class ShareCommand extends Command
 		$share->stop();
 
 		$output->writeln('<info>Sharing session terminated</info>');
-	}
-
-	/**
-	 * Build a "serve[-hhvm].sh" Process to provision a new site
-	 *
-	 * @param $hostname		string		Hostname
-	 * @param $directory	string		Directory to read from
-	 * @param $hhvm			bool		HHVM enabled
-	 *
-	 * @return Process
-	 */
-	private function _buildServe($hostname, $directory, $hhvm)
-	{
-		$script = ($hhvm) ? 'serve-hhvm.sh' : 'serve.sh';
-
-		$builder = new ProcessBuilder(array('ssh', '--command', sprintf('sudo /vagrant/scripts/%s %s %s', $script, $hostname, $directory)));
-		$builder->setPrefix('vagrant');
-		$builder->setTimeout(null);
-
-		$builder->addEnvironmentVariables($_ENV);
-		$builder->setWorkingDirectory(realpath(__DIR__.'/../'));
-
-		return $builder->getProcess();
-	}
-
-	/**
-	 * Build a "stop-serve.sh" Process to stop serving a site
-	 *
-	 * @param $hostname	string		Hostname
-	 *
-	 * @return Process
-	 */
-	private function _buildStopServe($hostname)
-	{
-		$builder = new ProcessBuilder(array('ssh', '--command', sprintf('sudo /vagrant/scripts/stop-serve.sh %s', $hostname)));
-		$builder->setPrefix('vagrant');
-		$builder->setTimeout(null);
-
-		$builder->addEnvironmentVariables($_ENV);
-		$builder->setWorkingDirectory(realpath(__DIR__.'/../'));
-
-		return $builder->getProcess();
 	}
 }
