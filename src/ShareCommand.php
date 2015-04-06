@@ -21,10 +21,8 @@ class ShareCommand extends Command
 	 */
 	protected function configure()
 	{
-		$this->setName('share')
-			->setDescription('Share the Homestead machine using "vagrant share"')
-			->addOption('name', null, InputOption::VALUE_REQUIRED, 'Change the default name ("share") for the share')
-			->addOption('domain', null, InputOption::VALUE_REQUIRED, 'Set a custom domain name for the share');
+		$this->setName('share');
+		$this->setDescription('Share the Homestead machine using "vagrant share"');
 	}
 
 	/**
@@ -88,11 +86,6 @@ class ShareCommand extends Command
 		{
 			$arguments[] = '--name';
 			$arguments[] = $config['share']['name'];
-		}
-		else
-		{
-			$arguments[] = '--name';
-			$arguments[] = 'share';
 		}
 
 		// Pass optional custom domain
