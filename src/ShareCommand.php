@@ -118,7 +118,11 @@ class ShareCommand extends Command
 			{
 				$endpoint = $result[1];
 
-				// TODO: double-check CNAME for $endpoint
+				// Check DNS
+				if (!checkdnsrr('*.' . $endpoint))
+				{
+					throw new RuntimeException('DNS appears not to be set up correctly for *.' . $endpoint);
+				}
 
 				$output->writeln('<info>Homestead machine shared successfully!</info>');
 				$output->writeln(sprintf('Provisioning sites for sharing on <comment>*.%s</comment>', $endpoint));
