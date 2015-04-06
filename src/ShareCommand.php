@@ -3,6 +3,7 @@
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
@@ -163,7 +164,7 @@ class ShareCommand extends Command
 
 					if (!$process->isSuccessful())
 					{
-						// TODO: handle errors
+						throw new RuntimeException(sprintf("Could not provision %s: %s", $hostname, $process->getErrorOutput()));
 					}
 
 					$progress->advance();
@@ -229,7 +230,10 @@ class ShareCommand extends Command
 
 			if (!$process->isSuccessful())
 			{
-				// TODO: handle errors
+				$output->writeln("\n");
+				$output->writeln(sprintf('There was a problem while cleaning up <error>%s</error>. Some nginx configuration files might not have been deleted.', $site['hostname']));
+
+				throw new RuntimeException($process->getErrorOutput());
 			}
 
 			$progress->advance();
