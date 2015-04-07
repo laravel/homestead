@@ -77,6 +77,9 @@ class ShareCommand extends Command
 
 		$output->writeln('<info>Starting Vagrant share session, this may take a moment...</info>');
 
+		/*
+		 * Build "share" process and execute
+		 */
 		$arguments = array('share');
 
 		// Set share name
@@ -93,7 +96,6 @@ class ShareCommand extends Command
 			$arguments[] = $config['share']['domain'];
 		}
 
-		// Build "share" process and execute
 		$builder = new ProcessBuilder($arguments);
 		$builder->setPrefix('vagrant');
 		$builder->setTimeout(null);
@@ -107,7 +109,7 @@ class ShareCommand extends Command
 		$endpoint = null;
 
 		/*
-		 * Wait till the process has completed and set up the addition sites for hosting under the sharing domain
+		 * Wait till the process has completed and set up the additional sites for hosting under the sharing domain
 		 */
 		while ($share->isRunning())
 		{
@@ -165,6 +167,7 @@ class ShareCommand extends Command
 					$progress->advance();
 				}
 
+				$progress->setMessage('done');
 				$progress->finish();
 
 				/*
@@ -232,7 +235,9 @@ class ShareCommand extends Command
 			$progress->advance();
 		}
 
+		$progress->setMessage('done');
 		$progress->finish();
+
 		$output->writeln("\n");
 
 		$share->stop();
