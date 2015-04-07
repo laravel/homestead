@@ -12,10 +12,16 @@ keys:
 folders:
     - map: ~/Code
       to: /home/vagrant/Code
+      
+share:
+    name: 
+    domain: 
+    replace: app
 
 sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
+      share: false
 
 databases:
     - homestead
