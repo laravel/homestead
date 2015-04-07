@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-if [ -f "/etc/nginx/sites-available/$1" ]; then
+if [ -f "/etc/nginx/sites-available/$1" ];
+then
 	rm "/etc/nginx/sites-enabled/$1"
 	rm "/etc/nginx/sites-available/$1"
 
