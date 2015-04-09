@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+PORT=$3
+if [ -z "$3" ]; then PORT=$3; else PORT=80; fi
 block="server {
-    listen $3;
+    listen $PORT;
     server_name $1;
     root \"$2\";
 
