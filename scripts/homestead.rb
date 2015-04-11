@@ -77,6 +77,9 @@ class Homestead
           if (site.has_key?("hhvm") && site["hhvm"])
             s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 \"$2\" $3"
             s.args = [site["map"], site["to"], site["port"] ||= "80"]
+          elsif (site.has_key?("port") && site["port"] == 443)
+            s.inline = "bash /vagrant/scripts/create-ssl.sh && bash /vagrant/scripts/serve-https.sh $1 \"$2\" $3"
+            s.args = [site["map"], site["to"], site["port"]]
           else
             s.inline = "bash /vagrant/scripts/serve.sh $1 \"$2\" $3"
             s.args = [site["map"], site["to"], site["port"] ||= "80"]
