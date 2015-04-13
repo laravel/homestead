@@ -37,10 +37,10 @@ class Homestead
     end
 
     # Configure Port Forwarding To The Box
-    config.vm.network "forwarded_port", guest: 80, host: 8000
-    config.vm.network "forwarded_port", guest: 443, host: 44300
-    config.vm.network "forwarded_port", guest: 3306, host: 33060
-    config.vm.network "forwarded_port", guest: 5432, host: 54320
+    config.vm.network "forwarded_port", guest: 80,   host: settings.has_key?("forwards") && settings["forwards"].has_key?("http")     ? settings["forwards"]["http"]     : 8000
+    config.vm.network "forwarded_port", guest: 443,  host: settings.has_key?("forwards") && settings["forwards"].has_key?("https")    ? settings["forwards"]["https"]    : 44300
+    config.vm.network "forwarded_port", guest: 3306, host: settings.has_key?("forwards") && settings["forwards"].has_key?("mysql")    ? settings["forwards"]["mysql"]    : 33060
+    config.vm.network "forwarded_port", guest: 5432, host: settings.has_key?("forwards") && settings["forwards"].has_key?("postgres") ? settings["forwards"]["postgres"] : 54320
 
     # Add Custom Ports From Configuration
     if settings.has_key?("ports")
