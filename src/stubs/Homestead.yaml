@@ -29,3 +29,7 @@ variables:
 #       token: bar
 #       client-id: foo
 #       client-token: bar
+
+# ngrok:
+#     - version: 1
+#       config: /home/vagrant/Code/ngrok.yml
