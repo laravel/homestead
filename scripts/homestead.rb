@@ -138,5 +138,17 @@ class Homestead
         ]
       end
     end
+
+    #Configure ngrok
+    if settings.has_key?("ngrok")
+     config.vm.provision "shell" do|s|
+       s.path = scriptDir + "/ngrok.sh"
+       s.args = [
+        settings["ngrok"][0]["version"],
+        settings["ngrok"][0]["config"]
+       ]
+      end
+    end
+
   end
 end
