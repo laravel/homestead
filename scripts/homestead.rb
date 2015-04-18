@@ -37,10 +37,29 @@ class Homestead
     end
 
     # Configure Port Forwarding To The Box
-    config.vm.network "forwarded_port", guest: 80, host: 8000
-    config.vm.network "forwarded_port", guest: 443, host: 44300
-    config.vm.network "forwarded_port", guest: 3306, host: 33060
-    config.vm.network "forwarded_port", guest: 5432, host: 54320
+    # Is HTTP Default Port Overridden?
+    unless settings["ports"].any? { |mapping| mapping["guest"] == 80 }
+      # Set Default HTTP Port Forwarding
+      config.vm.network "forwarded_port", guest: 80, host: 8000
+    end
+
+    # Is HTTPS Port Overridden?
+    unless settings["ports"].any? { |mapping| mapping["guest"] == 443 }
+      # Set Default HTTPS Port Forwarding
+      config.vm.network "forwarded_port", guest: 443, host: 44300
+    end
+
+    # Is MySQL Port Overridden?
+    unless settings["ports"].any? { |mapping| mapping["guest"] == 3306 }
+      # Set Default MySQL Port Forwarding
+      config.vm.network "forwarded_port", guest: 3306, host: 33060
+    end
+
+    # Is PostgreSQL Port Overridden?
+    unless settings["ports"].any? { |mapping| mapping["guest"] == 5432 }
+      # Set Default PostgreSQL Port Forwarding
+      config.vm.network "forwarded_port", guest: 5432, host: 54320
+    end
 
     # Add Custom Ports From Configuration
     if settings.has_key?("ports")
