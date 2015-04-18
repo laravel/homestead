@@ -37,6 +37,13 @@ class Homestead
     end
 
     # Configure Port Forwarding To The Box
+    # Standardize Ports Naming Schema
+    settings["ports"].each do |port|
+      port["guest"] ||= port["to"]
+      port["host"] ||= port["send"]
+      port["protocol"] ||= "tcp"
+    end
+
     # Is HTTP Default Port Overridden?
     unless settings["ports"].any? { |mapping| mapping["guest"] == 80 }
       # Set Default HTTP Port Forwarding
@@ -64,7 +71,7 @@ class Homestead
     # Add Custom Ports From Configuration
     if settings.has_key?("ports")
       settings["ports"].each do |port|
-        config.vm.network "forwarded_port", guest: port["guest"] || port["to"], host: port["host"] || port["send"], protocol: port["protocol"] ||= "tcp"
+        config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"]
       end
     end
 
