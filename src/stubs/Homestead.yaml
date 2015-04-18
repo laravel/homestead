@@ -29,3 +29,7 @@ variables:
 #       token: bar
 #       client-id: foo
 #       client-token: bar
+
+# ports:
+#   - guest: 80
+#     host: 8000
