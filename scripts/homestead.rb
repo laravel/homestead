@@ -36,7 +36,6 @@ class Homestead
       end
     end
 
-    # Configure Port Forwarding To The Box
     # Standardize Ports Naming Schema
     settings["ports"].each do |port|
       port["guest"] ||= port["to"]
@@ -44,28 +43,19 @@ class Homestead
       port["protocol"] ||= "tcp"
     end
 
-    # Is HTTP Default Port Overridden?
-    unless settings["ports"].any? { |mapping| mapping["guest"] == 80 }
-      # Set Default HTTP Port Forwarding
-      config.vm.network "forwarded_port", guest: 80, host: 8000
-    end
+    # Default Port Forwarding
+    default_ports = {
+      80   => 8000,
+      443  => 44300,
+      3306 => 33060,
+      5432 => 54320
+    }
 
-    # Is HTTPS Port Overridden?
-    unless settings["ports"].any? { |mapping| mapping["guest"] == 443 }
-      # Set Default HTTPS Port Forwarding
-      config.vm.network "forwarded_port", guest: 443, host: 44300
-    end
-
-    # Is MySQL Port Overridden?
-    unless settings["ports"].any? { |mapping| mapping["guest"] == 3306 }
-      # Set Default MySQL Port Forwarding
-      config.vm.network "forwarded_port", guest: 3306, host: 33060
-    end
-
-    # Is PostgreSQL Port Overridden?
-    unless settings["ports"].any? { |mapping| mapping["guest"] == 5432 }
-      # Set Default PostgreSQL Port Forwarding
-      config.vm.network "forwarded_port", guest: 5432, host: 54320
+    # Use Default Port Forwarding Unless Overridden
+    default_ports.each do |guest, host|
+      unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
+        config.vm.network "forwarded_port", guest: guest, host: host
+      end
     end
 
     # Add Custom Ports From Configuration
