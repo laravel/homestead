@@ -37,10 +37,14 @@ class Homestead
     end
 
     # Standardize Ports Naming Schema
-    settings["ports"].each do |port|
-      port["guest"] ||= port["to"]
-      port["host"] ||= port["send"]
-      port["protocol"] ||= "tcp"
+    if (settings.has_key?("ports"))
+      settings["ports"].each do |port|
+        port["guest"] ||= port["to"]
+        port["host"] ||= port["send"]
+        port["protocol"] ||= "tcp"
+      end
+    else
+      settings["ports"] = []
     end
 
     # Default Port Forwarding
