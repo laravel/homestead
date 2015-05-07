@@ -2,4 +2,4 @@
 
 TOKEN=$1;
 
-composer config --global github-oauth.github.com "$TOKEN"
+su vagrant -c "composer config --global github-oauth.github.com \"$TOKEN\""
