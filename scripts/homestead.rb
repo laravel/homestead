@@ -164,7 +164,7 @@ class Homestead
       config.vm.provision "shell" do |s|
         s.path = scriptDir + "/github.sh"
         s.args = [
-          settings["github"][0]["oauth-token"]
+          settings["github"]["oauth-token"]
         ]
       end
     end
