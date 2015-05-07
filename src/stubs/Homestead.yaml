@@ -36,3 +36,6 @@ variables:
 #     - send: 7777
 #       to: 777
 #       protocol: udp
+
+# github:
+#     - oauth-token: value

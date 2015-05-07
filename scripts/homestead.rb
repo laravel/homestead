@@ -158,5 +158,15 @@ class Homestead
         ]
       end
     end
+
+    # Configure GitHub
+    if settings.has_key?("github")
+      config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/github.sh"
+        s.args = [
+          settings["github"][0]["oauth-token"]
+        ]
+      end
+    end
   end
 end
