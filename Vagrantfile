@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
 	end
 
-	Homestead.configure(config, YAML::load(File.read(homesteadYamlPath)))
+	Homestead.configure(config, YAML::load_file(homesteadYamlPath))
 
 	if File.exists? afterScriptPath then
 		config.vm.provision "shell", path: afterScriptPath
