@@ -29,6 +29,7 @@ block="server {
     client_max_body_size 100m;
 
     location ~ \.php$ {
+        try_files \$uri /index.php =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_index index.php;
