@@ -16,3 +16,14 @@ function serve() {
 	fi
 }
 
+function serve-hhvm() {
+	if [[ "$1" && "$2" ]]
+	then
+		sudo dos2unix /vagrant/scripts/serve-hhvm.sh
+		sudo bash /vagrant/scripts/serve-hhvm.sh "$1" "$2" 80
+	else
+		echo "Error: missing required parameters."
+		echo "Usage: "
+		echo "  serve-hhvm domain path"
+	fi
+}
