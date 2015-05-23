@@ -27,6 +27,9 @@ block="server {
     sendfile off;
 
     location ~ \.php$ {
+        # don't pass file to PHP unless it exists
+        try_files $uri =404;
+
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass 127.0.0.1:9000;
         fastcgi_index index.php;
