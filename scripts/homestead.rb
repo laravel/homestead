@@ -90,9 +90,11 @@ class Homestead
 
     # Register All Of The Configured Shared Folders
     if settings.include? 'folders'
+      shared_folder_options = ["create", "disabled", "group", "mount_options", "owner", "type"]
       settings["folders"].each do |folder|
-        mount_opts = folder["type"] == "nfs" ? ['actimeo=1'] : []
-        config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, mount_options: mount_opts
+        options = folder.inject({}){|memo,(k,v)| if shared_folder_options.include? k then memo[k.to_sym] = v end; memo}
+        options[:mount_options] = options[:mount_options] ? options[:mount_options] : (options[:type] == "nfs" ? ['actimeo=1'] : [])
+        config.vm.synced_folder folder["map"], folder["to"], options
       end
     end
 
