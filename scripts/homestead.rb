@@ -77,6 +77,9 @@ class Homestead
       end
     end
 
+    # Enable SSH agent forwarding
+    config.ssh.forward_agent = true
+
     # Copy The SSH Private Keys To The Box
     if settings.include? 'keys'
       settings["keys"].each do |key|
@@ -145,6 +148,12 @@ class Homestead
     config.vm.provision "shell" do |s|
       s.inline = "/usr/local/bin/composer self-update"
     end
+
+    # Install OCI8 and InstantClient.
+    config.vm.provision "shell", path: "scripts/oci8.sh"
+
+    # Install extras.git
+    config.vm.provision "shell", path: "scripts/extras.sh"
 
     # Configure Blackfire.io
     if settings.has_key?("blackfire")
