@@ -18,11 +18,21 @@ However, it's easy enough:
 - Place  all three files in the `/files` directory inside this repository.
 - Once done, run `vagrant up` on the command line. This will create the PHP with OCI8 development environment (plus all the goodies included in Laravel's Homestead).
 
-## Usage
 
 In your Laravel project, you will need to add the [Oracle DB driver package here](https://github.com/yajra/laravel-oci8). You should then have `'oracle'` available as a database driver.
 
-Once done, you should add the following database connection details (fill in the username/password/character set as appropriate) to the file `config/database.php` (Laravel 5) or `app/config/database.php` (Laravel 4):
+Next, you need to grab another [Vagrant box which sets up an Oracle database](https://github.com/hilverd/vagrant-ubuntu-oracle-xe) in a separate VM. Ideally, give this a fixed IP of `172.28.128.3`, then you'll be able to access the Oracle database from Homestead with the friendly `oracle.11.2` host value (see below). To do this, add the following line to the `Vagrantfile` of the `vagrant-ubuntu-oracle-xe` VM:
+
+```ruby
+# Set up private network with a fixed IP address.
+config.vm.network "private_network", ip: "172.28.128.3"
+```
+
+Finally, run `vagrant up` on the Oracle VM.
+
+## Usage
+
+Once the two VMs above (Homestead with OCI8, Oracle DB) are provisioned and running, you should be able to add the following database connection details (fill in the username/password/character set as appropriate) to the file `config/database.php` (Laravel 5) or `app/config/database.php` (Laravel 4):
 
 ```php
 'oracle' => array(
@@ -38,5 +48,7 @@ Once done, you should add the following database connection details (fill in the
 ```
 
 Optionally, in the same file, change `'default'` to Oracle if you want this to be the default database driver.
+
+NB: You can of course access your own Oracle database - just replace the connection details above as appropriate (ensuring that the Homestead VM has access to your Oracle DB).
 
 Official documentation for Laravel Homestead [is located here](http://laravel.com/docs/5.0/homestead).
