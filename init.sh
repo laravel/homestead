@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-mkdir -p ~/.homestead
-
 homesteadRoot=~/.homestead
+
+mkdir -p "$homesteadRoot"
 
 cp -i src/stubs/Homestead.yaml "$homesteadRoot/Homestead.yaml"
 cp -i src/stubs/after.sh "$homesteadRoot/after.sh"
