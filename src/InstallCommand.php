@@ -26,6 +26,13 @@ class InstallCommand extends Command
     protected $projectName;
 
     /**
+     * Sluggified Project Name.
+     *
+     * @var string
+     */
+    protected $defaultName;
+
+    /**
      * Configure the command options.
      *
      * @return void
@@ -34,7 +41,6 @@ class InstallCommand extends Command
     {
         $this->basePath = getcwd();
         $this->projectName = basename(getcwd());
-
         $this->defaultName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->projectName)));
 
         $this
