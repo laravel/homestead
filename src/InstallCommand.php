@@ -37,8 +37,8 @@ class InstallCommand extends Command
             ->setDescription('Install Homestead into the current project')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.')
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.')
-            ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.', false)
-            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.', false);
+            ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
+            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.');
 
         $this->basePath = getcwd();
         $this->projectName = basename(getcwd());
