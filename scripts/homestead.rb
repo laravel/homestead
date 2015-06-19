@@ -18,7 +18,7 @@ class Homestead
 
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
-      vb.name = 'homestead'
+      vb.name = settings["name"] ||= "homestead"
       vb.customize ["modifyvm", :id, "--memory", settings["memory"] ||= "2048"]
       vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] ||= "1"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
@@ -110,18 +110,16 @@ class Homestead
     end
 
     # Configure All Of The Configured Databases
-    if settings.has_key?("databases")
-        settings["databases"].each do |db|
-          config.vm.provision "shell" do |s|
-            s.path = scriptDir + "/create-mysql.sh"
-            s.args = [db]
-          end
-    
-          config.vm.provision "shell" do |s|
-            s.path = scriptDir + "/create-postgres.sh"
-            s.args = [db]
-          end
-        end
+    settings["databases"].each do |db|
+      config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/create-mysql.sh"
+        s.args = [db]
+      end
+
+      config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/create-postgres.sh"
+        s.args = [db]
+      end
     end
 
     # Configure All Of The Server Environment Variables
