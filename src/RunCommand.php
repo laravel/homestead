@@ -19,7 +19,7 @@ class RunCommand extends Command {
 			->setName('run')
 			->setDescription('Run commands through the Homestead machine via SSH')
 			->addArgument('ssh-command', InputArgument::REQUIRED, 'The command to pass through to the virtual machine.');
-}
+    }
 
 	/**
 	 * Execute the command.
