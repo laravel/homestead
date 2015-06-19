@@ -32,16 +32,18 @@ class InstallCommand extends Command
      */
     protected function configure()
     {
+        $this->basePath = getcwd();
+        $this->projectName = basename(getcwd());
+
+        $defaultName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->projectName)));
+
         $this
             ->setName('install')
             ->setDescription('Install Homestead into the current project')
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.')
-            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.')
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.', $defaultName)
+            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.', $defaultName)
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.');
-
-        $this->basePath = getcwd();
-        $this->projectName = basename(getcwd());
     }
 
     /**
