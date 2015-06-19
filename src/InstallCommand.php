@@ -1,4 +1,6 @@
-<?php namespace Laravel\Homestead;
+<?php
+
+namespace Laravel\Homestead;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
@@ -7,7 +9,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InstallCommand extends Command {
+class InstallCommand extends Command
+{
+    /**
+     * The base path of the Laravel installation.
+     *
+     * @var string
+     */
+    protected $basePath;
+
+    /**
+     * The name of the project folder.
+     *
+     * @var string
+     */
+    protected $projectName;
 
     /**
      * Configure the command options.
@@ -20,10 +36,12 @@ class InstallCommand extends Command {
             ->setName('install')
             ->setDescription('Install Homestead into the current project')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.')
-            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.');
-        $this->rootPath = getcwd();
-        $this->sourcePath = homestead_path();
-        $this->projectFolder = basename(getcwd());
+            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.')
+            ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.', false)
+            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.', false);
+
+        $this->basePath = getcwd();
+        $this->projectName = basename(getcwd());
     }
 
     /**
@@ -35,21 +53,26 @@ class InstallCommand extends Command {
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->rootPath.'/Vagrantfile');
-        copy(__DIR__.'/stubs/Homestead.yaml', $this->rootPath.'/Homestead.yaml');
-        copy(__DIR__.'/stubs/after.sh', $this->rootPath.'/after.sh');
-        copy(__DIR__.'/stubs/aliases', $this->rootPath.'/aliases');
+        copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
 
-        if ($input->getOption('name'))
-        {
+        if ($input->getOption('after')) {
+            copy(__DIR__.'/stubs/after.sh', $this->basePath.'/after.sh');
+        }
+
+        if ($input->getOption('aliases')) {
+            copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
+        }
+
+        if ($input->getOption('name')) {
             $this->updateName($input->getOption('name'));
         }
 
-        if ($input->getOption('hostname'))
-        {
+        if ($input->getOption('hostname')) {
             $this->updateHostName($input->getOption('hostname'));
         }
-        $this->updatePaths();
+
+        $this->configurePaths();
 
         $output->writeln('Homestead Installed!');
     }
@@ -57,52 +80,59 @@ class InstallCommand extends Command {
     /**
      * Update paths in Homestead.yaml
      */
-    protected function updatePaths()
+    protected function configurePaths()
     {
-        $file = file_get_contents($this->rootPath.'/Homestead.yaml');
+        $yaml = str_replace(
+            "- map: ~/Code", "- map: ".$this->basePath, $this->getHomesteadFile()
+        );
 
-        // Update folder map path
-        $newFile = str_replace("- map: ~/Code", "- map: ".$this->rootPath, $file);
-
-        // Update folder to path
-        $newFile = str_replace("to: /home/vagrant/Code",
-            "to: /home/vagrant/".$this->projectFolder,
-            $newFile);
+        $yaml = str_replace(
+            "to: /home/vagrant/Code", "to: /home/vagrant/".$this->projectName, $yaml
+        );
 
         // Fix path to the public folder (sites: to:)
-        $newFile = str_replace($this->projectFolder."/Laravel",
-            $this->projectFolder,
-            $newFile);
+        $yaml = str_replace(
+            $this->projectName."/Laravel", $this->projectName, $yaml
+        );
 
-        // Save the new file
-        file_put_contents($this->rootPath.'/Homestead.yaml', $newFile);
+        file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
     }
 
     /**
-     * Adds the virtual machine's name setting in the Homstead.yaml
-     * This is needed because Virtualbox requires unique names
-     * @param $vbName
+     * Update the "name" variable of the Homestead.yaml file.
+     *
+     * VirtualBox requires a unique name for each virtual machine.
+     *
+     * @param  string  $name
+     * @return void
      */
-    protected function updateName($vbName)
+    protected function updateName($name)
     {
-        // Update virtualbox name
-        $file = file_get_contents($this->rootPath.'/Homestead.yaml');
-        $newFile = str_replace("cpus: 1", "cpus: 1".PHP_EOL."name: ".$vbName, $file);
-
-        file_put_contents($this->rootPath.'/Homestead.yaml', $newFile);
+        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
+            "cpus: 1", "cpus: 1".PHP_EOL."name: ".$name, $this->getHomesteadFile()
+        ));
     }
 
     /**
-     * Adds the virtual machine's hostname setting in the Homstead.yaml
-     * @param $hostname
+     * Set the virtual machine's hostname setting in the Homstead.yaml file.
+     *
+     * @param  string  $hostname
+     * @return void
      */
     protected function updateHostName($hostname)
     {
-        // Update virtualbox hostname
-        $file = file_get_contents($this->rootPath.'/Homestead.yaml');
-        $newFile = str_replace("cpus: 1", "cpus: 1".PHP_EOL."hostname: ".$hostname, $file);
-
-        file_put_contents($this->rootPath.'/Homestead.yaml', $newFile);
+        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
+            "cpus: 1", "cpus: 1".PHP_EOL."hostname: ".$hostname, $this->getHomesteadFile()
+        ));
     }
 
+    /**
+     * Get the contents of the Homestead.yaml file.
+     *
+     * @return string
+     */
+    protected function getHomesteadFile()
+    {
+        return file_get_contents($this->basePath.'/Homestead.yaml');
+    }
 }
