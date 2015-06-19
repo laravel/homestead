@@ -21,7 +21,7 @@ class InstallCommand extends Command {
             ->setDescription('Install Homestead into the current project')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.')
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.');
-        $this->rootPath = str_replace('/vendor/bin/', '', getcwd());
+        $this->rootPath = getcwd();
         $this->sourcePath = homestead_path();
         $this->projectFolder = basename(getcwd());
     }
