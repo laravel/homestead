@@ -35,13 +35,13 @@ class InstallCommand extends Command
         $this->basePath = getcwd();
         $this->projectName = basename(getcwd());
 
-        $defaultName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->projectName)));
+        $this->defaultName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->projectName)));
 
         $this
             ->setName('install')
             ->setDescription('Install Homestead into the current project')
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.', $defaultName)
-            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.', $defaultName)
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.', $this->defaultName)
+            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.', $this->defaultName)
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.');
     }
@@ -85,16 +85,16 @@ class InstallCommand extends Command
     protected function configurePaths()
     {
         $yaml = str_replace(
-            "- map: ~/Code", "- map: ".$this->basePath, $this->getHomesteadFile()
+            "- map: ~/Code", "- map: \"".$this->basePath."\"", $this->getHomesteadFile()
         );
 
         $yaml = str_replace(
-            "to: /home/vagrant/Code", "to: /home/vagrant/".$this->projectName, $yaml
+            "to: /home/vagrant/Code", "to: \"/home/vagrant/".$this->defaultName."\"", $yaml
         );
 
         // Fix path to the public folder (sites: to:)
         $yaml = str_replace(
-            $this->projectName."/Laravel", $this->projectName, $yaml
+            $this->defaultName."\"/Laravel/public", $this->defaultName."/public\"", $yaml
         );
 
         file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
