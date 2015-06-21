@@ -62,14 +62,21 @@ class MakeCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
-        copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
+
+        if (!file_exists($this->basePath.'/Homestead.yaml')) {
+            copy( __DIR__ . '/stubs/Homestead.yaml', $this->basePath . '/Homestead.yaml' );
+        }
 
         if ($input->getOption('after')) {
-            copy(__DIR__.'/stubs/after.sh', $this->basePath.'/after.sh');
+            if (!file_exists($this->basePath.'/after.sh')) {
+                copy( __DIR__ . '/stubs/after.sh', $this->basePath . '/after.sh' );
+            }
         }
 
         if ($input->getOption('aliases')) {
-            copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
+            if (!file_exists($this->basePath.'/aliases')) {
+                copy( __DIR__ . '/stubs/aliases', $this->basePath . '/aliases' );
+            }
         }
 
         if ($input->getOption('name')) {
