@@ -97,7 +97,9 @@ class Homestead
     end
 
     # Install All The Configured Nginx Sites
+    hosts = Array.new()
     settings["sites"].each do |site|
+      hosts.push(site["map"])
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
             s.path = scriptDir + "/serve-hhvm.sh"
@@ -106,6 +108,17 @@ class Homestead
             s.path = scriptDir + "/serve.sh"
             s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
           end
+      end
+    end
+
+    # Manage Hosts File With Host Manager Plugin
+    if Vagrant.has_plugin?('vagrant-hostmanager')
+      if hosts.any?
+        config.hostmanager.enabled           = true
+        config.hostmanager.manage_host       = true
+        config.hostmanager.ignore_private_ip = false
+        config.hostmanager.include_offline   = false
+        config.hostmanager.aliases           = hosts
       end
     end
 
