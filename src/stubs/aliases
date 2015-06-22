@@ -3,6 +3,7 @@ alias ...="cd ../.."
 
 alias h='cd ~'
 alias c='clear'
+alias artisan='php artisan'
 
 function serve() {
 	if [[ "$1" && "$2" ]]
