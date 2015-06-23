@@ -71,6 +71,9 @@ class MakeCommand extends Command
             if (!file_exists($this->basePath.'/after.sh')) {
                 copy( __DIR__ . '/stubs/after.sh', $this->basePath . '/after.sh' );
             }
+            if (!file_exists($this->basePath.'/after.rb')) {
+                copy( __DIR__ . '/stubs/after.rb', $this->basePath . '/after.rb' );
+            }
         }
 
         if ($input->getOption('aliases')) {
