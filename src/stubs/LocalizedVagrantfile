@@ -6,6 +6,7 @@ confDir = $confDir ||= File.expand_path("vendor/laravel/homestead")
 
 homesteadYamlPath = "Homestead.yaml"
 afterScriptPath = "after.sh"
+afterRubyPath = "after.rb"
 aliasesPath = "aliases"
 
 require File.expand_path(confDir + '/scripts/homestead.rb')
@@ -20,4 +21,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	if File.exists? afterScriptPath then
 		config.vm.provision "shell", path: afterScriptPath
 	end
+
+    if File.exists? afterRubyPath then
+        require File.expand_path(afterRubyPath)
+        HomesteadAfter.processing(config, YAML::load(File.read(homesteadYamlPath)))
+    end
 end
