@@ -14,7 +14,7 @@ folders:
       to: /home/vagrant/Code
 
 sites:
-    - map: homestead.app
+    - map: homestead.test
       to: /home/vagrant/Code/Laravel/public
 
 databases:
