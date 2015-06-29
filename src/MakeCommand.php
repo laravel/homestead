@@ -129,7 +129,7 @@ class MakeCommand extends Command
     }
 
     /**
-     * Set the virtual machine's hostname setting in the Homstead.yaml file.
+     * Set the virtual machine's hostname setting in the Homestead.yaml file.
      *
      * @param  string  $hostname
      * @return void
