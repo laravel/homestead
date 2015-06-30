@@ -1,38 +1,67 @@
 ---
-ip: "192.168.10.10"
-memory: 2048
-cpus: 1
-provider: virtualbox
+-
+    ip: "192.168.10.10"
+    memory: 2048
+    cpus: 1
+    provider: virtualbox
+    host: webserver-1
 
-authorize: ~/.ssh/id_rsa.pub
+    authorize: ~/.ssh/id_rsa.pub
 
-keys:
-    - ~/.ssh/id_rsa
+    keys:
+        - ~/.ssh/id_rsa
 
-folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
+    folders:
+        - map: ~/Code
+          to: /home/vagrant/Code
 
-sites:
-    - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
+    sites:
+        - map: homestead.app
+          to: /home/vagrant/Code/Laravel/public
 
-databases:
-    - homestead
+    databases:
+        - homestead
 
-variables:
-    - key: APP_ENV
-      value: local
+    variables:
+        - key: APP_ENV
+          value: local
 
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar
+    # blackfire:
+    #     - id: foo
+    #       token: bar
+    #       client-id: foo
+    #       client-token: bar
 
-# ports:
-#     - send: 93000
-#       to: 9300
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+    # ports:
+    #     - send: 93000
+    #       to: 9300
+    #     - send: 7777
+    #       to: 777
+    #       protocol: udp
+-
+    ip: "192.168.10.11"
+    memory: 2048
+    cpus: 1
+    provider: virtualbox
+    host: webserver-2
+
+    authorize: ~/.ssh/id_rsa.pub
+
+    keys:
+        - ~/.ssh/id_rsa
+
+    folders:
+        - map: ~/Code
+          to: /home/vagrant/Code
+
+    sites:
+        - map: homestead.app
+          to: /home/vagrant/Code/Laravel/public
+
+    databases:
+        - homestead
+
+    variables:
+        - key: APP_ENV
+          value: local
+
