@@ -91,7 +91,7 @@ class Homestead
     # Register All Of The Configured Shared Folders
     if settings.include? 'folders'
       settings["folders"].each do |folder|
-        mount_opts = folder["type"] == "nfs" ? ['actimeo=1'] : []
+        mount_opts = folder["type"] == "nfs" ? ['actimeo=1,vers=3'] : []
         config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, mount_options: mount_opts
       end
     end
