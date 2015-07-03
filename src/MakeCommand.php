@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class MakeCommand extends Command
 {
@@ -97,20 +98,16 @@ class MakeCommand extends Command
      */
     protected function configurePaths()
     {
-        $yaml = str_replace(
-            "- map: ~/Code", "- map: \"".$this->basePath."\"", $this->getHomesteadFile()
-        );
-
-        $yaml = str_replace(
-            "to: /home/vagrant/Code", "to: \"/home/vagrant/".$this->defaultName."\"", $yaml
-        );
-
-        // Fix path to the public folder (sites: to:)
-        $yaml = str_replace(
-            $this->defaultName."\"/Laravel/public", $this->defaultName."/public\"", $yaml
-        );
-
-        file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
+        // Get Homestead.yaml as an array
+        $homesteadFile = $this->getHomesteadFile();
+        // Update host folder path
+        $homesteadFile['folders'][0]['map'] = $this->basePath;
+        // Update guest folder path
+        $homesteadFile['folders'][0]['to'] = "/home/vagrant/".$this->defaultName;
+        // Update public folder path
+        $homesteadFile['sites'][0]['to'] = $homesteadFile['folders'][0]['to'] . "/public";
+        // Save array back to Homestead.yaml as yaml
+        $this->saveHomesteadFile($homesteadFile);
     }
 
     /**
@@ -123,11 +120,16 @@ class MakeCommand extends Command
      */
     protected function updateName($name)
     {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            "cpus: 1", "cpus: 1".PHP_EOL."name: ".$name, $this->getHomesteadFile()
-        ));
+        // Get Homestead.yaml as an array
+        $homesteadFile = $this->getHomesteadFile();
+        // Add name to the 4th position in the array
+        $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
+                    array('name' => $name) +
+                    array_slice($homesteadFile, 3, NULL, true);
+        // Save array back to Homestead.yaml as yaml
+        $this->saveHomesteadFile($homesteadFile);
     }
-
+    
     /**
      * Set the virtual machine's hostname setting in the Homestead.yaml file.
      *
@@ -136,18 +138,35 @@ class MakeCommand extends Command
      */
     protected function updateHostName($hostname)
     {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            "cpus: 1", "cpus: 1".PHP_EOL."hostname: ".$hostname, $this->getHomesteadFile()
-        ));
+        // Get Homestead.yaml as an array
+        $homesteadFile = $this->getHomesteadFile();
+        // Add name to the 4th position in the array
+        $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
+                    array('hostname' => $hostname) +
+                    array_slice($homesteadFile, 3, NULL, true);
+        // Save array back to Homestead.yaml as yaml
+        $this->saveHomesteadFile($homesteadFile);
     }
 
     /**
      * Get the contents of the Homestead.yaml file.
      *
-     * @return string
+     * @return array
      */
     protected function getHomesteadFile()
     {
-        return file_get_contents($this->basePath.'/Homestead.yaml');
+        return Yaml::parse(file_get_contents($this->basePath.'/Homestead.yaml'));
+    }
+
+    /**
+     * Get the contents of the Homestead.yaml file.
+     *
+     * @param  array  $array
+     * @return void
+     */    
+    protected function saveHomesteadFile($array)
+    {
+        $yaml = Yaml::dump($array, 3);
+        file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
     }
 }
