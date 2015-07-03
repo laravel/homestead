@@ -124,8 +124,8 @@ class MakeCommand extends Command
         $homesteadFile = $this->getHomesteadFile();
         // Add name to the 4th position in the array
         $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
-                    ['name' => $name] +
-                    array_slice($homesteadFile, 3, NULL, true);
+            ['name' => $name] +
+            array_slice($homesteadFile, 3, NULL, true);
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
     }
@@ -142,8 +142,8 @@ class MakeCommand extends Command
         $homesteadFile = $this->getHomesteadFile();
         // Add name to the 4th position in the array
         $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
-                    ['hostname' => $hostname] +
-                    array_slice($homesteadFile, 3, NULL, true);
+            ['hostname' => $hostname] +
+            array_slice($homesteadFile, 3, NULL, true);
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
     }
