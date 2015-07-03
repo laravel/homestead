@@ -2,10 +2,8 @@
 
 namespace Laravel\Homestead;
 
-use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -35,8 +33,6 @@ class MakeCommand extends Command
 
     /**
      * Configure the command options.
-     *
-     * @return void
      */
     protected function configure()
     {
@@ -56,27 +52,26 @@ class MakeCommand extends Command
     /**
      * Execute the command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return void
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
 
         if (!file_exists($this->basePath.'/Homestead.yaml')) {
-            copy( __DIR__ . '/stubs/Homestead.yaml', $this->basePath . '/Homestead.yaml' );
+            copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
         }
 
         if ($input->getOption('after')) {
             if (!file_exists($this->basePath.'/after.sh')) {
-                copy( __DIR__ . '/stubs/after.sh', $this->basePath . '/after.sh' );
+                copy(__DIR__.'/stubs/after.sh', $this->basePath.'/after.sh');
             }
         }
 
         if ($input->getOption('aliases')) {
             if (!file_exists($this->basePath.'/aliases')) {
-                copy( __DIR__ . '/stubs/aliases', $this->basePath . '/aliases' );
+                copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
             }
         }
 
@@ -94,7 +89,7 @@ class MakeCommand extends Command
     }
 
     /**
-     * Update paths in Homestead.yaml
+     * Update paths in Homestead.yaml.
      */
     protected function configurePaths()
     {
@@ -103,9 +98,9 @@ class MakeCommand extends Command
         // Update host folder path
         $homesteadFile['folders'][0]['map'] = $this->basePath;
         // Update guest folder path
-        $homesteadFile['folders'][0]['to'] = "/home/vagrant/".$this->defaultName;
+        $homesteadFile['folders'][0]['to'] = '/home/vagrant/'.$this->defaultName;
         // Update public folder path
-        $homesteadFile['sites'][0]['to'] = $homesteadFile['folders'][0]['to'] . "/public";
+        $homesteadFile['sites'][0]['to'] = $homesteadFile['folders'][0]['to'].'/public';
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
     }
@@ -115,8 +110,7 @@ class MakeCommand extends Command
      *
      * VirtualBox requires a unique name for each virtual machine.
      *
-     * @param  string  $name
-     * @return void
+     * @param string $name
      */
     protected function updateName($name)
     {
@@ -125,7 +119,7 @@ class MakeCommand extends Command
         // Add name to the 4th position in the array
         $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
             ['name' => $name] +
-            array_slice($homesteadFile, 3, NULL, true);
+            array_slice($homesteadFile, 3, null, true);
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
     }
@@ -133,8 +127,7 @@ class MakeCommand extends Command
     /**
      * Set the virtual machine's hostname setting in the Homestead.yaml file.
      *
-     * @param  string  $hostname
-     * @return void
+     * @param string $hostname
      */
     protected function updateHostName($hostname)
     {
@@ -143,7 +136,7 @@ class MakeCommand extends Command
         // Add name to the 4th position in the array
         $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
             ['hostname' => $hostname] +
-            array_slice($homesteadFile, 3, NULL, true);
+            array_slice($homesteadFile, 3, null, true);
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
     }
@@ -161,9 +154,8 @@ class MakeCommand extends Command
     /**
      * Get the contents of the Homestead.yaml file.
      *
-     * @param  array  $array
-     * @return void
-     */    
+     * @param array $array
+     */
     protected function saveHomesteadFile($array)
     {
         $yaml = Yaml::dump($array, 3);
