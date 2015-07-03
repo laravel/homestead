@@ -10,18 +10,21 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
+    -
+      map: ~/Code
       to: /home/vagrant/Code
 
 sites:
-    - map: homestead.app
+    -
+      map: homestead.app
       to: /home/vagrant/Code/Laravel/public
 
 databases:
     - homestead
 
 variables:
-    - key: APP_ENV
+    -
+      key: APP_ENV
       value: local
 
 # blackfire:
