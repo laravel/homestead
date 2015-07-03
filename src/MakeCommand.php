@@ -98,7 +98,7 @@ class MakeCommand extends Command
     protected function configurePaths()
     {
         $yaml = str_replace(
-            "- map: ~/Code", "- map: \"".$this->basePath."\"", $this->getHomesteadFile()
+            "- map: ~/Code", "- map: \"".str_replace('\\', '/', $this->basePath)."\"", $this->getHomesteadFile()
         );
 
         $yaml = str_replace(
