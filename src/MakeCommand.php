@@ -124,12 +124,12 @@ class MakeCommand extends Command
         $homesteadFile = $this->getHomesteadFile();
         // Add name to the 4th position in the array
         $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
-                    array('name' => $name) +
+                    ['name' => $name] +
                     array_slice($homesteadFile, 3, NULL, true);
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
     }
-    
+
     /**
      * Set the virtual machine's hostname setting in the Homestead.yaml file.
      *
@@ -142,7 +142,7 @@ class MakeCommand extends Command
         $homesteadFile = $this->getHomesteadFile();
         // Add name to the 4th position in the array
         $homesteadFile = array_slice($homesteadFile, 0, 3, true) +
-                    array('hostname' => $hostname) +
+                    ['hostname' => $hostname] +
                     array_slice($homesteadFile, 3, NULL, true);
         // Save array back to Homestead.yaml as yaml
         $this->saveHomesteadFile($homesteadFile);
