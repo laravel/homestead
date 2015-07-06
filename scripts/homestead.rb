@@ -92,9 +92,11 @@ class Homestead
     if settings.include? 'folders'
       settings["folders"].each do |folder|
         mount_opts = []
+
         if (folder["type"] == "nfs")
             mount_opts = folder["mount_opts"] ? folder["mount_opts"] : ['actimeo=1']
         end
+
         config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, mount_options: mount_opts
       end
     end
