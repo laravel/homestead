@@ -49,7 +49,8 @@ class MakeCommand extends Command
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.', $this->defaultName)
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.', $this->defaultName)
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
-            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.');
+            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
+            ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the homestead file should be a json file');
     }
 
     /**
@@ -61,11 +62,27 @@ class MakeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
-
-        if (!file_exists($this->basePath.'/Homestead.yaml')) {
-            copy( __DIR__ . '/stubs/Homestead.yaml', $this->basePath . '/Homestead.yaml' );
+        $vagrantfile = file_get_contents(__DIR__.'/stubs/LocalizedVagrantfile');
+        if( $input->getOption('json') ){
+            $vagrantfile = str_replace(
+                "homesteadConfigFile = \"Homestead.yaml\"", "homesteadConfigFile = \"Homestead.json\"", $vagrantfile
+            );
         }
+
+        file_put_contents($this->basePath.'/Vagrantfile', $vagrantfile);
+
+
+        if( !$input->getOption('json') ){
+            if (!file_exists($this->basePath.'/Homestead.yaml')) {
+                copy( __DIR__ . '/stubs/Homestead.yaml', $this->basePath . '/Homestead.yaml' );
+            }
+        } else {
+            if (!file_exists($this->basePath.'/Homestead.json')) {
+                copy( __DIR__ . '/stubs/Homestead.json', $this->basePath . '/Homestead.json' );
+            }
+        }
+
+
 
         if ($input->getOption('after')) {
             if (!file_exists($this->basePath.'/after.sh')) {
@@ -80,14 +97,14 @@ class MakeCommand extends Command
         }
 
         if ($input->getOption('name')) {
-            $this->updateName($input->getOption('name'));
+            $this->updateName($input, $input->getOption('name'));
         }
 
         if ($input->getOption('hostname')) {
-            $this->updateHostName($input->getOption('hostname'));
+            $this->updateHostName($input, $input->getOption('hostname'));
         }
 
-        $this->configurePaths();
+        $this->configurePaths($input);
 
         $output->writeln('Homestead Installed!');
     }
@@ -95,22 +112,35 @@ class MakeCommand extends Command
     /**
      * Update paths in Homestead.yaml
      */
-    protected function configurePaths()
+    protected function configurePaths($input)
     {
-        $yaml = str_replace(
-            "- map: ~/Code", "- map: \"".str_replace('\\', '/', $this->basePath)."\"", $this->getHomesteadFile()
-        );
+        if( !$input->getOption('json') ){
+            $yaml = str_replace(
+                "- map: ~/Code", "- map: \"".str_replace('\\', '/', $this->basePath)."\"", $this->getHomesteadFile($input)
+            );
 
-        $yaml = str_replace(
-            "to: /home/vagrant/Code", "to: \"/home/vagrant/".$this->defaultName."\"", $yaml
-        );
+            $yaml = str_replace(
+                "to: /home/vagrant/Code", "to: \"/home/vagrant/".$this->defaultName."\"", $yaml
+            );
 
-        // Fix path to the public folder (sites: to:)
-        $yaml = str_replace(
-            $this->defaultName."\"/Laravel/public", $this->defaultName."/public\"", $yaml
-        );
+            // Fix path to the public folder (sites: to:)
+            $yaml = str_replace(
+                $this->defaultName."\"/Laravel/public", $this->defaultName."/public\"", $yaml
+            );
 
-        file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
+            file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
+        } else {
+
+            $json = $this->getHomesteadFile($input);
+
+            $json->folders[0]->map = str_replace('\\', '/', $this->basePath);
+
+            $json->folders[0]->to = "/home/vagrant/".$this->defaultName;
+
+            $json->sites[0]->to = "/home/vagrant/".$this->defaultName;
+
+            file_put_contents($this->basePath.'/Homestead.json', json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        }
     }
 
     /**
@@ -121,11 +151,18 @@ class MakeCommand extends Command
      * @param  string  $name
      * @return void
      */
-    protected function updateName($name)
+    protected function updateName($input, $name)
     {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            "cpus: 1", "cpus: 1".PHP_EOL."name: ".$name, $this->getHomesteadFile()
-        ));
+        if( !$input->getOption('json') ){
+            file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
+                "cpus: 1", "cpus: 1".PHP_EOL."name: ".$name, $this->getHomesteadFile($input)
+            ));
+        } else {
+            $json = $this->getHomesteadFile($input);
+            $json->name = $name;
+            file_put_contents($this->basePath.'/Homestead.json', json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        }
+
     }
 
     /**
@@ -134,11 +171,18 @@ class MakeCommand extends Command
      * @param  string  $hostname
      * @return void
      */
-    protected function updateHostName($hostname)
+    protected function updateHostName($input, $hostname)
     {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            "cpus: 1", "cpus: 1".PHP_EOL."hostname: ".$hostname, $this->getHomesteadFile()
-        ));
+        if( !$input->getOption('json') ){
+            file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
+                "cpus: 1", "cpus: 1".PHP_EOL."hostname: ".$hostname, $this->getHomesteadFile($input)
+            ));
+        } else {
+            $json = $this->getHomesteadFile($input);
+            $json->hostname = $hostname;
+            file_put_contents($this->basePath.'/Homestead.json', json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        }
+
     }
 
     /**
@@ -146,8 +190,13 @@ class MakeCommand extends Command
      *
      * @return string
      */
-    protected function getHomesteadFile()
+    protected function getHomesteadFile($input)
     {
-        return file_get_contents($this->basePath.'/Homestead.yaml');
+        if( !$input->getOption('json') ){
+            return file_get_contents($this->basePath.'/Homestead.yaml');
+        } else {
+            return json_decode(file_get_contents($this->basePath.'/Homestead.json'));
+        }
+
     }
 }
