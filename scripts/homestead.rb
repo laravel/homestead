@@ -51,6 +51,12 @@ class Homestead
       v.cpus = settings["cpus"] ||= 1
     end
 
+    config.vm.provider :hyperv do |hv|
+      hv.vmname = settings["name"] ||= "homestead"
+      hv.memory = settings["memory"] ||= 2048
+      hv.cpus = settings["cpus"] ||= 1
+    end
+
     # Standardize Ports Naming Schema
     if (settings.has_key?("ports"))
       settings["ports"].each do |port|
