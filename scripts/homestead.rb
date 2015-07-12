@@ -138,7 +138,7 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
-            s.inline = "echo \"\n#Set Homestead environment variable\nexport $1=$2\" >> /home/vagrant/.profile"
+            s.inline = "echo \"\n#Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
             s.args = [var["key"], var["value"]]
         end
       end
