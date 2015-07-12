@@ -102,6 +102,11 @@ class Homestead
     end
 
     # Install All The Configured Nginx Sites
+    config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/clear-nginx.sh"
+    end
+
+
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
@@ -130,6 +135,10 @@ class Homestead
     end
 
     # Configure All Of The Server Environment Variables
+    config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/clear-variables.sh"
+    end
+
     if settings.has_key?("variables")
       settings["variables"].each do |var|
         config.vm.provision "shell" do |s|
@@ -138,7 +147,7 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
-            s.inline = "echo \"\n#Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
+            s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
             s.args = [var["key"], var["value"]]
         end
       end
