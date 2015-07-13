@@ -1,4 +1,4 @@
 # Clear The Old Nginx Sites
 
-rm /etc/nginx/sites-enabled/*
-rm /etc/nginx/sites-available/*
+rm -f /etc/nginx/sites-enabled/*
+rm -f /etc/nginx/sites-available/*
