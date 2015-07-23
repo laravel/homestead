@@ -16,6 +16,13 @@ class Homestead
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
 
+    # Configure A Public Network with Bridge Connection
+    if settings.include? 'public_network'
+      settings["public_network"].each do |bridge|
+        config.vm.network :public_network, ip: bridge["ip"] , bridge: bridge["origin"]
+      end
+    end
+
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
       vb.name = settings["name"] ||= "homestead"

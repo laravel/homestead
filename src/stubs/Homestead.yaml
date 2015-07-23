@@ -1,5 +1,8 @@
 ---
 ip: "192.168.10.10"
+public_network:
+    - ip: "10.10.0.201"
+      origin: "wlan0"
 memory: 2048
 cpus: 1
 provider: virtualbox
