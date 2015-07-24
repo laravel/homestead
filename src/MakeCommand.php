@@ -61,7 +61,7 @@ class MakeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        copy(__DIR__.'/../Vagrantfile', $this->basePath.'/Vagrantfile');
 
         if (!file_exists($this->basePath.'/Homestead.yaml')) {
             copy( __DIR__ . '/stubs/Homestead.yaml', $this->basePath . '/Homestead.yaml' );
@@ -93,7 +93,7 @@ class MakeCommand extends Command
     }
 
     /**
-     * Update paths in Homestead.yaml
+     * Update paths in Homestead.yaml and Vagrantfile
      */
     protected function configurePaths()
     {
@@ -111,6 +111,19 @@ class MakeCommand extends Command
         );
 
         file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
+
+        $vagrantfile = str_replace(
+            "~/.homestead", "vendor/laravel/homestead", $this->getVagrantFile()
+        );
+
+        $vagrantfile = str_replace(
+            "confDir + \"/", "\"", $vagrantfile
+        );
+        $vagrantfile = str_replace(
+            "File.dirname(__FILE__)", "confDir", $vagrantfile
+        );
+
+        file_put_contents($this->basePath.'/Vagrantfile', $vagrantfile);
     }
 
     /**
@@ -149,5 +162,15 @@ class MakeCommand extends Command
     protected function getHomesteadFile()
     {
         return file_get_contents($this->basePath.'/Homestead.yaml');
+    }
+
+    /**
+     * Get the contents of the Vagrantfile file.
+     *
+     * @return string
+     */
+    protected function getVagrantFile()
+    {
+        return file_get_contents($this->basePath.'/Vagrantfile');
     }
 }
