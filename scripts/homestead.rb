@@ -111,10 +111,10 @@ class Homestead
       config.vm.provision "shell" do |s|
           if (site.has_key?("hhvm") && site["hhvm"])
             s.path = scriptDir + "/serve-hhvm.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["alias"] ||= ""]
           else
             s.path = scriptDir + "/serve.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["alias"] ||= ""]
           end
       end
     end
