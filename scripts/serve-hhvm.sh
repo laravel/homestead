@@ -7,7 +7,7 @@ openssl x509 -req -days 365 -in /etc/nginx/ssl/$1.csr -signkey /etc/nginx/ssl/$1
 
 block="server {
     listen ${3:-80};
-    server_name $1;
+    server_name $1${5:+ $5};
     root \"$2\";
 
     index index.html index.htm index.php;
@@ -40,7 +40,7 @@ block="server {
 }
 server {
     listen ${4:-443};
-    server_name $1;
+    server_name $1${5:+ $5};
     root \"$2\";
 
     index index.html index.htm index.php;
