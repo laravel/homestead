@@ -58,14 +58,14 @@ class Homestead
     # Use Default Port Forwarding Unless Overridden
     default_ports.each do |guest, host|
       unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
-        config.vm.network "forwarded_port", guest: guest, host: host
+        config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
       end
     end
 
     # Add Custom Ports From Configuration
     if settings.has_key?("ports")
       settings["ports"].each do |port|
-        config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"]
+        config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"], auto_correct: true
       end
     end
 
