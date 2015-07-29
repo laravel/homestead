@@ -3,6 +3,7 @@ ip: "192.168.10.10"
 memory: 2048
 cpus: 1
 provider: virtualbox
+# boot_timeout: 300
 
 authorize: ~/.ssh/id_rsa.pub
 
