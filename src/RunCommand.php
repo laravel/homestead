@@ -1,5 +1,6 @@
 <?php namespace Laravel\Homestead;
 
+use Laravel\Homestead\Support\Portability;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,20 +35,6 @@ class RunCommand extends Command
 
         $command = $input->getArgument('ssh-command');
 
-        passthru($this->setEnvironmentCommand() . ' vagrant ssh -c "'.$command.'"');
-    }
-
-    protected function setEnvironmentCommand()
-    {
-        if ($this->isWindows()) {
-            return 'SET VAGRANT_DOTFILE_PATH='.$_ENV['VAGRANT_DOTFILE_PATH'].' &&';
-        }
-
-        return 'VAGRANT_DOTFILE_PATH="'.$_ENV['VAGRANT_DOTFILE_PATH'].'"';
-    }
-
-    protected function isWindows()
-    {
-        return strpos(strtoupper(PHP_OS), 'WIN') === 0;
+        passthru(Portability::setEnvironmentCommand() . ' vagrant ssh -c "'.$command.'"');
     }
 }
