@@ -1,6 +1,7 @@
-<?php namespace Laravel\Homestead;
+<?php
 
-use Symfony\Component\Process\Process;
+namespace Laravel\Homestead;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,8 +15,7 @@ class SshCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('ssh')
-                  ->setDescription('Login to the Homestead machine via SSH');
+        $this->setName('ssh')->setDescription('Login to the Homestead machine via SSH');
     }
 
     /**
@@ -29,7 +29,7 @@ class SshCommand extends Command
     {
         chdir(__DIR__.'/../');
 
-        passthru($this->setEnvironmentCommand() . ' vagrant ssh');
+        passthru($this->setEnvironmentCommand().' vagrant ssh');
     }
 
     protected function setEnvironmentCommand()

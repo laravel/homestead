@@ -1,6 +1,7 @@
-<?php namespace Laravel\Homestead;
+<?php
 
-use Symfony\Component\Process\Process;
+namespace Laravel\Homestead;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +35,7 @@ class RunCommand extends Command
 
         $command = $input->getArgument('ssh-command');
 
-        passthru($this->setEnvironmentCommand() . ' vagrant ssh -c "'.$command.'"');
+        passthru($this->setEnvironmentCommand().' vagrant ssh -c "'.$command.'"');
     }
 
     protected function setEnvironmentCommand()

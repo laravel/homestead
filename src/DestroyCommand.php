@@ -1,4 +1,6 @@
-<?php namespace Laravel\Homestead;
+<?php
+
+namespace Laravel\Homestead;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
@@ -14,8 +16,7 @@ class DestroyCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('destroy')
-                  ->setDescription('Destroy the Homestead machine');
+        $this->setName('destroy')->setDescription('Destroy the Homestead machine');
     }
 
     /**
