@@ -92,6 +92,8 @@ class MakeCommand extends Command
 
     /**
      * Update paths in Homestead.yaml.
+     *
+     * @return void
      */
     protected function configurePaths()
     {
