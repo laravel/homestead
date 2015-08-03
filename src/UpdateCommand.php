@@ -1,4 +1,6 @@
-<?php namespace Laravel\Homestead;
+<?php
+
+namespace Laravel\Homestead;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
@@ -14,8 +16,7 @@ class UpdateCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('update')
-                  ->setDescription('Update the Homestead machine image');
+        $this->setName('update')->setDescription('Update the Homestead machine image');
     }
 
     /**

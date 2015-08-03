@@ -1,6 +1,7 @@
-<?php namespace Laravel\Homestead;
+<?php
 
-use Symfony\Component\Process\Process;
+namespace Laravel\Homestead;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,8 +15,7 @@ class SshConfigCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('ssh-config')
-                  ->setDescription('Outputs OpenSSH valid configuration to connect to Homestead');
+        $this->setName('ssh-config')->setDescription('Outputs OpenSSH valid configuration to connect to Homestead');
     }
 
     /**
@@ -29,7 +29,7 @@ class SshConfigCommand extends Command
     {
         chdir(__DIR__.'/../');
 
-        passthru($this->setDotFileInEnvironment() . ' vagrant ssh-config');
+        passthru($this->setDotFileInEnvironment().' vagrant ssh-config');
     }
 
     /**
