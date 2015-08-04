@@ -112,7 +112,7 @@ class Homestead
           if (site.has_key?("hhvm") && site["hhvm"])
             s.path = scriptDir + "/serve-hhvm.sh"
             s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
-          elsif (site.has_key?("symfony2") && site["symfony2"])
+          elsif (site.has_key?("type") && (site["type"] == "symfony" || site["type"] == "symfony2"))
             s.path = scriptDir + "/serve-symfony2.sh"
             s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
           else
