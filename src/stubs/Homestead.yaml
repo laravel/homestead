@@ -36,3 +36,7 @@ variables:
 #     - send: 7777
 #       to: 777
 #       protocol: udp
+
+# disabled_default_ports:
+#     - 80
+#     - 443

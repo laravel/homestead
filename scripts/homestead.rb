@@ -47,6 +47,10 @@ class Homestead
       settings["ports"] = []
     end
 
+    if (!settings.has_key?("disabled_default_ports"))
+      settings["disabled_default_ports"] = []
+    end
+
     # Default Port Forwarding
     default_ports = {
       80   => 8000,
@@ -57,9 +61,9 @@ class Homestead
 
     # Use Default Port Forwarding Unless Overridden
     default_ports.each do |guest, host|
-      unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
-        config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
-      end
+      next if settings["ports"].any? { |mapping| mapping["guest"] == guest }
+      next if settings["disabled_default_ports"].include?(guest)
+      config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
     end
 
     # Add Custom Ports From Configuration
