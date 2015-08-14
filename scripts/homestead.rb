@@ -10,7 +10,8 @@ class Homestead
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
     # Configure The Box
-    config.vm.box = "laravel/homestead"
+    config.vm.box = "parallels/ubuntu-14.04"
+    config.vm.synced_folder './', '/vagrant', disabled: true
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
@@ -76,6 +77,12 @@ class Homestead
         config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"], auto_correct: true
       end
     end
+
+    # Run The Base Provisioning Script
+    config.vm.provision 'shell', path: 'https://raw.githubusercontent.com/adeubank/settler/master/scripts/update.sh'
+    config.vm.provision :reload
+    config.vm.provision 'shell', path: 'https://raw.githubusercontent.com/adeubank/settler/master/scripts/provision.sh'
+    config.vm.provision :reload
 
     # Configure The Public Key For SSH Access
     if settings.include? 'authorize'
