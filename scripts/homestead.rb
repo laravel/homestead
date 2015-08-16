@@ -17,7 +17,6 @@ class Homestead
       config.vm.box = "laravel/homestead"
     end
 
-    config.vm.synced_folder './', '/vagrant', disabled: true
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
