@@ -11,6 +11,10 @@ aliasesPath = confDir + "/aliases"
 
 require File.expand_path(File.dirname(__FILE__) + '/scripts/homestead.rb')
 
+unless Vagrant.has_plugin?("vagrant-reload")
+  raise 'vagrant-reload is not installed! Try `vagrant plugin install vagrant-reload` before starting homestead again'
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if File.exists? aliasesPath then
         config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
