@@ -10,7 +10,13 @@ class Homestead
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
     # Configure The Box
-    config.vm.box = "laravel/homestead"
+
+    if ENV['VAGRANT_DEFAULT_PROVIDER'].eql? "parallels"
+      config.vm.box = "parallels/ubuntu-14.04"
+    else
+      config.vm.box = "laravel/homestead"
+    end
+
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
@@ -34,6 +40,14 @@ class Homestead
         v.vmx["numvcpus"] = settings["cpus"] ||= 1
         v.vmx["guestOS"] = "ubuntu-64"
       end
+    end
+
+    # Configure A Few Parallels Settings
+    config.vm.provider "parallels" do |v|
+      v.update_guest_tools = true
+      v.optimize_power_consumption = false
+      v.memory = settings["memory"] ||= 2048
+      v.cpus = settings["cpus"] ||= 1
     end
 
     # Standardize Ports Naming Schema
@@ -67,6 +81,15 @@ class Homestead
       settings["ports"].each do |port|
         config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"], auto_correct: true
       end
+    end
+
+    # have to provision when parallels is the provider
+    if ENV['VAGRANT_DEFAULT_PROVIDER'].eql? "parallels"
+      # Run The Base Provisioning Script
+      config.vm.provision 'shell', path: 'https://raw.githubusercontent.com/laravel/settler/master/scripts/update.sh'
+      config.vm.provision :reload
+      config.vm.provision 'shell', path: 'https://raw.githubusercontent.com/laravel/settler/master/scripts/provision.sh'
+      config.vm.provision :reload
     end
 
     # Configure The Public Key For SSH Access
