@@ -4,7 +4,7 @@ namespace Laravel\Homestead;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,8 +19,8 @@ class EditCommand extends Command
     {
         $this
             ->setName('edit')
-            ->setDescription('Edit the Homestead.yaml file')
-            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Edit the aliases file.');
+            ->setDescription('Edit a Homestead file')
+            ->addArgument('file', InputArgument::OPTIONAL, 'The file you wish to edit.');
     }
 
     /**
@@ -34,7 +34,7 @@ class EditCommand extends Command
     {
         $file = 'Homestead.yaml';
 
-        if ($input->getOption('aliases')) {
+        if ($input->getArgument('file') === 'aliases') {
             $file = 'aliases';
         }
 
