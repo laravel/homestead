@@ -10,7 +10,7 @@ class Homestead
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
     # Configure The Box
-    config.vm.box = "laravel/homestead"
+    config.vm.box = settings["box"] ||= "laravel/homestead"
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
