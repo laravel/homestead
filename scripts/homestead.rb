@@ -36,6 +36,14 @@ class Homestead
       end
     end
 
+    # Configure A Few Parallels Settings
+    config.vm.provider "parallels" do |v|
+      v.update_guest_tools = true
+      v.optimize_power_consumption = false
+      v.memory = settings["memory"] ||= 2048
+      v.cpus = settings["cpus"] ||= 1
+    end
+
     # Standardize Ports Naming Schema
     if (settings.has_key?("ports"))
       settings["ports"].each do |port|
