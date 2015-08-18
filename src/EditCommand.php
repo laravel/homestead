@@ -20,7 +20,8 @@ class EditCommand extends Command
         $this
             ->setName('edit')
             ->setDescription('Edit the Homestead.yaml file')
-            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Edit the aliases file.');
+            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Edit the aliases file.')
+            ->addOption('provision', null, InputOption::VALUE_NONE, 'Edit the provision file after.sh.');
     }
 
     /**
@@ -36,6 +37,8 @@ class EditCommand extends Command
 
         if ($input->getOption('aliases')) {
             $file = 'aliases';
+        } elseif ($input->getOption('provision')) {
+            $file = 'after.sh';
         }
 
         $command = $this->executable().' '.homestead_path().'/'.$file;
