@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
+FILENAME="$1"
+
+if [[ $1 == *"*"* ]]
+then
+    HASH=`echo $1 | md5sum | cut -f1 -d" "`
+    FILENAME="${1/\*/$HASH}"
+fi
+
 mkdir /etc/nginx/ssl 2>/dev/null
-openssl genrsa -out "/etc/nginx/ssl/$1.key" 1024 2>/dev/null
-openssl req -new -key /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.csr -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
-openssl x509 -req -days 365 -in /etc/nginx/ssl/$1.csr -signkey /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.crt 2>/dev/null
+openssl genrsa -out "/etc/nginx/ssl/$FILENAME.key" 1024 2>/dev/null
+openssl req -new -key /etc/nginx/ssl/$FILENAME.key -out /etc/nginx/ssl/$FILENAME.csr -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
+openssl x509 -req -days 365 -in /etc/nginx/ssl/$FILENAME.csr -signkey /etc/nginx/ssl/$FILENAME.key -out /etc/nginx/ssl/$FILENAME.crt 2>/dev/null
 
 block="server {
     listen ${3:-80};
@@ -23,7 +31,7 @@ block="server {
     location = /robots.txt  { access_log off; log_not_found off; }
 
     access_log off;
-    error_log  /var/log/nginx/$1-ssl-error.log error;
+    error_log  /var/log/nginx/$FILENAME-ssl-error.log error;
 
     sendfile off;
 
@@ -59,12 +67,12 @@ block="server {
         deny all;
     }
 
-    ssl_certificate     /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key /etc/nginx/ssl/$1.key;
+    ssl_certificate     /etc/nginx/ssl/$FILENAME.crt;
+    ssl_certificate_key /etc/nginx/ssl/$FILENAME.key;
 }
 "
 
-echo "$block" > "/etc/nginx/sites-available/$1"
-ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
+echo "$block" > "/etc/nginx/sites-available/$FILENAME"
+ln -fs "/etc/nginx/sites-available/$FILENAME" "/etc/nginx/sites-enabled/$FILENAME"
 service nginx restart
 service php5-fpm restart
