@@ -6,7 +6,7 @@ openssl req -new -key /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.csr -subj "/C
 openssl x509 -req -days 365 -in /etc/nginx/ssl/$1.csr -signkey /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.crt 2>/dev/null
 
 block="server {
-    listen ${3:-80};
+    listen ${3:-80}$5;
     listen ${4:-443} ssl;
     server_name $1;
     root \"$2\";

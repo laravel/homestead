@@ -17,6 +17,8 @@ sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
 
+# default_site: homestead.app
+
 databases:
     - homestead
 

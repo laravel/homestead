@@ -117,15 +117,17 @@ class Homestead
 
     settings["sites"].each do |site|
       config.vm.provision "shell" do |s|
+          default_site = settings.has_key?("default_site") && settings["default_site"] == site["map"] ? " default" : ""
+
           if (site.has_key?("hhvm") && site["hhvm"])
             s.path = scriptDir + "/serve-hhvm.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", default_site]
           elsif (site.has_key?("type") && (site["type"] == "symfony" || site["type"] == "symfony2"))
             s.path = scriptDir + "/serve-symfony2.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", default_site]
           else
             s.path = scriptDir + "/serve.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", default_site]
           end
       end
     end
