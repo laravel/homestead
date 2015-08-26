@@ -49,6 +49,9 @@ block="server {
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;
+    
+    include \"$2/.nginx/*.conf\";
+    include \"$2/../nginx/*.conf\";
 }
 "
 
