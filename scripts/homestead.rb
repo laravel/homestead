@@ -142,12 +142,12 @@ class Homestead
         settings["databases"].each do |db|
           config.vm.provision "shell" do |s|
             s.path = scriptDir + "/create-mysql.sh"
-            s.args = [db]
+            s.args = [db['name'], db['user'], db['pass']]
           end
 
           config.vm.provision "shell" do |s|
             s.path = scriptDir + "/create-postgres.sh"
-            s.args = [db]
+            s.args = [db['name'], db['user'], db['pass']]
           end
         end
     end
