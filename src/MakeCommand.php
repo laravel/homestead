@@ -59,7 +59,9 @@ class MakeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        if (! file_exists($this->basePath.'/Vagrantfile')) {
+            copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        }
 
         if (! file_exists($this->basePath.'/Homestead.yaml')) {
             copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
