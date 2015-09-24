@@ -134,8 +134,9 @@ class Homestead
       end
 
       config.vm.provision "shell" do |s|
-      s.path = scriptDir + "/serve-#{type}.sh"
-      s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+        s.path = scriptDir + "/serve-#{type}.sh"
+        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+      end
     end
 
     # Configure All Of The Configured Databases
