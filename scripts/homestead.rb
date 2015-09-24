@@ -123,18 +123,19 @@ class Homestead
 
 
     settings["sites"].each do |site|
-      config.vm.provision "shell" do |s|
-          if (site.has_key?("hhvm") && site["hhvm"])
-            s.path = scriptDir + "/serve-hhvm.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
-          elsif (site.has_key?("type") && (site["type"] == "symfony" || site["type"] == "symfony2"))
-            s.path = scriptDir + "/serve-symfony2.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
-          else
-            s.path = scriptDir + "/serve.sh"
-            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
-          end
+      type = site["type"] ||= "laravel"
+
+      if (site.has_key?("hhvm") && site["hhvm"])
+        type = "hhvm"
       end
+
+      if (type == "symfony")
+        type = "symfony2"
+      end
+
+      config.vm.provision "shell" do |s|
+      s.path = scriptDir + "/serve-#{type}.sh"
+      s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
     end
 
     # Configure All Of The Configured Databases
