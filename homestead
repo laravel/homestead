@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+$_ENV['HOME'] = getenv('HOME');
+$_ENV['VAGRANT_DOTFILE_PATH'] = homestead_path().DIRECTORY_SEPARATOR.'.vagrant';
+
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+    require __DIR__.'/vendor/autoload.php';
+} else {
+    require __DIR__.'/../../autoload.php';
+}
+
+function homestead_path()
+{
+    if (isset($_SERVER['HOME'])) {
+        return $_SERVER['HOME'].'/.homestead';
+    } else {
+        return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'].DIRECTORY_SEPARATOR.'.homestead';
+    }
+}
+
+$app = new Symfony\Component\Console\Application('Laravel Homestead', '2.1.8');
+
+$app->add(new Laravel\Homestead\DestroyCommand);
+$app->add(new Laravel\Homestead\EditCommand);
+$app->add(new Laravel\Homestead\HaltCommand);
+$app->add(new Laravel\Homestead\InitCommand);
+$app->add(new Laravel\Homestead\MakeCommand);
+$app->add(new Laravel\Homestead\ProvisionCommand);
+$app->add(new Laravel\Homestead\ResumeCommand);
+$app->add(new Laravel\Homestead\RunCommand);
+$app->add(new Laravel\Homestead\UpCommand);
+$app->add(new Laravel\Homestead\UpdateCommand);
+$app->add(new Laravel\Homestead\SshCommand);
+$app->add(new Laravel\Homestead\SshConfigCommand);
+$app->add(new Laravel\Homestead\StatusCommand);
+$app->add(new Laravel\Homestead\SuspendCommand);
+
+$app->run();
