@@ -1,9 +1,6 @@
 {
     "name": "laravel/homestead",
     "description": "A virtual machine for web artisans.",
-    "require": {
-        //
-    },
     "license": "MIT",
     "authors": [
         {
