@@ -2,9 +2,7 @@
     "name": "laravel/homestead",
     "description": "A virtual machine for web artisans.",
     "require": {
-        "php": ">=5.4",
-        "symfony/console": "~2.0",
-        "symfony/process": "~2.0"
+        //
     },
     "license": "MIT",
     "authors": [
@@ -12,13 +10,5 @@
             "name": "Taylor Otwell",
             "email": "taylorotwell@gmail.com"
         }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Laravel\\Homestead\\": "src/"
-        }
-    },
-    "bin": [
-        "homestead"
     ]
 }
