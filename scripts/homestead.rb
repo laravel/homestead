@@ -112,7 +112,11 @@ class Homestead
             mount_opts = folder["mount_opts"] ? folder["mount_opts"] : ['actimeo=1']
         end
 
-        config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, mount_options: mount_opts
+        if (folder["type"] == "smb")
+          config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, smb_username: folder["smb_username"], smb_password: folder["smb_password"], mount_options: mount_opts
+        else
+          config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, mount_options: mount_opts
+        end
       end
     end
 
