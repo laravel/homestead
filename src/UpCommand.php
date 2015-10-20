@@ -38,7 +38,7 @@ class UpCommand extends Command
             $command .= ' --provision';
         }
 
-        $process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
+        $process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV));
 
         $process->run(function ($type, $line) use ($output) {
             $output->write($line);
