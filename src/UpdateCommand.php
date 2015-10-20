@@ -28,7 +28,7 @@ class UpdateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $process = new Process('vagrant box update', realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
+        $process = new Process('vagrant box update', realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV));
 
         $process->run(function ($type, $line) use ($output) {
             $output->write($line);
