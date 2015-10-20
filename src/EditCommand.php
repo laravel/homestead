@@ -38,7 +38,7 @@ class EditCommand extends Command
             $file = 'aliases';
         }
 
-        $command = $this->executable().' '.homestead_path().'/'.$file;
+        $command = $this->executable(homestead_path().DIRECTORY_SEPARATOR.$file);
 
         $process = new Process($command, realpath(__DIR__.'/../'), array_merge($_SERVER, $_ENV), null, null);
 
@@ -52,14 +52,14 @@ class EditCommand extends Command
      *
      * @return string
      */
-    protected function executable()
+    protected function executable($file)
     {
         if (strpos(strtoupper(PHP_OS), 'WIN') === 0) {
-            return 'start';
+            return 'start '.$file;
         } elseif (strpos(strtoupper(PHP_OS), 'DARWIN') === 0) {
-            return 'open';
+            return 'open '.$file;
         }
 
-        return 'xdg-open';
+        return 'xdg-open '.$file.' >/dev/null';
     }
 }
