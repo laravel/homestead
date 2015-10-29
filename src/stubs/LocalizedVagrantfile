@@ -8,10 +8,15 @@ homesteadYamlPath = "Homestead.yaml"
 homesteadJsonPath = "Homestead.json"
 afterScriptPath = "after.sh"
 aliasesPath = "aliases"
+vagrantPlugins = %w(vagrant-hostsupdater)
 
 require File.expand_path(confDir + '/scripts/homestead.rb')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    vagrantPlugins.each do |plugin|
+        system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+    end
+
     if File.exists? aliasesPath then
         config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
     end
