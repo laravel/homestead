@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir /etc/nginx/ssl 2>/dev/null
-openssl genrsa -out "/etc/nginx/ssl/$1.key" 1024 2>/dev/null
+openssl genrsa -out "/etc/nginx/ssl/$1.key" 2048 2>/dev/null
 openssl req -new -key /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.csr -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
 openssl x509 -req -days 365 -in /etc/nginx/ssl/$1.csr -signkey /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.crt 2>/dev/null
 
