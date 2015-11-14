@@ -16,7 +16,7 @@ class ProvisionCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('provision')->setDescription('Re-provisions the Homestead machine');
+        $this->setName('provision')->setDescription('Run configured provisioners against the running machine');
     }
 
     /**
