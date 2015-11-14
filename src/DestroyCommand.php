@@ -16,7 +16,7 @@ class DestroyCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('destroy')->setDescription('Destroy the Homestead machine');
+        $this->setName('destroy')->setDescription('Destroy the running machine and clean the host computer');
     }
 
     /**
