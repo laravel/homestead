@@ -16,7 +16,7 @@ class HaltCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('halt')->setDescription('Halt the Homestead machine');
+        $this->setName('halt')->setAliases(['down'])->setDescription('Halt the Homestead machine');
     }
 
     /**
