@@ -16,6 +16,7 @@ class Homestead
     config.vm.box = settings["box"] ||= "laravel/homestead"
     config.vm.box_version = settings["version"] ||= ">= 0"
     config.vm.hostname = settings["hostname"] ||= "homestead"
+    config.hostsupdater.aliases = []
 
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
@@ -133,6 +134,8 @@ class Homestead
 
 
     settings["sites"].each do |site|
+      config.hostsupdater.aliases.push(site["map"])
+      
       type = site["type"] ||= "laravel"
 
       if (site.has_key?("hhvm") && site["hhvm"])
