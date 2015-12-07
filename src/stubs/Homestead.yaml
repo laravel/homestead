@@ -20,13 +20,6 @@ sites:
 databases:
     - homestead
 
-variables:
-# Add any environment variables here.
-#    - key: 'APP_ENV'
-#      value: 'local'
-#    - key: 'APP_DEBUG'
-#      value: 'true'
-
 # blackfire:
 #     - id: foo
 #       token: bar
