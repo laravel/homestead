@@ -27,8 +27,8 @@ databases:
 #       client-token: bar
 
 # ports:
-#     - send: 9393
-#       to: 9300
+#     - send: 50000
+#       to: 5000
 #     - send: 7777
 #       to: 777
 #       protocol: udp
