@@ -1,5 +1,4 @@
 ---
-box: laravel/homestead-7
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
