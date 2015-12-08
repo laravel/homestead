@@ -18,6 +18,11 @@
             "Laravel\\Homestead\\": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
+    },
     "bin": [
         "homestead"
     ]
