@@ -2,9 +2,9 @@
     "name": "laravel/homestead",
     "description": "A virtual machine for web artisans.",
     "require": {
-        "php": ">=5.5",
-        "symfony/console": "~2.0|~3.0",
-        "symfony/process": "~2.0|~3.0"
+        "php": ">=5.5.9",
+        "symfony/console": "~2.3|~3.0",
+        "symfony/process": "~2.3|~3.0"
     },
     "license": "MIT",
     "authors": [
