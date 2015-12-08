@@ -27,7 +27,7 @@ databases:
 #       client-token: bar
 
 # ports:
-#     - send: 93000
+#     - send: 9393
 #       to: 9300
 #     - send: 7777
 #       to: 777
