@@ -148,10 +148,15 @@ class Homestead
       end
 
       # Configure The Cron Schedule
-      if (site.has_key?("schedule") && site["schedule"])
+      if (site.has_key?("schedule"))
         config.vm.provision "shell" do |s|
-          s.path = scriptDir + "/cron-schedule.sh"
-          s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+          if (site["schedule"])
+            s.path = scriptDir + "/cron-schedule.sh"
+            s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+          else
+            s.inline = "rm -f /etc/cron.d/$1"
+            s.args = [site["map"].tr('^A-Za-z0-9', '')]
+          end
         end
       end
 
