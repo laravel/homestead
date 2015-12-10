@@ -44,10 +44,12 @@ class MakeCommand extends Command
         $this
             ->setName('make')
             ->setDescription('Install Homestead into the current project')
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name the virtual machine.', $this->defaultName)
-            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname the virtual machine.', $this->defaultName)
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultName)
+            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultName)
+            ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The ip address of the virtual machine.')
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
-            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.');
+            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
+            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.');
     }
 
     /**
@@ -63,7 +65,7 @@ class MakeCommand extends Command
             copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
         }
 
-        if (! file_exists($this->basePath.'/Homestead.yaml')) {
+        if (! file_exists($this->basePath.'/Homestead.yaml') && ! file_exists($this->basePath.'/Homestead.yaml.example')) {
             copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
 
             if ($input->getOption('name')) {
@@ -73,6 +75,12 @@ class MakeCommand extends Command
             if ($input->getOption('hostname')) {
                 $this->updateHostName($input->getOption('hostname'));
             }
+
+            if ($input->getOption('ip')) {
+                $this->updateIpAddress($input->getOption('ip'));
+            }
+        } elseif (! file_exists($this->basePath.'/Homestead.yaml')) {
+            copy($this->basePath.'/Homestead.yaml.example', $this->basePath.'/Homestead.yaml');
         }
 
         if ($input->getOption('after')) {
@@ -84,6 +92,12 @@ class MakeCommand extends Command
         if ($input->getOption('aliases')) {
             if (! file_exists($this->basePath.'/aliases')) {
                 copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
+            }
+        }
+
+        if ($input->getOption('example')) {
+            if (! file_exists($this->basePath.'/Homestead.yaml.example')) {
+                copy($this->basePath.'/Homestead.yaml', $this->basePath.'/Homestead.yaml.example');
             }
         }
 
@@ -140,6 +154,19 @@ class MakeCommand extends Command
     {
         file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
             'cpus: 1', 'cpus: 1'.PHP_EOL.'hostname: '.$hostname, $this->getHomesteadFile()
+        ));
+    }
+
+    /**
+     * Set the virtual machine's ip address setting in the Homestead.yaml file.
+     *
+     * @param  string  $ip
+     * @return void
+     */
+    protected function updateIpAddress($ip)
+    {
+        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
+            'ip: "192.168.10.10"', 'ip: "'.$ip.'"', $this->getHomesteadFile()
         ));
     }
 
