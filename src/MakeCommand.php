@@ -46,7 +46,7 @@ class MakeCommand extends Command
             ->setDescription('Install Homestead into the current project')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultName)
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultName)
-            ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The ip address of the virtual machine.')
+            ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
             ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.');
@@ -158,7 +158,7 @@ class MakeCommand extends Command
     }
 
     /**
-     * Set the virtual machine's ip address setting in the Homestead.yaml file.
+     * Set the virtual machine's IP address setting in the Homestead.yaml file.
      *
      * @param  string  $ip
      * @return void
