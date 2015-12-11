@@ -50,7 +50,6 @@ class Homestead
     # Configure A Few Parallels Settings
     config.vm.provider "parallels" do |v|
       v.update_guest_tools = true
-      v.optimize_power_consumption = false
       v.memory = settings["memory"] ||= 2048
       v.cpus = settings["cpus"] ||= 1
     end
@@ -149,10 +148,15 @@ class Homestead
       end
 
       # Configure The Cron Schedule
-      if (site.has_key?("schedule") && site["schedule"])
+      if (site.has_key?("schedule"))
         config.vm.provision "shell" do |s|
-          s.path = scriptDir + "/cron-schedule.sh"
-          s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+          if (site["schedule"])
+            s.path = scriptDir + "/cron-schedule.sh"
+            s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+          else
+            s.inline = "rm -f /etc/cron.d/$1"
+            s.args = [site["map"].tr('^A-Za-z0-9', '')]
+          end
         end
       end
 
