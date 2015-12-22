@@ -35,6 +35,15 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+
+      # Use linked clone if possible
+      if (settings.has_key?("linked_clone") && settings["linked_clone"])
+        require 'vagrant/version'
+        # The feature only available on Vagrant 1.8 and later
+        if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
+          vb.linked_clone = true
+        end
+      end
     end
 
     # Configure A Few VMware Settings
