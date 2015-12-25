@@ -27,6 +27,9 @@ class Homestead
       end
     end
 
+    # Vagrant CLI name (multi-machine)
+    config.vm.define settings["name"] || "homestead-7"
+
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
       vb.name = settings["name"] ||= "homestead-7"
