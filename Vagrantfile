@@ -3,9 +3,9 @@ require "yaml"
 VAGRANT_VERSION = 2
 CONF_DIR = $CONF_DIR ||= File.expand_path("~/.homestead")
 
+aliasesPath = CONF_DIR + "/aliases"
 homesteadYamlPath = CONF_DIR + "/Homestead.yaml"
 afterScriptPath = CONF_DIR + "/after.sh"
-aliasesPath = CONF_DIR + "/aliases"
 
 require File.expand_path(File.dirname(__FILE__) + "/scripts/homestead.rb")
 
