@@ -1,7 +1,7 @@
 require "yaml"
 
 VAGRANT_VERSION = 2
-CONF_DIR = $CONF_DIR ||= File.expand_path("~/.homestead")
+CONF_DIR = $confDir ||= File.expand_path("~/.homestead")
 
 aliasesPath = CONF_DIR + "/aliases"
 homesteadYamlPath = CONF_DIR + "/Homestead.yaml"
