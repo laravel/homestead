@@ -117,6 +117,11 @@ class MakeCommand extends Command
             '- map: ~/Code', '- map: "'.str_replace('\\', '/', $this->basePath).'"', $this->getHomesteadFile()
         );
 
+        // Change homestead.app domain from $this->defaultName
+        $yaml = str_replace(
+            '- map: homestead.app', '- map: '.$this->defaultName . '.app', $yaml
+        );
+        
         $yaml = str_replace(
             'to: /home/vagrant/Code', 'to: "/home/vagrant/'.$this->defaultName.'"', $yaml
         );
