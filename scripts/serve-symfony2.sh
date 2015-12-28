@@ -18,6 +18,10 @@ block="server {
     location / {
         try_files \$uri \$uri/ /app_dev.php?\$query_string;
     }
+    
+    if (!-d $request_filename) {
+        rewrite ^/(.*)/$ /$1 permanent;
+    }
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
