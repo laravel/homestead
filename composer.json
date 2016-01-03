@@ -20,7 +20,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-php-7": "3.0-dev"
+            "dev-master": "4.0-dev"
         }
     },
     "bin": [
