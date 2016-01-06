@@ -4,9 +4,9 @@ set homesteadRoot=%HOMEDRIVE%%HOMEPATH%\.homestead
 
 mkdir "%homesteadRoot%"
 
-copy src\stubs\Homestead.yaml "%homesteadRoot%\Homestead.yaml"
-copy src\stubs\after.sh "%homesteadRoot%\after.sh"
-copy src\stubs\aliases "%homesteadRoot%\aliases"
+copy /-y src\stubs\Homestead.yaml "%homesteadRoot%\Homestead.yaml"
+copy /-y src\stubs\after.sh "%homesteadRoot%\after.sh"
+copy /-y src\stubs\aliases "%homesteadRoot%\aliases"
 
 set homesteadRoot=
-echo "Homestead initialized!"
+echo Homestead initialized!
