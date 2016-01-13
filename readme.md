@@ -8,6 +8,7 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 ### 2016-01-13 -- added Apache support via Homestead configuration
 
-Enable Apache2 by setting `src:Apache2` in `~/.homestead/Homestead.yaml`  
+Enable Apache2 by setting `use_apache:1` in `~/.homestead/Homestead.yaml`  
+
 This will stop NginX, install Apache and configure the virtualhosts  
-Just have to configure your local `/etc/hosts` file 
+You just have to configure your local `/etc/hosts` file as you would for NginX
