@@ -139,6 +139,10 @@ class Homestead
 
     if (use_apache == 1)
         config.vm.provision "shell" do |s|
+          s.path = scriptDir + "/apache_clear.sh"
+        end
+
+        config.vm.provision "shell" do |s|
           s.path = scriptDir + "/apache_install.sh"
         end
     end
