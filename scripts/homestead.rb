@@ -132,6 +132,21 @@ class Homestead
         s.path = scriptDir + "/clear-nginx.sh"
     end
 
+    use_apache = settings["use_apache"] ||= 0
+    if (use_apache != 1)
+      use_apache = 0
+    end
+
+    if (use_apache == 1)
+        config.vm.provision "shell" do |s|
+          s.path = scriptDir + "/apache_clear.sh"
+        end
+
+        config.vm.provision "shell" do |s|
+          s.path = scriptDir + "/apache_install.sh"
+        end
+    end
+
 
     settings["sites"].each do |site|
       type = site["type"] ||= "laravel"
@@ -144,9 +159,18 @@ class Homestead
         type = "symfony2"
       end
 
-      config.vm.provision "shell" do |s|
-        s.path = scriptDir + "/serve-#{type}.sh"
-        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+      if (use_apache == 1)
+        # configure the apache2 hosts
+        config.vm.provision "shell" do |s|
+            s.path = scriptDir + "/apache_hosts.sh"
+            s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+        end
+
+      else
+        config.vm.provision "shell" do |s|
+          s.path = scriptDir + "/serve-#{type}.sh"
+          s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+        end
       end
 
       # Configure The Cron Schedule
