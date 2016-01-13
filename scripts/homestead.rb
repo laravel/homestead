@@ -132,7 +132,12 @@ class Homestead
         s.path = scriptDir + "/clear-nginx.sh"
     end
 
-    if (settings["srv"] == "apache2")
+    use_apache = settings["use_apache"] ||= 0
+    if (use_apache != 1)
+      use_apache = 0
+    end
+
+    if (use_apache == 1)
         config.vm.provision "shell" do |s|
           s.path = scriptDir + "/apache_install.sh"
         end
@@ -150,7 +155,7 @@ class Homestead
         type = "symfony2"
       end
 
-      if (settings["srv"] == "apache2")
+      if (use_apache == 1)
         # configure the apache2 hosts
         config.vm.provision "shell" do |s|
             s.path = scriptDir + "/apache_hosts.sh"
