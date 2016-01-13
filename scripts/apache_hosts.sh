@@ -2,7 +2,7 @@
 
 echo "127.0.0.1		$1		$1.localhost" >> /etc/hosts
 
-PATH_SSL="/etc/nginx/ssl"
+PATH_SSL="/etc/apache2/ssl"
 PATH_KEY="${PATH_SSL}/${1}.key"
 PATH_CSR="${PATH_SSL}/${1}.csr"
 PATH_CRT="${PATH_SSL}/${1}.crt"
