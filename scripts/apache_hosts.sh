@@ -7,6 +7,11 @@ PATH_KEY="${PATH_SSL}/${1}.key"
 PATH_CSR="${PATH_SSL}/${1}.csr"
 PATH_CRT="${PATH_SSL}/${1}.crt"
 
+if [ ! -f $PATH_SSL ]
+then
+	mkdir $PATH_SSL
+fi
+
 if [ ! -f $PATH_KEY ] || [ ! -f $PATH_CSR ] || [ ! -f $PATH_CRT ]
 then
   openssl genrsa -out "$PATH_KEY" 2048 2>/dev/null
