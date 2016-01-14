@@ -12,13 +12,63 @@ provider: virtualbox
 folders:
     - map: ../project
       to: /home/vagrant/project
+    - map: ../charlie
+      to: /home/vagrant/charlie
+    - map: ../travel
+      to: /home/vagrant/travel
+    - map: ../artists
+      to: /home/vagrant/artists
+    - map: ../clyde
+      to: /home/vagrant/clyde
+    - map: ../richard
+      to: /home/vagrant/richard
+    - map: ../chico
+      to: /home/vagrant/chico
+    - map: ../cabin
+      to: /home/vagrant/cabin
+    - map: ../sam
+      to: /home/vagrant/sam
+    - map: ../darla
+      to: /home/vagrant/darla
+    - map: ../carla
+      to: /home/vagrant/carla
 
 sites:
     - map: project.app
       to: /home/vagrant/project/public
+    - map: charlie.app
+      to: /home/vagrant/charlie/public
+    - map: travel.app
+      to: /home/vagrant/travel/public
+    - map: artists.app
+      to: /home/vagrant/artists/public
+    - map: clyde.app
+      to: /home/vagrant/clyde/public
+    - map: richard.app
+      to: /home/vagrant/richard/public
+    - map: chico.app
+      to: /home/vagrant/chico/public
+    - map: cabin.app
+      to: /home/vagrant/cabin/public
+    - map: sam.app
+      to: /home/vagrant/sam/public
+    - map: darla.app
+      to: /home/vagrant/darla/public
+    - map: carla.app
+      to: /home/vagrant/carla/public
 
 databases:
     - project
+    - charlie
+    - travel
+    - artists
+    - clyde
+    - richard
+    - chico
+    - cabin
+    - sam
+    - darla
+    - carla
 
 # blackfire:
 #     - id: foo
