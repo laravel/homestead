@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TEMP_DIR="~/temp"
+TEMP_DIR="/home/vagrant/temp"
 XDEBUG_LINK="http://xdebug.org/files/xdebug-2.4.0rc3.tgz"
 XDEBUG_VERSION="xdebug-2.4.0RC3"
 XDEBUG_LOAD_LINE="[xdebug]
@@ -27,5 +27,7 @@ sudo cp modules/xdebug.so /usr/lib/php/20151012
 sudo touch $XDEBUG_INI_PATH
 sudo echo "$XDEBUG_LOAD_LINE" > "$XDEBUG_INI_PATH"
 
-service nginx restart
-service php7.0-fpm restart
+sudo service nginx restart
+sudo service php7.0-fpm restart
+
+sudo rm -rf $TEMP_DIR
