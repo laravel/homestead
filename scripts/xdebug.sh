@@ -18,7 +18,7 @@ XDEBUG_INI_PATH="/etc/php/7.0/fpm/conf.d/20-xdebug.ini"
 mkdir $TEMP_DIR
 wget $XDEBUG_LINK -O $TEMP_DIR"/xdebug.tgz" -q
 cd $TEMP_DIR
-tar -xzf xdebug.tgz --silent
+tar -xzf xdebug.tgz
 cd $XDEBUG_VERSION
 phpize --silent
 ./configure --silent
