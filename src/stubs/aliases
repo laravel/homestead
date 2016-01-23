@@ -33,14 +33,14 @@ function serve-hhvm() {
     fi
 }
 
-function serve-symfony2() {
+function serve-symfony() {
     if [[ "$1" && "$2" ]]
     then
-        sudo dos2unix /vagrant/scripts/serve-symfony2.sh
-        sudo bash /vagrant/scripts/serve-symfony2.sh "$1" "$2" 80
+        sudo dos2unix /vagrant/scripts/serve-symfony.sh
+        sudo bash /vagrant/scripts/serve-symfony.sh "$1" "$2" 80
     else
         echo "Error: missing required parameters."
         echo "Usage: "
-        echo "  serve-symfony2 domain path"
+        echo "  serve-symfony domain path"
     fi
 }
