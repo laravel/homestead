@@ -16,13 +16,13 @@ xdebug.show_local_vars=1
 XDEBUG_INI_PATH="/etc/php/7.0/fpm/conf.d/20-xdebug.ini"
 
 mkdir $TEMP_DIR
-wget $XDEBUG_LINK -O $TEMP_DIR"/xdebug.tgz"
+wget $XDEBUG_LINK -O $TEMP_DIR"/xdebug.tgz" -q
 cd $TEMP_DIR
-tar -xvzf xdebug.tgz
+tar -xzf xdebug.tgz --silent
 cd $XDEBUG_VERSION
-phpize
-./configure
-make
+phpize --silent
+./configure --silent
+make --silent
 sudo cp modules/xdebug.so /usr/lib/php/20151012
 sudo touch $XDEBUG_INI_PATH
 sudo echo "$XDEBUG_LOAD_LINE" > "$XDEBUG_INI_PATH"
