@@ -222,7 +222,8 @@ class Homestead
 
     if settings.has_key?("xdebug")
     	config.vm.provision "shell" do |s|
-        s.path = scriptDir + "/xdebug.sh"
+    	if (settings["xdebug"])
+            s.path = scriptDir + "/xdebug.sh"
       end
     end
   end
