@@ -140,8 +140,8 @@ class Homestead
         type = "hhvm"
       end
 
-      if (type == "symfony")
-        type = "symfony2"
+      if (type == "symfony2")
+        type = "symfony"
       end
 
       config.vm.provision "shell" do |s|
