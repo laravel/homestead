@@ -140,7 +140,7 @@ class Homestead
         type = "hhvm"
       end
 
-      if (type == "symfony")
+      if (type == "symfony2")
         type = "symfony"
       end
 
