@@ -32,6 +32,8 @@ folders:
       to: /home/vagrant/darla
     - map: ../carla
       to: /home/vagrant/carla
+    - map: ../resorts
+      to: /home/vagrant/resorts
 
 sites:
     - map: project.app
@@ -56,6 +58,8 @@ sites:
       to: /home/vagrant/darla/public
     - map: carla.app
       to: /home/vagrant/carla/public
+    - map: resorts.app
+      to: /home/vagrant/resorts/public
 
 databases:
     - project
@@ -69,6 +73,7 @@ databases:
     - sam
     - darla
     - carla
+    - resorts
 
 # blackfire:
 #     - id: foo
