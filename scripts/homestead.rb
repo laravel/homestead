@@ -96,8 +96,7 @@ class Homestead
         end
       end
     end
-
-    # Copy The SSH Private Keys To The Box
+# Copy The SSH Private Keys To The Box
     if settings.include? 'keys'
       settings["keys"].each do |key|
         config.vm.provision "shell" do |s|
@@ -135,6 +134,9 @@ class Homestead
 
     settings["sites"].each do |site|
       type = site["type"] ||= "laravel"
+ 
+      # If informed, will use a custom config file for the serve script.
+      custom_conf = site["custom_conf"] || scriptDir
 
       if (site.has_key?("hhvm") && site["hhvm"])
         type = "hhvm"
