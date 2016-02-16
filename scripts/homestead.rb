@@ -164,6 +164,14 @@ class Homestead
 
     end
 
+    # Install MariaDB If Necessary
+    if settings.has_key?("mariadb") && settings["mariadb"]
+      config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/install-maria.sh"
+      end
+    end
+
+
     # Configure All Of The Configured Databases
     if settings.has_key?("databases")
         settings["databases"].each do |db|
