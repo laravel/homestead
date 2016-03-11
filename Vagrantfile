@@ -2,7 +2,9 @@ require 'json'
 require 'yaml'
 
 VAGRANTFILE_API_VERSION = "2"
-confDir = $confDir ||= File.expand_path("~/.homestead")
+
+# https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables
+confDir = $confDir ||= ((ENV['XDG_CONFIG_HOME'] || File.expand_path('~/.config')) + '/homestead')
 
 homesteadYamlPath = confDir + "/Homestead.yaml"
 homesteadJsonPath = confDir + "/Homestead.json"

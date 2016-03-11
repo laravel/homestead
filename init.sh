@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-homesteadRoot=~/.homestead
+# https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables
+homesteadRoot="${XDG_CONFIG_HOME:-$HOME/.config}/homestead"
 
 mkdir -p "$homesteadRoot"
 
