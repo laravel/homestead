@@ -145,35 +145,37 @@ class Homestead
     end
 
 
-    settings["sites"].each do |site|
-      type = site["type"] ||= "laravel"
-
-      if (site.has_key?("hhvm") && site["hhvm"])
-        type = "hhvm"
-      end
-
-      if (type == "symfony")
-        type = "symfony2"
-      end
-
-      config.vm.provision "shell" do |s|
-        s.path = scriptDir + "/serve-#{type}.sh"
-        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
-      end
-
-      # Configure The Cron Schedule
-      if (site.has_key?("schedule"))
+    if settings.include? 'sites'
+      settings["sites"].each do |site|
+        type = site["type"] ||= "laravel"
+  
+        if (site.has_key?("hhvm") && site["hhvm"])
+          type = "hhvm"
+        end
+  
+        if (type == "symfony")
+          type = "symfony2"
+        end
+  
         config.vm.provision "shell" do |s|
-          if (site["schedule"])
-            s.path = scriptDir + "/cron-schedule.sh"
-            s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
-          else
-            s.inline = "rm -f /etc/cron.d/$1"
-            s.args = [site["map"].tr('^A-Za-z0-9', '')]
+          s.path = scriptDir + "/serve-#{type}.sh"
+          s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+        end
+  
+        # Configure The Cron Schedule
+        if (site.has_key?("schedule"))
+          config.vm.provision "shell" do |s|
+            if (site["schedule"])
+              s.path = scriptDir + "/cron-schedule.sh"
+              s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+            else
+              s.inline = "rm -f /etc/cron.d/$1"
+              s.args = [site["map"].tr('^A-Za-z0-9', '')]
+            end
           end
         end
+  
       end
-
     end
 
     # Install MariaDB If Necessary
