@@ -29,6 +29,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     if defined? VagrantPlugins::HostsUpdater
-		config.hostsupdater.aliases = settings['sites'].map { |site| site['map'] }
-	end
+        config.hostsupdater.aliases = settings['sites'].map { |site| site['map'] }
+    end
 end
