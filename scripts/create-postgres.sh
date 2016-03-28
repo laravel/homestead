@@ -2,4 +2,7 @@
 
 DB=$1;
 # su postgres -c "dropdb $DB --if-exists"
-su postgres -c "createdb -O homestead '$DB' || true"
+
+if ! su postgres -c "psql $DB -c '\q' 2>/dev/null"; then
+    su postgres -c "createdb -O homestead '$DB'"
+fi
