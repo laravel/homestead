@@ -26,6 +26,8 @@ databases:
 #       client-id: foo
 #       client-token: bar
 
+# default_ports: true
+
 # ports:
 #     - send: 50000
 #       to: 5000
