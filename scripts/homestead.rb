@@ -40,7 +40,7 @@ class Homestead
     # Configure A Few VMware Settings
     ["vmware_fusion", "vmware_workstation"].each do |vmware|
       config.vm.provider vmware do |v|
-        v.vmx["displayName"] = "homestead"
+        v.vmx["displayName"] = settings["name"] ||= "homestead-7"
         v.vmx["memsize"] = settings["memory"] ||= 2048
         v.vmx["numvcpus"] = settings["cpus"] ||= 1
         v.vmx["guestOS"] = "ubuntu-64"
@@ -74,9 +74,11 @@ class Homestead
     }
 
     # Use Default Port Forwarding Unless Overridden
-    default_ports.each do |guest, host|
-      unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
-        config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
+    unless settings.has_key?("default_ports") && settings["default_ports"] == false
+      default_ports.each do |guest, host|
+        unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
+          config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
+        end
       end
     end
 
@@ -148,20 +150,20 @@ class Homestead
     if settings.include? 'sites'
       settings["sites"].each do |site|
         type = site["type"] ||= "laravel"
-  
+
         if (site.has_key?("hhvm") && site["hhvm"])
           type = "hhvm"
         end
-  
+
         if (type == "symfony")
           type = "symfony2"
         end
-  
+
         config.vm.provision "shell" do |s|
           s.path = scriptDir + "/serve-#{type}.sh"
           s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
         end
-  
+
         # Configure The Cron Schedule
         if (site.has_key?("schedule"))
           config.vm.provision "shell" do |s|
@@ -174,7 +176,7 @@ class Homestead
             end
           end
         end
-  
+
       end
     end
 
