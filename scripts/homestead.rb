@@ -138,6 +138,11 @@ class Homestead
         options.keys.each{|k| options[k.to_sym] = options.delete(k) }
 
         config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, **options
+
+        # bindfs support to fix shared folder (when nfs enabled) permission issue on mac osx
+        if Vagrant.has_plugin?("vagrant-bindfs")
+          config.bindfs.bind_folder folder["to"], folder["to"]
+        end
       end
     end
 
