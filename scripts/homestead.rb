@@ -139,7 +139,7 @@ class Homestead
 
         config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, **options
 
-        # bindfs support to fix shared folder (when nfs enabled) permission issue on mac osx
+        # Bindfs support to fix shared folder (NFS) permission issue on Mac
         if Vagrant.has_plugin?("vagrant-bindfs")
           config.bindfs.bind_folder folder["to"], folder["to"]
         end
