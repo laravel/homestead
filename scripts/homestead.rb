@@ -160,6 +160,7 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
+          s.name = "Creating Site: " + site["map"]
           s.path = scriptDir + "/serve-#{type}.sh"
           s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
         end
@@ -167,6 +168,8 @@ class Homestead
         # Configure The Cron Schedule
         if (site.has_key?("schedule"))
           config.vm.provision "shell" do |s|
+            s.name = "Creating Schedule"
+
             if (site["schedule"])
               s.path = scriptDir + "/cron-schedule.sh"
               s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
@@ -178,6 +181,11 @@ class Homestead
         end
 
       end
+    end
+
+    config.vm.provision "shell" do |s|
+      s.name = "Restarting Nginx"
+      s.inline = "sudo service nginx restart; sudo service php7.0-fpm restart"
     end
 
     # Install MariaDB If Necessary
@@ -192,11 +200,13 @@ class Homestead
     if settings.has_key?("databases")
         settings["databases"].each do |db|
           config.vm.provision "shell" do |s|
+            s.name = "Creating MySQL Database"
             s.path = scriptDir + "/create-mysql.sh"
             s.args = [db]
           end
 
           config.vm.provision "shell" do |s|
+            s.name = "Creating Postgres Database"
             s.path = scriptDir + "/create-postgres.sh"
             s.args = [db]
           end
@@ -205,6 +215,7 @@ class Homestead
 
     # Configure All Of The Server Environment Variables
     config.vm.provision "shell" do |s|
+        s.name = "Clear Variables"
         s.path = scriptDir + "/clear-variables.sh"
     end
 
