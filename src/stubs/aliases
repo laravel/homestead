@@ -3,7 +3,7 @@ alias ...="cd ../.."
 
 alias h='cd ~'
 alias c='clear'
-alias artisan='php artisan'
+alias art=artisan
 
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
@@ -43,4 +43,8 @@ function serve-proxy() {
         echo "Usage: "
         echo "  serve-proxy domain port"
     fi
+}
+
+function artisan() {
+    php artisan "$@"
 }
