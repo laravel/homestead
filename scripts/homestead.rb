@@ -136,7 +136,7 @@ class Homestead
 
       config.vm.provision "shell" do |s|
         s.path = scriptDir + "/serve-#{type}.sh"
-        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+        s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["server_name"] ||= site["map"]]
       end
 
       # Configure The Cron Schedule
