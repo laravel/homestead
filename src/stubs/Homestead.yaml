@@ -9,6 +9,8 @@ authorize: ~/.ssh/id_rsa.pub
 keys:
     - ~/.ssh/id_rsa
 
+aliases: ["homestead.app"]
+
 folders:
     - map: ~/Code
       to: /home/vagrant/Code
