@@ -16,7 +16,10 @@ class Homestead
     config.vm.box = settings["box"] ||= "laravel/homestead"
     config.vm.box_version = settings["version"] ||= ">= 0.4.0"
     config.vm.hostname = settings["hostname"] ||= "homestead"
-
+    
+    # Using https://github.com/cogitatio/vagrant-hostsupdater Alias are done automatically for you
+    config.hostsupdater.aliases = settings["aliases"]
+    
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
 
