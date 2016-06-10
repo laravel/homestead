@@ -184,7 +184,10 @@ class Homestead
             end
           end
         end
+      end
 
+      if Vagrant.has_plugin?("vagrant-hostsupdater")
+        config.hostsupdater.aliases = settings["sites"].map { |site| site["map"] }
       end
     end
 
