@@ -81,6 +81,10 @@ class MakeCommand extends Command
             }
         } elseif (! file_exists($this->basePath.'/Homestead.yaml')) {
             copy($this->basePath.'/Homestead.yaml.example', $this->basePath.'/Homestead.yaml');
+
+            if ($input->getOption('ip')) {
+                $this->updateIpAddress($input->getOption('ip'));
+            }
         }
 
         if ($input->getOption('after')) {
