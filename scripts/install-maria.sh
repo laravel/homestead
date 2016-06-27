@@ -33,7 +33,7 @@ debconf-set-selections <<< "mariadb-server-10.1 mysql-server/data-dir select ''"
 debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password password secret"
 debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password_again password secret"
 
-# Install MySQL
+# Install MariaDB
 
 apt-get install -y mariadb-server
 
