@@ -8,14 +8,13 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 ### Post-provision shell script
 
-The `/src/stubs/after.sh` has been modified to switch environment to PHP 5.5. This file is placed in `~/.homestead/` when you run `vagrant up --provision` and it executes after homestead has finished it regularly provisioning tasks.
+The `/src/stubs/after.sh` has been modified to switch environment to PHP 5.5. This file is copied to `~/.homestead/` when you run `bash init.sh` and executes when you `vagrant up --provision`.
 
 ---
 
-Changes in after.sh
+#### Changes in `after.sh`:
 
 * Switch environment from PHP 7.0 to PHP 5.5 (when production has been updated, we can switch this back)
-
 
 ### Abbreviated first-time setup for `local.portal.shineon.com`
 
@@ -85,3 +84,7 @@ Ask one of your peers to share this file with you.
 1. Username: homestead
 1. Password: secret
 1. Database: shineon
+
+#### Test Vagrant
+
+`vagrant ssh`
