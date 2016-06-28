@@ -10,15 +10,16 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
+    - map: ~/portal.shineon.com
+      to: /home/vagrant/portal.shineon.com
+      type: "nfs"
 
 sites:
-    - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
+    - map: local.portal.shineon.com
+      to: /home/vagrant/portal.shineon.com/public
 
 databases:
-    - homestead
+    - shineon
 
 # blackfire:
 #     - id: foo
