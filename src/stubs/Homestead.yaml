@@ -2,6 +2,7 @@
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
+
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -10,25 +11,22 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
+    - map: ~/Desktop/Repos
+      to: /home/vagrant/git
 
 sites:
-    - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
+    - map: api.geckoform.app
+      to: /home/vagrant/git/gecko-api/public
+    - map: geckoform.app
+      to: /home/vagrant/git/gecko-web/
+    - map: public.geckoform.app
+      to: /home/vagrant/git/gecko-Public/public/
+    - map: lp-eu.geckoform.app
+      to: /home/vagrant/git/gecko-Public/public/
 
 databases:
     - homestead
 
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar
-
-# ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+variables:
+    - key: APP_ENV
+      value: local

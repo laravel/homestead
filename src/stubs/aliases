@@ -1,13 +1,16 @@
 alias ..="cd .."
 alias ...="cd ../.."
-
 alias h='cd ~'
 alias c='clear'
-alias art=artisan
-
+alias art='php artisan'
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
+alias api='cd ~/git/Gecko-API'
+alias web='cd ~/git/Gecko-WEB'
+alias ll='ls -la'
 alias serve=serve-laravel
+alias tail_l='tail -f -n200 /home/vagrant/git/Gecko-api/storage/logs/laravel.log'
+alias queue='/home/vagrant/git/Gecko-API/scripts/queue.sh'
 
 function serve-laravel() {
     if [[ "$1" && "$2" ]]
