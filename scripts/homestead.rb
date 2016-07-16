@@ -14,7 +14,7 @@ class Homestead
 
     # Configure The Box
     config.vm.box = settings["box"] ||= "laravel/homestead"
-    config.vm.box_version = settings["version"] ||= ">= 0.4.0"
+    config.vm.box_version = settings["version"] ||= ">= 0.5.0"
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
@@ -164,10 +164,21 @@ class Homestead
           type = "symfony2"
         end
 
+        http2 = (site.has_key?("http2") && site["http2"]) ? 1 : 0
+
+        httpsOnly = (site.has_key?("httpsOnly") && site["httpsOnly"]) ? 1 : 0
+
         config.vm.provision "shell" do |s|
           s.name = "Creating Site: " + site["map"]
           s.path = scriptDir + "/serve-#{type}.sh"
-          s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+          s.args = [
+            site["map"],
+            site["to"],
+            site["port"] ||= "80",
+            site["ssl"] ||= "443",
+            http2,
+            httpsOnly
+          ]
         end
 
         # Configure The Cron Schedule

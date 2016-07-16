@@ -5,9 +5,41 @@ openssl genrsa -out "/etc/nginx/ssl/$1.key" 2048 2>/dev/null
 openssl req -new -key /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.csr -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
 openssl x509 -req -days 365 -in /etc/nginx/ssl/$1.csr -signkey /etc/nginx/ssl/$1.key -out /etc/nginx/ssl/$1.crt 2>/dev/null
 
-block="server {
+block=""
+
+# Redirect all http requests to https if the httpsOnly flag is true
+if [[ $6 > 0 ]]
+then
+  block="server {
     listen ${3:-80};
-    listen ${4:-443} ssl;
+    server_name $1;
+    return 301 https://\$server_name\$request_uri;
+}
+
+"
+fi
+
+block="${block}server {
+"
+
+# Listen to http if httpsOnly flag is false
+if [[ $6 < 1 ]]
+then
+  block="${block}    listen ${3:-80};
+"
+fi
+
+# Enable http2
+if [[ $5 > 0 ]]
+then
+  block="${block}    listen ${4:-443} ssl http2;
+"
+else
+  block="${block}    listen ${4:-443} ssl;
+"
+fi
+
+block="${block}
     server_name $1;
     root \"$2\";
 
