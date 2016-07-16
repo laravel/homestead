@@ -14,8 +14,30 @@ then
   openssl x509 -req -days 365 -in "$PATH_CSR" -signkey "$PATH_KEY" -out "$PATH_CRT" 2>/dev/null
 fi
 
-block="server {
+block=""
+
+# Redirect all http requests to https if the httpsOnly flag is true
+if [ $6 > 0 ]
+then
+  block="server {
     listen ${3:-80};
+    server_name $1;
+    return 301 https://\$server_name\$request_uri;
+}
+
+"
+fi
+
+block="${block}server {"
+
+# Listen to http only if httpsOnly flag is false
+if [ $6 == 0 ]
+then
+  block="    listen ${3:-80};
+"
+fi
+
+block="${block}
     listen ${4:-443} ssl;
     server_name $1;
     root \"$2\";
