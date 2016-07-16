@@ -17,7 +17,7 @@ fi
 block=""
 
 # Redirect all http requests to https if the httpsOnly flag is true
-if [ $6 > 0 ]
+if [[ $6 > 0 ]]
 then
   block="server {
     listen ${3:-80};
@@ -28,17 +28,27 @@ then
 "
 fi
 
-block="${block}server {"
+block="${block}server {
+"
 
-# Listen to http only if httpsOnly flag is false
-if [ $6 == 0 ]
+# Listen to http if httpsOnly flag is false
+if [[ $6 < 1 ]]
 then
-  block="    listen ${3:-80};
+  block="${block}    listen ${3:-80};
+"
+fi
+
+# Enable http2
+if [[ $5 > 0 ]]
+then
+  block="${block}    listen ${4:-443} ssl http2;
+"
+else
+  block="${block}    listen ${4:-443} ssl;
 "
 fi
 
 block="${block}
-    listen ${4:-443} ssl;
     server_name $1;
     root \"$2\";
 
