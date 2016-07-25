@@ -45,6 +45,18 @@ function serve-proxy() {
     fi
 }
 
+function serve-apache() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /vagrant/scripts/serve-apache.sh
+        sudo bash /vagrant/scripts/serve-apache.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-apache domain path"
+    fi
+}
+
 function artisan() {
     php artisan "$@"
 }
