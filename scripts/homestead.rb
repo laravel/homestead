@@ -88,6 +88,16 @@ class Homestead
         config.vm.network "forwarded_port", guest: port["guest"], host: port["host"], protocol: port["protocol"], auto_correct: true
       end
     end
+    
+    # Run Custom Commands After Booting Up
+    if settings.include? 'commands'
+      settings["commands"].each do |command|
+        config.vm.provision "shell",:run => 'always' do |s|
+          s.name = command["name"]
+          s.inline = command["command"]
+        end
+      end
+    end
 
     # Configure The Public Key For SSH Access
     if settings.include? 'authorize'
