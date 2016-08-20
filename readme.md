@@ -12,9 +12,14 @@ The `/src/stubs/after.sh` has been modified to switch environment to PHP 5.5. Th
 
 ---
 
-#### Changes in `after.sh`:
+#### *ShineOn* Changes in `after.sh`:
 
 * Switch environment from PHP 7.0 to PHP 5.5 (when production has been updated, we can switch this back)
+* ~~Load balancer setup similar to production~~
+* ~~Https setup similar to production~~
+* Dump autoload file for composer
+* Run migrations
+* NPM install
 
 ### Abbreviated first-time setup for `local.portal.shineon.com`
 
@@ -52,11 +57,15 @@ npm install --global gulp-cli
 
 #### Pull down the ShineOn Homestead repo.
 
-1. `git clone https://github.com/ShineOnCom/homestead.git ~/ShineOnHomestead`
+1. `git clone https://github.com/ShineOnCom/homestead.git ~/ShineOnHomestead`l
 1. `cd ~/ShineOnHomestead`
 1. `bash init.sh`
 1. Note: if you need to tweak your environment. There will now be files in `~/.homestead`. Just be aware whatever you change has to play nice with the `after.sh` script.
 1. `vagrant up --provision`
+1. `vagrant ssh`
+1. `cd ~/portal.shineon.com`
+1. `php artisan migrate`
+1. `npm install`
 
 #### Update your hosts file
 
