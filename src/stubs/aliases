@@ -11,6 +11,7 @@ alias ll='ls -la'
 alias serve=serve-laravel
 alias tail_l='tail -f -n200 /home/vagrant/git/Gecko-api/storage/logs/laravel.log'
 alias queue='/home/vagrant/git/Gecko-API/scripts/queue.sh'
+alias fix-time='sudo ntpdate uk.pool.ntp.org'
 
 function serve-laravel() {
     if [[ "$1" && "$2" ]]
