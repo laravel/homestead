@@ -125,10 +125,10 @@ class Homestead
       settings["folders"].each do |folder|
         mount_opts = []
 
-        if (folder["type"] == "nfs")
-            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=1', 'nolock']
-        elsif (folder["type"] == "smb")
-            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['vers=3.02', 'mfsymlinks']
+        if folder["type"] == "nfs"
+          mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=' << (folder["version"] ? folder["version"] : '1'), 'nolock']
+        elsif folder["type"] == "smb"
+          mount_opts = folder["mount_options"] ? folder["mount_options"] : ['vers=' << (folder["version"] ? folder["version"] : '3.02'), 'mfsymlinks']
         end
 
         # For b/w compatibility keep separate 'mount_opts', but merge with options
