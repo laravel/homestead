@@ -6,7 +6,7 @@
 
 # Downgrade to PHP 5.5
 sudo apt-get update
-yes | sudo apt-get install php5.5 php5.5-dev php5.5-mysql php5.5-fpm php5.5-curl
+yes | sudo apt-get install php5.5 php5.5-dev php5.5-mysql php5.5-fpm php5.5-curl php5.5-memcached
 
 sudo sed -i 's/php7\.0/php5\.5/g' /etc/nginx/sites-available/local.portal.shineon.com
 # sudo sed -i '/ssl_certificate/d' /etc/nginx/sites-available/local.portal.shineon.com
