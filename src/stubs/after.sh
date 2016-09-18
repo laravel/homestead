@@ -44,7 +44,6 @@ sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/fpm/php.ini'
 sudo service php5.6-fpm restart
 sudo service nginx restart
 
-
 # sudo sed -i '/ssl_certificate/d' /etc/nginx/sites-available/local.portal.shineon.com
 # sudo sed -i '/listen 443/d' /etc/nginx/sites-available/local.portal.shineon.com
 # sudo sed -i 's/listen.*80/listen 127.0.0.1:81/' /etc/nginx/sites-available/local.portal.shineon.com
