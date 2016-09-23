@@ -38,8 +38,10 @@ echo "--------------------------------------------------"
 echo "/usr" | sudo pecl install memcached
 
 sudo cp /usr/share/doc/php5-memcached/memcached.ini /etc/php/5.6/mods-available/
-sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/fpm/conf.d/25-memcached.ini
 sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/fpm/php.ini'
+sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/cli/php.ini'
+sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/fpm/conf.d/25-memcached.ini
+sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/cli/conf.d/25-memcached.ini
 
 sudo service php5.6-fpm restart
 sudo service nginx restart
