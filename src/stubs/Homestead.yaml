@@ -17,6 +17,10 @@ folders:
 sites:
     - map: api.geckoform.app
       to: /home/vagrant/git/gecko-api/public
+    - map: 281-local.ngrok.io
+      to: /home/vagrant/git/gecko-api/public
+    - map: 594-local.ngrok.io
+      to: /home/vagrant/git/gecko-api/public
     - map: geckoform.app
       to: /home/vagrant/git/gecko-web/
     - map: public.geckoform.app
