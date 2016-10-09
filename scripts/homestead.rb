@@ -13,6 +13,7 @@ class Homestead
     config.ssh.forward_agent = true
 
     # Configure The Box
+    config.vm.define settings["name"] ||= "homestead-7"
     config.vm.box = settings["box"] ||= "laravel/homestead"
     config.vm.box_version = settings["version"] ||= ">= 0.4.0"
     config.vm.hostname = settings["hostname"] ||= "homestead"
@@ -36,9 +37,6 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
-    
-    # Set the vagrant name for this box from the settings file
-    config.vm.define settings["name"] ||= "homestead-7"
 
     # Configure A Few VMware Settings
     ["vmware_fusion", "vmware_workstation"].each do |vmware|
