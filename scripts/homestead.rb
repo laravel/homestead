@@ -36,6 +36,9 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
+    
+    # Set the vagrant name for this box from the settings file
+    config.vm.define settings["name"] ||= "homestead-7"
 
     # Configure A Few VMware Settings
     ["vmware_fusion", "vmware_workstation"].each do |vmware|
