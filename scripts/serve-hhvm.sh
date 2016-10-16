@@ -3,14 +3,14 @@
 mkdir /etc/nginx/ssl 2>/dev/null
 
 PATH_SSL="/etc/nginx/ssl"
-PATH_KEY="${PATH_SSL}/${1}.key"
-PATH_CSR="${PATH_SSL}/${1}.csr"
-PATH_CRT="${PATH_SSL}/${1}.crt"
+PATH_KEY="${PATH_SSL}/${5}.key"
+PATH_CSR="${PATH_SSL}/${5}.csr"
+PATH_CRT="${PATH_SSL}/${5}.crt"
 
 if [ ! -f $PATH_KEY ] || [ ! -f $PATH_CSR ] || [ ! -f $PATH_CRT ]
 then
   openssl genrsa -out "$PATH_KEY" 2048 2>/dev/null
-  openssl req -new -key "$PATH_KEY" -out "$PATH_CSR" -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
+  openssl req -new -key "$PATH_KEY" -out "$PATH_CSR" -subj "/CN=$5/O=Vagrant/C=UK" 2>/dev/null
   openssl x509 -req -days 365 -in "$PATH_CSR" -signkey "$PATH_KEY" -out "$PATH_CRT" 2>/dev/null
 fi
 
@@ -32,7 +32,7 @@ block="server {
     location = /robots.txt  { access_log off; log_not_found off; }
 
     access_log off;
-    error_log  /var/log/nginx/$1-error.log error;
+    error_log  /var/log/nginx/$5-error.log error;
 
     sendfile off;
 
@@ -48,11 +48,11 @@ block="server {
         deny all;
     }
 
-    ssl_certificate     /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key /etc/nginx/ssl/$1.key;
+    ssl_certificate     /etc/nginx/ssl/$5.crt;
+    ssl_certificate_key /etc/nginx/ssl/$5.key;
 }
 "
 
-echo "$block" > "/etc/nginx/sites-available/$1"
-ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
+echo "$block" > "/etc/nginx/sites-available/$5"
+ln -fs "/etc/nginx/sites-available/$5" "/etc/nginx/sites-enabled/$5"
 service hhvm restart
