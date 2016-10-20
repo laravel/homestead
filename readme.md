@@ -58,7 +58,7 @@ npm install --global gulp-cli
 
 #### Pull down the ShineOn Homestead repo.
 
-1. `git clone https://github.com/ShineOnCom/homestead.git ~/ShineOnHomestead`l
+1. `git clone https://github.com/ShineOnCom/homestead.git ~/ShineOnHomestead`
 1. `cd ~/ShineOnHomestead`
 1. `bash init.sh`
 1. Note: if you need to tweak your environment. There will now be files in `~/.homestead`. Just be aware whatever you change has to play nice with the `after.sh` script.
@@ -78,6 +78,7 @@ npm install --global gulp-cli
 
 1. `touch ~/portal.shineon.com/.env`
 1. `sudo nano ~/portal.shineon.com/.env`
+1. See [wiki](https://github.com/ShineOnCom/Seller-Portal/wiki/ENV)
 
 ```
 Ask one of your peers to share this file with you.

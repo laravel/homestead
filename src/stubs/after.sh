@@ -16,7 +16,7 @@ echo "installing php5.6"
 echo "--------------------------------------------------"
 # Downgrade to PHP 5.6
 sudo apt-get update
-yes | sudo apt-get install php5.6-fpm php5.6 php5.6-dev php5.6-mysql php5.6-curl php5.6-xml php5-dev pkg-config php-pear make php5-memcached memcached libmemcached-tools libmemcached-dev
+yes | sudo apt-get install php5.6-fpm php5.6 php5.6-dev php5.6-mysql php5.6-curl php5.6-xml php5-dev php5.6-mcrypt pkg-config php-pear make php5-memcached memcached libmemcached-tools libmemcached-dev
 sudo sed -i 's/php7\.0/php5\.6/g' /etc/nginx/sites-available/local.portal.shineon.com
 
 # Symlink our new 5.6 install
@@ -85,7 +85,7 @@ echo "--------------------------------------------------"
 echo "php artisan clear-compiled && php artisan migrate"
 echo "--------------------------------------------------"
 php ~/portal.shineon.com/artisan clear-compiled
-php ~/portal.shineon.com/artisan migrate
+php ~/portal.shineon.com/artisan migrate --force
 
 echo "--------------------------------------------------"
 echo "npm install"
