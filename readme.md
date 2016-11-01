@@ -70,15 +70,15 @@ npm install --global gulp-cli
 
 #### Update your hosts file
 
-##### MAC
-1. `sudo nano /private/etc/hosts`
-1. Add the following:
-1. `local.portal.shineon.com 		192.168.10.10`
+  * ##### MAC
+    1. `sudo nano /private/etc/hosts`
+    1. Add the following:
+    1. `local.portal.shineon.com 		192.168.10.10`
 
-##### LINUX
-1. `sudo nano /etc/hosts`
-1. Add the following:
-1. `192.168.10.10 local.portal.shineon.com`
+  * ##### LINUX
+    1. `sudo nano /etc/hosts`
+    1. Add the following:
+    1. `192.168.10.10 local.portal.shineon.com
 
 #### Add a ENV file.
 
