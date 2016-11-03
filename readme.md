@@ -78,7 +78,7 @@ npm install --global gulp-cli
   * ##### LINUX
     1. `sudo nano /etc/hosts`
     1. Add the following:
-    1. `192.168.10.10 local.portal.shineon.com
+    1. `192.168.10.10 local.portal.shineon.com`
 
 #### Add a ENV file.
 
