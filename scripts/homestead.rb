@@ -36,6 +36,7 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+      vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate//vagrant", "1"]
     end
 
     # Configure A Few VMware Settings
@@ -145,6 +146,15 @@ class Homestead
           config.bindfs.bind_folder folder["to"], folder["to"]
         end
       end
+
+      config.vm.provider "virtualbox" do |vb|
+        config.vm.synced_folders.each do |i, folder|
+          unless folder.include? 'type'
+            vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate//#{i}", "1"]
+          end
+        end
+      end
+
     end
 
     # Install All The Configured Nginx Sites
