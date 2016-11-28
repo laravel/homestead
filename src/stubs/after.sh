@@ -17,8 +17,11 @@ echo "--------------------------------------------------"
 # Downgrade to PHP 5.6
 sudo add-apt-repository ppa:ondrej/php
 sudo apt-get update
-yes | sudo apt-get install php5.6-fpm php5.6 php5.6-cli php5.6-dev php5.6-memcached php5.6-mysql php5.6-curl php5.6-xml php5.6-mcrypt pkg-config make memcached libmemcached-tools libmemcached-dev
+yes | sudo apt-get install php5.6-fpm php5.6 php5.6-cli php5.6-dev php5.6-mbstring php-gettext php-pear php5.6-memcached php5.6-mysql php5.6-curl php-xdebug php5.6-xml php5.6-mcrypt pkg-config make memcached libmemcached-tools libmemcached-dev
 sudo sed -i 's/php7\.0/php5\.6/g' /etc/nginx/sites-available/local.portal.shineon.com
+
+# Copy configuration files
+sudo mv /home/vagrant/xdebug.ini /etc/php5.6/mods-available/xdebug.ini
 
 # Symlink our new 5.6 install
 sudo ln -sf /usr/bin/php5.6 /etc/alternatives/php
