@@ -105,3 +105,27 @@ Ask one of your peers to share this file with you.
 #### Test Vagrant SSH
 
 `vagrant ssh`
+
+#### Vagrant Ubuntu 16.04 Box Issues
+
+Issue:
+
+```shell
+Ubuntu 16.04 - system boot waits saying “Raise network interfaces”
+```
+
+Solution:
+
+```shell
+Modify /etc/dhcp/dhclient.conf Timeout to 15 
+```
+
+Issue:
+
+Vagrant setup of network adapters hangs
+
+Solution:
+
+```shell
+Make sure that you have checked "Cable Connected" in Virtualbox Network Configuration (Homestead VM configuration)
+````
