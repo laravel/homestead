@@ -23,6 +23,10 @@ sudo sed -i 's/php7\.0/php5\.6/g' /etc/nginx/sites-available/local.portal.shineo
 # Copy configuration files
 sudo mv /home/vagrant/xdebug.ini /etc/php/5.6/mods-available/xdebug.ini
 
+# Fix xdebug log permissions
+sudo touch /tmp/xdebug.log
+sudo chmod 664 /tmp/xdebug.log
+
 # Symlink our new 5.6 install
 sudo ln -sf /usr/bin/php5.6 /etc/alternatives/php
 sudo ln -sf /usr/bin/php-config5.6 /etc/alternatives/php-config
