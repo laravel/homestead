@@ -25,6 +25,7 @@ sudo mv /home/vagrant/xdebug.ini /etc/php/5.6/mods-available/xdebug.ini
 
 # Fix xdebug log permissions
 sudo touch /tmp/xdebug.log
+sudo usermod -a -G www-data vagrant
 sudo chmod 664 /tmp/xdebug.log
 
 # Symlink our new 5.6 install
