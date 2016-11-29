@@ -193,7 +193,7 @@ class Homestead
 
     config.vm.provision "shell" do |s|
       s.name = "Restarting Nginx"
-      s.inline = "sudo service nginx restart; sudo service php7.0-fpm restart"
+      s.inline = "sudo service nginx restart; sudo service php5.6-fpm restart"
     end
 
     # Install MariaDB If Necessary
