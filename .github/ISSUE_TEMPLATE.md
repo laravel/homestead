@@ -5,7 +5,7 @@ enhancements. We are not always able to debug Vagrant, Virtualbox, VMWare, or Op
 Run `vagrant -v` to show the version.
 
 ### Provider & Provider version
-The version of Virtualbox or VMWare
+The version of Virtualbox or VMWare. Please make sure you are using the latest version.
 
 ### Host operating system
 This is the operating system that you run locally.
