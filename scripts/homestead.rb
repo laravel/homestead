@@ -89,6 +89,9 @@ class Homestead
       end
     end
 
+    # Copy xdebug.ini file
+    config.vm.provision "file",source: "config-files/php/xdebug.ini", destination: "/home/vagrant/xdebug.ini"
+
     # Configure The Public Key For SSH Access
     if settings.include? 'authorize'
       if File.exists? File.expand_path(settings["authorize"])
@@ -188,10 +191,10 @@ class Homestead
       end
     end
 
-    config.vm.provision "shell" do |s|
-      s.name = "Restarting Nginx"
-      s.inline = "sudo service nginx restart; sudo service php7.0-fpm restart"
-    end
+    # config.vm.provision "shell" do |s|
+    #   s.name = "Restarting Nginx"
+    #   s.inline = "sudo service nginx restart; sudo service php5.6-fpm restart"
+    # end
 
     # Install MariaDB If Necessary
     if settings.has_key?("mariadb") && settings["mariadb"]

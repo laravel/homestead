@@ -15,9 +15,18 @@ echo "--------------------------------------------------"
 echo "installing php5.6"
 echo "--------------------------------------------------"
 # Downgrade to PHP 5.6
+yes | sudo add-apt-repository ppa:ondrej/php
 sudo apt-get update
-yes | sudo apt-get install php5.6-fpm php5.6 php5.6-dev php5.6-mysql php5.6-curl php5.6-xml php5-dev php5.6-mcrypt pkg-config php-pear make php5-memcached memcached libmemcached-tools libmemcached-dev
+yes | sudo apt-get install php5.6-fpm php5.6 php5.6-cli php5.6-dev php5.6-mbstring php-gettext php-pear php5.6-memcached php5.6-mysql php5.6-curl php-xdebug php5.6-xml php5.6-mcrypt pkg-config make memcached libmemcached-tools libmemcached-dev
 sudo sed -i 's/php7\.0/php5\.6/g' /etc/nginx/sites-available/local.portal.shineon.com
+
+# Copy configuration files
+sudo mv /home/vagrant/xdebug.ini /etc/php/5.6/mods-available/xdebug.ini
+
+# Fix xdebug log permissions
+sudo touch /tmp/xdebug.log
+sudo usermod -a -G www-data vagrant
+sudo chmod 664 /tmp/xdebug.log
 
 # Symlink our new 5.6 install
 sudo ln -sf /usr/bin/php5.6 /etc/alternatives/php
@@ -37,11 +46,11 @@ echo "--------------------------------------------------"
 #make && make install
 echo "/usr" | sudo pecl install memcached
 
-sudo cp /usr/share/doc/php5-memcached/memcached.ini /etc/php/5.6/mods-available/
-sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/fpm/php.ini'
-sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/cli/php.ini'
-sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/fpm/conf.d/25-memcached.ini
-sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/cli/conf.d/25-memcached.ini
+# sudo cp /usr/share/doc/php5-memcached/memcached.ini /etc/php/5.6/mods-available/
+# sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/fpm/php.ini'
+# sudo sh -c 'echo "extension=memcached.so" >> /etc/php/5.6/cli/php.ini'
+# sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/fpm/conf.d/25-memcached.ini
+# sudo ln -s /etc/php/5.6/mods-available/memcached.ini /etc/php/5.6/cli/conf.d/25-memcached.ini
 
 sudo service php5.6-fpm restart
 sudo service nginx restart
