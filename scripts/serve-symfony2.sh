@@ -18,7 +18,19 @@ block="server {
     location / {
         try_files \$uri \$uri/ /app_dev.php?\$query_string;
     }
-
+    
+    ##Uncomment this block for review prod enviroment in local
+    
+    #index index.php index.html;
+    
+     #location / {
+     #   try_files \$uri @rewriteapp;
+     #}
+ 
+    #location @rewriteapp {
+    #   rewrite ^(.*)$ /app.php/\$1 last;
+    #}
+ 
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
