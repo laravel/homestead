@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-cat > ~/.my.cnf << EOF
+cat > /home/vagrant/.my.cnf << EOF
 [client]
 user = homestead
 password = secret
 host = localhost
 EOF
-
-cp ~/.my.cnf /home/vagrant/.my.cnf
 
 DB=$1;
 
