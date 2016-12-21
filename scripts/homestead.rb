@@ -154,6 +154,9 @@ class Homestead
       end
     end
 
+    # install crontabs
+    Homestead.install_cron_tabs(config, settings)
+
     # Install All The Configured Nginx Sites
     config.vm.provision "shell" do |s|
         s.path = scriptDir + "/clear-nginx.sh"
@@ -269,5 +272,28 @@ class Homestead
         ]
       end
     end
+  end
+
+  def Homestead.install_cron_tabs(config, settings)
+    # empty /home/vagrant/.crontabs file
+    config.vm.provision "shell" do |s|
+      s.inline = "cat /dev/null > /home/vagrant/.crontabs"
+    end
+
+    # fill /home/vagrant/.crontabs file with crontab rows
+    settings["crontabs"].each do |crontab|
+      config.vm.provision "shell" do |s|
+        s.inline = "echo #{Homestead.crontab_value_of(crontab["minute"])} #{Homestead.crontab_value_of(crontab["hour"])} #{Homestead.crontab_value_of(crontab["monthday"])} #{Homestead.crontab_value_of(crontab["month"])} #{Homestead.crontab_value_of(crontab["weekday"])} #{crontab["command"] } >> /home/vagrant/.crontabs"
+      end
+    end
+
+    # install all crontabs from /home/vagrant/.crontabs file for 'root'
+    config.vm.provision "shell" do |s|
+      s.inline = "crontab -u root /home/vagrant/.crontabs"
+    end
+  end
+
+  def Homestead.crontab_value_of(input)
+    input != nil && input != '*' ? input : "\\*"
   end
 end
