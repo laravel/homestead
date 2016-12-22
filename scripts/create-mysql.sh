@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cat > ~/.my.cnf << EOF
+cat > /home/vagrant/.my.cnf << EOF
 [client]
 user = homestead
 password = secret
