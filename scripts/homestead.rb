@@ -127,6 +127,9 @@ class Homestead
         end
       end
     end
+    
+    # Configure agent forwarding
+    config.ssh.forward_agent = settings["ssh_agent_forwarding"] ||= false
 
     # Register All Of The Configured Shared Folders
     if settings.include? 'folders'
