@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-
-mkdir /etc/apache2/ssl 2>/dev/null
+apt-get update
+apt-get install -y apache2 libapache2-mod-php7.1
+sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
 PATH_SSL="/etc/apache2/ssl"
 PATH_KEY="${PATH_SSL}/${1}.key"
@@ -28,6 +29,11 @@ block="<VirtualHost *:80>
        ServerName $1
        ServerAlias www.$1
        DocumentRoot $2
+
+        <Directory $2>
+            AllowOverride All
+            Require all granted
+        </Directory>
 
        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
        # error, crit, alert, emerg.
@@ -150,5 +156,5 @@ then
   ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
 fi
 
-
-sudo service apache2 reload
+a2dissite 000-default
+service apache2 reload
