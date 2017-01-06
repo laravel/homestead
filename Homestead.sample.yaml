@@ -1,0 +1,21 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+
+authorize: /Users/me/.ssh/id_rsa.pub
+
+keys:
+    - /Users/me/.ssh/id_rsa
+
+folders:
+    - map: /Users/me/Code
+      to: /home/vagrant/Code
+
+sites:
+    - map: homestead.app
+      to: /home/vagrant/Code/Laravel/public
+
+variables:
+    - key: APP_ENV
+      value: local
