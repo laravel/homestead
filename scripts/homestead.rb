@@ -231,10 +231,12 @@ class Homestead
             s.args = [db]
           end
 
-          config.vm.provision "shell" do |s|
-            s.name = "Creating Mongo Database: " + db
-            s.path = scriptDir + "/create-mongo.sh"
-            s.args = [db]
+          if settings.has_key?("mongodb") && settings["mongodb"]
+            config.vm.provision "shell" do |s|
+             s.name = "Creating Mongo Database: " + db
+             s.path = scriptDir + "/create-mongo.sh"
+             s.args = [db]
+            end
           end
         end
     end
