@@ -1,8 +1,9 @@
 
-# Check If Mongo Has Been Installed
+# Exit immediately if a command exits with a non-zero status.
 
 set -e
-set -x
+
+# Check If Mongo Has Been Installed
 
 if [ -f /home/vagrant/.mongo ]
 then
