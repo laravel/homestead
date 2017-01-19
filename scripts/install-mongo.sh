@@ -1,4 +1,8 @@
 
+# Exit immediately if a command exits with a non-zero status.
+
+set -e
+
 # Check If Mongo Has Been Installed
 
 if [ -f /home/vagrant/.mongo ]
@@ -6,8 +10,6 @@ then
     echo "MongoDB already installed."
     exit 0
 fi
-
-touch /home/vagrant/.mongo
 
 echo "Importing the public key used by the package management system"
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
@@ -58,3 +60,5 @@ sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
 
 echo "restarting The nginx server...";
 sudo service nginx restart && sudo service php7.1-fpm restart
+
+touch /home/vagrant/.mongo

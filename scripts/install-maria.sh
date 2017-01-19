@@ -1,4 +1,8 @@
 
+# Exit immediately if a command exits with a non-zero status.
+
+set -e
+
 # Check If Maria Has Been Installed
 
 if [ -f /home/vagrant/.maria ]
@@ -6,8 +10,6 @@ then
     echo "MariaDB already installed."
     exit 0
 fi
-
-touch /home/vagrant/.maria
 
 # Remove MySQL
 
@@ -53,3 +55,5 @@ mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'0.0
 mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 service mysql restart
+
+touch /home/vagrant/.maria
