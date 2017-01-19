@@ -156,5 +156,4 @@ then
   ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
 fi
 
-a2dissite 000-default
-service apache2 reload
+sudo service apache2 restart
