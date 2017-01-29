@@ -20,6 +20,11 @@ class Homestead
 
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+    
+    # Configure A Specific Boot Timeout
+    if settings.has_key?("boot_timeout")
+      config.vm.boot_timeout = settings["boot_timeout"]
+    end
 
     # Configure Additional Networks
     if settings.has_key?("networks")
