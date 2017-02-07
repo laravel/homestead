@@ -1,2 +1,4 @@
 /vendor
 /.vagrant
+Homestead.yaml
+phpunit.xml
