@@ -57,7 +57,7 @@ class Homestead
     # Configure A Few Parallels Settings
     config.vm.provider "parallels" do |v|
       v.name = settings["name"] ||= "homestead-7"
-      v.update_guest_tools = true
+      v.update_guest_tools = settings["update_parallels_tools"] ||= false
       v.memory = settings["memory"] ||= 2048
       v.cpus = settings["cpus"] ||= 1
     end
