@@ -284,5 +284,17 @@ class Homestead
         ]
       end
     end
+
+    if settings.has_key?("scripts")
+      settings["scripts"].each do |script|
+          config.vm.provision "shell" do |s|
+            s.name = script["name"]
+            s.path = script["path"]
+            if script.has_key?("args")
+              s.args = script["args"]
+            end
+          end
+      end
+    end
   end
 end
