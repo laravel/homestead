@@ -1,7 +1,7 @@
 <?php
 namespace Tests;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\MakeCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -22,12 +22,18 @@ class MakeCommandTest extends TestCase
         rmdir(self::$testFolder);
     }
 
+    /**
+     * @test
+     */
     public function testConstructor()
     {
         $makeCommand = new MakeCommand();
         $this->assertInstanceOf(MakeCommand::class, $makeCommand);
     }
 
+    /**
+     * @test
+     */
     public function testExecuteMake()
     {
         $makeCommand = new MakeCommand();
