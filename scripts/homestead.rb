@@ -207,6 +207,17 @@ class Homestead
       config.vm.provision "shell" do |s|
         s.path = scriptDir + "/install-maria.sh"
       end
+
+      #re-install HHVM
+      if settings.include? 'sites'
+        settings["sites"].each do |site|
+          if (site.has_key?("hhvm") && site["hhvm"])
+            config.vm.provision "shell" do |s|
+              s.path = scriptDir + "/install-hhvm.sh"
+            end
+          end
+        end
+      end
     end
 
     # Install MongoDB If Necessary
