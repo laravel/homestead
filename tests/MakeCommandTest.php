@@ -1,8 +1,9 @@
 <?php
+
 namespace Tests;
 
-use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\MakeCommand;
+use PHPUnit\Framework\TestCase as TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class MakeCommandTest extends TestCase
@@ -11,14 +12,14 @@ class MakeCommandTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$testFolder = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid("homestead_", true);
+        self::$testFolder = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid('homestead_', true);
         mkdir(self::$testFolder);
         chdir(self::$testFolder);
     }
 
     public static function tearDownAfterClass()
     {
-        array_map('unlink', glob(self::$testFolder . DIRECTORY_SEPARATOR . '*'));
+        array_map('unlink', glob(self::$testFolder.DIRECTORY_SEPARATOR.'*'));
         rmdir(self::$testFolder);
     }
 
