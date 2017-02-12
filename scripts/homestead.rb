@@ -164,6 +164,7 @@ class Homestead
     if settings.include? 'sites'
       settings["sites"].each do |site|
         type = site["type"] ||= "laravel"
+        reference = site["alias"] ||= site["map"]
 
         if (site.has_key?("hhvm") && site["hhvm"])
           type = "hhvm"
@@ -174,9 +175,9 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
-          s.name = "Creating Site: " + site["map"]
+          s.name = "Creating Site: #{reference}"
           s.path = scriptDir + "/serve-#{type}.sh"
-          s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
+          s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", reference]
         end
 
         # Configure The Cron Schedule
@@ -186,10 +187,10 @@ class Homestead
 
             if (site["schedule"])
               s.path = scriptDir + "/cron-schedule.sh"
-              s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+              s.args = [reference.tr('^A-Za-z0-9', ''), site["to"]]
             else
               s.inline = "rm -f /etc/cron.d/$1"
-              s.args = [site["map"].tr('^A-Za-z0-9', '')]
+              s.args = [reference.tr('^A-Za-z0-9', '')]
             end
           end
         end
