@@ -1,3 +1,6 @@
 /vendor
 /.vagrant
 phpunit.xml
+/Homestead.yaml
+/after.sh
+/aliases

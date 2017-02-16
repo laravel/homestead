@@ -5,7 +5,7 @@ require 'json'
 require 'yaml'
 
 VAGRANTFILE_API_VERSION ||= "2"
-confDir = $confDir ||= File.expand_path(File.join(Dir.home, ".homestead"))
+confDir = $confDir ||= File.expand_path(File.dirname(__FILE__))
 
 homesteadYamlPath = confDir + "/Homestead.yaml"
 homesteadJsonPath = confDir + "/Homestead.json"
