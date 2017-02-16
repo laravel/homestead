@@ -155,8 +155,7 @@ class Homestead
           end
         else
           config.vm.provision "shell" do |s|
-            s.inline = "echo You tried to map a local folder into Homestead ($1) which does NOT exist!"
-            s.args = [folder["map"]]
+            s.inline = ">&2 echo \"Unable to mount one of your folders. Please check your folders in Homestead.yaml\""
           end
         end
       end
