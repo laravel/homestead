@@ -132,25 +132,32 @@ class Homestead
     # Register All Of The Configured Shared Folders
     if settings.include? 'folders'
       settings["folders"].each do |folder|
-        mount_opts = []
+        if File.exists? File.expand_path(folder["map"])
+          mount_opts = []
 
-        if (folder["type"] == "nfs")
-            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=1', 'nolock']
-        elsif (folder["type"] == "smb")
-            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['vers=3.02', 'mfsymlinks']
-        end
+          if (folder["type"] == "nfs")
+              mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=1', 'nolock']
+          elsif (folder["type"] == "smb")
+              mount_opts = folder["mount_options"] ? folder["mount_options"] : ['vers=3.02', 'mfsymlinks']
+          end
 
-        # For b/w compatibility keep separate 'mount_opts', but merge with options
-        options = (folder["options"] || {}).merge({ mount_options: mount_opts })
+          # For b/w compatibility keep separate 'mount_opts', but merge with options
+          options = (folder["options"] || {}).merge({ mount_options: mount_opts })
 
-        # Double-splat (**) operator only works with symbol keys, so convert
-        options.keys.each{|k| options[k.to_sym] = options.delete(k) }
+          # Double-splat (**) operator only works with symbol keys, so convert
+          options.keys.each{|k| options[k.to_sym] = options.delete(k) }
 
-        config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, **options
+          config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, **options
 
-        # Bindfs support to fix shared folder (NFS) permission issue on Mac
-        if Vagrant.has_plugin?("vagrant-bindfs")
-          config.bindfs.bind_folder folder["to"], folder["to"]
+          # Bindfs support to fix shared folder (NFS) permission issue on Mac
+          if Vagrant.has_plugin?("vagrant-bindfs")
+            config.bindfs.bind_folder folder["to"], folder["to"]
+          end
+        else
+          config.vm.provision "shell" do |s|
+            s.inline = "echo You tried to map a local folder into Homestead ($1) which does NOT exist!"
+            s.args = [folder["map"]]
+          end
         end
       end
     end
