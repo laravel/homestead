@@ -165,10 +165,6 @@ class Homestead
       settings["sites"].each do |site|
         type = site["type"] ||= "laravel"
 
-        if (site.has_key?("hhvm") && site["hhvm"])
-          type = "hhvm"
-        end
-
         if (type == "symfony")
           type = "symfony2"
         end
