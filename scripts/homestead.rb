@@ -194,6 +194,19 @@ class Homestead
           end
         end
 
+        # Configure Supervisor Queue Workers
+        if (site.has_key?("queue"))
+          config.vm.provision "shell" do |s|
+            if (site["queue"])
+              s.path = scriptDir + "/queue-worker.sh"
+              s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+            else
+              s.inline = "rm -f /etc/supervisor/conf.d/$1-worker.conf"
+              s.args = [site["map"].tr('^A-Za-z0-9', '')]
+            end
+          end
+        end
+
       end
     end
 
