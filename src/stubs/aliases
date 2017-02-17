@@ -9,6 +9,22 @@ alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
 
+function artisan() {
+    php artisan "$@"
+}
+
+function serve-apache() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /vagrant/scripts/serve-apache.sh
+        sudo bash /vagrant/scripts/serve-apache.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-apache domain path"
+    fi
+}
+
 function serve-laravel() {
     if [[ "$1" && "$2" ]]
     then
@@ -33,20 +49,40 @@ function serve-proxy() {
     fi
 }
 
-function serve-apache() {
+function serve-silverstripe() {
     if [[ "$1" && "$2" ]]
     then
-        sudo dos2unix /vagrant/scripts/serve-apache.sh
-        sudo bash /vagrant/scripts/serve-apache.sh "$1" "$2" 80
+        sudo dos2unix /vagrant/scripts/serve-silverstripe.sh
+        sudo bash /vagrant/scripts/serve-silverstripe.sh "$1" "$2" 80
     else
         echo "Error: missing required parameters."
         echo "Usage: "
-        echo "  serve-apache domain path"
+        echo "  serve-silverstripe domain path"
     fi
 }
 
-function artisan() {
-    php artisan "$@"
+function serve-statamic() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /vagrant/scripts/serve-statamic.sh
+        sudo bash /vagrant/scripts/serve-statamic.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-statamic domain path"
+    fi
+}
+
+function serve-symfony2() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /vagrant/scripts/serve-symfony2.sh
+        sudo bash /vagrant/scripts/serve-symfony2.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-symfony2 domain path"
+    fi
 }
 
 function share() {
