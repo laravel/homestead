@@ -48,3 +48,14 @@ function serve-apache() {
 function artisan() {
     php artisan "$@"
 }
+
+function share() {
+    if [[ "$1" ]]
+    then
+        ngrok http -host-header="$1" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  share domain"
+    fi
+}
