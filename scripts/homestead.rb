@@ -274,6 +274,11 @@ class Homestead
       s.privileged = false
     end
 
+    # Install Laravel global installer
+    config.vm.provision "shell" do |s|
+        s.path = scriptDir + "/laravel-installer.sh"
+    end
+
     # Configure Blackfire.io
     if settings.has_key?("blackfire")
       config.vm.provision "shell" do |s|
