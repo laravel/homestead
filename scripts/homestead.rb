@@ -36,6 +36,7 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", settings["natdnshostresolver"] ||= "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+      vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
       if settings.has_key?("gui") && settings["gui"]
           vb.gui = true
       end
