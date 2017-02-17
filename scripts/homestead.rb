@@ -286,5 +286,15 @@ class Homestead
         ]
       end
     end
+
+    # Setup Xdebug if it has been set for this machine
+    if settings.has_key?("xdebug")
+      config.vm.provision "shell" do |s|
+        if (settings["xdebug"])
+          s.path = scriptDir + "/xdebug.sh"
+        end
+      end
+    end
+
   end
 end
