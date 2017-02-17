@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 if [ -f /home/vagrant/.mongo ]
 then
