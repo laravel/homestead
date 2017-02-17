@@ -9,6 +9,10 @@ alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
 
+function laravel-create() { 
+    composer create-project laravel/laravel "$@" --prefer-dist; 
+}
+
 function serve-laravel() {
     if [[ "$1" && "$2" ]]
     then
