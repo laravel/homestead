@@ -222,13 +222,13 @@ class Homestead
     if settings.has_key?("databases")
         settings["databases"].each do |db|
           config.vm.provision "shell" do |s|
-            s.name = "Creating MySQL Database: " + db
+            s.name = "Creating MySQL Database"
             s.path = scriptDir + "/create-mysql.sh"
             s.args = [db]
           end
 
           config.vm.provision "shell" do |s|
-            s.name = "Creating Postgres Database: " + db
+            s.name = "Creating Postgres Database"
             s.path = scriptDir + "/create-postgres.sh"
             s.args = [db]
           end
