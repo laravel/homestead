@@ -19,7 +19,7 @@ class Homestead
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
-    config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+    config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10" unless settings["provider"] == "hyperv"
 
     # Configure Additional Networks
     if settings.has_key?("networks")
@@ -60,6 +60,12 @@ class Homestead
       v.update_guest_tools = settings["update_parallels_tools"] ||= false
       v.memory = settings["memory"] ||= 2048
       v.cpus = settings["cpus"] ||= 1
+    end
+
+    config.vm.provider :hyperv do |hv|
+      hv.vmname = settings["name"] ||= "homestead"
+      hv.memory = settings["memory"] ||= 2048
+      hv.cpus = settings["cpus"] ||= 1
     end
 
     # Standardize Ports Naming Schema
