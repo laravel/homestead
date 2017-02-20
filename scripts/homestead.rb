@@ -243,6 +243,26 @@ class Homestead
         end
     end
 
+    # Clean Up All The Previously Set Server Environment Variables And Remove Trailing Newlines
+    files_to_clear = {
+      :fpm_conf => "/etc/php5/fpm/php-fpm.conf",
+      :profile  => "/home/vagrant/.profile"
+    }
+
+    config.vm.provision "shell" do |s|
+      s.inline = "sed -i '/env\[[A-Za-z_]*\]/d' " + files_to_clear[:fpm_conf]
+    end
+
+    config.vm.provision "shell" do |s|
+      s.inline = "sed -i '/^#Set Homestead environment variable/,+1d' " + files_to_clear[:profile]
+    end
+
+    files_to_clear.each do |index, file|
+      config.vm.provision "shell" do |s|
+        s.inline = "sed -e :a -e '/^\\n*$/{$d;N;ba' -e '}' -i " + file
+      end
+    end
+
     # Configure All Of The Server Environment Variables
     config.vm.provision "shell" do |s|
         s.name = "Clear Variables"
