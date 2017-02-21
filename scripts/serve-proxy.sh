@@ -9,9 +9,9 @@ PATH_CRT="${PATH_SSL}/${1}.crt"
 
 if [ ! -f $PATH_KEY ] || [ ! -f $PATH_CSR ] || [ ! -f $PATH_CRT ]
 then
-  openssl genrsa -out "$PATH_KEY" 2048 2>/dev/null
-  openssl req -new -key "$PATH_KEY" -out "$PATH_CSR" -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
-  openssl x509 -req -days 365 -in "$PATH_CSR" -signkey "$PATH_KEY" -out "$PATH_CRT" 2>/dev/null
+    openssl genrsa -out "$PATH_KEY" 2048 2>/dev/null
+    openssl req -new -key "$PATH_KEY" -out "$PATH_CSR" -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
+    openssl x509 -req -days 365 -in "$PATH_CSR" -signkey "$PATH_KEY" -out "$PATH_CRT" 2>/dev/null
 fi
 
 block="server {
@@ -20,10 +20,10 @@ block="server {
     server_name $1;
 
     location / {
-      proxy_set_header X-Real-IP \$remote_addr;
-      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-      proxy_set_header Host \$host;
-      proxy_pass http://127.0.0.1:${2};
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header Host \$host;
+        proxy_pass http://127.0.0.1:${2};
     }
 
     access_log off;
