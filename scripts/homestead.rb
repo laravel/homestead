@@ -37,7 +37,7 @@ class Homestead
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", settings["natdnshostresolver"] ||= "on"]
       vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
       if settings.has_key?("gui") && settings["gui"]
-          vb.gui = true
+        vb.gui = true
       end
     end
 
@@ -49,7 +49,7 @@ class Homestead
         v.vmx["numvcpus"] = settings["cpus"] ||= 1
         v.vmx["guestOS"] = "ubuntu-64"
         if settings.has_key?("gui") && settings["gui"]
-            v.gui = true
+          v.gui = true
         end
       end
     end
@@ -75,8 +75,8 @@ class Homestead
 
     # Default Port Forwarding
     default_ports = {
-      80   => 8000,
-      443  => 44300,
+      80 => 8000,
+      443 => 44300,
       3306 => 33060,
       5432 => 54320,
       27017 => 27017
@@ -136,9 +136,9 @@ class Homestead
           mount_opts = []
 
           if (folder["type"] == "nfs")
-              mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=1', 'nolock']
+            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['actimeo=1', 'nolock']
           elsif (folder["type"] == "smb")
-              mount_opts = folder["mount_options"] ? folder["mount_options"] : ['vers=3.02', 'mfsymlinks']
+            mount_opts = folder["mount_options"] ? folder["mount_options"] : ['vers=3.02', 'mfsymlinks']
           end
 
           # For b/w compatibility keep separate 'mount_opts', but merge with options
@@ -163,9 +163,8 @@ class Homestead
 
     # Install All The Configured Nginx Sites
     config.vm.provision "shell" do |s|
-        s.path = scriptDir + "/clear-nginx.sh"
+      s.path = scriptDir + "/clear-nginx.sh"
     end
-
 
     if settings.include? 'sites'
       settings["sites"].each do |site|
@@ -195,7 +194,6 @@ class Homestead
             end
           end
         end
-
       end
     end
 
@@ -220,33 +218,33 @@ class Homestead
 
     # Configure All Of The Configured Databases
     if settings.has_key?("databases")
-        settings["databases"].each do |db|
-          config.vm.provision "shell" do |s|
-            s.name = "Creating MySQL Database: " + db
-            s.path = scriptDir + "/create-mysql.sh"
-            s.args = [db]
-          end
+      settings["databases"].each do |db|
+        config.vm.provision "shell" do |s|
+          s.name = "Creating MySQL Database: " + db
+          s.path = scriptDir + "/create-mysql.sh"
+          s.args = [db]
+        end
 
-          config.vm.provision "shell" do |s|
-            s.name = "Creating Postgres Database: " + db
-            s.path = scriptDir + "/create-postgres.sh"
-            s.args = [db]
-          end
+        config.vm.provision "shell" do |s|
+          s.name = "Creating Postgres Database: " + db
+          s.path = scriptDir + "/create-postgres.sh"
+          s.args = [db]
+        end
 
-          if settings.has_key?("mongodb") && settings["mongodb"]
-            config.vm.provision "shell" do |s|
-             s.name = "Creating Mongo Database: " + db
-             s.path = scriptDir + "/create-mongo.sh"
-             s.args = [db]
-            end
+        if settings.has_key?("mongodb") && settings["mongodb"]
+          config.vm.provision "shell" do |s|
+            s.name = "Creating Mongo Database: " + db
+            s.path = scriptDir + "/create-mongo.sh"
+            s.args = [db]
           end
         end
+      end
     end
 
     # Configure All Of The Server Environment Variables
     config.vm.provision "shell" do |s|
-        s.name = "Clear Variables"
-        s.path = scriptDir + "/clear-variables.sh"
+      s.name = "Clear Variables"
+      s.path = scriptDir + "/clear-variables.sh"
     end
 
     if settings.has_key?("variables")
@@ -257,8 +255,8 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
-            s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
-            s.args = [var["key"], var["value"]]
+          s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
+          s.args = [var["key"], var["value"]]
         end
       end
 
