@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # Check If Maria Has Been Installed
 
