@@ -28,6 +28,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         settings = YAML::load(File.read(homesteadYamlPath))
     elsif File.exist? homesteadJsonPath then
         settings = JSON.parse(File.read(homesteadJsonPath))
+    else
+        abort "Homestead settings file not found in #{confDir}"
     end
 
     Homestead.configure(config, settings)
