@@ -47,6 +47,50 @@ class MakeCommandTest extends TestCase
     }
 
     /** @test */
+    public function an_aliases_file_is_created_if_requested()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--aliases' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'aliases')
+        );
+        $this->assertEquals(
+            file_get_contents(__DIR__.'/../src/stubs/aliases'),
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'aliases')
+        );
+    }
+
+    /** @test */
+    public function an_existing_aliases_file_is_not_overwritten()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'aliases',
+            'Already existing aliases'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--aliases' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'aliases')
+        );
+        $this->assertEquals(
+            'Already existing aliases',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'aliases')
+        );
+    }
+
+    /** @test */
     public function an_after_shell_script_is_created_if_requested()
     {
         $tester = new CommandTester(new MakeCommand());

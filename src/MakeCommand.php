@@ -66,6 +66,10 @@ class MakeCommand extends Command
             copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
         }
 
+        if ($input->getOption('aliases') && ! $this->aliasesFileExists()) {
+            $this->createAliasesFile();
+        }
+
         if ($input->getOption('after') && ! $this->afterShellScriptExists()) {
             $this->createAfterShellScript();
         }
@@ -98,15 +102,29 @@ class MakeCommand extends Command
             }
         }
 
-        if ($input->getOption('aliases')) {
-            if (! file_exists($this->basePath.'/aliases')) {
-                copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
-            }
-        }
-
         $this->configurePaths();
 
         $output->writeln('Homestead Installed!');
+    }
+
+    /**
+     * Determine if the aliases file exists.
+     *
+     * @return bool
+     */
+    protected function aliasesFileExists()
+    {
+        return file_exists("{$this->basePath}/aliases");
+    }
+
+    /**
+     * Create aliases file.
+     *
+     * @return void
+     */
+    protected function createAliasesFile()
+    {
+        copy(__DIR__.'/stubs/aliases', "{$this->basePath}/aliases");
     }
 
     /**
