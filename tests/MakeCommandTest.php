@@ -47,6 +47,50 @@ class MakeCommandTest extends TestCase
     }
 
     /** @test */
+    public function an_after_shell_script_is_created_if_requested()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--after' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'after.sh')
+        );
+        $this->assertEquals(
+            file_get_contents(__DIR__.'/../src/stubs/after.sh'),
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'after.sh')
+        );
+    }
+
+    /** @test */
+    public function an_existing_after_shell_script_is_not_overwritten()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'after.sh',
+            'Already existing after.sh'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--after' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'after.sh')
+        );
+        $this->assertEquals(
+            'Already existing after.sh',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'after.sh')
+        );
+    }
+
+    /** @test */
     public function an_example_homestead_yaml_settings_is_created_if_requested()
     {
         $tester = new CommandTester(new MakeCommand());

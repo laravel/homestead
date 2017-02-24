@@ -66,6 +66,10 @@ class MakeCommand extends Command
             copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
         }
 
+        if ($input->getOption('after') && ! $this->afterShellScriptExists()) {
+            $this->createAfterShellScript();
+        }
+
         $settingsFileExtension = $input->getOption('json') ? 'json' : 'yaml';
 
         if ($input->getOption('example') && ! $this->exampleSettingsExists($settingsFileExtension)) {
@@ -94,12 +98,6 @@ class MakeCommand extends Command
             }
         }
 
-        if ($input->getOption('after')) {
-            if (! file_exists($this->basePath.'/after.sh')) {
-                copy(__DIR__.'/stubs/after.sh', $this->basePath.'/after.sh');
-            }
-        }
-
         if ($input->getOption('aliases')) {
             if (! file_exists($this->basePath.'/aliases')) {
                 copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
@@ -109,6 +107,26 @@ class MakeCommand extends Command
         $this->configurePaths();
 
         $output->writeln('Homestead Installed!');
+    }
+
+    /**
+     * Determine if the after shell script exists.
+     *
+     * @return bool
+     */
+    protected function afterShellScriptExists()
+    {
+        return file_exists("{$this->basePath}/after.sh");
+    }
+
+    /**
+     * Create the after shell script.
+     *
+     * @return void
+     */
+    protected function createAfterShellScript()
+    {
+        copy(__DIR__.'/stubs/after.sh', "{$this->basePath}/after.sh");
     }
 
     /**
