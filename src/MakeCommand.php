@@ -62,8 +62,8 @@ class MakeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (! file_exists($this->basePath.'/Vagrantfile')) {
-            copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        if (! $this->vagrantfileExists()) {
+            $this->createVagrantfile();
         }
 
         if ($input->getOption('aliases') && ! $this->aliasesFileExists()) {
@@ -105,6 +105,26 @@ class MakeCommand extends Command
         $this->configurePaths();
 
         $output->writeln('Homestead Installed!');
+    }
+
+    /**
+     * Determine if the Vagrantfile exists.
+     *
+     * @return bool
+     */
+    protected function vagrantfileExists()
+    {
+        return file_exists("{$this->basePath}/Vagrantfile");
+    }
+
+    /**
+     * Create a Vagrantfile.
+     *
+     * @return void
+     */
+    protected function createVagrantfile()
+    {
+        copy(__DIR__.'/stubs/LocalizedVagrantfile', "{$this->basePath}/Vagrantfile");
     }
 
     /**

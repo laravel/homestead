@@ -8,6 +8,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class MakeCommandTest extends TestCase
 {
+    /**
+     * @var string
+     */
     protected static $testFolder;
 
     public static function setUpBeforeClass()
@@ -23,27 +26,41 @@ class MakeCommandTest extends TestCase
         rmdir(self::$testFolder);
     }
 
-    /**
-     * @test
-     */
-    public function testConstructor()
+    /** @test */
+    public function a_vagrantfile_is_created_if_it_does_not_exists()
     {
-        $makeCommand = new MakeCommand();
-        $this->assertInstanceOf(MakeCommand::class, $makeCommand);
-    }
+        $tester = new CommandTester(new MakeCommand());
 
-    /**
-     * @test
-     */
-    public function testExecuteMake()
-    {
-        $makeCommand = new MakeCommand();
-
-        $tester = new CommandTester($makeCommand);
-        $tester->execute([], []);
+        $tester->execute([]);
 
         $this->assertContains('Homestead Installed!', $tester->getDisplay());
         $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Vagrantfile')
+        );
+        $this->assertEquals(
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Vagrantfile'),
+            file_get_contents(__DIR__.'/../src/stubs/LocalizedVagrantfile')
+        );
+    }
+
+    /** @test */
+    public function an_existing_vagrantfile_is_not_overwritten()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Vagrantfile',
+            'Already existing Vagrantfile'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertEquals(
+            'Already existing Vagrantfile',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Vagrantfile')
+        );
     }
 
     /** @test */
