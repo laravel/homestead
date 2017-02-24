@@ -49,7 +49,8 @@ class MakeCommand extends Command
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
-            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.');
+            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead example file is created.')
+            ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
 
     /**
@@ -63,6 +64,12 @@ class MakeCommand extends Command
     {
         if (! file_exists($this->basePath.'/Vagrantfile')) {
             copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        }
+
+        $settingsFileExtension = $input->getOption('json') ? 'json' : 'yaml';
+
+        if ($input->getOption('example') && ! $this->exampleSettingsExists($settingsFileExtension)) {
+            $this->createExampleSettings($settingsFileExtension);
         }
 
         if (! file_exists($this->basePath.'/Homestead.yaml') && ! file_exists($this->basePath.'/Homestead.yaml.example')) {
@@ -99,15 +106,34 @@ class MakeCommand extends Command
             }
         }
 
-        if ($input->getOption('example')) {
-            if (! file_exists($this->basePath.'/Homestead.yaml.example')) {
-                copy($this->basePath.'/Homestead.yaml', $this->basePath.'/Homestead.yaml.example');
-            }
-        }
-
         $this->configurePaths();
 
         $output->writeln('Homestead Installed!');
+    }
+
+    /**
+     * Determine if the example settings file exists.
+     *
+     * @param  string  $fileExtension
+     * @return bool
+     */
+    protected function exampleSettingsExists($fileExtension)
+    {
+        return file_exists("{$this->basePath}/Homestead.{$fileExtension}.example");
+    }
+
+    /**
+     * Create example settings file.
+     *
+     * @param  string  $fileExtension
+     * @return void
+     */
+    protected function createExampleSettings($fileExtension)
+    {
+        copy(
+            __DIR__."/stubs/Homestead.{$fileExtension}",
+            "{$this->basePath}/Homestead.{$fileExtension}.example"
+        );
     }
 
     /**
