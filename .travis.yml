@@ -4,11 +4,6 @@ php:
   - 7.0
   - 7.1
 
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-cache search php | grep yaml
-  - sudo apt-get install -y php$(phpenv version-name)-yaml
-
 before_script:
   - composer install --no-interaction
 
