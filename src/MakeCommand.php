@@ -2,6 +2,8 @@
 
 namespace Laravel\Homestead;
 
+use Laravel\Homestead\Settings\JsonSettings;
+use Laravel\Homestead\Settings\YamlSettings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,8 +51,8 @@ class MakeCommand extends Command
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
-            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.')
-            ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if JSON config file is generated.');
+            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead example file is created.')
+            ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
 
     /**
@@ -62,57 +64,41 @@ class MakeCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (! file_exists($this->basePath.'/Vagrantfile')) {
-            copy(__DIR__.'/stubs/LocalizedVagrantfile', $this->basePath.'/Vagrantfile');
+        if (! $this->vagrantfileExists()) {
+            $this->createVagrantfile();
         }
 
-        if (! file_exists($this->basePath.'/Homestead.yaml') && ! file_exists($this->basePath.'/Homestead.yaml.example')) {
-            copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
-
-            if ($input->getOption('name')) {
-                $this->updateName($input->getOption('name'));
-            }
-
-            if ($input->getOption('hostname')) {
-                $this->updateHostName($input->getOption('hostname'));
-            }
-
-            if ($input->getOption('ip')) {
-                $this->updateIpAddress($input->getOption('ip'));
-            }
-        } elseif (! file_exists($this->basePath.'/Homestead.yaml')) {
-            copy($this->basePath.'/Homestead.yaml.example', $this->basePath.'/Homestead.yaml');
-
-            if ($input->getOption('ip')) {
-                $this->updateIpAddress($input->getOption('ip'));
-            }
+        if ($input->getOption('aliases') && ! $this->aliasesFileExists()) {
+            $this->createAliasesFile();
         }
 
-        if ($input->getOption('after')) {
-            if (! file_exists($this->basePath.'/after.sh')) {
-                copy(__DIR__.'/stubs/after.sh', $this->basePath.'/after.sh');
-            }
+        if ($input->getOption('after') && ! $this->afterShellScriptExists()) {
+            $this->createAfterShellScript();
         }
 
-        if ($input->getOption('aliases')) {
-            if (! file_exists($this->basePath.'/aliases')) {
-                copy(__DIR__.'/stubs/aliases', $this->basePath.'/aliases');
-            }
-        }
+        $fileExtension = $input->getOption('json') ? 'json' : 'yaml';
+        $settingsClass = ($fileExtension == 'json') ? JsonSettings::class : YamlSettings::class;
 
-        if ($input->getOption('example')) {
-            if (! file_exists($this->basePath.'/Homestead.yaml.example')) {
-                copy($this->basePath.'/Homestead.yaml', $this->basePath.'/Homestead.yaml.example');
-            }
-        }
+        if (! $this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
+            $settings = new $settingsClass(__DIR__."/stubs/Homestead.{$fileExtension}");
 
-        $this->configurePaths();
+            $settings->update([
+                'name' => $input->getOption('name'),
+                'hostname' => $input->getOption('hostname'),
+                'ip' => $input->getOption('ip'),
+            ])->save("{$this->basePath}/Homestead.{$fileExtension}");
 
-        if ($input->getOption('json')) {
-            // Never overwrite an existing config
-            if (! file_exists($this->basePath.'/Homestead.json')) {
-                $this->convertToJson();
+            if ($input->getOption('example')) {
+                $settings->save("{$this->basePath}/Homestead.{$fileExtension}.example");
             }
+        } else if ($this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
+            $settings = new $settingsClass("{$this->basePath}/Homestead.{$fileExtension}.example");
+
+            $settings->update([
+                'name' => $input->getOption('name'),
+                'hostname' => $input->getOption('hostname'),
+                'ip' => $input->getOption('ip'),
+            ])->save("{$this->basePath}/Homestead.{$fileExtension}");
         }
 
         $this->checkForDuplicateConfigs($output);
@@ -121,91 +107,85 @@ class MakeCommand extends Command
     }
 
     /**
-     * Update paths in Homestead.yaml.
+     * Determine if the Vagrantfile exists.
      *
-     * @return void
+     * @return bool
      */
-    protected function configurePaths()
+    protected function vagrantfileExists()
     {
-        $yaml = str_replace(
-            '- map: ~/Code', '- map: "'.str_replace('\\', '/', $this->basePath).'"', $this->getHomesteadFile()
-        );
-
-        $yaml = str_replace(
-            'to: /home/vagrant/Code', 'to: "/home/vagrant/'.$this->defaultName.'"', $yaml
-        );
-
-        // Fix path to the public folder (sites: to:)
-        $yaml = str_replace(
-            $this->defaultName.'"/Laravel/public', $this->defaultName.'/public"', $yaml
-        );
-
-        file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
+        return file_exists("{$this->basePath}/Vagrantfile");
     }
 
     /**
-     * Update the "name" variable of the Homestead.yaml file.
-     *
-     * VirtualBox requires a unique name for each virtual machine.
-     *
-     * @param  string  $name
-     * @return void
-     */
-    protected function updateName($name)
-    {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            'cpus: 1', 'cpus: 1'.PHP_EOL.'name: '.$name, $this->getHomesteadFile()
-        ));
-    }
-
-    /**
-     * Set the virtual machine's hostname setting in the Homestead.yaml file.
-     *
-     * @param  string  $hostname
-     * @return void
-     */
-    protected function updateHostName($hostname)
-    {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            'cpus: 1', 'cpus: 1'.PHP_EOL.'hostname: '.$hostname, $this->getHomesteadFile()
-        ));
-    }
-
-    /**
-     * Set the virtual machine's IP address setting in the Homestead.yaml file.
-     *
-     * @param  string  $ip
-     * @return void
-     */
-    protected function updateIpAddress($ip)
-    {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            'ip: "192.168.10.10"', 'ip: "'.$ip.'"', $this->getHomesteadFile()
-        ));
-    }
-
-    /**
-     * Get the contents of the Homestead.yaml file.
-     *
-     * @return string
-     */
-    protected function getHomesteadFile()
-    {
-        return file_get_contents($this->basePath.'/Homestead.yaml');
-    }
-
-    /**
-     * Reads the generated Homestead.yaml and writes to Homestead.json
-     * Removes the existing Homestead.yaml.
+     * Create a Vagrantfile.
      *
      * @return void
      */
-    protected function convertToJson()
+    protected function createVagrantfile()
     {
-        $config = json_encode(yaml_parse($this->getHomesteadFile()), JSON_PRETTY_PRINT);
-        $config = str_replace('\/', '/', $config);
-        file_put_contents($this->basePath.'/Homestead.json', $config);
-        unlink($this->basePath.'/Homestead.yaml');
+        copy(__DIR__.'/stubs/LocalizedVagrantfile', "{$this->basePath}/Vagrantfile");
+    }
+
+    /**
+     * Determine if the aliases file exists.
+     *
+     * @return bool
+     */
+    protected function aliasesFileExists()
+    {
+        return file_exists("{$this->basePath}/aliases");
+    }
+
+    /**
+     * Create aliases file.
+     *
+     * @return void
+     */
+    protected function createAliasesFile()
+    {
+        copy(__DIR__.'/stubs/aliases', "{$this->basePath}/aliases");
+    }
+
+    /**
+     * Determine if the after shell script exists.
+     *
+     * @return bool
+     */
+    protected function afterShellScriptExists()
+    {
+        return file_exists("{$this->basePath}/after.sh");
+    }
+
+    /**
+     * Create the after shell script.
+     *
+     * @return void
+     */
+    protected function createAfterShellScript()
+    {
+        copy(__DIR__.'/stubs/after.sh', "{$this->basePath}/after.sh");
+    }
+
+    /**
+     * Determine if the settings file exists.
+     *
+     * @param  string  $fileExtension
+     * @return bool
+     */
+    protected function settingsFileExists($fileExtension)
+    {
+        return file_exists("{$this->basePath}/Homestead.{$fileExtension}");
+    }
+
+    /**
+     * Determine if the example settings file exists.
+     *
+     * @param  string  $fileExtension
+     * @return bool
+     */
+    protected function exampleSettingsExists($fileExtension)
+    {
+        return file_exists("{$this->basePath}/Homestead.{$fileExtension}.example");
     }
 
     /**
@@ -213,16 +193,17 @@ class MakeCommand extends Command
      * the user is warned that Yaml will be used before
      * JSON until Yaml is renamed / removed.
      *
-     * @param OutputInterface $output
+     * @param  OutputInterface  $output
+     * @return void
      */
     protected function checkForDuplicateConfigs(OutputInterface $output)
     {
-        if (file_exists($this->basePath.'/Homestead.yaml') && file_exists($this->basePath.'/Homestead.json')) {
+        if (file_exists("{$this->basePath}/Homestead.yaml") && file_exists("{$this->basePath}/Homestead.json")) {
             $output->writeln(
                 '<error>WARNING! You have Homestead.yaml AND Homestead.json configuration files</error>'
             );
             $output->writeln(
-                '<error>WARNING! Homestead will not use Homestead.json until you rename Homestead.yaml</error>'
+                '<error>WARNING! Homestead will not use Homestead.json until you rename or delete the Homestead.yaml</error>'
             );
         }
     }
