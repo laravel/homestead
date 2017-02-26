@@ -91,7 +91,7 @@ class MakeCommand extends Command
             if ($input->getOption('example')) {
                 $settings->save("{$this->basePath}/Homestead.{$fileExtension}.example");
             }
-        } else if ($this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
+        } elseif ($this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
             $settings = new $settingsClass("{$this->basePath}/Homestead.{$fileExtension}.example");
 
             $settings->update([
