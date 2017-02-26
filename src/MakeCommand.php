@@ -101,6 +101,8 @@ class MakeCommand extends Command
             ])->save("{$this->basePath}/Homestead.{$fileExtension}");
         }
 
+        $this->checkForDuplicateConfigs($output);
+
         $output->writeln('Homestead Installed!');
     }
 
@@ -184,5 +186,25 @@ class MakeCommand extends Command
     protected function exampleSettingsExists($fileExtension)
     {
         return file_exists("{$this->basePath}/Homestead.{$fileExtension}.example");
+    }
+
+    /**
+     * Checks if JSON and Yaml config files exist, if they do
+     * the user is warned that Yaml will be used before
+     * JSON until Yaml is renamed / removed.
+     *
+     * @param  OutputInterface  $output
+     * @return void
+     */
+    protected function checkForDuplicateConfigs(OutputInterface $output)
+    {
+        if (file_exists("{$this->basePath}/Homestead.yaml") && file_exists("{$this->basePath}/Homestead.json")) {
+            $output->writeln(
+                '<error>WARNING! You have Homestead.yaml AND Homestead.json configuration files</error>'
+            );
+            $output->writeln(
+                '<error>WARNING! Homestead will not use Homestead.json until you rename or delete the Homestead.yaml</error>'
+            );
+        }
     }
 }

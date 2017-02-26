@@ -397,4 +397,24 @@ class MakeCommandTest extends TestCase
         $this->assertEquals('test_hostname', $settings['hostname']);
         $this->assertEquals('127.0.0.1', $settings['ip']);
     }
+
+    /** @test */
+    public function a_warning_is_thrown_if_the_homestead_settings_json_and_yaml_exists_at_the_same_time()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json',
+            '{"message": "Already existing Homestead.json"}'
+        );
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml',
+            'message: Already existing Homestead.yaml'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertContains('WARNING! You have Homestead.yaml AND Homestead.json configuration files', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+    }
 }
