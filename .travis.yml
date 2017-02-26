@@ -5,6 +5,7 @@ php:
   - 7.1
 
 before_script:
+  - yes \"\" | pecl install yaml-2.0.0 && echo "extension=yaml.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer install --no-interaction
 
 script:
