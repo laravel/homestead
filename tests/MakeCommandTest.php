@@ -273,7 +273,7 @@ class MakeCommandTest extends TestCase
         );
     }
 
-        /** @test */
+    /** @test */
     public function a_homestead_json_settings_is_created_if_it_is_requested_and_it_does_not_exists()
     {
         $tester = new CommandTester(new MakeCommand());
