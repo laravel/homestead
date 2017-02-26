@@ -29,7 +29,7 @@ function serve-apache() {
 }
 
 function serve-laravel() {
-    if [[ "$1" && "$2" ]]
+    if [ $# -ge 2 ]
     then
         sudo dos2unix /vagrant/scripts/serve-laravel.sh
         sudo bash /vagrant/scripts/serve-laravel.sh "$1" "$2" 80
