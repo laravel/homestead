@@ -49,7 +49,8 @@ class MakeCommand extends Command
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
-            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.');
+            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.')
+            ->addOption('ignore', null, InputOption::VALUE_NONE, 'Determines if Vagrant files are ignored.');
     }
 
     /**
@@ -102,6 +103,18 @@ class MakeCommand extends Command
         if ($input->getOption('example')) {
             if (! file_exists($this->basePath.'/Homestead.yaml.example')) {
                 copy($this->basePath.'/Homestead.yaml', $this->basePath.'/Homestead.yaml.example');
+            }
+        }
+
+        if ($input->getOption('ignore')) {
+            if (file_exists($this->basePath.'/.gitignore')) {
+                $ignored = [
+                    'Vagrantfile',
+                    '.vagrant',
+                    'after.sh',
+                    'aliases',
+                ];
+                file_put_contents($this->basePath.'/.gitignore', PHP_EOL.implode(PHP_EOL, $ignored), FILE_APPEND);
             }
         }
 
