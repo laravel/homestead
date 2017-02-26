@@ -49,7 +49,8 @@ class MakeCommand extends Command
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
             ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
-            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.');
+            ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead.yaml.example file is created.')
+            ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if JSON config file is generated.');
     }
 
     /**
@@ -106,6 +107,15 @@ class MakeCommand extends Command
         }
 
         $this->configurePaths();
+
+        if ($input->getOption('json')) {
+            // Never overwrite an existing config
+            if (! file_exists($this->basePath.'/Homestead.json')) {
+                $this->convertToJson();
+            }
+        }
+
+        $this->checkForDuplicateConfigs($output);
 
         $output->writeln('Homestead Installed!');
     }
@@ -182,5 +192,38 @@ class MakeCommand extends Command
     protected function getHomesteadFile()
     {
         return file_get_contents($this->basePath.'/Homestead.yaml');
+    }
+
+    /**
+     * Reads the generated Homestead.yaml and writes to Homestead.json
+     * Removes the existing Homestead.yaml.
+     *
+     * @return void
+     */
+    protected function convertToJson()
+    {
+        $config = json_encode(yaml_parse($this->getHomesteadFile()), JSON_PRETTY_PRINT);
+        $config = str_replace('\/', '/', $config);
+        file_put_contents($this->basePath.'/Homestead.json', $config);
+        unlink($this->basePath.'/Homestead.yaml');
+    }
+
+    /**
+     * Checks if JSON and Yaml config files exist, if they do
+     * the user is warned that Yaml will be used before
+     * JSON until Yaml is renamed / removed.
+     *
+     * @param OutputInterface $output
+     */
+    protected function checkForDuplicateConfigs(OutputInterface $output)
+    {
+        if (file_exists($this->basePath.'/Homestead.yaml') && file_exists($this->basePath.'/Homestead.json')) {
+            $output->writeln(
+                '<error>WARNING! You have Homestead.yaml AND Homestead.json configuration files</error>'
+            );
+            $output->writeln(
+                '<error>WARNING! Homestead will not use Homestead.json until you rename Homestead.yaml</error>'
+            );
+        }
     }
 }
