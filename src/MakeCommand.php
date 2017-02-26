@@ -2,6 +2,8 @@
 
 namespace Laravel\Homestead;
 
+use Laravel\Homestead\Settings\JsonSettings;
+use Laravel\Homestead\Settings\YamlSettings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -74,35 +76,30 @@ class MakeCommand extends Command
             $this->createAfterShellScript();
         }
 
-        $settingsFileExtension = $input->getOption('json') ? 'json' : 'yaml';
+        $fileExtension = $input->getOption('json') ? 'json' : 'yaml';
+        $settingsClass = ($fileExtension == 'json') ? JsonSettings::class : YamlSettings::class;
 
-        if ($input->getOption('example') && ! $this->exampleSettingsExists($settingsFileExtension)) {
-            $this->createExampleSettings($settingsFileExtension);
+        if (! $this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
+            $settings = new $settingsClass(__DIR__."/stubs/Homestead.{$fileExtension}");
+
+            $settings->update([
+                'name' => $input->getOption('name'),
+                'hostname' => $input->getOption('hostname'),
+                'ip' => $input->getOption('ip'),
+            ])->save("{$this->basePath}/Homestead.{$fileExtension}");
+
+            if ($input->getOption('example')) {
+                $settings->save("{$this->basePath}/Homestead.{$fileExtension}.example");
+            }
+        } else if ($this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
+            $settings = new $settingsClass("{$this->basePath}/Homestead.{$fileExtension}.example");
+
+            $settings->update([
+                'name' => $input->getOption('name'),
+                'hostname' => $input->getOption('hostname'),
+                'ip' => $input->getOption('ip'),
+            ])->save("{$this->basePath}/Homestead.{$fileExtension}");
         }
-
-        if (! file_exists($this->basePath.'/Homestead.yaml') && ! file_exists($this->basePath.'/Homestead.yaml.example')) {
-            copy(__DIR__.'/stubs/Homestead.yaml', $this->basePath.'/Homestead.yaml');
-
-            if ($input->getOption('name')) {
-                $this->updateName($input->getOption('name'));
-            }
-
-            if ($input->getOption('hostname')) {
-                $this->updateHostName($input->getOption('hostname'));
-            }
-
-            if ($input->getOption('ip')) {
-                $this->updateIpAddress($input->getOption('ip'));
-            }
-        } elseif (! file_exists($this->basePath.'/Homestead.yaml')) {
-            copy($this->basePath.'/Homestead.yaml.example', $this->basePath.'/Homestead.yaml');
-
-            if ($input->getOption('ip')) {
-                $this->updateIpAddress($input->getOption('ip'));
-            }
-        }
-
-        $this->configurePaths();
 
         $output->writeln('Homestead Installed!');
     }
@@ -168,6 +165,17 @@ class MakeCommand extends Command
     }
 
     /**
+     * Determine if the settings file exists.
+     *
+     * @param  string  $fileExtension
+     * @return bool
+     */
+    protected function settingsFileExists($fileExtension)
+    {
+        return file_exists("{$this->basePath}/Homestead.{$fileExtension}");
+    }
+
+    /**
      * Determine if the example settings file exists.
      *
      * @param  string  $fileExtension
@@ -176,93 +184,5 @@ class MakeCommand extends Command
     protected function exampleSettingsExists($fileExtension)
     {
         return file_exists("{$this->basePath}/Homestead.{$fileExtension}.example");
-    }
-
-    /**
-     * Create example settings file.
-     *
-     * @param  string  $fileExtension
-     * @return void
-     */
-    protected function createExampleSettings($fileExtension)
-    {
-        copy(
-            __DIR__."/stubs/Homestead.{$fileExtension}",
-            "{$this->basePath}/Homestead.{$fileExtension}.example"
-        );
-    }
-
-    /**
-     * Update paths in Homestead.yaml.
-     *
-     * @return void
-     */
-    protected function configurePaths()
-    {
-        $yaml = str_replace(
-            '- map: ~/Code', '- map: "'.str_replace('\\', '/', $this->basePath).'"', $this->getHomesteadFile()
-        );
-
-        $yaml = str_replace(
-            'to: /home/vagrant/Code', 'to: "/home/vagrant/'.$this->defaultName.'"', $yaml
-        );
-
-        // Fix path to the public folder (sites: to:)
-        $yaml = str_replace(
-            $this->defaultName.'"/Laravel/public', $this->defaultName.'/public"', $yaml
-        );
-
-        file_put_contents($this->basePath.'/Homestead.yaml', $yaml);
-    }
-
-    /**
-     * Update the "name" variable of the Homestead.yaml file.
-     *
-     * VirtualBox requires a unique name for each virtual machine.
-     *
-     * @param  string  $name
-     * @return void
-     */
-    protected function updateName($name)
-    {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            'cpus: 1', 'cpus: 1'.PHP_EOL.'name: '.$name, $this->getHomesteadFile()
-        ));
-    }
-
-    /**
-     * Set the virtual machine's hostname setting in the Homestead.yaml file.
-     *
-     * @param  string  $hostname
-     * @return void
-     */
-    protected function updateHostName($hostname)
-    {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            'cpus: 1', 'cpus: 1'.PHP_EOL.'hostname: '.$hostname, $this->getHomesteadFile()
-        ));
-    }
-
-    /**
-     * Set the virtual machine's IP address setting in the Homestead.yaml file.
-     *
-     * @param  string  $ip
-     * @return void
-     */
-    protected function updateIpAddress($ip)
-    {
-        file_put_contents($this->basePath.'/Homestead.yaml', str_replace(
-            'ip: "192.168.10.10"', 'ip: "'.$ip.'"', $this->getHomesteadFile()
-        ));
-    }
-
-    /**
-     * Get the contents of the Homestead.yaml file.
-     *
-     * @return string
-     */
-    protected function getHomesteadFile()
-    {
-        return file_get_contents($this->basePath.'/Homestead.yaml');
     }
 }

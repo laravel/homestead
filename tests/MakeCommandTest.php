@@ -22,8 +22,12 @@ class MakeCommandTest extends TestCase
 
     public static function tearDownAfterClass()
     {
-        array_map('unlink', glob(self::$testFolder.DIRECTORY_SEPARATOR.'*'));
         rmdir(self::$testFolder);
+    }
+
+    public function tearDown()
+    {
+        array_map('unlink', glob(self::$testFolder.DIRECTORY_SEPARATOR.'*'));
     }
 
     /** @test */
@@ -165,10 +169,6 @@ class MakeCommandTest extends TestCase
         $this->assertTrue(
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example')
         );
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../src/stubs/Homestead.yaml'),
-            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example')
-        );
     }
 
     /** @test */
@@ -176,7 +176,7 @@ class MakeCommandTest extends TestCase
     {
         file_put_contents(
             self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example',
-            'Already existing Homestead.yaml.example'
+            'name: Already existing Homestead.yaml.example'
         );
         $tester = new CommandTester(new MakeCommand());
 
@@ -190,7 +190,7 @@ class MakeCommandTest extends TestCase
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example')
         );
         $this->assertEquals(
-            'Already existing Homestead.yaml.example',
+            'name: Already existing Homestead.yaml.example',
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example')
         );
     }
@@ -210,10 +210,6 @@ class MakeCommandTest extends TestCase
         $this->assertTrue(
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example')
         );
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../src/stubs/Homestead.json'),
-            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example')
-        );
     }
 
     /** @test */
@@ -221,7 +217,7 @@ class MakeCommandTest extends TestCase
     {
         file_put_contents(
             self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example',
-            'Already existing Homestead.json.example'
+            '{"name": "Already existing Homestead.json.example"}'
         );
         $tester = new CommandTester(new MakeCommand());
 
@@ -236,8 +232,169 @@ class MakeCommandTest extends TestCase
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example')
         );
         $this->assertEquals(
-            'Already existing Homestead.json.example',
+            '{"name": "Already existing Homestead.json.example"}',
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example')
         );
+    }
+
+    /** @test */
+    public function a_homestead_yaml_settings_is_created_if_it_is_does_not_exists()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
+        );
+    }
+
+    /** @test */
+    public function an_existing_homestead_yaml_settings_is_not_overwritten()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml',
+            'name: Already existing Homestead.yaml'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
+        );
+        $this->assertEquals(
+            'name: Already existing Homestead.yaml',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
+        );
+    }
+
+        /** @test */
+    public function a_homestead_json_settings_is_created_if_it_is_requested_and_it_does_not_exists()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--json' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json')
+        );
+    }
+
+    /** @test */
+    public function an_existing_homestead_json_settings_is_not_overwritten()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json',
+            '{"message": "Already existing Homestead.json"}'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json')
+        );
+        $this->assertEquals(
+            '{"message": "Already existing Homestead.json"}',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json')
+        );
+    }
+
+    /** @test */
+    public function a_homestead_yaml_settings_is_created_from_a_homestead_yaml_example_if_it_exists()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example',
+            'message: Already existing Homestead.yaml.example'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
+        );
+        $this->assertContains(
+            'message: Already existing Homestead.yaml.example',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
+        );
+    }
+
+    /** @test */
+    public function a_homestead_json_settings_is_created_from_a_homestead_json_example_if_is_requested_and_if_it_exists()
+    {
+        file_put_contents(
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example',
+            '{"message": "Already existing Homestead.json.example"}'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--json' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(
+            file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json')
+        );
+        $this->assertContains(
+            '"message": "Already existing Homestead.json.example"',
+            file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json')
+        );
+    }
+
+    /** @test */
+    public function a_homestead_yaml_settings_can_be_created_with_some_command_options_overrides()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--name' => 'test_name',
+            '--hostname' => 'test_hostname',
+            '--ip' => '127.0.0.1',
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+        $settings = yaml_parse_file(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml');
+        $this->assertEquals('test_name', $settings['name']);
+        $this->assertEquals('test_hostname', $settings['hostname']);
+        $this->assertEquals('127.0.0.1', $settings['ip']);
+    }
+
+    /** @test */
+    public function a_homestead_json_settings_can_be_created_with_some_command_options_overrides()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--json' => true,
+            '--name' => 'test_name',
+            '--hostname' => 'test_hostname',
+            '--ip' => '127.0.0.1',
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'));
+        $settings = json_decode(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'), true);
+        $this->assertEquals('test_name', $settings['name']);
+        $this->assertEquals('test_hostname', $settings['hostname']);
+        $this->assertEquals('127.0.0.1', $settings['ip']);
     }
 }
