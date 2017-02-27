@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Symfony\Component\Yaml\Yaml;
 use Laravel\Homestead\MakeCommand;
 use PHPUnit\Framework\TestCase as TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -316,7 +317,7 @@ class MakeCommandTest extends TestCase
     {
         file_put_contents(
             self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example',
-            'message: Already existing Homestead.yaml.example'
+            "message: 'Already existing Homestead.yaml.example'"
         );
         $tester = new CommandTester(new MakeCommand());
 
@@ -328,7 +329,7 @@ class MakeCommandTest extends TestCase
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
         );
         $this->assertContains(
-            'message: Already existing Homestead.yaml.example',
+            "message: 'Already existing Homestead.yaml.example'",
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml')
         );
     }
@@ -371,7 +372,7 @@ class MakeCommandTest extends TestCase
         $this->assertContains('Homestead Installed!', $tester->getDisplay());
         $this->assertEquals(0, $tester->getStatusCode());
         $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
-        $settings = yaml_parse_file(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml');
+        $settings = Yaml::parse(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
         $this->assertEquals('test_name', $settings['name']);
         $this->assertEquals('test_hostname', $settings['hostname']);
         $this->assertEquals('127.0.0.1', $settings['ip']);
@@ -407,7 +408,7 @@ class MakeCommandTest extends TestCase
         );
         file_put_contents(
             self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml',
-            'message: Already existing Homestead.yaml'
+            "message: 'Already existing Homestead.yaml'"
         );
         $tester = new CommandTester(new MakeCommand());
 

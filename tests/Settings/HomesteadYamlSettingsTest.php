@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Settings;
+
+use Symfony\Component\Yaml\Yaml;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\YamlSettings;
 
@@ -47,7 +50,7 @@ class HomesteadYamlSettingsTest extends TestCase
         $settings->save($filename);
 
         $this->assertTrue(file_exists($filename));
-        $attributes = yaml_parse_file($filename);
+        $attributes = Yaml::parse(file_get_contents($filename));
         $this->assertEquals('192.168.10.10', $attributes['ip']);
         $this->assertEquals('2048', $attributes['memory']);
         $this->assertEquals(1, $attributes['cpus']);
