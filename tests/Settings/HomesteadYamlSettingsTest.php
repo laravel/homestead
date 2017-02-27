@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Settings;
+
 use Symfony\Component\Yaml\Yaml;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\YamlSettings;

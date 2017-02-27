@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Settings;
+
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\JsonSettings;
 
