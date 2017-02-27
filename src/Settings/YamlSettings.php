@@ -2,6 +2,8 @@
 
 namespace Laravel\Homestead\Settings;
 
+use Symfony\Component\Yaml\Yaml;
+
 class YamlSettings implements HomesteadSettings
 {
     /**
@@ -25,7 +27,7 @@ class YamlSettings implements HomesteadSettings
      */
     public function __construct($filename)
     {
-        $this->attributes = yaml_parse_file($filename);
+        $this->attributes = Yaml::parse(file_get_contents($filename));
     }
 
     /**
@@ -38,7 +40,7 @@ class YamlSettings implements HomesteadSettings
     {
         $this->filename = $filename;
 
-        yaml_emit_file($filename, $this->attributes, YAML_UTF8_ENCODING);
+        file_put_contents($filename, Yaml::dump($this->attributes));
     }
 
     /**
