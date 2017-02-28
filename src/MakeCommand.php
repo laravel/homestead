@@ -76,29 +76,18 @@ class MakeCommand extends Command
             $this->createAfterShellScript();
         }
 
-        $fileExtension = $input->getOption('json') ? 'json' : 'yaml';
-        $settingsClass = ($fileExtension == 'json') ? JsonSettings::class : YamlSettings::class;
+        $format = $input->getOption('json') ? 'json' : 'yaml';
 
-        if (! $this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
-            $settings = new $settingsClass(__DIR__."/stubs/Homestead.{$fileExtension}");
-
-            $settings->update([
+        if (! $this->settingsFileExists($format)) {
+            $this->createSettingsFile($format, [
                 'name' => $input->getOption('name'),
                 'hostname' => $input->getOption('hostname'),
                 'ip' => $input->getOption('ip'),
-            ])->save("{$this->basePath}/Homestead.{$fileExtension}");
+            ]);
+        }
 
-            if ($input->getOption('example')) {
-                $settings->save("{$this->basePath}/Homestead.{$fileExtension}.example");
-            }
-        } elseif ($this->exampleSettingsExists($fileExtension) && ! $this->settingsFileExists($fileExtension)) {
-            $settings = new $settingsClass("{$this->basePath}/Homestead.{$fileExtension}.example");
-
-            $settings->update([
-                'name' => $input->getOption('name'),
-                'hostname' => $input->getOption('hostname'),
-                'ip' => $input->getOption('ip'),
-            ])->save("{$this->basePath}/Homestead.{$fileExtension}");
+        if ($input->getOption('example') && ! $this->exampleSettingsExists($format)) {
+            $this->createExampleSettingsFile($format);
         }
 
         $this->checkForDuplicateConfigs($output);
@@ -169,23 +158,59 @@ class MakeCommand extends Command
     /**
      * Determine if the settings file exists.
      *
-     * @param  string  $fileExtension
+     * @param  string  $format
      * @return bool
      */
-    protected function settingsFileExists($fileExtension)
+    protected function settingsFileExists($format)
     {
-        return file_exists("{$this->basePath}/Homestead.{$fileExtension}");
+        return file_exists("{$this->basePath}/Homestead.{$format}");
+    }
+
+    /**
+     * Create the homestead settings file.
+     *
+     * @param  string  $format
+     * @param  array  $options
+     * @return void
+     */
+    protected function createSettingsFile($format, $options)
+    {
+        $SettingsClass = ($format === 'json') ? JsonSettings::class : YamlSettings::class;
+
+        $filename = $this->exampleSettingsExists($format) ?
+            "{$this->basePath}/Homestead.{$format}.example" :
+            __DIR__."/stubs/Homestead.{$format}";
+
+        $settings = $SettingsClass::fromFile($filename);
+
+        $settings->updateName($options['name'])
+                 ->updateHostname($options['hostname'])
+                 ->updateIpAddress($options['ip'])
+                 ->configureSites($this->projectName)
+                 ->configureSharedFolders($this->basePath, $this->defaultName)
+                 ->save("{$this->basePath}/Homestead.{$format}");
     }
 
     /**
      * Determine if the example settings file exists.
      *
-     * @param  string  $fileExtension
+     * @param  string  $format
      * @return bool
      */
-    protected function exampleSettingsExists($fileExtension)
+    protected function exampleSettingsExists($format)
     {
-        return file_exists("{$this->basePath}/Homestead.{$fileExtension}.example");
+        return file_exists("{$this->basePath}/Homestead.{$format}.example");
+    }
+
+    /**
+     * Create the homestead settings example file.
+     *
+     * @param  string  $format
+     * @return void
+     */
+    protected function createExampleSettingsFile($format)
+    {
+        copy("{$this->basePath}/Homestead.{$format}", "{$this->basePath}/Homestead.{$format}.example");
     }
 
     /**

@@ -400,6 +400,100 @@ class MakeCommandTest extends TestCase
     }
 
     /** @test */
+    public function a_homestead_yaml_settings_has_preconfigured_sites()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+        $projectName = basename(getcwd());
+        $settings = Yaml::parse(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+        $this->assertEquals([
+            'map' => "{$projectName}.app",
+            'to' => "/home/vagrant/Code/{$projectName}/public",
+        ], $settings['sites'][0]);
+    }
+
+    /** @test */
+    public function a_homestead_json_settings_has_preconfigured_sites()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--json' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'));
+        $projectName = basename(getcwd());
+        $settings = json_decode(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'), true);
+        $this->assertEquals([
+            'map' => "{$projectName}.app",
+            'to' => "/home/vagrant/Code/{$projectName}/public",
+        ], $settings['sites'][0]);
+    }
+
+    /** @test */
+    public function a_homestead_yaml_settings_has_preconfigured_shared_folders()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+        $projectDirectory = basename(getcwd());
+        $projectName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $projectDirectory))); // Sluggify
+        $settings = Yaml::parse(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+
+        // The "map" is not tested for equality because getcwd() (The method to obtain the project path)
+        // returns a directory in a different location that the test directory itself.
+        //
+        // Example:
+        //  - project directory: /private/folders/...
+        //  - test directory: /var/folders/...
+        //
+        // The curious thing is that both directories point to the same location.
+        //
+        $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
+        $this->assertEquals("/home/vagrant/Code/{$projectName}", $settings['folders'][0]['to']);
+    }
+
+    /** @test */
+    public function a_homestead_json_settings_has_preconfigured_shared_folders()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--json' => true,
+        ]);
+
+        $this->assertContains('Homestead Installed!', $tester->getDisplay());
+        $this->assertEquals(0, $tester->getStatusCode());
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'));
+        $projectDirectory = basename(getcwd());
+        $projectName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $projectDirectory))); // Sluggify
+        $settings = json_decode(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'), true);
+
+        // The "map" is not tested for equality because getcwd() (The method to obtain the project path)
+        // returns a directory in a different location that the test directory itself.
+        //
+        // Example:
+        //  - project directory: /private/folders/...
+        //  - test directory: /var/folders/...
+        //
+        // The curious thing is that both directories point to the same location.
+        //
+        $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
+        $this->assertEquals("/home/vagrant/Code/{$projectName}", $settings['folders'][0]['to']);
+    }
+
+    /** @test */
     public function a_warning_is_thrown_if_the_homestead_settings_json_and_yaml_exists_at_the_same_time()
     {
         file_put_contents(

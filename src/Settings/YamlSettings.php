@@ -14,20 +14,24 @@ class YamlSettings implements HomesteadSettings
     protected $attributes;
 
     /**
-     * Settings filename.
-     *
-     * @var string
-     */
-    protected $filename;
-
-    /**
      * YamlSettings constructor.
      *
-     * @param  string  $filename
+     * @param  array  $attributes
      */
-    public function __construct($filename)
+    public function __construct($attributes = [])
     {
-        $this->attributes = Yaml::parse(file_get_contents($filename));
+        $this->attributes = $attributes;
+    }
+
+    /**
+     * Create an instance from a file.
+     *
+     * @param  string  $filename
+     * @return static
+     */
+    public static function fromFile($filename)
+    {
+        return new static(Yaml::parse(file_get_contents($filename)));
     }
 
     /**
@@ -38,8 +42,6 @@ class YamlSettings implements HomesteadSettings
      */
     public function save($filename)
     {
-        $this->filename = $filename;
-
         file_put_contents($filename, Yaml::dump($this->attributes));
     }
 
@@ -51,7 +53,85 @@ class YamlSettings implements HomesteadSettings
      */
     public function update($attributes)
     {
-        $this->attributes = array_merge($this->attributes, $attributes);
+        $this->attributes = array_merge($this->attributes, array_filter($attributes, function ($attribute) {
+            return ! is_null($attribute);
+        }));
+
+        return $this;
+    }
+
+    /**
+     * Update the virtual machine's name.
+     *
+     * @param  string  $name
+     * @return static
+     */
+    public function updateName($name)
+    {
+        $this->update(['name' => $name]);
+
+        return $this;
+    }
+
+    /**
+     * Update the virtual machine's hostname.
+     *
+     * @param  string  $hostname
+     * @return static
+     */
+    public function updateHostname($hostname)
+    {
+        $this->update(['hostname' => $hostname]);
+
+        return $this;
+    }
+
+    /**
+     * Update the virtual machine's IP address.
+     *
+     * @param  string  $ip
+     * @return static
+     */
+    public function updateIpAddress($ip)
+    {
+        $this->update(['ip' => $ip]);
+
+        return $this;
+    }
+
+    /**
+     * Configure the nginx sites.
+     *
+     * @param  string  $projectName
+     * @return static
+     */
+    public function configureSites($projectName)
+    {
+        $site = [
+            'map' => "{$projectName}.app",
+            'to' => "/home/vagrant/Code/{$projectName}/public",
+        ];
+
+        $this->update(['sites' => [$site]]);
+
+        return $this;
+    }
+
+    /**
+     * Configure the shared folders.
+     *
+     * @param  string  $projectPath
+     * @param  string  $projectName
+     * @return static
+     */
+    public function configureSharedFolders($projectPath, $projectName)
+    {
+        $folder = [
+            'map' => $projectPath,
+            'to' => "/home/vagrant/Code/{$projectName}",
+        ];
+
+        $this->update(['folders' => [$folder]]);
 
         return $this;
     }
