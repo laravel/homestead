@@ -134,4 +134,23 @@ class YamlSettingsTest extends TestCase
         $attributes = $settings->toArray();
         $this->assertEquals('Updated ip address', $attributes['ip']);
     }
+
+    /** @test */
+    public function it_can_configure_its_sites()
+    {
+        $settings = new YamlSettings([
+            'sites' => [
+                'map' => 'homestead.app',
+                'to' => '/home/vagrant/Code/Laravel/public',
+            ],
+        ]);
+
+        $settings->configureSites('test');
+
+        $attributes = $settings->toArray();
+        $this->assertEquals([
+            'map' => 'test.app',
+            'to' => '/home/vagrant/Code/test/public',
+        ], $attributes['sites'][0]);
+    }
 }

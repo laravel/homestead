@@ -186,6 +186,7 @@ class MakeCommand extends Command
         $settings->updateName($options['name'])
                  ->updateHostname($options['hostname'])
                  ->updateIpAddress($options['ip'])
+                 ->configureSites($this->projectName)
                  ->save("{$this->basePath}/Homestead.{$format}");
     }
 

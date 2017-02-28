@@ -45,11 +45,20 @@ interface HomesteadSettings
     public function updateHostname($hostname);
 
     /**
-     * Update the virtual machine's IP address
+     * Update the virtual machine's IP address.
+     *
      * @param  string  $ip
      * @return static
      */
     public function updateIpAddress($ip);
+
+    /**
+     * Configure the nginx sites.
+     *
+     * @param  string  $projectName
+     * @return static
+     */
+    public function configureSites($projectName);
 
     /**
      * Convert the homestead settings to an array.

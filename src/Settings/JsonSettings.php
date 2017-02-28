@@ -85,13 +85,32 @@ class JsonSettings implements HomesteadSettings
     }
 
     /**
-     * Update the virtual machine's IP address
+     * Update the virtual machine's IP address.
+     *
      * @param  string  $ip
      * @return static
      */
     public function updateIpAddress($ip)
     {
         $this->update(['ip' => $ip]);
+
+        return $this;
+    }
+
+    /**
+     * Configure the nginx sites.
+     *
+     * @param  string  $projectName
+     * @return static
+     */
+    public function configureSites($projectName)
+    {
+        $site = [
+            'map' => "{$projectName}.app",
+            'to' => "/home/vagrant/Code/{$projectName}/public",
+        ];
+
+        $this->update(['sites' => [$site]]);
 
         return $this;
     }
