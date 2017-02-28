@@ -116,6 +116,25 @@ class JsonSettings implements HomesteadSettings
     }
 
     /**
+     * Configure the shared folders.
+     *
+     * @param  string  $projectPath
+     * @param  string  $projectName
+     * @return static
+     */
+    public function configureSharedFolders($projectPath, $projectName)
+    {
+        $folder = [
+            'map' => $projectPath,
+            'to' => "/home/vagrant/Code/{$projectName}",
+        ];
+
+        $this->update(['folders' => [$folder]]);
+
+        return $this;
+    }
+
+    /**
      * Convert the homestead settings to an array.
      *
      * @return array

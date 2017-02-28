@@ -187,6 +187,7 @@ class MakeCommand extends Command
                  ->updateHostname($options['hostname'])
                  ->updateIpAddress($options['ip'])
                  ->configureSites($this->projectName)
+                 ->configureSharedFolders($this->basePath, $this->defaultName)
                  ->save("{$this->basePath}/Homestead.{$format}");
     }
 

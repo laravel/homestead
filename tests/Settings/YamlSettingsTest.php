@@ -153,4 +153,23 @@ class YamlSettingsTest extends TestCase
             'to' => '/home/vagrant/Code/test/public',
         ], $attributes['sites'][0]);
     }
+
+    /** @test */
+    public function it_can_configure_its_shared_folders()
+    {
+        $settings = new YamlSettings([
+            'folders' => [
+                'map' => '~/Code',
+                'to' => '/home/vagrant/Code',
+            ],
+        ]);
+
+        $settings->configureSharedFolders('/a/path/for/project_name', 'project_name');
+
+        $attributes = $settings->toArray();
+        $this->assertEquals([
+            'map' => '/a/path/for/project_name',
+            'to' => '/home/vagrant/Code/project_name',
+        ], $attributes['folders'][0]);
+    }
 }

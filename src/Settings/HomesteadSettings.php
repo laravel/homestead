@@ -61,6 +61,15 @@ interface HomesteadSettings
     public function configureSites($projectName);
 
     /**
+     * Configure the shared folders.
+     *
+     * @param  string  $projectPath
+     * @param  string  $projectName
+     * @return static
+     */
+    public function configureSharedFolders($projectPath, $projectName);
+
+    /**
      * Convert the homestead settings to an array.
      *
      * @return array
