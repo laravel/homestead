@@ -96,5 +96,7 @@ function share() {
         echo "Error: missing required parameters."
         echo "Usage: "
         echo "  share domain"
+        echo "Invocation with extra params passed directly to ngrok" 
+        echo "  share domain -region=eu -subdomain=test1234"
     fi
 }
