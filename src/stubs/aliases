@@ -91,10 +91,12 @@ function serve-symfony2() {
 function share() {
     if [[ "$1" ]]
     then
-        ngrok http -host-header="$1" 80
+        ngrok http ${@:2} -host-header="$1" 80
     else
         echo "Error: missing required parameters."
         echo "Usage: "
         echo "  share domain"
+        echo "Invocation with extra params passed directly to ngrok" 
+        echo "  share domain -region=eu -subdomain=test1234"
     fi
 }
