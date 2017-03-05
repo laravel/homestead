@@ -100,3 +100,7 @@ function share() {
         echo "  share domain -region=eu -subdomain=test1234"
     fi
 }
+
+function flip() {
+    sudo bash /vagrant/scripts/flip-webserver.sh
+}
