@@ -5,6 +5,7 @@ php:
   - 7.1
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - composer install --no-interaction
 
 script:
