@@ -156,4 +156,10 @@ then
 fi
 
 a2dissite 000-default
-service apache2 reload
+
+ps auxw | grep apache2 | grep -v grep > /dev/null
+
+if [ $? == 0 ]
+then
+    service apache2 reload
+fi
