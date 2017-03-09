@@ -14,7 +14,7 @@ class MakeCommandTest extends TestCase
      */
     protected static $testFolder;
 
-    protected  function slugify($projectDirectory)
+    protected function slugify($projectDirectory)
     {
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $projectDirectory)));
     }

@@ -121,5 +121,4 @@ trait HomesteadSettingsTrait
     {
         return $this->attributes;
     }
-
 }

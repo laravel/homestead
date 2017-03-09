@@ -27,5 +27,4 @@ class JsonSettings implements HomesteadSettings
     {
         file_put_contents($filename, json_encode($this->attributes, JSON_PRETTY_PRINT));
     }
-
 }
