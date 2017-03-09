@@ -29,5 +29,4 @@ class YamlSettings implements HomesteadSettings
     {
         file_put_contents($filename, Yaml::dump($this->attributes));
     }
-
 }
