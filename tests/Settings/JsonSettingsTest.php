@@ -144,12 +144,12 @@ class JsonSettingsTest extends TestCase
             ],
         ]);
 
-        $settings->configureSites('test');
+        $settings->configureSites('test.com', 'test-com');
 
         $attributes = $settings->toArray();
         $this->assertEquals([
-            'map' => 'test.app',
-            'to' => '/home/vagrant/Code/test/public',
+            'map' => 'test.com.app',
+            'to' => '/home/vagrant/Code/test-com/public',
         ], $attributes['sites'][0]);
     }
 

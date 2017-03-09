@@ -40,8 +40,8 @@ class MakeCommand extends Command
     protected function configure()
     {
         $this->basePath = getcwd();
-        $this->projectName = basename(getcwd());
-        $this->defaultName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->projectName)));
+        $this->projectName = basename($this->basePath);
+        $this->defaultName = $this->slugify($this->projectName);
 
         $this
             ->setName('make')
@@ -93,6 +93,17 @@ class MakeCommand extends Command
         $this->checkForDuplicateConfigs($output);
 
         $output->writeln('Homestead Installed!');
+    }
+
+    /**
+     * Slugifies the Project Name.
+     *
+     * @param  string $projectName
+     * @return string
+     */
+    protected function slugify($projectName)
+    {
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $projectName)));
     }
 
     /**
@@ -186,7 +197,7 @@ class MakeCommand extends Command
         $settings->updateName($options['name'])
                  ->updateHostname($options['hostname'])
                  ->updateIpAddress($options['ip'])
-                 ->configureSites($this->projectName)
+                 ->configureSites($this->projectName, $this->defaultName)
                  ->configureSharedFolders($this->basePath, $this->defaultName)
                  ->save("{$this->basePath}/Homestead.{$format}");
     }

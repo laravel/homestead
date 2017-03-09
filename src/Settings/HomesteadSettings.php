@@ -56,18 +56,19 @@ interface HomesteadSettings
      * Configure the nginx sites.
      *
      * @param  string  $projectName
+     * @param  string  $slugifiedProjectName
      * @return static
      */
-    public function configureSites($projectName);
+    public function configureSites($projectName, $slugifiedProjectName);
 
     /**
      * Configure the shared folders.
      *
      * @param  string  $projectPath
-     * @param  string  $projectName
+     * @param  string  $slugifiedProjectName
      * @return static
      */
-    public function configureSharedFolders($projectPath, $projectName);
+    public function configureSharedFolders($projectPath, $slugifiedProjectName);
 
     /**
      * Convert the homestead settings to an array.
