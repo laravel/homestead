@@ -140,8 +140,11 @@ class YamlSettingsTest extends TestCase
     {
         $settings = new YamlSettings([
             'sites' => [
-                'map' => 'homestead.app',
-                'to' => '/home/vagrant/Code/Laravel/public',
+                [
+                    'map' => 'homestead.app',
+                    'to' => '/home/vagrant/Code/Laravel/public',
+                    'schedule' => true,
+                ]
             ],
         ]);
 
@@ -151,6 +154,7 @@ class YamlSettingsTest extends TestCase
         $this->assertEquals([
             'map' => 'test.com.app',
             'to' => '/home/vagrant/Code/test-com/public',
+            'schedule' => true,
         ], $attributes['sites'][0]);
     }
 
