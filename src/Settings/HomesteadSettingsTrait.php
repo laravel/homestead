@@ -90,7 +90,8 @@ trait HomesteadSettingsTrait
 
         if (isset($this->attributes['sites']) &&
             ! empty($this->attributes['sites']) &&
-            isset($this->attributes['sites'][0]['schedule'])) {
+            isset($this->attributes['sites'][0]['schedule'])
+        ) {
             $site['schedule'] = $this->attributes['sites'][0]['schedule'];
         }
 

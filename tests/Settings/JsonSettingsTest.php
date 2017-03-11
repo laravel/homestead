@@ -143,7 +143,7 @@ class JsonSettingsTest extends TestCase
                     'map' => 'homestead.app',
                     'to' => '/home/vagrant/Code/Laravel/public',
                     'schedule' => true,
-                ]
+                ],
             ],
         ]);
 
