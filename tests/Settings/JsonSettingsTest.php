@@ -142,6 +142,7 @@ class JsonSettingsTest extends TestCase
                 [
                     'map' => 'homestead.app',
                     'to' => '/home/vagrant/Code/Laravel/public',
+                    'type' => 'laravel',
                     'schedule' => true,
                 ],
             ],
@@ -153,6 +154,7 @@ class JsonSettingsTest extends TestCase
         $this->assertEquals([
             'map' => 'test.com.app',
             'to' => '/home/vagrant/Code/test-com/public',
+            'type' => 'laravel',
             'schedule' => true,
         ], $attributes['sites'][0]);
     }
