@@ -16,6 +16,7 @@ folders:
 sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public
+      #php: "5.6"
 
 databases:
     - homestead
