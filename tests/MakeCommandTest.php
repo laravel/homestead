@@ -68,7 +68,7 @@ class MakeCommandTest extends TestCase
         );
         $this->assertEquals(
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Vagrantfile'),
-            file_get_contents(__DIR__.'/../src/stubs/LocalizedVagrantfile')
+            file_get_contents(__DIR__.'/../resources/LocalizedVagrantfile')
         );
     }
 
@@ -102,7 +102,7 @@ class MakeCommandTest extends TestCase
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'aliases')
         );
         $this->assertEquals(
-            file_get_contents(__DIR__.'/../src/stubs/aliases'),
+            file_get_contents(__DIR__.'/../resources/aliases'),
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'aliases')
         );
     }
@@ -142,7 +142,7 @@ class MakeCommandTest extends TestCase
             file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'after.sh')
         );
         $this->assertEquals(
-            file_get_contents(__DIR__.'/../src/stubs/after.sh'),
+            file_get_contents(__DIR__.'/../resources/after.sh'),
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'after.sh')
         );
     }
@@ -327,7 +327,7 @@ class MakeCommandTest extends TestCase
     public function a_homestead_yaml_settings_created_from_a_homestead_yaml_example_can_override_the_ip_address()
     {
         copy(
-            __DIR__.'/../src/stubs/Homestead.yaml',
+            __DIR__.'/../resources/Homestead.yaml',
             self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example'
         );
 
@@ -369,7 +369,7 @@ class MakeCommandTest extends TestCase
     public function a_homestead_json_settings_created_from_a_homestead_json_example_can_override_the_ip_address()
     {
         copy(
-            __DIR__.'/../src/stubs/Homestead.json',
+            __DIR__.'/../resources/Homestead.json',
             self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example'
         );
 

@@ -32,7 +32,7 @@ class JsonSettingsTest extends TestCase
     /** @test */
     public function it_can_be_created_from_a_filename()
     {
-        $settings = JsonSettings::fromFile(__DIR__.'/../../src/stubs/Homestead.json');
+        $settings = JsonSettings::fromFile(__DIR__.'/../../resources/Homestead.json');
 
         $attributes = $settings->toArray();
         $this->assertEquals('192.168.10.10', $attributes['ip']);

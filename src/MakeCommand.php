@@ -123,7 +123,7 @@ class MakeCommand extends Command
      */
     protected function createVagrantfile()
     {
-        copy(__DIR__.'/stubs/LocalizedVagrantfile', "{$this->basePath}/Vagrantfile");
+        copy(__DIR__.'/../resources/LocalizedVagrantfile', "{$this->basePath}/Vagrantfile");
     }
 
     /**
@@ -143,7 +143,7 @@ class MakeCommand extends Command
      */
     protected function createAliasesFile()
     {
-        copy(__DIR__.'/stubs/aliases', "{$this->basePath}/aliases");
+        copy(__DIR__.'/../resources/aliases', "{$this->basePath}/aliases");
     }
 
     /**
@@ -163,7 +163,7 @@ class MakeCommand extends Command
      */
     protected function createAfterShellScript()
     {
-        copy(__DIR__.'/stubs/after.sh', "{$this->basePath}/after.sh");
+        copy(__DIR__.'/../resources/after.sh', "{$this->basePath}/after.sh");
     }
 
     /**
@@ -190,7 +190,7 @@ class MakeCommand extends Command
 
         $filename = $this->exampleSettingsExists($format) ?
             "{$this->basePath}/Homestead.{$format}.example" :
-            __DIR__."/stubs/Homestead.{$format}";
+            __DIR__."/../resources/Homestead.{$format}";
 
         $settings = $SettingsClass::fromFile($filename);
 
