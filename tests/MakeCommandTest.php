@@ -324,6 +324,26 @@ class MakeCommandTest extends TestCase
     }
 
     /** @test */
+    public function a_homestead_yaml_settings_created_from_a_homestead_yaml_example_can_override_the_ip_address()
+    {
+        copy(
+            __DIR__.'/../src/stubs/Homestead.yaml',
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml.example'
+        );
+
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--ip' => '192.168.10.11',
+        ]);
+
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+        $settings = Yaml::parse(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml'));
+
+        $this->assertEquals('192.168.10.11', $settings['ip']);
+    }
+
+    /** @test */
     public function a_homestead_json_settings_is_created_from_a_homestead_json_example_if_is_requested_and_if_it_exists()
     {
         file_put_contents(
@@ -343,6 +363,27 @@ class MakeCommandTest extends TestCase
             '"message": "Already existing Homestead.json.example"',
             file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json')
         );
+    }
+
+    /** @test */
+    public function a_homestead_json_settings_created_from_a_homestead_json_example_can_override_the_ip_address()
+    {
+        copy(
+            __DIR__.'/../src/stubs/Homestead.json',
+            self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json.example'
+        );
+
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--json' => true,
+            '--ip' => '192.168.10.11',
+        ]);
+
+        $this->assertTrue(file_exists(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'));
+        $settings = json_decode(file_get_contents(self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json'), true);
+
+        $this->assertEquals('192.168.10.11', $settings['ip']);
     }
 
     /** @test */

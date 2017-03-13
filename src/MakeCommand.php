@@ -194,9 +194,12 @@ class MakeCommand extends Command
 
         $settings = $SettingsClass::fromFile($filename);
 
-        $settings->updateName($options['name'])
-                 ->updateHostname($options['hostname'])
-                 ->updateIpAddress($options['ip'])
+        if (! $this->exampleSettingsExists($format)) {
+            $settings->updateName($options['name'])
+                     ->updateHostname($options['hostname']);
+        }
+
+        $settings->updateIpAddress($options['ip'])
                  ->configureSites($this->projectName, $this->defaultName)
                  ->configureSharedFolders($this->basePath, $this->defaultName)
                  ->save("{$this->basePath}/Homestead.{$format}");
