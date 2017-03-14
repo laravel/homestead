@@ -25,6 +25,6 @@ class YamlSettings extends HomesteadSettings
      */
     public function save($filename)
     {
-        file_put_contents($filename, Yaml::dump($this->attributes));
+        file_put_contents($filename, Yaml::dump($this->attributes, 3));
     }
 }
