@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 if [[ -n "$1" ]]; then
-    cp -i src/stubs/Homestead.json Homestead.json
+    cp -i resources/Homestead.json Homestead.json
 else
-    cp -i src/stubs/Homestead.yaml Homestead.yaml
+    cp -i resources/Homestead.yaml Homestead.yaml
 fi
 
-cp -i src/stubs/after.sh after.sh
-cp -i src/stubs/aliases aliases
+cp -i resources/after.sh after.sh
+cp -i resources/aliases aliases
 
 echo "Homestead initialized!"
