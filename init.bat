@@ -1,13 +1,13 @@
 @echo off
 
 if ["%~1"]==["json"] (
-    copy /-y src\stubs\Homestead.json Homestead.json
+    copy /-y resources\Homestead.json Homestead.json
 )
 if ["%~1"]==[""] (
-    copy /-y src\stubs\Homestead.yaml Homestead.yaml
+    copy /-y resources\Homestead.yaml Homestead.yaml
 )
 
-copy /-y src\stubs\after.sh after.sh
-copy /-y src\stubs\aliases aliases
+copy /-y resources\after.sh after.sh
+copy /-y resources\aliases aliases
 
 echo Homestead initialized!
