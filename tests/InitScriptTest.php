@@ -2,38 +2,22 @@
 
 namespace Tests;
 
+use Tests\Traits\TestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 
 class InitScriptTest extends TestCase
 {
+    use TestDirectory;
+
     /**
-     * @var string
+     * Copies init.sh and resources/ to the temporal directory.
      */
-    protected static $testFolder;
-
-    public static function setUpBeforeClass()
-    {
-        self::$testFolder = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid('homestead_', true);
-        mkdir(self::$testFolder);
-        chdir(self::$testFolder);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        rmdir(self::$testFolder);
-    }
-
     public function setUp()
     {
         $projectDirectory = __DIR__.'/..';
 
-        exec("cp {$projectDirectory}/init.sh ".self::$testFolder);
-        exec("cp -r {$projectDirectory}/resources ".self::$testFolder);
-    }
-
-    public function tearDown()
-    {
-        exec('rm -rf '.self::$testFolder.'/*');
+        exec("cp {$projectDirectory}/init.sh ".self::$testDirectory);
+        exec("cp -r {$projectDirectory}/resources ".self::$testDirectory);
     }
 
     /** @test */
@@ -49,7 +33,7 @@ class InitScriptTest extends TestCase
     {
         exec('bash init.sh');
 
-        $this->assertTrue(file_exists(self::$testFolder.'/Homestead.yaml'));
+        $this->assertTrue(file_exists(self::$testDirectory.'/Homestead.yaml'));
     }
 
     /** @test */
@@ -57,7 +41,7 @@ class InitScriptTest extends TestCase
     {
         exec('bash init.sh json');
 
-        $this->assertTrue(file_exists(self::$testFolder.'/Homestead.json'));
+        $this->assertTrue(file_exists(self::$testDirectory.'/Homestead.json'));
     }
 
     /** @test */
@@ -65,7 +49,7 @@ class InitScriptTest extends TestCase
     {
         exec('bash init.sh');
 
-        $this->assertTrue(file_exists(self::$testFolder.'/after.sh'));
+        $this->assertTrue(file_exists(self::$testDirectory.'/after.sh'));
     }
 
     /** @test */
@@ -73,6 +57,6 @@ class InitScriptTest extends TestCase
     {
         exec('bash init.sh');
 
-        $this->assertTrue(file_exists(self::$testFolder.'/aliases'));
+        $this->assertTrue(file_exists(self::$testDirectory.'/aliases'));
     }
 }
