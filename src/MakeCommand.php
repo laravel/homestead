@@ -2,9 +2,9 @@
 
 namespace Laravel\Homestead;
 
-use Laravel\Homestead\Traits\Slug;
 use Laravel\Homestead\Settings\JsonSettings;
 use Laravel\Homestead\Settings\YamlSettings;
+use Laravel\Homestead\Traits\GeneratesSlugs;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeCommand extends Command
 {
-    use Slug;
+    use GeneratesSlugs;
 
     /**
      * The base path of the Laravel installation.

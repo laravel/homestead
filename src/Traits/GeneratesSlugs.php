@@ -2,7 +2,7 @@
 
 namespace Laravel\Homestead\Traits;
 
-trait Slug
+trait GeneratesSlugs
 {
     /**
      * Generate a slug from a given string.
