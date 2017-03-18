@@ -3,32 +3,13 @@
 namespace Tests\Settings;
 
 use Symfony\Component\Yaml\Yaml;
+use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\YamlSettings;
 
 class YamlSettingsTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected static $testFolder;
-
-    public static function setUpBeforeClass()
-    {
-        self::$testFolder = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid('homestead_settings_', true);
-        mkdir(self::$testFolder);
-        chdir(self::$testFolder);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        rmdir(self::$testFolder);
-    }
-
-    public function tearDown()
-    {
-        array_map('unlink', glob(self::$testFolder.DIRECTORY_SEPARATOR.'*'));
-    }
+    use GeneratesTestDirectory;
 
     /** @test */
     public function it_can_be_created_from_a_filename()
@@ -49,7 +30,7 @@ class YamlSettingsTest extends TestCase
             'memory' => '2048',
             'cpus' => 1,
         ]);
-        $filename = self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.yaml';
+        $filename = self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml';
 
         $settings->save($filename);
 

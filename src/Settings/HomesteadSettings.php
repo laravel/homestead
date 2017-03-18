@@ -95,13 +95,14 @@ abstract class HomesteadSettings
      * Configure the nginx sites.
      *
      * @param  string  $projectName
+     * @param  string  $projectDirectory
      * @return static
      */
-    public function configureSites($projectName, $slugifiedProjectName)
+    public function configureSites($projectName, $projectDirectory)
     {
         $site = [
             'map' => "{$projectName}.app",
-            'to' => "/home/vagrant/Code/{$slugifiedProjectName}/public",
+            'to' => "/home/vagrant/Code/{$projectDirectory}/public",
         ];
 
         if (isset($this->attributes['sites']) && ! empty($this->attributes['sites'])) {
@@ -123,14 +124,14 @@ abstract class HomesteadSettings
      * Configure the shared folders.
      *
      * @param  string  $projectPath
-     * @param  string  $slugifiedProjectName
+     * @param  string  $projectDirectory
      * @return static
      */
-    public function configureSharedFolders($projectPath, $slugifiedProjectName)
+    public function configureSharedFolders($projectPath, $projectDirectory)
     {
         $folder = [
             'map' => $projectPath,
-            'to' => "/home/vagrant/Code/{$slugifiedProjectName}",
+            'to' => "/home/vagrant/Code/{$projectDirectory}",
         ];
 
         $this->update(['folders' => [$folder]]);

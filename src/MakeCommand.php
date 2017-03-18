@@ -4,6 +4,7 @@ namespace Laravel\Homestead;
 
 use Laravel\Homestead\Settings\JsonSettings;
 use Laravel\Homestead\Settings\YamlSettings;
+use Laravel\Homestead\Traits\GeneratesSlugs;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeCommand extends Command
 {
+    use GeneratesSlugs;
+
     /**
      * The base path of the Laravel installation.
      *
@@ -41,7 +44,7 @@ class MakeCommand extends Command
     {
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
-        $this->defaultName = $this->slugify($this->projectName);
+        $this->defaultName = $this->slug($this->projectName);
 
         $this
             ->setName('make')
@@ -93,17 +96,6 @@ class MakeCommand extends Command
         $this->checkForDuplicateConfigs($output);
 
         $output->writeln('Homestead Installed!');
-    }
-
-    /**
-     * Slugifies the Project Name.
-     *
-     * @param  string $projectName
-     * @return string
-     */
-    protected function slugify($projectName)
-    {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $projectName)));
     }
 
     /**

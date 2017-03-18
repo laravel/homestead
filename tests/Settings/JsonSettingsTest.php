@@ -2,32 +2,13 @@
 
 namespace Tests\Settings;
 
+use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\JsonSettings;
 
 class JsonSettingsTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected static $testFolder;
-
-    public static function setUpBeforeClass()
-    {
-        self::$testFolder = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid('homestead_settings_', true);
-        mkdir(self::$testFolder);
-        chdir(self::$testFolder);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        rmdir(self::$testFolder);
-    }
-
-    public function tearDown()
-    {
-        array_map('unlink', glob(self::$testFolder.DIRECTORY_SEPARATOR.'*'));
-    }
+    use GeneratesTestDirectory;
 
     /** @test */
     public function it_can_be_created_from_a_filename()
@@ -48,7 +29,7 @@ class JsonSettingsTest extends TestCase
             'memory' => '2048',
             'cpus' => 1,
         ]);
-        $filename = self::$testFolder.DIRECTORY_SEPARATOR.'Homestead.json';
+        $filename = self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json';
 
         $settings->save($filename);
 
