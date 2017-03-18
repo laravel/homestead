@@ -2,15 +2,15 @@
 
 namespace Tests;
 
-use Tests\Traits\TestDirectory;
+use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 
 class InitScriptTest extends TestCase
 {
-    use TestDirectory;
+    use GeneratesTestDirectory;
 
     /**
-     * Copies init.sh and resources/ to the temporal directory.
+     * Copies init.sh and resources directory to the temporal directory.
      */
     public function setUp()
     {

@@ -2,7 +2,7 @@
 
 namespace Tests\Traits;
 
-trait TestDirectory
+trait GeneratesTestDirectory
 {
     /**
      * @var string

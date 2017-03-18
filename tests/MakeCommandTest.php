@@ -2,16 +2,16 @@
 
 namespace Tests;
 
-use Tests\Traits\TestDirectory;
 use Symfony\Component\Yaml\Yaml;
 use Laravel\Homestead\MakeCommand;
+use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Traits\GeneratesSlugs;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class MakeCommandTest extends TestCase
 {
-    use GeneratesSlugs, TestDirectory;
+    use GeneratesSlugs, GeneratesTestDirectory;
 
     /** @test */
     public function it_displays_a_success_message()

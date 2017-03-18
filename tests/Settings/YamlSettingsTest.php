@@ -2,14 +2,14 @@
 
 namespace Tests\Settings;
 
-use Tests\Traits\TestDirectory;
 use Symfony\Component\Yaml\Yaml;
+use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\YamlSettings;
 
 class YamlSettingsTest extends TestCase
 {
-    use TestDirectory;
+    use GeneratesTestDirectory;
 
     /** @test */
     public function it_can_be_created_from_a_filename()

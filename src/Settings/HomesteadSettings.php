@@ -95,7 +95,7 @@ abstract class HomesteadSettings
      * Configure the nginx sites.
      *
      * @param  string  $projectName
-     * @param  string. $projectDirectory
+     * @param  string  $projectDirectory
      * @return static
      */
     public function configureSites($projectName, $projectDirectory)

@@ -2,13 +2,13 @@
 
 namespace Tests\Settings;
 
-use Tests\Traits\TestDirectory;
+use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\JsonSettings;
 
 class JsonSettingsTest extends TestCase
 {
-    use TestDirectory;
+    use GeneratesTestDirectory;
 
     /** @test */
     public function it_can_be_created_from_a_filename()
