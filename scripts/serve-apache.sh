@@ -4,16 +4,28 @@ apt-get update
 apt-get install -y apache2 libapache2-mod-php7.1
 sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
+PATH_CA="/vagrant"
+PATH_CA_KEY="${PATH_CA}/ca.key"
+PATH_CA_CRT="${PATH_CA}/ca.crt"
+
+if [ ! -f $PATH_CA_KEY ] || [ ! -f $PATH_CA_CRT ]
+then
+    openssl genrsa -out "$PATH_CA_KEY" 2048 2>/dev/null
+    openssl req -new -x509 -days 365 -key "$PATH_CA_KEY" -out "$PATH_CA_CRT" -subj "/CN=homestead/O=Vagrant/C=UK" 2>/dev/null
+fi
+
 PATH_SSL="/etc/apache2/ssl"
 PATH_KEY="${PATH_SSL}/${1}.key"
 PATH_CSR="${PATH_SSL}/${1}.csr"
 PATH_CRT="${PATH_SSL}/${1}.crt"
+PATH_BUNDLE="${PATH_SSL}/${1}-bundle.crt"
 
-if [ ! -f $PATH_KEY ] || [ ! -f $PATH_CSR ] || [ ! -f $PATH_CRT ]
+if [ ! -f $PATH_KEY ] || [ ! -f $PATH_CSR ] || [ ! -f $PATH_CRT ] || [ ! -f $PATH_BUNDLE ]
 then
-    openssl genrsa -out "$PATH_KEY" 2048 2>/dev/null
-    openssl req -new -key "$PATH_KEY" -out "$PATH_CSR" -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
-    openssl x509 -req -days 365 -in "$PATH_CSR" -signkey "$PATH_KEY" -out "$PATH_CRT" 2>/dev/null
+  openssl genrsa -out "$PATH_KEY" 2048 2>/dev/null
+  openssl req -new -key "$PATH_KEY" -out "$PATH_CSR" -subj "/CN=$1/O=Vagrant/C=UK" 2>/dev/null
+  openssl x509 -req -days 365 -in "$PATH_CSR" -CA "$PATH_CA_CRT" -CAkey "$PATH_CA_KEY" -set_serial 01 -out "$PATH_CRT" 2>/dev/null
+  cat "$PATH_CRT" "$PATH_CA_CRT" > "$PATH_BUNDLE"
 fi
 
 block="<VirtualHost *:80>
@@ -115,7 +127,7 @@ blockssl="<IfModule mod_ssl.c>
         #    to point to the certificate files. Use the provided
         #    Makefile to update the hash symlinks after changes.
         #SSLCACertificatePath /etc/ssl/certs/
-        #SSLCACertificateFile /etc/apache2/ssl.crt/ca-bundle.crt
+        SSLCACertificateFile $PATH_BUNDLE
 
         #   Certificate Revocation Lists (CRL):
         #   Set the CA revocation path where to find CA CRLs for client
@@ -149,7 +161,7 @@ blockssl="<IfModule mod_ssl.c>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 "
 
-if [ -f $PATH_KEY ] && [ -f $PATH_CSR ] && [ -f $PATH_CRT ]
+if [ -f $PATH_KEY ] && [ -f $PATH_CSR ] && [ -f $PATH_CRT ] && [ -f $PATH_BUNDLE ]
 then
     echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
     ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
