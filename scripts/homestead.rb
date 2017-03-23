@@ -169,6 +169,14 @@ class Homestead
 
         if settings.include? 'sites'
             settings["sites"].each do |site|
+
+                # Create SSL certificate
+                config.vm.provision "shell" do |s|
+                    s.name = "Creating Certificate: " + site["map"]
+                    s.path = scriptDir + "/create-certificate.sh"
+                    s.args = [site["map"]]
+                end
+
                 type = site["type"] ||= "laravel"
 
                 if (type == "symfony")
