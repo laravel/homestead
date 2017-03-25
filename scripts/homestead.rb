@@ -293,5 +293,24 @@ class Homestead
                 ]
             end
         end
+
+        # Configure Headless Selenium
+        if settings.has_key?("selenium")
+
+            config.vm.provision "shell" do |s|
+                s.name = "Installing Selenium Dependencies"
+                s.path = scriptDir + "/selenium.sh"
+            end
+
+            # start virtual framebuffer on vagrant up
+            if (settings["selenium"][0]["start-driver"] == "yes")
+                config.vm.provision "shell", run: "always" do |s|
+                    s.name = "Starting Virtual Framebuffer"
+                    s.path = scriptDir + "/start-xvfb.sh"
+                end
+            end
+
+        end
+
     end
 end
