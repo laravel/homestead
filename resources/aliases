@@ -16,6 +16,15 @@ function artisan() {
     php artisan "$@"
 }
 
+function dusk() {
+    pids=$(pidof /usr/bin/Xvfb)
+    if [ ! -n "$pids" ]; then
+        Xvfb :0 -screen 0 1280x960x24 &
+    fi
+
+    php artisan dusk "$@"
+}
+
 function serve-apache() {
     if [[ "$1" && "$2" ]]
     then
