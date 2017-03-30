@@ -8,7 +8,7 @@ PATH_KEY="${PATH_SSL}/${1}.key"
 PATH_CRT="${PATH_SSL}/${1}.crt"
 
 # Only generate a certificate if there isn't one already there.
-if [ ! -f $PATH_CNF ] || ! -f $PATH_KEY ] || [ ! -f $PATH_CRT ]
+if [ ! -f $PATH_CNF ] || [ ! -f $PATH_KEY ] || [ ! -f $PATH_CRT ]
 then
 
     # Uncomment the global 'copy_extentions' OpenSSL option to ensure the SANs are copied into the certificate.
