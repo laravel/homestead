@@ -10,16 +10,20 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
+    - map: ~/shopify-app
+      to: /home/vagrant/shopify-app
     - map: ~/portal.shineon.com
       to: /home/vagrant/portal.shineon.com
-      type: "nfs"
 
 sites:
+    - map: local.shopify-app.shineon.com
+      to: /home/vagrant/shopify-app/public
     - map: local.portal.shineon.com
       to: /home/vagrant/portal.shineon.com/public
 
 databases:
     - shineon
+    - shopify-app
 
 # blackfire:
 #     - id: foo
