@@ -17,28 +17,28 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 ## Changes in this fork.
 
-### Post-provision shell script
-
-The `/src/stubs/after.sh` has been modified to switch environment to PHP 5.6. This file is copied to `~/.homestead/` when you run `bash init.sh` and executes when you `vagrant up --provision`.
-
 ---
 
-#### Changes in `after.sh`:
+### Modifications in `/resources` will be scaffolded in "Step 6":
 
 * Install mcrypt
 * Dump autoload
 * Run migrations
 * NPM install
 
-### Abbreviated first-time setup for `local.portal.shineon.com`
 
-#### Some installers
+
+## Abbreviated first-time setup for `local.portal.shineon.com`
+
+---
+
+### Step 1: Some installers
 
 1. [Virtual Box 5.1 or higher](https://www.virtualbox.org/)
 1. [Vagrant 1.9 or higher](https://www.vagrantup.com/)
 1. [NPM, the LTS is fine.](https://nodejs.org/en/)
 
-#### Install composer and gulp globally
+### Step 2: Install composer and gulp globally
 
 ```
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -49,13 +49,13 @@ sudo mv composer.phar /usr/bin
 npm install --global gulp-cli
 ```
 
-#### Add your ssh key to Github. On your Mac (not in Vagrant)
+### Step 3: Add your ssh key to Github. On your Mac (not in Vagrant)
 
 1. `ssh-keygen`
 1. `cat ~/.ssh/id_rsa.pub`
 1. Add your new public key to your github.
 
-#### Pull down the `Seller-Portal` repo.
+### Step 4: Pull down the `Seller-Portal` repo.
 
 1. `git clone https://github.com/ShineOnCom/Seller-Portal.git ~/portal.shineon.com`
 1. `cd ~/portal.shineon.com`
@@ -64,7 +64,7 @@ npm install --global gulp-cli
 1. `sudo chmod -R 777 bootstrap/cache`
 1. You're not done, you still need to setup your vagrant environment.
 
-#### Pull down the `shopify-app` repo.
+### Step 5: Pull down the `shopify-app` repo.
 
 1. `git clone https://github.com/ShineOnCom/shopify-app.git ~/shopify-app`
 1. `cd ~/shopify-app`
@@ -73,7 +73,7 @@ npm install --global gulp-cli
 1. `sudo chmod -R 777 bootstrap/cache`
 1. You're not done, you still need to setup your vagrant environment.
 
-#### Pull down the ShineOn Homestead repo.
+### Step 6: Pull down the ShineOn Homestead repo.
 
 1. `git clone https://github.com/ShineOnCom/homestead.git ~/AppHomestead`
 1. `cd ~/AppHomestead`
@@ -83,7 +83,7 @@ npm install --global gulp-cli
 1. `vagrant ssh`
 1. `cd ~/portal.shineon.com` or `cd `~/shopify-app`
 
-#### Update your hosts file
+### Step 7: Update your hosts file
 
   * ##### MAC
     1. `sudo nano /private/etc/hosts`
@@ -97,7 +97,7 @@ npm install --global gulp-cli
     1. `192.168.10.10 local.portal.shineon.com`
     1. `192.168.10.10 local.shopify-app.shineon.com`
 
-#### Add a ENV files.
+### Step 8: Add a ENV files.
 
 1. `touch ~/portal.shineon.com/.env`
 1. `sudo nano ~/portal.shineon.com/.env`
@@ -111,25 +111,25 @@ npm install --global gulp-cli
 Ask one of your peers to share this file with you.
 ```
 
-#### Test the waters.
+### Step 9: Test the waters.
 
 1. The last item in the provisioning processed should have been your migrations for Laravel.
 1. Visit [local.portal.shineon.com](http://local.portal.shineon.com)
 1. Visit [local.shopify-app.shineon.com](http://local.shopify-app.shineon.com)
 1. See [shopify-app](https://github.com/ShineOnCom/shopify-app) "Additional Setup"
 
-#### Test the DB
+### Step 10: Test the DB
 
 1. Host: `192.168.10.10`
 1. Username: `homestead`
 1. Password: `secret`
 1. Database: `shineon` or `shopify-app`
 
-#### Test Vagrant SSH
+### Step 11: Test Vagrant SSH
 
 `vagrant ssh`
 
-#### Vagrant Ubuntu 16.04 Box Issues
+### Vagrant Ubuntu 16.04 Box Issues
 
 Issue:
 
