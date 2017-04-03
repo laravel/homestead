@@ -28,7 +28,7 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 
 
-## Abbreviated first-time setup for `local.portal.shineon.com`
+## Abbreviated first-time setup
 
 ---
 
