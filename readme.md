@@ -17,8 +17,6 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 ## Changes in this fork.
 
----
-
 ### Modifications in `/resources` will be scaffolded in "Step 6":
 
 * Install mcrypt
@@ -29,8 +27,6 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 
 ## Abbreviated first-time setup
-
----
 
 ### Step 1: Some installers
 
