@@ -32,7 +32,7 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 1. [Virtual Box 5.1 or higher](https://www.virtualbox.org/)
 1. [Vagrant 1.9 or higher](https://www.vagrantup.com/)
-1. [NPM, the LTS is fine.](https://nodejs.org/en/)
+1. [Node/NPM 6.1/3.1 or higher](https://nodejs.org/en/)
 
 ### Step 2: Install composer and gulp globally
 
@@ -62,8 +62,8 @@ npm install --global gulp-cli
 
 ### Step 5: Pull down the `shopify-app` repo.
 
-1. `git clone https://github.com/ShineOnCom/shopify-app.git ~/shopify-app`
-1. `cd ~/shopify-app`
+1. `git clone https://github.com/ShineOnCom/shopify-app.git ~/fulfillment.shineon.com`
+1. `cd ~/fulfillment.shineon.com`
 1. `composer install`
 1. `sudo chmod -R 777 storage`
 1. `sudo chmod -R 777 bootstrap/cache`
@@ -85,21 +85,21 @@ npm install --global gulp-cli
     1. `sudo nano /private/etc/hosts`
     1. Add the following:
     1. `local.portal.shineon.com 		192.168.10.10`
-    1. `local.shopify-app.shineon.com 	192.168.10.10`
+    1. `local.fulfillment.shineon.com 	192.168.10.10`
 
   * ##### LINUX
     1. `sudo nano /etc/hosts`
     1. Add the following:
     1. `192.168.10.10 local.portal.shineon.com`
-    1. `192.168.10.10 local.shopify-app.shineon.com`
+    1. `192.168.10.10 local.fulfillment.shineon.com`
 
 ### Step 8: Add a ENV files.
 
 1. `touch ~/portal.shineon.com/.env`
 1. `sudo nano ~/portal.shineon.com/.env`
 1. See [wiki](https://github.com/ShineOnCom/Seller-Portal/wiki/ENV)
-1. `touch ~/shopify-app/.env`
-1. `sudo nano ~/shopify-app/.env`
+1. `touch ~/fulfillment.shineon.com/.env`
+1. `sudo nano ~/fulfillment.shineon.com/.env`
 1. See [wiki](https://github.com/ShineOnCom/shopify-app/wiki/ENV-(local))
 1. See [shopify-app](https://github.com/ShineOnCom/shopify-app) "Additional Setup"
 
@@ -111,7 +111,7 @@ Ask one of your peers to share this file with you.
 
 1. The last item in the provisioning processed should have been your migrations for Laravel.
 1. Visit [local.portal.shineon.com](http://local.portal.shineon.com)
-1. Visit [local.shopify-app.shineon.com](http://local.shopify-app.shineon.com)
+1. Visit [local.fulfillment.shineon.com](http://local.shopify-app.shineon.com)
 1. See [shopify-app](https://github.com/ShineOnCom/shopify-app) "Additional Setup"
 
 ### Step 10: Test the DB
@@ -119,7 +119,7 @@ Ask one of your peers to share this file with you.
 1. Host: `192.168.10.10`
 1. Username: `homestead`
 1. Password: `secret`
-1. Database: `shineon` or `shopify-app`
+1. Database: `portal` or `fulfillment`
 
 ### Step 11: Test Vagrant SSH
 

@@ -114,3 +114,40 @@ function share() {
 function flip() {
     sudo bash /vagrant/scripts/flip-webserver.sh
 }
+
+alias ll="ls -ltr"
+alias c="clear;ll"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias aliases="compgen -a"
+alias commands="compgen -bc | grep "
+
+alias gs="git status "
+alias go="git checkout "
+alias ga="git add "
+alias gb="git branch "
+alias gbv="git branch -v | grep -v merged"
+alias gaa="git add -A"
+alias gc="git commit "
+alias gp="git push "
+alias gl="git pull "
+alias stash="git stash "
+alias gitfml="git reset --hard HEAD"
+
+alias aliases="nano ~/.bash_aliases"
+alias getip="ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
+alias restart-nginx="sudo systemctl restart nginx"
+alias stop-nginx="sudo systemctl stop nginx"
+alias start-nginx="sudo systemctl start nginx"
+alias reload-nginx="sudo systemctl reload nginx"
+alias restart-php="sudo systemctl restart php7.1-fpm"
+alias stop-php="sudo systemctl stop php7.1-fpm"
+alias start-php="sudo systemctl start php7.1-fpm"
+
+alias portal-log="tail /home/vagrant/portal.shineon.com/storage/logs/laravel.log -f -n 1000"
+alias fulfillment-log="tail /home/vagrant/fulfillment.shineon.com/storage/logs/laravel.log -f -n 1000"
+alias fulfillment="cd /var/www/fulfillment.shineon.com/"
+alias portal="cd /var/www/portal.shineon.com/"
+alias env="sudo nano /var/www/shopify-app/.env"

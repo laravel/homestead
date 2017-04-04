@@ -23,20 +23,15 @@ echo "--------------------------------------------------------------------------
 php ~/portal.shineon.com/artisan clear-compiled
 php ~/portal.shineon.com/artisan migrate --force
 
+
 echo "---------------------------------------------------------------------------------"
-echo "local.portal.shineon.com $ npm install"
+echo "local.fulfillment.shineon.com $ composer dump-autoload"
 echo "---------------------------------------------------------------------------------"
-npm --prefix ~/portal.shineon.com install ~/portal.shineon.com/
+composer dump-autoload -d ~/fulfillment.shineon.com/\
 
 
 echo "---------------------------------------------------------------------------------"
-echo "local.shopify-app.shineon.com $ composer dump-autoload"
+echo "local.fulfillment.shineon.com $ php artisan clear-compiled && php artisan migrate"
 echo "---------------------------------------------------------------------------------"
-composer dump-autoload -d ~/shopify-app/\
-
-
-echo "---------------------------------------------------------------------------------"
-echo "local.shopify-app.shineon.com $ php artisan clear-compiled && php artisan migrate"
-echo "---------------------------------------------------------------------------------"
-php ~/shopify-app/artisan clear-compiled
-php ~/shopify-app/artisan migrate --force
+php ~/fulfillment.shineon.com/artisan clear-compiled
+php ~/fulfillment.shineon.com/artisan migrate --force

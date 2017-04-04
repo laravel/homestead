@@ -10,20 +10,20 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/shopify-app
-      to: /home/vagrant/shopify-app
+    - map: ~/fulfillment.shineon.com
+      to: /home/vagrant/fulfillment.shineon.com
     - map: ~/portal.shineon.com
       to: /home/vagrant/portal.shineon.com
 
 sites:
-    - map: local.shopify-app.shineon.com
-      to: /home/vagrant/shopify-app/public
+    - map: local.fulfillment.shineon.com
+      to: /home/vagrant/fulfillment.shineon.com/public
     - map: local.portal.shineon.com
       to: /home/vagrant/portal.shineon.com/public
 
 databases:
-    - shineon
-    - shopify-app
+    - portal
+    - fulfillment
 
 # blackfire:
 #     - id: foo
