@@ -77,7 +77,7 @@ npm install --global gulp-cli
 1. Note: 
 1. `vagrant up --provision`
 1. `vagrant ssh`
-1. `cd ~/portal.shineon.com` or `cd ~/shopify-app`
+1. `cd ~/portal.shineon.com` or `cd ~/fulfillment.shineon.com`
 
 ### Step 7: Update your hosts file
 
