@@ -74,6 +74,18 @@ function serve-silverstripe() {
     fi
 }
 
+function serve-spa() {
+  if [[ "$1" && "$2" ]]
+  then
+    sudo dos2unix /vagrant/scripts/serve-spa.sh
+    sudo bash /vagrant/scripts/serve-spa.sh "$1" "$2" 80
+  else
+    echo "Error: missing required parameters."
+    echo "Usage: "
+    echo "  serve-spa domain path"
+  fi
+}
+
 function serve-statamic() {
     if [[ "$1" && "$2" ]]
     then
