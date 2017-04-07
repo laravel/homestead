@@ -1,4 +1,4 @@
-<p align="center"><img src="https://portal.shineon.com/images/shineon-logo.svg"></p>
+<p align="center"><img src="https://portal.shineon.com/images/shineon-logo.svg" width="150"></p>
 
 # Homestead
 
