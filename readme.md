@@ -145,9 +145,9 @@ Make sure that you have checked "Cable Connected" in Virtualbox Network Configur
 
 The ShineOn homestead box installs 2 repos, `local.portal.shineon.com` and `local.fulfillment.shineon.com`. 
 
-Portal uses Laravel 5.2, Node 4.*, NPM 2.*, and Gulp for asset compilation, `gulp` to be triggered from your mac. 
+Portal uses Laravel 5.2, Node 4.~, NPM 2.~, and Gulp for asset compilation, `gulp` to be triggered from your mac. 
 
-Fulfillment uses Laravel 5.4, NPM 6.*, NPM 3.*, and Webpack for asset compilation, `npm run dev` or `npm run watch` after you have `vagrant ssh` into your homestead environment. There is no need install / upgrade Node / NPM. It's recommended you add `--watch-poll` to your `npm run watch` command in your `package.json` file.
+Fulfillment uses Laravel 5.4, NPM 6.~, NPM 3.~, and Webpack for asset compilation, `npm run dev` or `npm run watch` after you have `vagrant ssh` into your homestead environment. There is no need install / upgrade Node / NPM. It's recommended you add `--watch-poll` to your `npm run watch` command in your `package.json` file.
 
 Before committing code or submitting pull requests on github, be sure you remember to `npm run production`. This will minify and concatenate assets.
 
