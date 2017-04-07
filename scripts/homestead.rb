@@ -87,7 +87,7 @@ class Homestead
         unless settings.has_key?("default_ports") && settings["default_ports"] == false
             default_ports.each do |guest, host|
                 unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
-                    config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
+                    config.vm.network "forwarded_port", guest: guest, host: host, host_ip: settings["ip"], auto_correct: true
                 end
             end
         end
