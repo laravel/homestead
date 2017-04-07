@@ -1,11 +1,6 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-homestead.svg"></p>
+<p align="center"><img src="https://portal.shineon.com/images/shineon-logo.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/homestead"><img src="https://travis-ci.org/laravel/homestead.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/license.svg" alt="License"></a>
-</p>
+# Homestead
 
 ## Introduction
 
@@ -24,15 +19,12 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 * Run migrations
 * NPM install
 
-
-
 ## Abbreviated first-time setup
 
 ### Step 1: Some installers
 
 1. [Virtual Box 5.1 or higher](https://www.virtualbox.org/)
 1. [Vagrant 1.9 or higher](https://www.vagrantup.com/)
-1. [Node/NPM 6.1/3.1 or higher](https://nodejs.org/en/)
 
 ### Step 2: Install composer and gulp globally
 
@@ -148,3 +140,14 @@ Solution:
 ```shell
 Make sure that you have checked "Cable Connected" in Virtualbox Network Configuration (Homestead VM configuration)
 ````
+
+## Asset compilation
+
+The ShineOn homestead box installs 2 repos, `local.portal.shineon.com` and `local.fulfillment.shineon.com`. 
+
+Portal uses Laravel 5.2, Node 4.*, NPM 2.*, and Gulp for asset compilation, `gulp` to be triggered from your mac. 
+
+Fulfillment uses Laravel 5.4, NPM 6.*, NPM 3.*, and Webpack for asset compilation, `npm run dev` or `npm run watch` after you have `vagrant ssh` into your homestead environment. There is no need install / upgrade Node / NPM. It's recommended you add `--watch-poll` to your `npm run watch` command in your `package.json` file.
+
+Before committing code or submitting pull requests on github, be sure you remember to `npm run production`. This will minify and concatenate assets.
+
