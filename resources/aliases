@@ -126,3 +126,23 @@ function share() {
 function flip() {
     sudo bash /vagrant/scripts/flip-webserver.sh
 }
+
+function dbexport() {
+    FILE=${1:-/vagrant/mysqldump.sql.gz}
+
+    echo "Exporting databases to '$FILE'"
+
+    mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | gzip > "$FILE"
+
+    echo "Done."
+}
+
+function dbimport() {
+    FILE=${1:-/vagrant/mysqldump.sql.gz}
+
+    echo "Importing databases from '$FILE'"
+
+    cat "$FILE" | zcat | mysql -uhomestead -psecret 2>/dev/null
+
+    echo "Done."
+}
