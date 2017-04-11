@@ -127,12 +127,22 @@ function flip() {
     sudo bash /vagrant/scripts/flip-webserver.sh
 }
 
+function __has_pv() {
+    $(hash pv 2>/dev/null);
+    
+    return $?
+}
+
 function dbexport() {
     FILE=${1:-/vagrant/mysqldump.sql.gz}
 
     echo "Exporting databases to '$FILE'"
 
-    mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | gzip > "$FILE"
+    if __has_pv; then
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | pv | gzip > "$FILE"
+    else
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | gzip > "$FILE"
+    fi
 
     echo "Done."
 }
@@ -142,7 +152,11 @@ function dbimport() {
 
     echo "Importing databases from '$FILE'"
 
-    cat "$FILE" | zcat | mysql -uhomestead -psecret 2>/dev/null
+    if __has_pv; then
+        pv "$FILE" --progress --eta | zcat | mysql -uhomestead -psecret 2>/dev/null
+    else
+        cat "$FILE" | zcat | mysql -uhomestead -psecret 2>/dev/null
+    fi
 
     echo "Done."
 }
