@@ -133,6 +133,14 @@ function __has_pv() {
     return $?
 }
 
+function __pv_install_message() {
+    if ! __has_pv; then
+        echo $1
+        echo "Install pv with \`sudo apt-get install -y pv\` then run this command again."
+        echo ""
+    fi
+}
+
 function dbexport() {
     FILE=${1:-/vagrant/mysqldump.sql.gz}
 
@@ -140,6 +148,8 @@ function dbexport() {
     # It appears that 80% is a good approximation of
     # the ratio of estimated size to actual size
     SIZE_QUERY="select ceil(sum(data_length) * 0.8) as size from information_schema.TABLES"
+
+    __pv_install_message "Want to see export progress?"
 
     echo "Exporting databases to '$FILE'"
 
@@ -158,6 +168,8 @@ function dbexport() {
 
 function dbimport() {
     FILE=${1:-/vagrant/mysqldump.sql.gz}
+
+    __pv_install_message "Want to see import progress?"
 
     echo "Importing databases from '$FILE'"
 
