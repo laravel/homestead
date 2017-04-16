@@ -194,7 +194,7 @@ function xdebug() {
     if ! $XDEBUG_ENABLED; then xon; fi
 
     php \
-        -dxdebug.remote_host=10.0.2.2 \
+        -dxdebug.remote_host=192.168.10.1 \
         -dxdebug.remote_autostart=1 \
         "$@"
 
