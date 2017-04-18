@@ -181,3 +181,22 @@ function dbimport() {
 
     echo "Done."
 }
+
+function xphp() {
+    (php -m | grep -q xdebug)
+    if [[ $? -eq 0 ]]
+    then
+        XDEBUG_ENABLED=true
+    else
+        XDEBUG_ENABLED=false
+    fi
+
+    if ! $XDEBUG_ENABLED; then xon; fi
+
+    php \
+        -dxdebug.remote_host=192.168.10.1 \
+        -dxdebug.remote_autostart=1 \
+        "$@"
+
+    if ! $XDEBUG_ENABLED; then xoff; fi
+}
