@@ -182,7 +182,7 @@ function dbimport() {
     echo "Done."
 }
 
-function xdebug() {
+function xphp() {
     (php -m | grep -q xdebug)
     if [[ $? -eq 0 ]]
     then
