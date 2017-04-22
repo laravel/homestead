@@ -202,6 +202,12 @@ class Homestead
                             s.args = [site["map"].tr('^A-Za-z0-9', '')]
                         end
                     end
+                else
+                    config.vm.provision "shell" do |s|
+                        s.name = "Checking for old Schedule"
+                        s.inline = "rm -f /etc/cron.d/$1"
+                        s.args = [site["map"].tr('^A-Za-z0-9', '')]
+                    end
                 end
             end
         end
