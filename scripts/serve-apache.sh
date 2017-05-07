@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
+declare -A variables=$5     # Create an associative array
+variablesTXT=""
+for element in "${!variables[@]}"
+do
+    variablesTXT="${variablesTXT}
+        SetEnv ${element} \"${variables[$element]}\""
+done
 
+sudo service nginx stop
 apt-get update
 apt-get install -y apache2 libapache2-mod-php7.1
 sed -i "s/www-data/vagrant/" /etc/apache2/envvars
@@ -18,6 +26,7 @@ block="<VirtualHost *:80>
     ServerName $1
     ServerAlias www.$1
     DocumentRoot $2
+	$variablesTXT
 
     <Directory $2>
         AllowOverride All
@@ -54,6 +63,7 @@ blockssl="<IfModule mod_ssl.c>
         ServerName $1
         ServerAlias www.$1
         DocumentRoot $2
+	    $variablesTXT
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
