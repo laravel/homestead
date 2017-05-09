@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+declare -A variables=$5     # Create an associative array
+variablesTXT=""
+for element in "${!variables[@]}"
+do
+    variablesTXT="${variablesTXT}
+        fastcgi_param ${element} ${variables[$element]};"
+done
 
 block="server {
     listen ${3:-80};
@@ -30,6 +37,7 @@ block="server {
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+		$variablesTXT
 
         fastcgi_intercept_errors off;
         fastcgi_buffer_size 16k;
