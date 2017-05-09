@@ -67,13 +67,11 @@ class MakeCommandTest extends TestCase
     }
 
     /** @test */
-    public function an_aliases_file_is_created_if_requested()
+    public function an_aliases_file_is_created_by_default()
     {
         $tester = new CommandTester(new MakeCommand());
 
-        $tester->execute([
-            '--aliases' => true,
-        ]);
+        $tester->execute([]);
 
         $this->assertTrue(
             file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
@@ -93,9 +91,7 @@ class MakeCommandTest extends TestCase
         );
         $tester = new CommandTester(new MakeCommand());
 
-        $tester->execute([
-            '--aliases' => true,
-        ]);
+        $tester->execute([]);
 
         $this->assertTrue(
             file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
@@ -107,13 +103,25 @@ class MakeCommandTest extends TestCase
     }
 
     /** @test */
-    public function an_after_shell_script_is_created_if_requested()
+    public function an_aliases_file_is_not_created_if_it_is_explicitly_told_to()
     {
         $tester = new CommandTester(new MakeCommand());
 
         $tester->execute([
-            '--after' => true,
+            '--no-aliases' => true,
         ]);
+
+        $this->assertFalse(
+            file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        );
+    }
+
+    /** @test */
+    public function an_after_shell_script_is_created_by_default()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
 
         $this->assertTrue(
             file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh')
@@ -133,9 +141,7 @@ class MakeCommandTest extends TestCase
         );
         $tester = new CommandTester(new MakeCommand());
 
-        $tester->execute([
-            '--after' => true,
-        ]);
+        $tester->execute([]);
 
         $this->assertTrue(
             file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh')
@@ -143,6 +149,20 @@ class MakeCommandTest extends TestCase
         $this->assertEquals(
             'Already existing after.sh',
             file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh')
+        );
+    }
+
+    /** @test */
+    public function an_after_file_is_not_created_if_it_is_explicitly_told_to()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--no-after' => true,
+        ]);
+
+        $this->assertFalse(
+            file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh')
         );
     }
 

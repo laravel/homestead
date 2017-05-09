@@ -52,8 +52,8 @@ class MakeCommand extends Command
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultName)
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultName)
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
-            ->addOption('after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is created.')
-            ->addOption('aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is created.')
+            ->addOption('no-after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is not created.')
+            ->addOption('no-aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is not created.')
             ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead example file is created.')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
@@ -71,11 +71,11 @@ class MakeCommand extends Command
             $this->createVagrantfile();
         }
 
-        if ($input->getOption('aliases') && ! $this->aliasesFileExists()) {
+        if (! $input->getOption('no-aliases') && ! $this->aliasesFileExists()) {
             $this->createAliasesFile();
         }
 
-        if ($input->getOption('after') && ! $this->afterShellScriptExists()) {
+        if (! $input->getOption('no-after') && ! $this->afterShellScriptExists()) {
             $this->createAfterShellScript();
         }
 
