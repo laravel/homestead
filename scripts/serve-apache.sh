@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 declare -A variables=$5     # Create an associative array
 variablesTXT=""
-if [ ${#variables[@]} -eq 0 ]; then
+if [ -n "$5" ]; then
 	for element in "${!variables[@]}"
 	do
 		variablesTXT="${variablesTXT}
-			SetEnv ${element} \"${variables[$element]}\""
+		SetEnv ${element} \"${variables[$element]}\""
 	done
 fi
 

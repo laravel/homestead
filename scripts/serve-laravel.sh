@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 declare -A variables=$5     # Create an associative array
 variablesTXT=""
-if [ ${#variables[@]} -eq 0 ]; then
+if [ -n "$5" ]; then
 	for element in "${!variables[@]}"
 	do
 		variablesTXT="${variablesTXT}
-			fastcgi_param ${element} ${variables[$element]};"
+		fastcgi_param ${element} ${variables[$element]};"
 	done
 fi
 
