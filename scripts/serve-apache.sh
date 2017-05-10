@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-declare -A variables=$5     # Create an associative array
-variablesTXT=""
+declare -A params=$5     # Create an associative array
+paramsTXT=""
 if [ -n "$5" ]; then
-	for element in "${!variables[@]}"
-	do
-		variablesTXT="${variablesTXT}
-		SetEnv ${element} \"${variables[$element]}\""
-	done
+    for element in "${!params[@]}"
+    do
+        paramsTXT="${paramsTXT}
+        SetEnv ${element} \"${params[$element]}\""
+    done
 fi
 
 sudo service nginx stop
@@ -28,7 +28,7 @@ block="<VirtualHost *:80>
     ServerName $1
     ServerAlias www.$1
     DocumentRoot $2
-	$variablesTXT
+    $paramsTXT
 
     <Directory $2>
         AllowOverride All
@@ -65,7 +65,7 @@ blockssl="<IfModule mod_ssl.c>
         ServerName $1
         ServerAlias www.$1
         DocumentRoot $2
-	    $variablesTXT
+        $paramsTXT
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.

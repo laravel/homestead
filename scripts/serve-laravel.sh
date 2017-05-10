@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-declare -A variables=$5     # Create an associative array
-variablesTXT=""
+declare -A params=$5     # Create an associative array
+paramsTXT=""
 if [ -n "$5" ]; then
-	for element in "${!variables[@]}"
-	do
-		variablesTXT="${variablesTXT}
-		fastcgi_param ${element} ${variables[$element]};"
-	done
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
 fi
 
 block="server {
@@ -39,7 +39,7 @@ block="server {
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-		$variablesTXT
+        $paramsTXT
 
         fastcgi_intercept_errors off;
         fastcgi_buffer_size 16k;
