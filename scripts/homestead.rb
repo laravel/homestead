@@ -193,7 +193,7 @@ class Homestead
 					    variables += " )"
 					end
                     s.path = scriptDir + "/serve-#{type}.sh"
-                    s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", variables ||= nil]
+                    s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", variables ||= ""]
                 end
 
                 # Configure The Cron Schedule

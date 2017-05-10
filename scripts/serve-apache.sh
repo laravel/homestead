@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 declare -A variables=$5     # Create an associative array
 variablesTXT=""
-for element in "${!variables[@]}"
-do
-    variablesTXT="${variablesTXT}
-        SetEnv ${element} \"${variables[$element]}\""
-done
+if [ -n "$5" ]; then
+	for element in "${!variables[@]}"
+	do
+		variablesTXT="${variablesTXT}
+		SetEnv ${element} \"${variables[$element]}\""
+	done
+fi
 
 sudo service nginx stop
 apt-get update

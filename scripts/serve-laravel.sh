@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 declare -A variables=$5     # Create an associative array
 variablesTXT=""
-for element in "${!variables[@]}"
-do
-    variablesTXT="${variablesTXT}
-        fastcgi_param ${element} ${variables[$element]};"
-done
+if [ -n "$5" ]; then
+	for element in "${!variables[@]}"
+	do
+		variablesTXT="${variablesTXT}
+		fastcgi_param ${element} ${variables[$element]};"
+	done
+fi
 
 block="server {
     listen ${3:-80};
