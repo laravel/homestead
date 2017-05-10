@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+declare -A params=$5     # Create an associative array
+paramsTXT=""
+if [ -n "$5" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
+fi
 
 block="server {
     listen ${3:-80};
@@ -27,6 +36,8 @@ block="server {
     location ~ /\.ht {
         deny all;
     }
+
+    $paramsTXT
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;
