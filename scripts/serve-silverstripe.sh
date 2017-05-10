@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+declare -A params=$5     # Create an associative array
+paramsTXT=""
+if [ -n "$5" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
+fi
 
 block="server {
     listen ${3:-80};
@@ -39,6 +48,7 @@ block="server {
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include        fastcgi_params;
+        $paramsTXT
 
         fastcgi_intercept_errors off;
         fastcgi_buffer_size 16k;
@@ -95,6 +105,7 @@ block="server {
         fastcgi_buffer_size 32k;
         fastcgi_busy_buffers_size 64k;
         fastcgi_buffers 4 32k;
+        $paramsTXT
     }
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
