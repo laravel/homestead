@@ -29,6 +29,7 @@ function dusk() {
 function serve-apache() {
     if [[ "$1" && "$2" ]]
     then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-apache.sh
         sudo bash /vagrant/scripts/serve-apache.sh "$1" "$2" 80
     else
@@ -41,6 +42,7 @@ function serve-apache() {
 function serve-laravel() {
     if [[ "$1" && "$2" ]]
     then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-laravel.sh
         sudo bash /vagrant/scripts/serve-laravel.sh "$1" "$2" 80
     else
@@ -65,6 +67,7 @@ function serve-proxy() {
 function serve-silverstripe() {
     if [[ "$1" && "$2" ]]
     then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-silverstripe.sh
         sudo bash /vagrant/scripts/serve-silverstripe.sh "$1" "$2" 80
     else
@@ -77,6 +80,7 @@ function serve-silverstripe() {
 function serve-spa() {
   if [[ "$1" && "$2" ]]
   then
+    sudo bash /vagrant/scripts/create-certificate.sh "$1"
     sudo dos2unix /vagrant/scripts/serve-spa.sh
     sudo bash /vagrant/scripts/serve-spa.sh "$1" "$2" 80
   else
@@ -89,6 +93,7 @@ function serve-spa() {
 function serve-statamic() {
     if [[ "$1" && "$2" ]]
     then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-statamic.sh
         sudo bash /vagrant/scripts/serve-statamic.sh "$1" "$2" 80
     else
@@ -101,6 +106,7 @@ function serve-statamic() {
 function serve-symfony2() {
     if [[ "$1" && "$2" ]]
     then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-symfony2.sh
         sudo bash /vagrant/scripts/serve-symfony2.sh "$1" "$2" 80
     else
