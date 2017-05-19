@@ -9,6 +9,7 @@ if [ -n "$5" ]; then
     done
 fi
 
+export DEBIAN_FRONTEND=noninteractive
 sudo service nginx stop
 apt-get update
 apt-get install -y apache2 libapache2-mod-php7.1
