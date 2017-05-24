@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../../../autoload.php';
+
+$app = new Symfony\Component\Console\Application('Laravel Homestead', '5.3.2');
+
+$app->add(new Laravel\Homestead\MakeCommand);
+
+$app->run();
