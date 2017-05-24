@@ -68,6 +68,11 @@ blockssl="<IfModule mod_ssl.c>
         DocumentRoot $2
         $paramsTXT
 
+        <Directory $1>
+            AllowOverride All
+            Require all granted
+        </Directory>
+
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
         # It is also possible to configure the loglevel for particular
