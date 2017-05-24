@@ -96,8 +96,8 @@ blockssl="<IfModule mod_ssl.c>
         #SSLCertificateFile  /etc/ssl/certs/ssl-cert-snakeoil.pem
         #SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
 
-        SSLCertificateFile      $PATH_CRT
-        SSLCertificateKeyFile $PATH_KEY
+        SSLCertificateFile      /etc/nginx/ssl/$1.crt
+        SSLCertificateKeyFile   /etc/nginx/ssl/$1.key
 
         #   Server Certificate Chain:
         #   Point SSLCertificateChainFile at a file containing the
@@ -150,11 +150,8 @@ blockssl="<IfModule mod_ssl.c>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 "
 
-if [ -f $PATH_KEY ] && [ -f $PATH_CSR ] && [ -f $PATH_CRT ]
-then
-    echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
-    ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
-fi
+echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
+ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
 
 a2dissite 000-default
 
