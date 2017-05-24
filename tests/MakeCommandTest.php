@@ -45,7 +45,7 @@ class MakeCommandTest extends TestCase
         );
         $this->assertEquals(
             file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile'),
-            file_get_contents(__DIR__.'/../resources/LocalizedVagrantfile')
+            file_get_contents(__DIR__.'/../resources/localized/Vagrantfile')
         );
     }
 
