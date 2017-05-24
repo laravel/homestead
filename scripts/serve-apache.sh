@@ -68,7 +68,7 @@ blockssl="<IfModule mod_ssl.c>
         DocumentRoot $2
         $paramsTXT
 
-        <Directory $1>
+        <Directory $2>
             AllowOverride All
             Require all granted
         </Directory>
