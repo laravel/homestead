@@ -15,7 +15,7 @@ apt-get update
 apt-get install -y apache2 libapache2-mod-php7.1
 sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
-block="<VirtualHost *:80>
+block="<VirtualHost *:$3>
     # The ServerName directive sets the request scheme, hostname and port that
     # the server uses to identify itself. This is used when creating
     # redirection URLs. In the context of virtual hosts, the ServerName
@@ -60,13 +60,18 @@ echo "$block" > "/etc/apache2/sites-available/$1.conf"
 ln -fs "/etc/apache2/sites-available/$1.conf" "/etc/apache2/sites-enabled/$1.conf"
 
 blockssl="<IfModule mod_ssl.c>
-    <VirtualHost *:443>
+    <VirtualHost *:$4>
 
         ServerAdmin webmaster@localhost
         ServerName $1
         ServerAlias www.$1
         DocumentRoot $2
         $paramsTXT
+
+        <Directory $2>
+            AllowOverride All
+            Require all granted
+        </Directory>
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
@@ -96,8 +101,8 @@ blockssl="<IfModule mod_ssl.c>
         #SSLCertificateFile  /etc/ssl/certs/ssl-cert-snakeoil.pem
         #SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
 
-        SSLCertificateFile      $PATH_CRT
-        SSLCertificateKeyFile $PATH_KEY
+        SSLCertificateFile      /etc/nginx/ssl/$1.crt
+        SSLCertificateKeyFile   /etc/nginx/ssl/$1.key
 
         #   Server Certificate Chain:
         #   Point SSLCertificateChainFile at a file containing the
@@ -150,11 +155,8 @@ blockssl="<IfModule mod_ssl.c>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 "
 
-if [ -f $PATH_KEY ] && [ -f $PATH_CSR ] && [ -f $PATH_CRT ]
-then
-    echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
-    ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
-fi
+echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
+ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
 
 a2dissite 000-default
 
