@@ -1,26 +1,25 @@
 #!/usr/bin/env bash
 
-agent="[blackfire]
+cat <<- __EOF__ > /etc/blackfire/agent
+[blackfire]
 ca-cert=
 collector=https://blackfire.io
 log-file=stderr
 log-level=1
-server-id="$1"
-server-token="$2"
+server-id="${1}"
+server-token="${2}"
 socket=unix:///var/run/blackfire/agent.sock
 spec=
-"
+__EOF__
 
-client="[blackfire]
+cat <<- __EOF__ > /home/vagrant/.blackfire.ini
+[blackfire]
 ca-cert=
-client-id="$3"
-client-token="$4"
+client-id="${3}"
+client-token="${4}"
 endpoint=https://blackfire.io
 timeout=15s
-"
+__EOF__
 
-echo "$agent" > "/etc/blackfire/agent"
-echo "$client" > "/home/vagrant/.blackfire.ini"
-
-service php7.1-fpm restart
-service blackfire-agent restart
+echo "php7.1-fpm blackfire-agent" | \
+xargs -n1 bash -c 'service ${0} restart; sleep 0.1'
