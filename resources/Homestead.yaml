@@ -32,3 +32,6 @@ databases:
 #     - send: 7777
 #       to: 777
 #       protocol: udp
+
+# selenium: 
+#       - start-driver: 'yes'
