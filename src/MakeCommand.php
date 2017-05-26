@@ -99,6 +99,16 @@ class MakeCommand extends Command
     }
 
     /**
+     * Determines if Homestead has been installed "per project".
+     *
+     * @return bool
+     */
+    protected function isPerProjectInstallation()
+    {
+        return (bool) preg_match('/vendor\/laravel\/homestead/', __DIR__);
+    }
+
+    /**
      * Determine if the Vagrantfile exists.
      *
      * @return bool
@@ -115,7 +125,7 @@ class MakeCommand extends Command
      */
     protected function createVagrantfile()
     {
-        copy(__DIR__.'/../resources/LocalizedVagrantfile', "{$this->basePath}/Vagrantfile");
+        copy(__DIR__.'/../resources/localized/Vagrantfile', "{$this->basePath}/Vagrantfile");
     }
 
     /**
@@ -135,7 +145,11 @@ class MakeCommand extends Command
      */
     protected function createAliasesFile()
     {
-        copy(__DIR__.'/../resources/aliases', "{$this->basePath}/aliases");
+        if ($this->isPerProjectInstallation()) {
+            copy(__DIR__.'/../resources/localized/aliases', "{$this->basePath}/aliases");
+        } else {
+            copy(__DIR__.'/../resources/aliases', "{$this->basePath}/aliases");
+        }
     }
 
     /**

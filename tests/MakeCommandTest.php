@@ -45,7 +45,7 @@ class MakeCommandTest extends TestCase
         );
         $this->assertEquals(
             file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile'),
-            file_get_contents(__DIR__.'/../resources/LocalizedVagrantfile')
+            file_get_contents(__DIR__.'/../resources/localized/Vagrantfile')
         );
     }
 
@@ -78,6 +78,24 @@ class MakeCommandTest extends TestCase
         );
         $this->assertEquals(
             file_get_contents(__DIR__.'/../resources/aliases'),
+            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        );
+    }
+
+    /** @test */
+    public function a_localized_aliases_file_is_created_by_default_in_per_project_installations()
+    {
+        $this->markTestSkipped('Currently unable to emulate a per project installation');
+
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertTrue(
+            file_exists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        );
+        $this->assertEquals(
+            file_get_contents(__DIR__.'/../resources/localized/aliases'),
             file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
         );
     }
