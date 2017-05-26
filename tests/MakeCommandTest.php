@@ -498,7 +498,7 @@ class MakeCommandTest extends TestCase
         ]);
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json');
-        
+
         $projectDirectory = basename(getcwd());
         $projectName = $this->slug($projectDirectory);
         $settings = json_decode(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json'), true);
