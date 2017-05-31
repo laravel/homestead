@@ -14,15 +14,19 @@ block="server {
     listen ${4:-443} ssl http2;
     server_name $1;
     root \"$2\";
-
-    index index.html index.htm index.php app_dev.php;
-
+    
     charset utf-8;
-
-    location / {
-        try_files \$uri \$uri/ /app_dev.php?\$query_string;
+    
+    index index.php index.html;
+    
+     location / {
+        try_files \$uri @rewriteapp;
+     }
+ 
+    location @rewriteapp {
+       rewrite ^(.*)$ /app.php/\$1 last;
     }
-
+ 
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
