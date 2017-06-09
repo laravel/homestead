@@ -247,6 +247,13 @@ class Homestead
             end
         end
 
+        # Install CouchDB If Necessary
+        if settings.has_key?("couchdb") && settings["couchdb"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-couch.sh"
+            end
+        end
+
         # Configure All Of The Configured Databases
         if settings.has_key?("databases")
             settings["databases"].each do |db|
@@ -266,6 +273,14 @@ class Homestead
                     config.vm.provision "shell" do |s|
                         s.name = "Creating Mongo Database: " + db
                         s.path = scriptDir + "/create-mongo.sh"
+                        s.args = [db]
+                    end
+                end
+
+                if settings.has_key?("couchdb") && settings["couchdb"]
+                    config.vm.provision "shell" do |s|
+                        s.name = "Creating Couch Database: " + db
+                        s.path = scriptDir + "/create-couch.sh"
                         s.args = [db]
                     end
                 end
