@@ -111,11 +111,20 @@ class Homestead
 
         # Copy The SSH Private Keys To The Box
         if settings.include? 'keys'
+            if settings["keys"].to_s.length == 0
+                puts "Check your Homestead.yaml file, you have no private key(s) specified."
+                exit
+            end
             settings["keys"].each do |key|
-                config.vm.provision "shell" do |s|
-                    s.privileged = false
-                    s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
-                    s.args = [File.read(File.expand_path(key)), key.split('/').last]
+                if File.exists? File.expand_path(key)
+                    config.vm.provision "shell" do |s|
+                        s.privileged = false
+                        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
+                        s.args = [File.read(File.expand_path(key)), key.split('/').last]
+                    end
+                else
+                    puts "Check your Homestead.yaml file, the path to your private key does not exist."
+                    exit
                 end
             end
         end
