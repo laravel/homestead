@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+export DEBIAN_FRONTEND=noninteractive
 # Check If Maria Has Been Installed
 
 if [ -f /home/vagrant/.maria ]
