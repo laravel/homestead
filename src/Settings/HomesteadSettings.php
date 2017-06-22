@@ -102,7 +102,7 @@ abstract class HomesteadSettings
     {
         $site = [
             'map' => "{$projectName}.app",
-            'to' => "/home/vagrant/Code/{$projectDirectory}/public",
+            'to' => "/home/vagrant/{$projectDirectory}/public",
         ];
 
         if (isset($this->attributes['sites']) && ! empty($this->attributes['sites'])) {
@@ -131,7 +131,7 @@ abstract class HomesteadSettings
     {
         $folder = [
             'map' => $projectPath,
-            'to' => "/home/vagrant/Code/{$projectDirectory}",
+            'to' => "/home/vagrant/{$projectDirectory}",
         ];
 
         $this->update(['folders' => [$folder]]);
