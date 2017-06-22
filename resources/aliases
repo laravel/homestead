@@ -116,6 +116,19 @@ function serve-symfony2() {
     fi
 }
 
+function serve-symfony4() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/serve-symfony4.sh
+        sudo bash /vagrant/scripts/serve-symfony4.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-symfony4 domain path"
+    fi
+}
+
 function share() {
     if [[ "$1" ]]
     then
@@ -124,7 +137,7 @@ function share() {
         echo "Error: missing required parameters."
         echo "Usage: "
         echo "  share domain"
-        echo "Invocation with extra params passed directly to ngrok" 
+        echo "Invocation with extra params passed directly to ngrok"
         echo "  share domain -region=eu -subdomain=test1234"
     fi
 }
@@ -135,7 +148,7 @@ function flip() {
 
 function __has_pv() {
     $(hash pv 2>/dev/null);
-    
+
     return $?
 }
 

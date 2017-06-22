@@ -116,6 +116,19 @@ function serve-symfony2() {
     fi
 }
 
+function serve-symfony4() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-symfony4.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-symfony4.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-symfony4 domain path"
+    fi
+}
+
 function share() {
     if [[ "$1" ]]
     then
