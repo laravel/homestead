@@ -19,7 +19,7 @@ Official documentation [is located here](http://laravel.com/docs/homestead).
 
 First and only step: Clone this repository.
 
-Update `rsources/Homestead.yaml` file, changing `folders.map` to your folder hosting your code:
+Update `resources/Homestead.yaml` file, changing `folders.map` to your folder hosting your code:
 ```yaml
 folders:
     - map: ~/Documents/Development/pod-point
