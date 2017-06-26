@@ -10,7 +10,7 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
+    - map: ~/Documents/Development/pod-point
       to: /home/vagrant/code
       type: "nfs"
 
