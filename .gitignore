@@ -1,7 +1,7 @@
-/vendor
+#
+## Generated files
+#
 /.vagrant
+/files
+/vendor
 phpunit.xml
-/Homestead.yaml
-/Homestead.json
-/after.sh
-/aliases
