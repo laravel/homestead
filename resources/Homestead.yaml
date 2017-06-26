@@ -1,7 +1,7 @@
 ---
 ip: "192.168.10.10"
-memory: 2048
-cpus: 1
+memory: 4096
+cpus: 2
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -11,11 +11,31 @@ keys:
 
 folders:
     - map: ~/Code
-      to: /home/vagrant/Code
+      to: /home/vagrant/code
+      type: "nfs"
 
 sites:
-    - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
+    # MIS
+    - map: admin-tool.dev
+      to: /home/vagrant/code/admin-tool/public
+    # POD Point - Web
+    - map: pod-point.dev
+      to: /home/vagrant/code/pod-point.com/public
+    # Craft CMS - Web CMS
+    - map: craft.dev
+      to: /home/vagrant/code/pod-point.com/public
+    # Install tools - Renault
+    - map: installs-tool-renault.dev
+      to: /home/vagrant/code/renault/public
+    # Install tools - Ordering tools
+    - map: installs-tool.dev
+      to: /home/vagrant/code/installs-tool/public
+    # API 3
+    - map: api3.dev
+      to: /home/vagrant/code/api3/public
+    # Contractors Tool
+    - map: contractors-tool.dev
+      to: /home/vagrant/code/contractors-tool/public
 
 databases:
     - homestead
