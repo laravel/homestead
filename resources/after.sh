@@ -125,18 +125,10 @@ echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /e
 displaySpacedMessage "Installing ElasticSearch..."
 apt-get -o Dpkg::Options::="--force-confnew" update -y && apt-get -o Dpkg::Options::="--force-confnew" install -y elasticsearch
 
-displaySpacedMessage "Enabling all hosts to allow host machine accessing ElasticSearch..."
-sudo echo "network.bind_host: 0" >> /etc/elasticsearch/elasticsearch.yml
-sudo echo "network.host: 0.0.0.0" >> /etc/elasticsearch/elasticsearch.yml
+displaySpacedMessage "Copying elasticsearch.yml (ES config)..."
+mv /tmp/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
-displaySpacedMessage "Enabling CORS..."
-sudo echo "http.cors.enabled: true" >> /etc/elasticsearch/elasticsearch.yml
-sudo echo "http.cors.allow-origin: /https?:\/\/.*/" >> /etc/elasticsearch/elasticsearch.yml
-
-displaySpacedMessage "Enabling dynamic scripting..."
-sudo echo "script.inline: on" >> /etc/elasticsearch/elasticsearch.yml
-
-displaySpacedMessage "Configuring system to automatically start ElasticSearch at boot"
+displaySpacedMessage "Configuring system to automatically start ElasticSearch at boot..."
 /bin/systemctl daemon-reload
 /bin/systemctl enable elasticsearch.service
 
