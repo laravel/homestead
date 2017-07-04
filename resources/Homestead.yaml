@@ -10,8 +10,11 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
+    - map: {codeRepositoryPath}
       to: /home/vagrant/code
+      type: "nfs"
+    - map: {vendorPath}
+      to: /home/vagrant/vendor
       type: "nfs"
 
 sites:
