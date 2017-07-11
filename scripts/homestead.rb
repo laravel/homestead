@@ -39,6 +39,7 @@ class Homestead
             if settings.has_key?("gui") && settings["gui"]
                 vb.gui = true
             end
+            vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
         end
 
         # Configure A Few VMware Settings
