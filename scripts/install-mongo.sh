@@ -44,4 +44,8 @@ sudo systemctl enable mongodb
 sudo ufw allow 27017
 sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
 
-sudo service nginx restart && sudo service php7.1-fpm restart
+sudo service nginx restart
+
+sudo service php5.6-fpm restart
+sudo service php7.0-fpm restart
+sudo service php7.1-fpm restart
