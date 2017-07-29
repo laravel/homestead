@@ -14,7 +14,7 @@ abstract class HomesteadSettings
     /**
      * JsonSettings constructor.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
      */
     public function __construct($attributes)
     {
@@ -24,7 +24,7 @@ abstract class HomesteadSettings
     /**
      * Create an instance from a file.
      *
-     * @param  string  $filename
+     * @param  string $filename
      * @return static
      */
     abstract public static function fromFile($filename);
@@ -32,7 +32,7 @@ abstract class HomesteadSettings
     /**
      * Save the homestead settings.
      *
-     * @param  string  $filename
+     * @param  string $filename
      * @return void
      */
     abstract public function save($filename);
@@ -40,13 +40,13 @@ abstract class HomesteadSettings
     /**
      * Update the homestead settings.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
      * @return static
      */
     public function update($attributes)
     {
         $this->attributes = array_merge($this->attributes, array_filter($attributes, function ($attribute) {
-            return ! is_null($attribute);
+            return !is_null($attribute);
         }));
 
         return $this;
@@ -55,7 +55,7 @@ abstract class HomesteadSettings
     /**
      * Update the virtual machine's name.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return static
      */
     public function updateName($name)
@@ -68,7 +68,7 @@ abstract class HomesteadSettings
     /**
      * Update the virtual machine's hostname.
      *
-     * @param  string  $hostname
+     * @param  string $hostname
      * @return static
      */
     public function updateHostname($hostname)
@@ -81,7 +81,7 @@ abstract class HomesteadSettings
     /**
      * Update the virtual machine's IP address.
      *
-     * @param  string  $ip
+     * @param  string $ip
      * @return static
      */
     public function updateIpAddress($ip)
@@ -94,28 +94,44 @@ abstract class HomesteadSettings
     /**
      * Configure the nginx sites.
      *
-     * @param  string  $projectName
-     * @param  string  $projectDirectory
+     * @param  string $projectName
+     * @param  string $projectDirectory
      * @return static
      */
     public function configureSites($projectName, $projectDirectory)
     {
-        $site = [
-            'map' => "{$projectName}.app",
-            'to' => "/home/vagrant/{$projectDirectory}/public",
+        $sites = [
+            [
+                'map' => "{$projectName}.app",
+                'to' => "/home/vagrant/{$projectDirectory}/public",
+            ]
         ];
 
-        if (isset($this->attributes['sites']) && ! empty($this->attributes['sites'])) {
-            if (isset($this->attributes['sites'][0]['type'])) {
-                $site['type'] = $this->attributes['sites'][0]['type'];
-            }
+        if (isset($this->attributes['sites']) && !empty($this->attributes['sites'])) {
+            foreach ($this->attributes['sites'] as $index => $user_site) {
+                if (isset($user_site['map'])) {
+                    $sites[$index]['map'] = $user_site['map'];
+                }
 
-            if (isset($this->attributes['sites'][0]['schedule'])) {
-                $site['schedule'] = $this->attributes['sites'][0]['schedule'];
+                if (isset($user_site['to'])) {
+                    $sites[$index]['to'] = $user_site['to'];
+                }
+
+                if (isset($user_site['type'])) {
+                    $sites[$index]['type'] = $user_site['type'];
+                }
+
+                if (isset($user_site['schedule'])) {
+                    $sites[$index]['schedule'] = $user_site['schedule'];
+                }
+
+                if (isset($user_site['php'])) {
+                    $sites[$index]['php'] = $user_site['php'];
+                }
             }
         }
 
-        $this->update(['sites' => [$site]]);
+        $this->update(['sites' => $sites]);
 
         return $this;
     }
@@ -123,18 +139,32 @@ abstract class HomesteadSettings
     /**
      * Configure the shared folders.
      *
-     * @param  string  $projectPath
-     * @param  string  $projectDirectory
+     * @param  string $projectPath
+     * @param  string $projectDirectory
      * @return static
      */
     public function configureSharedFolders($projectPath, $projectDirectory)
     {
-        $folder = [
-            'map' => $projectPath,
-            'to' => "/home/vagrant/{$projectDirectory}",
+        $folders = [
+            [
+                'map' => $projectPath,
+                'to' => "/home/vagrant/{$projectDirectory}",
+            ]
         ];
 
-        $this->update(['folders' => [$folder]]);
+        if (isset($this->attributes['folders']) && !empty($this->attributes['folders'])) {
+            foreach ($this->attributes['folders'] as $index => $user_folder) {
+                if (isset($user_folder['to'])) {
+                    $folders[$index]['to'] = $user_folder['to'];
+                }
+
+                if (isset($user_folder['type'])) {
+                    $folders[$index]['type'] = $user_folder['type'];
+                }
+            }
+        }
+
+        $this->update(['folders' => $folders]);
 
         return $this;
     }

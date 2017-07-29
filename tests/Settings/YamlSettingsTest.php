@@ -117,8 +117,8 @@ class YamlSettingsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_configure_its_sites()
-    {
+    public function it_can_configure_its_sites_from_existing_settings()
+        {
         $settings = new YamlSettings([
             'sites' => [
                 [
@@ -126,6 +126,7 @@ class YamlSettingsTest extends TestCase
                     'to' => '/home/vagrant/Laravel/public',
                     'type' => 'laravel',
                     'schedule' => true,
+                    'php' => '5.6',
                 ],
             ],
         ]);
@@ -134,10 +135,24 @@ class YamlSettingsTest extends TestCase
 
         $attributes = $settings->toArray();
         $this->assertEquals([
-            'map' => 'test.com.app',
-            'to' => '/home/vagrant/test-com/public',
+            'map' => 'homestead.app',
+            'to' => '/home/vagrant/Laravel/public',
             'type' => 'laravel',
             'schedule' => true,
+            'php' => '5.6',
+        ], $attributes['sites'][0]);
+    }
+
+    /** @test */
+    public function it_can_configure_its_sites_from_empty_settings()
+    {
+        $settings = new YamlSettings([]);
+        $settings->configureSites('test.com', 'test-com');
+
+        $attributes = $settings->toArray();
+        $this->assertEquals([
+            'map' => 'test.com.app',
+            'to' => '/home/vagrant/test-com/public',
         ], $attributes['sites'][0]);
     }
 
