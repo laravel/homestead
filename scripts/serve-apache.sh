@@ -162,6 +162,10 @@ a2dissite 000-default
 
 ps auxw | grep apache2 | grep -v grep > /dev/null
 
+# Assume user wants mode_rewrite support
+sudo a2enmod rewrite
+service apache2 restart
+
 if [ $? == 0 ]
 then
     service apache2 reload
