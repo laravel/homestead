@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Laravel\Homestead\Settings\JsonSettings;
 use Symfony\Component\Yaml\Yaml;
 use Laravel\Homestead\MakeCommand;
 use Tests\Traits\GeneratesTestDirectory;
@@ -435,8 +434,8 @@ class MakeCommandTest extends TestCase
         $settings = Yaml::parse(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml'));
 
         $this->assertEquals([
-            'map' => "homestead.app",
-            'to' => "/home/vagrant/Code/Laravel/public",
+            'map' => 'homestead.app',
+            'to' => '/home/vagrant/Code/Laravel/public',
         ], $settings['sites'][0]);
     }
 
@@ -454,8 +453,8 @@ class MakeCommandTest extends TestCase
         $settings = json_decode(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json'), true);
 
         $this->assertEquals([
-            'map' => "homestead.app",
-            'to' => "/home/vagrant/Code/Laravel/public",
+            'map' => 'homestead.app',
+            'to' => '/home/vagrant/Code/Laravel/public',
         ], $settings['sites'][0]);
     }
 
@@ -482,7 +481,7 @@ class MakeCommandTest extends TestCase
         // The curious thing is that both directories point to the same location.
         //
         $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
-        $this->assertEquals("/home/vagrant/Code", $settings['folders'][0]['to']);
+        $this->assertEquals('/home/vagrant/Code', $settings['folders'][0]['to']);
         $this->assertEquals($projectName, $settings['name']);
         $this->assertEquals($projectName, $settings['hostname']);
     }
@@ -512,7 +511,7 @@ class MakeCommandTest extends TestCase
         // The curious thing is that both directories point to the same location.
         //
         $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
-        $this->assertEquals("/home/vagrant/Code", $settings['folders'][0]['to']);
+        $this->assertEquals('/home/vagrant/Code', $settings['folders'][0]['to']);
         $this->assertEquals($projectName, $settings['name']);
         $this->assertEquals($projectName, $settings['hostname']);
     }

@@ -118,7 +118,7 @@ class YamlSettingsTest extends TestCase
 
     /** @test */
     public function it_can_configure_its_sites_from_existing_settings()
-        {
+    {
         $settings = new YamlSettings([
             'sites' => [
                 [
