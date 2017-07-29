@@ -46,7 +46,7 @@ abstract class HomesteadSettings
     public function update($attributes)
     {
         $this->attributes = array_merge($this->attributes, array_filter($attributes, function ($attribute) {
-            return !is_null($attribute);
+            return ! is_null($attribute);
         }));
 
         return $this;
@@ -104,10 +104,10 @@ abstract class HomesteadSettings
             [
                 'map' => "{$projectName}.app",
                 'to' => "/home/vagrant/{$projectDirectory}/public",
-            ]
+            ],
         ];
 
-        if (isset($this->attributes['sites']) && !empty($this->attributes['sites'])) {
+        if (isset($this->attributes['sites']) && ! empty($this->attributes['sites'])) {
             foreach ($this->attributes['sites'] as $index => $user_site) {
                 if (isset($user_site['map'])) {
                     $sites[$index]['map'] = $user_site['map'];
@@ -149,10 +149,10 @@ abstract class HomesteadSettings
             [
                 'map' => $projectPath,
                 'to' => "/home/vagrant/{$projectDirectory}",
-            ]
+            ],
         ];
 
-        if (isset($this->attributes['folders']) && !empty($this->attributes['folders'])) {
+        if (isset($this->attributes['folders']) && ! empty($this->attributes['folders'])) {
             foreach ($this->attributes['folders'] as $index => $user_folder) {
                 if (isset($user_folder['to'])) {
                     $folders[$index]['to'] = $user_folder['to'];
