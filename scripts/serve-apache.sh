@@ -12,7 +12,7 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 sudo service nginx stop
 apt-get update
-apt-get install -y apache2 libapache2-mod-php7.1
+apt-get install -y apache2 libapache2-mod-php"$5"
 sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
 block="<VirtualHost *:$3>
