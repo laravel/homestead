@@ -156,14 +156,32 @@ class JsonSettingsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_configure_its_shared_folders()
+    public function it_can_configure_its_shared_folders_from_existing_settings()
     {
         $settings = new JsonSettings([
             'folders' => [
-                'map' => '~/Code',
-                'to' => '/home/vagrant/',
+                [
+                    'map' => '~/Code',
+                    'to' => '/home/vagrant/Code',
+                    'type' => 'nfs',
+                ],
             ],
         ]);
+
+        $settings->configureSharedFolders('/a/path/for/project_name', 'project_name');
+
+        $attributes = $settings->toArray();
+        $this->assertEquals([
+            'map' => '/a/path/for/project_name',
+            'to' => '/home/vagrant/Code',
+            'type' => 'nfs',
+        ], $attributes['folders'][0]);
+    }
+
+    /** @test */
+    public function it_can_configure_its_shared_folders_from_empty_settings()
+    {
+        $settings = new JsonSettings([]);
 
         $settings->configureSharedFolders('/a/path/for/project_name', 'project_name');
 
