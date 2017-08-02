@@ -100,22 +100,38 @@ abstract class HomesteadSettings
      */
     public function configureSites($projectName, $projectDirectory)
     {
-        $site = [
-            'map' => "{$projectName}.app",
-            'to' => "/home/vagrant/{$projectDirectory}/public",
+        $sites = [
+            [
+                'map' => "{$projectName}.app",
+                'to' => "/home/vagrant/{$projectDirectory}/public",
+            ],
         ];
 
         if (isset($this->attributes['sites']) && ! empty($this->attributes['sites'])) {
-            if (isset($this->attributes['sites'][0]['type'])) {
-                $site['type'] = $this->attributes['sites'][0]['type'];
-            }
+            foreach ($this->attributes['sites'] as $index => $user_site) {
+                if (isset($user_site['map'])) {
+                    $sites[$index]['map'] = $user_site['map'];
+                }
 
-            if (isset($this->attributes['sites'][0]['schedule'])) {
-                $site['schedule'] = $this->attributes['sites'][0]['schedule'];
+                if (isset($user_site['to'])) {
+                    $sites[$index]['to'] = $user_site['to'];
+                }
+
+                if (isset($user_site['type'])) {
+                    $sites[$index]['type'] = $user_site['type'];
+                }
+
+                if (isset($user_site['schedule'])) {
+                    $sites[$index]['schedule'] = $user_site['schedule'];
+                }
+
+                if (isset($user_site['php'])) {
+                    $sites[$index]['php'] = $user_site['php'];
+                }
             }
         }
 
-        $this->update(['sites' => [$site]]);
+        $this->update(['sites' => $sites]);
 
         return $this;
     }
@@ -129,12 +145,26 @@ abstract class HomesteadSettings
      */
     public function configureSharedFolders($projectPath, $projectDirectory)
     {
-        $folder = [
-            'map' => $projectPath,
-            'to' => "/home/vagrant/{$projectDirectory}",
+        $folders = [
+            [
+                'map' => $projectPath,
+                'to' => "/home/vagrant/{$projectDirectory}",
+            ],
         ];
 
-        $this->update(['folders' => [$folder]]);
+        if (isset($this->attributes['folders']) && ! empty($this->attributes['folders'])) {
+            foreach ($this->attributes['folders'] as $index => $user_folder) {
+                if (isset($user_folder['to'])) {
+                    $folders[$index]['to'] = $user_folder['to'];
+                }
+
+                if (isset($user_folder['type'])) {
+                    $folders[$index]['type'] = $user_folder['type'];
+                }
+            }
+        }
+
+        $this->update(['folders' => $folders]);
 
         return $this;
     }

@@ -431,13 +431,11 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml');
 
-        $projectDirectory = basename(getcwd());
-        $projectName = $this->slug($projectDirectory);
         $settings = Yaml::parse(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml'));
 
         $this->assertEquals([
-            'map' => "{$projectDirectory}.app",
-            'to' => "/home/vagrant/{$projectName}/public",
+            'map' => 'homestead.app',
+            'to' => '/home/vagrant/Code/Laravel/public',
         ], $settings['sites'][0]);
     }
 
@@ -452,13 +450,11 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json');
 
-        $projectDirectory = basename(getcwd());
-        $projectName = $this->slug($projectDirectory);
         $settings = json_decode(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json'), true);
 
         $this->assertEquals([
-            'map' => "{$projectDirectory}.app",
-            'to' => "/home/vagrant/{$projectName}/public",
+            'map' => 'homestead.app',
+            'to' => '/home/vagrant/Code/Laravel/public',
         ], $settings['sites'][0]);
     }
 
@@ -485,7 +481,9 @@ class MakeCommandTest extends TestCase
         // The curious thing is that both directories point to the same location.
         //
         $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
-        $this->assertEquals("/home/vagrant/{$projectName}", $settings['folders'][0]['to']);
+        $this->assertEquals('/home/vagrant/Code', $settings['folders'][0]['to']);
+        $this->assertEquals($projectName, $settings['name']);
+        $this->assertEquals($projectName, $settings['hostname']);
     }
 
     /** @test */
@@ -513,7 +511,9 @@ class MakeCommandTest extends TestCase
         // The curious thing is that both directories point to the same location.
         //
         $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
-        $this->assertEquals("/home/vagrant/{$projectName}", $settings['folders'][0]['to']);
+        $this->assertEquals('/home/vagrant/Code', $settings['folders'][0]['to']);
+        $this->assertEquals($projectName, $settings['name']);
+        $this->assertEquals($projectName, $settings['hostname']);
     }
 
     /** @test */
