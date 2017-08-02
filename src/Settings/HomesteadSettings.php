@@ -14,7 +14,7 @@ abstract class HomesteadSettings
     /**
      * JsonSettings constructor.
      *
-     * @param  array $attributes
+     * @param  array  $attributes
      */
     public function __construct($attributes)
     {
@@ -24,7 +24,7 @@ abstract class HomesteadSettings
     /**
      * Create an instance from a file.
      *
-     * @param  string $filename
+     * @param  string  $filename
      * @return static
      */
     abstract public static function fromFile($filename);
@@ -32,7 +32,7 @@ abstract class HomesteadSettings
     /**
      * Save the homestead settings.
      *
-     * @param  string $filename
+     * @param  string  $filename
      * @return void
      */
     abstract public function save($filename);
@@ -40,7 +40,7 @@ abstract class HomesteadSettings
     /**
      * Update the homestead settings.
      *
-     * @param  array $attributes
+     * @param  array  $attributes
      * @return static
      */
     public function update($attributes)
@@ -55,7 +55,7 @@ abstract class HomesteadSettings
     /**
      * Update the virtual machine's name.
      *
-     * @param  string $name
+     * @param  string  $name
      * @return static
      */
     public function updateName($name)
@@ -68,7 +68,7 @@ abstract class HomesteadSettings
     /**
      * Update the virtual machine's hostname.
      *
-     * @param  string $hostname
+     * @param  string  $hostname
      * @return static
      */
     public function updateHostname($hostname)
@@ -81,7 +81,7 @@ abstract class HomesteadSettings
     /**
      * Update the virtual machine's IP address.
      *
-     * @param  string $ip
+     * @param  string  $ip
      * @return static
      */
     public function updateIpAddress($ip)
@@ -94,8 +94,8 @@ abstract class HomesteadSettings
     /**
      * Configure the nginx sites.
      *
-     * @param  string $projectName
-     * @param  string $projectDirectory
+     * @param  string  $projectName
+     * @param  string  $projectDirectory
      * @return static
      */
     public function configureSites($projectName, $projectDirectory)
@@ -139,8 +139,8 @@ abstract class HomesteadSettings
     /**
      * Configure the shared folders.
      *
-     * @param  string $projectPath
-     * @param  string $projectDirectory
+     * @param  string  $projectPath
+     * @param  string  $projectDirectory
      * @return static
      */
     public function configureSharedFolders($projectPath, $projectDirectory)
