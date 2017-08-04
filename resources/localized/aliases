@@ -129,16 +129,16 @@ function serve-symfony4() {
     fi
 }
 
-function serve-pimcore5() {
+function serve-pimcore() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-pimcore5.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-pimcore5.sh "$1" "$2" 80
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh "$1" "$2" 80
     else
         echo "Error: missing required parameters."
         echo "Usage: "
-        echo "  serve-pimcore5 domain path"
+        echo "  serve-pimcore domain path"
     fi
 }
 
