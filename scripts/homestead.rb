@@ -62,6 +62,11 @@ class Homestead
             v.cpus = settings["cpus"] ||= 1
         end
 
+        # Configure A Few Hyper-V Settings
+        config.vm.provider "hyperv" do |v|
+            #allow for Hyper-V config
+        end
+
         # Standardize Ports Naming Schema
         if (settings.has_key?("ports"))
             settings["ports"].each do |port|
