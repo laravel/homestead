@@ -129,6 +129,19 @@ function serve-symfony4() {
     fi
 }
 
+function serve-pimcore5() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/serve-pimcore5.sh
+        sudo bash /vagrant/scripts/serve-pimcore5.sh "$1" "$2" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-pimcore5 domain path"
+    fi
+}
+
 function share() {
     if [[ "$1" ]]
     then
