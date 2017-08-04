@@ -233,6 +233,14 @@ class Homestead
             s.inline = "sudo service nginx restart; sudo service php5.6-fpm restart; sudo service php7.0-fpm restart; sudo service php7.1-fpm restart"
         end
 
+        # Set timezone if configured
+        if settings.has_key?("timezone") && !settings["timezone"].empty?
+            config.vm.provision "shell" do |s|
+                s.inline = "sudo timedatectl set-timezone $1"
+                s.args = [settings["timezone"]]
+            end
+        end
+
         # Install MariaDB If Necessary
         if settings.has_key?("mariadb") && settings["mariadb"]
             config.vm.provision "shell" do |s|
