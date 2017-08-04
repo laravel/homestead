@@ -10,6 +10,13 @@ fi
 
 touch /home/vagrant/.maria
 
+# Disable Apparmor
+# See https://github.com/laravel/homestead/issues/629#issue-247524528
+
+sudo service apparmor stop
+sudo service apparmor teardown
+sudo update-rc.d -f apparmor remove
+
 # Remove MySQL
 
 apt-get remove -y --purge mysql-server mysql-client mysql-common
