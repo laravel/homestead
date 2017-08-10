@@ -321,6 +321,28 @@ class Homestead
             end
         end
 
+        if settings.has_key?("xdebug")
+            settings["xdebug"].each do |var|
+                config.vm.provision "shell" do |s|
+                    values = []
+                    var["value"].each do |xdebug|
+                        values.push(xdebug["key"] + "=" + xdebug["value"])
+                    end
+                    
+                    if var["key"] == "XDEBUG_CONFIG"
+                        my_ip = `ipconfig getifaddr en0`.chomp
+
+                        values.push("remote_host=" + my_ip)
+                        
+                    end
+                    val = values.join(" ")
+
+                    s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2$3$2\" >> /home/vagrant/.profile"
+                    s.args = [var["key"], '"', val]
+                end
+            end
+        end
+
         # Update Composer On Every Provision
         config.vm.provision "shell" do |s|
             s.name = "Update Composer"

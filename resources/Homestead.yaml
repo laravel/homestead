@@ -20,6 +20,16 @@ sites:
 databases:
     - homestead
 
+# xdebug:
+#     - key: XDEBUG_CONFIG
+#       value:
+#       - key: idekey
+#         value: PHPSTORM
+#     - key: PHP_IDE_CONFIG
+#       value:
+#       - key: serverName
+#         value: homestead
+
 # blackfire:
 #     - id: foo
 #       token: bar
