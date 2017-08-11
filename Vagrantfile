@@ -48,9 +48,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
     puts GREEN + '  > done' + NC
 
-    # Map ports for XDebug
-    config.vm.network "forwarded_port", guest: 9000, host: 9000, protocol: "TCP", auto_correct: true
-
     # Map ports for ElasticSearch
     config.vm.network "forwarded_port", guest: 9200, host: 9200, protocol: "TCP", auto_correct: true
 
