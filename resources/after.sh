@@ -82,7 +82,7 @@ displayOkMessage
 #
 displayTitle "Installing missing dependencies"
 
-apt-get -o Dpkg::Options::="--force-confnew" install -y php7.1-fpm php7.1-bz2 php7.1-mcrypt php7.1-gmp
+apt-get -o Dpkg::Options::="--force-confnew" install -y php7.1-fpm php7.1-bz2 php7.1-mcrypt php7.1-gmp php7.1-xdebug
 
 displayOkMessage
 
