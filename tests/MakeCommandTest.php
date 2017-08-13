@@ -435,7 +435,7 @@ class MakeCommandTest extends TestCase
 
         $this->assertEquals([
             'map' => 'homestead.app',
-            'to' => '/home/vagrant/Code/Laravel/public',
+            'to' => '/home/vagrant/Code/public',
         ], $settings['sites'][0]);
     }
 
@@ -454,7 +454,7 @@ class MakeCommandTest extends TestCase
 
         $this->assertEquals([
             'map' => 'homestead.app',
-            'to' => '/home/vagrant/Code/Laravel/public',
+            'to' => '/home/vagrant/Code/public',
         ], $settings['sites'][0]);
     }
 
