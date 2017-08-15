@@ -5,6 +5,10 @@ alias h='cd ~'
 alias c='clear'
 alias art=artisan
 
+alias php56=php56
+alias php70=php70
+alias php71=php71
+
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
@@ -24,6 +28,21 @@ function dusk() {
     fi
 
     php artisan dusk "$@"
+}
+
+function php56() {
+    sudo rm /usr/bin/php
+    sudo ln -s /usr/bin/php5.6 /usr/bin/php
+}
+
+function php70() {
+    sudo rm /usr/bin/php
+    sudo ln -s /usr/bin/php7.0 /usr/bin/php
+}
+
+function php71() {
+    sudo rm /usr/bin/php
+    sudo ln -s /usr/bin/php7.1 /usr/bin/php
 }
 
 function serve-apache() {
