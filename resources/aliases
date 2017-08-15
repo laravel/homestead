@@ -5,6 +5,10 @@ alias h='cd ~'
 alias c='clear'
 alias art=artisan
 
+alias php56=php56
+alias php70=php70
+alias php71=php71
+
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
@@ -12,9 +16,19 @@ alias serve=serve-laravel
 alias xoff='sudo phpdismod -s cli xdebug'
 alias xon='sudo phpenmod -s cli xdebug'
 
-alias php56=php56
-alias php70=php70
-alias php71=php71
+function artisan() {
+    php artisan "$@"
+}
+
+function dusk() {
+    pids=$(pidof /usr/bin/Xvfb)
+
+    if [ ! -n "$pids" ]; then
+        Xvfb :0 -screen 0 1280x960x24 &
+    fi
+
+    php artisan dusk "$@"
+}
 
 function php56() {
     sudo rm /usr/bin/php
@@ -29,20 +43,6 @@ function php70() {
 function php71() {
     sudo rm /usr/bin/php
     sudo ln -s /usr/bin/php7.1 /usr/bin/php
-}
-
-function artisan() {
-    php artisan "$@"
-}
-
-function dusk() {
-    pids=$(pidof /usr/bin/Xvfb)
-
-    if [ ! -n "$pids" ]; then
-        Xvfb :0 -screen 0 1280x960x24 &
-    fi
-
-    php artisan dusk "$@"
 }
 
 function serve-apache() {
