@@ -149,7 +149,7 @@ function serve-pimcore() {
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh "$1" "$2" 80
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh "$1" "$2" 80 443 "${3:-7.1}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
