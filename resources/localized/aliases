@@ -5,10 +5,6 @@ alias h='cd ~'
 alias c='clear'
 alias art=artisan
 
-alias php56=php56
-alias php70=php70
-alias php71=php71
-
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
