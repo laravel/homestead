@@ -296,11 +296,11 @@
         },
         {
             "name": "pod-point/coding-standards",
-            "version": "1.2",
+            "version": "1.3",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pod-point/coding-standards.git",
-                "reference": "845b164dd91637dc5a44aa4be3ef2ffa12c4e053"
+                "reference": "45832c6f79f28548f1d1d5bf97f72bed586f8234"
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^2.0"
@@ -329,7 +329,7 @@
                 }
             ],
             "description": "Coding standards module for PHP",
-            "time": "2017-06-30T10:51:53+00:00"
+            "time": "2017-07-04T12:47:55+00:00"
         },
         {
             "name": "psr/log",

@@ -18,6 +18,9 @@ folders:
       type: "nfs"
 
 sites:
+    # Dashboard API
+    - map: dashboard-api.dev
+      to: /home/vagrant/code/dashboard-api/public
     # MIS
     - map: admin-tool.dev
       to: /home/vagrant/code/admin-tool/public
