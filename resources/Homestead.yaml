@@ -42,7 +42,10 @@ sites:
     # Contractors Tool
     - map: contractors-tool.dev
       to: /home/vagrant/code/contractors-tool/public
-
+    # Installs Reporting
+    - map: installs-reporting.dev
+      to: /home/vagrant/code/installs-reporting/public
+      
 databases:
     - homestead
 
