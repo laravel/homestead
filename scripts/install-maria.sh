@@ -30,24 +30,20 @@ rm -rf /etc/mysql
 # Add Maria PPA
 
 sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main'
+sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.2/ubuntu xenial main'
 apt-get update
 
 # Set The Automated Root Password
 
 export DEBIAN_FRONTEND=noninteractive
 
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/data-dir select ''"
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password password secret"
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password_again password secret"
+debconf-set-selections <<< "mariadb-server-10.2 mysql-server/data-dir select ''"
+debconf-set-selections <<< "mariadb-server-10.2 mysql-server/root_password password secret"
+debconf-set-selections <<< "mariadb-server-10.2 mysql-server/root_password_again password secret"
 
 # Install MariaDB
 
 apt-get install -y mariadb-server
-
-# Configure Password Expiration
-
-echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
 
 # Configure Maria Remote Access
 
