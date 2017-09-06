@@ -16,9 +16,6 @@ sudo apt-get update
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
 
-#sudo pecl update-channels
-#sudo pecl install mongodb
-
 sudo rm -rf /tmp/mongo-php-driver /usr/src/mongo-php-driver
 git clone -c advice.detachedHead=false -q -b '1.2.9' --single-branch https://github.com/mongodb/mongo-php-driver.git /tmp/mongo-php-driver
 sudo mv /tmp/mongo-php-driver /usr/src/mongo-php-driver
