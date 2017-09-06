@@ -138,11 +138,13 @@ systemctl start elasticsearch.service
 displayOkMessage
 
 #
-## Copying php.ini
+## Copying PHP Configurations
 #
-displayTitle "Copying php.ini"
+displayTitle "Copying PHP Configurations"
 
-mv /tmp/php.ini /etc/php/7.1/cli/php.ini
+mv --force /tmp/php.ini /etc/php/7.1/cli/php.ini
+mv --force /tmp/craftConfig.ini /etc/php/7.1/mods-available/craftConfig.ini
+ln -s /etc/php/7.1/mods-available/craftConfig.ini /etc/php/7.1/fpm/conf.d/100-craftConfig.ini
 
 displayOkMessage
 
