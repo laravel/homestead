@@ -184,6 +184,11 @@ class Homestead
                     s.name = "Creating Certificate: " + site["map"]
                     s.path = scriptDir + "/create-certificate.sh"
                     s.args = [site["map"]]
+
+                    if site.include? 'rootCA'
+                      s.args.push(site['rootCA']['crt'])
+                      s.args.push(site['rootCA']['key'])
+                    end
                 end
 
                 type = site["type"] ||= "laravel"
