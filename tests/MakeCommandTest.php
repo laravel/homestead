@@ -435,7 +435,7 @@ class MakeCommandTest extends TestCase
 
         $this->assertEquals([
             'map' => 'homestead.app',
-            'to' => '/home/vagrant/Code/public',
+            'to' => '/home/vagrant/code/public',
         ], $settings['sites'][0]);
     }
 
@@ -454,7 +454,7 @@ class MakeCommandTest extends TestCase
 
         $this->assertEquals([
             'map' => 'homestead.app',
-            'to' => '/home/vagrant/Code/public',
+            'to' => '/home/vagrant/code/public',
         ], $settings['sites'][0]);
     }
 
@@ -481,7 +481,7 @@ class MakeCommandTest extends TestCase
         // The curious thing is that both directories point to the same location.
         //
         $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
-        $this->assertEquals('/home/vagrant/Code', $settings['folders'][0]['to']);
+        $this->assertEquals('/home/vagrant/code', $settings['folders'][0]['to']);
         $this->assertEquals($projectName, $settings['name']);
         $this->assertEquals($projectName, $settings['hostname']);
     }
@@ -511,7 +511,7 @@ class MakeCommandTest extends TestCase
         // The curious thing is that both directories point to the same location.
         //
         $this->assertRegExp("/{$projectDirectory}/", $settings['folders'][0]['map']);
-        $this->assertEquals('/home/vagrant/Code', $settings['folders'][0]['to']);
+        $this->assertEquals('/home/vagrant/code', $settings['folders'][0]['to']);
         $this->assertEquals($projectName, $settings['name']);
         $this->assertEquals($projectName, $settings['hostname']);
     }

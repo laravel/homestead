@@ -10,12 +10,12 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
+    - map: ~/code
+      to: /home/vagrant/code
 
 sites:
     - map: homestead.app
-      to: /home/vagrant/Code/public
+      to: /home/vagrant/code/public
 
 databases:
     - homestead
