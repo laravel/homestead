@@ -162,7 +162,7 @@ class JsonSettingsTest extends TestCase
             'folders' => [
                 [
                     'map' => '~/code',
-                    'to' => '/home/vagrant/code',
+                    'to' => '/home/vagrant',
                     'type' => 'nfs',
                 ],
             ],
@@ -173,7 +173,7 @@ class JsonSettingsTest extends TestCase
         $attributes = $settings->toArray();
         $this->assertEquals([
             'map' => '/a/path/for/project_name',
-            'to' => '/home/vagrant/code',
+            'to' => '/home/vagrant',
             'type' => 'nfs',
         ], $attributes['folders'][0]);
     }
