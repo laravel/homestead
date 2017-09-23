@@ -11,7 +11,7 @@ keys:
 
 folders:
     - map: ~/code
-      to: /home/vagrant
+      to: /home/vagrant/code
 
 sites:
     - map: homestead.localhost

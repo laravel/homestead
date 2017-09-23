@@ -163,7 +163,7 @@ class YamlSettingsTest extends TestCase
             'folders' => [
                 [
                     'map' => '~/code',
-                    'to' => '/home/vagrant',
+                    'to' => '/home/vagrant/code',
                     'type' => 'nfs',
                 ],
             ],
@@ -174,7 +174,7 @@ class YamlSettingsTest extends TestCase
         $attributes = $settings->toArray();
         $this->assertEquals([
             'map' => '/a/path/for/project_name',
-            'to' => '/home/vagrant',
+            'to' => '/home/vagrant/code',
             'type' => 'nfs',
         ], $attributes['folders'][0]);
     }
