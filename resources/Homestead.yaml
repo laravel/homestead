@@ -14,7 +14,7 @@ folders:
       to: /home/vagrant
 
 sites:
-    - map: homestead.app
+    - map: homestead.localhost
       to: /home/vagrant/code/public
 
 databases:

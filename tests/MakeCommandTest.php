@@ -434,7 +434,7 @@ class MakeCommandTest extends TestCase
         $settings = Yaml::parse(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml'));
 
         $this->assertEquals([
-            'map' => 'homestead.app',
+            'map' => 'homestead.localhost',
             'to' => '/home/vagrant/code/public',
         ], $settings['sites'][0]);
     }
@@ -453,7 +453,7 @@ class MakeCommandTest extends TestCase
         $settings = json_decode(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json'), true);
 
         $this->assertEquals([
-            'map' => 'homestead.app',
+            'map' => 'homestead.localhost',
             'to' => '/home/vagrant/code/public',
         ], $settings['sites'][0]);
     }
