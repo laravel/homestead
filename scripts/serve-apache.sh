@@ -164,6 +164,10 @@ ps auxw | grep apache2 | grep -v grep > /dev/null
 
 # Assume user wants mode_rewrite support
 sudo a2enmod rewrite
+
+# Turn on HTTPS support
+sudo a2enmod ssl
+
 service apache2 restart
 
 if [ $? == 0 ]
