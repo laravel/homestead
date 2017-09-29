@@ -25,3 +25,8 @@ Welcome to our custom Homestead development environment guide!
 * [Troubleshooting](./docs/Troubleshooting.md)
 
 ***
+
+# Learn more about Homestead
+Find out more about the Official Homestead (from which our stack inherit)
+
+Official documentation [is located here](https://laravel.com/docs/homestead).

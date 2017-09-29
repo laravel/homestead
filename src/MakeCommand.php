@@ -202,13 +202,13 @@ class MakeCommand extends Command
 
         if (! $this->exampleSettingsExists($format)) {
             $settings->updateName($options['name'])
-                     ->updateHostname($options['hostname']);
+                ->updateHostname($options['hostname']);
         }
 
         $settings->updateIpAddress($options['ip'])
-                 ->configureSites($this->projectName, $this->defaultName)
-                 ->configureSharedFolders($this->basePath, $this->defaultName)
-                 ->save("{$this->basePath}/Homestead.{$format}");
+            ->configureSites($this->projectName, $this->defaultName)
+            ->configureSharedFolders($this->basePath, $this->defaultName)
+            ->save("{$this->basePath}/Homestead.{$format}");
     }
 
     /**

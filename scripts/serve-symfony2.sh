@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-declare -A params=$5     # Create an associative array
+declare -A params=$6     # Create an associative array
 paramsTXT=""
-if [ -n "$5" ]; then
+if [ -n "$6" ]; then
     for element in "${!params[@]}"
     do
         paramsTXT="${paramsTXT}
@@ -36,7 +36,7 @@ block="server {
     # DEV
     location ~ ^/(app_dev|app_test|config)\.php(/|\$) {
         fastcgi_split_path_info ^(.+\.php)(/.+)\$;
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         $paramsTXT
@@ -49,7 +49,7 @@ block="server {
     # PROD
     location ~ ^/app\.php(/|$) {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         $paramsTXT
