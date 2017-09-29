@@ -149,6 +149,15 @@ ln -s /etc/php/7.1/mods-available/craftConfig.ini /etc/php/7.1/fpm/conf.d/100-cr
 displayOkMessage
 
 #
+## Restarting PHP FPM
+#
+displayTitle "Restarting php-fpm"
+
+/etc/init.d/php7.1-fpm restart
+
+displayOkMessage
+
+#
 ## Restarting nginx
 #
 displayTitle "Restarting nginx server"

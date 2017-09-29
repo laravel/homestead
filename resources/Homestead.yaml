@@ -18,34 +18,40 @@ folders:
       type: "nfs"
 
 sites:
-    # Dashboard API
-    - map: dashboard-api.dev
-      to: /home/vagrant/code/dashboard-api/public
-    # MIS
-    - map: admin-tool.dev
-      to: /home/vagrant/code/admin-tool/public
-    # POD Point - Web
-    - map: pod-point.dev
-      to: /home/vagrant/code/pod-point.com/public
-    # Craft CMS - Web CMS
-    - map: craft.dev
-      to: /home/vagrant/code/pod-point.com/public
-    # Install tools - Renault
-    - map: installs-tool-renault.dev
-      to: /home/vagrant/code/renault/public
-    # Install tools - Ordering tools
-    - map: installs-tool.dev
-      to: /home/vagrant/code/installs-tool/public
     # API 3
     - map: api3.dev
       to: /home/vagrant/code/api3/public
     # Contractors Tool
     - map: contractors-tool.dev
       to: /home/vagrant/code/contractors-tool/public
+    # Dashboard API
+    - map: dashboard-api.dev
+      to: /home/vagrant/code/dashboard-api/public
     # Installs Reporting
     - map: installs-reporting.dev
       to: /home/vagrant/code/installs-reporting/public
-      
+    # Install tools - Ordering tools
+    - map: installs-tool.dev
+      to: /home/vagrant/code/installs-tool/public
+    # Install tools - Renault
+    - map: installs-tool-renault.dev
+      to: /home/vagrant/code/renault/public
+    # MIS
+    - map: admin-tool.dev
+      to: /home/vagrant/code/admin-tool/public
+    # Pod Comms Service
+    - map: pod-comms-service.dev
+      to: /home/vagrant/code/pod-comms-service/public
+    # POD Point - Web
+    - map: pod-point.dev
+      to: /home/vagrant/code/pod-point.com/public
+    # POD Point - Web Craft CMS
+    - map: craft.dev
+      to: /home/vagrant/code/pod-point.com/public
+    # Open Charge Web App
+    - map: opencharge-web-app.dev
+      to: /home/vagrant/code/opencharge-web-app/public
+
 databases:
     - homestead
 
