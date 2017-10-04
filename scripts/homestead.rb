@@ -254,6 +254,13 @@ class Homestead
             end
         end
 
+        # Install Elasticsearch If Necessary
+        if settings.has_key?("elasticsearch") && settings["elasticsearch"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-elasticsearch.sh"
+            end
+        end
+
         # Configure All Of The Configured Databases
         if settings.has_key?("databases")
             settings["databases"].each do |db|
