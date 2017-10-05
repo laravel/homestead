@@ -33,7 +33,7 @@ class MakeCommand extends Command
      *
      * @var string
      */
-    protected $defaultName;
+    protected $defaultProjectName;
 
     /**
      * Configure the command options.
@@ -44,13 +44,13 @@ class MakeCommand extends Command
     {
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
-        $this->defaultName = $this->slug($this->projectName);
+        $this->defaultProjectName = $this->slug($this->projectName);
 
         $this
             ->setName('make')
             ->setDescription('Install Homestead into the current project')
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultName)
-            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultName)
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultProjectName)
+            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultProjectName)
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('no-after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is not created.')
             ->addOption('no-aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is not created.')
@@ -206,8 +206,8 @@ class MakeCommand extends Command
         }
 
         $settings->updateIpAddress($options['ip'])
-            ->configureSites($this->projectName, $this->defaultName)
-            ->configureSharedFolders($this->basePath, $this->defaultName)
+            ->configureSites($this->projectName, $this->defaultProjectName)
+            ->configureSharedFolders($this->basePath, $this->defaultProjectName)
             ->save("{$this->basePath}/Homestead.{$format}");
     }
 
