@@ -27,18 +27,15 @@ function dusk() {
 }
 
 function php56() {
-    sudo rm /usr/bin/php
-    sudo ln -s /usr/bin/php5.6 /usr/bin/php
+    sudo update-alternatives --set php /usr/bin/php5.6
 }
 
 function php70() {
-    sudo rm /usr/bin/php
-    sudo ln -s /usr/bin/php7.0 /usr/bin/php
+    sudo update-alternatives --set php /usr/bin/php7.0
 }
 
 function php71() {
-    sudo rm /usr/bin/php
-    sudo ln -s /usr/bin/php7.1 /usr/bin/php
+    sudo update-alternatives --set php /usr/bin/php7.1
 }
 
 function serve-apache() {
