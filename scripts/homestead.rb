@@ -78,6 +78,7 @@ class Homestead
             80 => 8000,
             443 => 44300,
             3306 => 33060,
+            4040 => 4040,
             5432 => 54320,
             8025 => 8025,
             27017 => 27017
@@ -346,6 +347,13 @@ class Homestead
                     settings["blackfire"][0]["client-token"]
                 ]
             end
+        end
+
+        # Add config file for ngrok
+        config.vm.provision "shell" do |s|
+            s.path = scriptDir + "/create-ngrok.sh"
+            s.args = [settings["ip"]]
+            s.privileged = false
         end
     end
 end
