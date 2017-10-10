@@ -60,3 +60,5 @@ sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
 
 sudo systemctl enable mongod
 sudo systemctl start mongod
+
+mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
