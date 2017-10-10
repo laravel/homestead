@@ -6,8 +6,11 @@ class Homestead
         # Configure Local Variable To Access Scripts From Remote Location
         scriptDir = File.dirname(__FILE__)
 
-        # Prevent TTY Errors
-        config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+        # Start provisioning
+        config.vm.provision "shell" do |s|
+            s.name = "Start"
+            s.path = scriptDir + "/start.sh"
+        end
 
         # Allow SSH Agent Forward from The Box
         config.ssh.forward_agent = true
@@ -354,6 +357,12 @@ class Homestead
             s.path = scriptDir + "/create-ngrok.sh"
             s.args = [settings["ip"]]
             s.privileged = false
+        end
+
+        # Finish provisioning
+        config.vm.provision "shell" do |s|
+            s.name = "End"
+            s.path = scriptDir + "/end.sh"
         end
     end
 end
