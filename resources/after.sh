@@ -5,8 +5,9 @@
 # be run after the Homestead machine is provisioned.
 
 sudo apt-get update
-sudo apt-get --assume-yes install mcrypt php7.1-mcrypt
-sudo apt-get upgrade
+sudo apt-get autoremove
+sudo apt-get --assume-yes install mcrypt php7.1-mcrypt php-imagick
+sudo apt-get upgrade -y
 
 sudo service php7.1-fpm restart
 sudo service nginx restart
