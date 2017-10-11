@@ -6,9 +6,6 @@ class Homestead
         # Configure Local Variable To Access Scripts From Remote Location
         scriptDir = File.dirname(__FILE__)
 
-        # Prevent TTY Errors
-        config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
-
         # Allow SSH Agent Forward from The Box
         config.ssh.forward_agent = true
 
