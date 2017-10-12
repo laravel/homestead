@@ -32,7 +32,9 @@ composer dump-autoload -d ~/fulfillment.shineon.com/\
 
 
 echo "---------------------------------------------------------------------------------"
-echo "local.fulfillment.shineon.com $ php artisan clear-compiled && php artisan migrate"
+echo "local.fulfillment.shineon.com"
+echo "php artisan clear-compiled && php artisan migrate && php artisan passport:install"
 echo "---------------------------------------------------------------------------------"
 php ~/fulfillment.shineon.com/artisan clear-compiled
 php ~/fulfillment.shineon.com/artisan migrate --force
+php ~/fulfillment.shineon.com/artisan passport:install --force
