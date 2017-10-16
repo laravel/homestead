@@ -38,6 +38,10 @@ function php71() {
     sudo update-alternatives --set php /usr/bin/php7.1
 }
 
+function php72() {
+    sudo update-alternatives --set php /usr/bin/php7.2
+}
+
 function serve-apache() {
     if [[ "$1" && "$2" ]]
     then
