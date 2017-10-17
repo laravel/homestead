@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-mkdir /etc/cron.d 2>/dev/null
+if [ ! -d /etc/cron.d ]; then
+    mkdir /etc/cron.d
+fi
 
-cron="* * * * * vagrant /usr/bin/php $2/../artisan schedule:run >> /dev/null 2>&1"
+SITE_DOMAIN=$1
+SITE_PUBLIC_DIRECTORY=$2
 
-echo "$cron" > "/etc/cron.d/$1"
+cron="* * * * * vagrant /usr/bin/php $SITE_PUBLIC_DIRECTORY/../artisan schedule:run >> /dev/null 2>&1"
+
+echo "$cron" > "/etc/cron.d/$SITE_DOMAIN"
+
 service cron restart
