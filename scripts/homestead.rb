@@ -21,7 +21,7 @@ class Homestead
         # Configure Additional Networks
         if settings.has_key?("networks")
             settings["networks"].each do |network|
-                config.vm.network network["type"], ip: network["ip"], bridge: network["bridge"] ||= nil
+                config.vm.network network["type"], ip: network["ip"], bridge: network["bridge"] ||= nil, netmask: network["netmask"] ||= "255.255.255.0"
             end
         end
 
