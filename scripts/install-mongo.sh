@@ -16,6 +16,9 @@ sudo apt-get update
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
 
+sudo ufw allow 27017
+sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
+
 sudo systemctl enable mongod
 sudo systemctl start mongod
 
@@ -68,8 +71,5 @@ sudo bash -c "echo 'extension=mongodb.so' > /etc/php/7.2/mods-available/mongo.in
 sudo ln -s /etc/php/7.2/mods-available/mongo.ini /etc/php/7.2/cli/conf.d/20-mongo.ini
 sudo ln -s /etc/php/7.2/mods-available/mongo.ini /etc/php/7.2/fpm/conf.d/20-mongo.ini
 sudo service php7.2-fpm restart
-
-sudo ufw allow 27017
-sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
 
 mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
