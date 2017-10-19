@@ -35,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     Homestead.configure(config, settings)
 
     if File.exist? afterScriptPath then
-        config.vm.provision "shell", path: afterScriptPath, privileged: false
+        config.vm.provision "shell", path: afterScriptPath, privileged: false, keep_color: true
     end
 
     if defined? VagrantPlugins::HostsUpdater
