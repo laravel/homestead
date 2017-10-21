@@ -361,5 +361,10 @@ class Homestead
             s.args = [settings["ip"]]
             s.privileged = false
         end
+
+        # Configure xdebug switch
+        config.vm.provision "shell" do |s|
+            s.path = scriptDir + "/create-xdebug-switch.sh"
+        end
     end
 end
