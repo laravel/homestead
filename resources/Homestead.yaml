@@ -21,12 +21,18 @@ sites:
     # API 3
     - map: api3.dev
       to: /home/vagrant/code/api3/public
+    # Auth Service
+    - map: auth-service.dev
+      to: /home/vagrant/code/auth-service/public
     # Contractors Tool
     - map: contractors-tool.dev
       to: /home/vagrant/code/contractors-tool/public
     # Dashboard API
     - map: dashboard-api.dev
       to: /home/vagrant/code/dashboard-api/public
+    # Dealerships Tool
+    - map: dealerships-tool.dev
+      to: /home/vagrant/code/dealerships-tool/public
     # Installs Reporting
     - map: installs-reporting.dev
       to: /home/vagrant/code/installs-reporting/public

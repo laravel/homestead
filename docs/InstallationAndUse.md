@@ -107,7 +107,7 @@ sites:
       to: /home/vagrant/code/<my-repository>/public
 ```
 
-after this change, remember to re-provision the vagrant box (see [Applying a configuration change](#box-provisioning) section) 
+after this change, remember to re-provision the vagrant box (see [Provisioning It](#running-the-development-environment--provisioning-the-development-environment) section) 
 
 <a id="starting-a-new-project--map-the-site-in-hosts"></a>
 ## Map the Site in Your Hosts
