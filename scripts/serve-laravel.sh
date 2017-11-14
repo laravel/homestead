@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 declare -A params=$6     # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
