@@ -42,6 +42,11 @@ class Homestead
             end
         end
 
+        # Override Default SSH port on the host
+        if (settings.has_key?("default_ssh_port"))
+            config.vm.network :forwarded_port, guest: 22, host: settings["default_ssh_port"], auto_correct: false, id: "ssh"
+        end
+
         # Configure A Few VMware Settings
         ["vmware_fusion", "vmware_workstation"].each do |vmware|
             config.vm.provider vmware do |v|
