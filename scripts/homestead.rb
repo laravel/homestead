@@ -233,12 +233,11 @@ class Homestead
                     end
                 end
             end
+        end
 
-            if sites.any? { |site| site.has_key?("schedule") }
-                config.vm.provision "shell" do |s|
-                s.name = "Restarting Cron"
-                s.inline = "sudo service cron restart"
-            end
+        config.vm.provision "shell" do |s|
+            s.name = "Restarting Cron"
+            s.inline = "sudo service cron restart"
         end
 
         config.vm.provision "shell" do |s|
