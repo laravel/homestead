@@ -238,7 +238,8 @@ class Homestead
             # Restart cron daemon
             if has_cron
                 config.vm.provision "shell" do |s|
-                s.path = scriptDir + "/cron-restart.sh"
+                    s.path = scriptDir + "/cron-restart.sh"
+                end
             end
         end
 
