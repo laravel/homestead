@@ -184,7 +184,6 @@ class Homestead
         end
 
         if settings.include? 'sites'
-            has_cron = false
             settings["sites"].each do |site|
 
                 # Create SSL certificate
@@ -221,7 +220,6 @@ class Homestead
                         if (site["schedule"])
                             s.path = scriptDir + "/cron-schedule.sh"
                             s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
-                            has_cron = true
                         else
                             s.inline = "rm -f /etc/cron.d/$1"
                             s.args = [site["map"].tr('^A-Za-z0-9', '')]
@@ -235,10 +233,11 @@ class Homestead
                     end
                 end
             end
-            # Restart cron daemon
-            if has_cron
+
+            if sites.any? { |site| site.has_key?("schedule") }
                 config.vm.provision "shell" do |s|
-                s.path = scriptDir + "/cron-restart.sh"
+                s.name = "Restarting Cron"
+                s.inline = "sudo service cron restart"
             end
         end
 
