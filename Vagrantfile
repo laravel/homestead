@@ -54,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if File.exist? homesteadYamlPath then
         settings = YAML::load(File.read(homesteadYamlPath))
     elsif File.exist? homesteadJsonPath then
-        settings = JSON.parse(File.read(homesteadJsonPath))
+        settings = JSON::parse(File.read(homesteadJsonPath))
     else
         abort "Homestead settings file not found in #{confDir}"
     end
@@ -62,10 +62,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     Homestead.configure(config, settings)
 
     if File.exist? afterScriptPath then
-        config.vm.provision "shell", path: afterScriptPath, privileged: true
+        config.vm.provision "shell", path: afterScriptPath, privileged: true, keep_color: true
     end
 
-    if defined? VagrantPlugins::HostsUpdater
+    if Vagrant.has_plugin?('vagrant-hostsupdater')
         config.hostsupdater.aliases = settings['sites'].map { |site| site['map'] }
+    elsif Vagrant.has_plugin?('vagrant-hostmanager')
+        config.hostmanager.enabled = true
+        config.hostmanager.manage_host = true
+        config.hostmanager.aliases = settings['sites'].map { |site| site['map'] }
     end
 end

@@ -39,6 +39,7 @@ then
 
         [ alternate_names ]
         DNS.1 = $1
+        DNS.2 = *.$1
     "
     echo "$block" > $PATH_CNF
 

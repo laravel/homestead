@@ -8,13 +8,19 @@ fi
 
 touch /home/vagrant/.mongo
 
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 2>&1
 
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 
 sudo apt-get update
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
+
+sudo ufw allow 27017
+sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
+
+sudo systemctl enable mongod
+sudo systemctl start mongod
 
 sudo rm -rf /tmp/mongo-php-driver /usr/src/mongo-php-driver
 git clone -c advice.detachedHead=false -q -b '1.2.9' --single-branch https://github.com/mongodb/mongo-php-driver.git /tmp/mongo-php-driver
@@ -55,8 +61,15 @@ sudo ln -s /etc/php/7.1/mods-available/mongo.ini /etc/php/7.1/cli/conf.d/20-mong
 sudo ln -s /etc/php/7.1/mods-available/mongo.ini /etc/php/7.1/fpm/conf.d/20-mongo.ini
 sudo service php7.1-fpm restart
 
-sudo ufw allow 27017
-sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
+phpize7.2
+./configure --with-php-config=/usr/bin/php-config7.2 > /dev/null
+make clean > /dev/null
+make >/dev/null 2>&1
+sudo make install
+sudo chmod 644 /usr/lib/php/20160303/mongodb.so
+sudo bash -c "echo 'extension=mongodb.so' > /etc/php/7.2/mods-available/mongo.ini"
+sudo ln -s /etc/php/7.2/mods-available/mongo.ini /etc/php/7.2/cli/conf.d/20-mongo.ini
+sudo ln -s /etc/php/7.2/mods-available/mongo.ini /etc/php/7.2/fpm/conf.d/20-mongo.ini
+sudo service php7.2-fpm restart
 
-sudo systemctl enable mongod
-sudo systemctl start mongod
+mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"

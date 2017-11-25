@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 declare -A params=$6     # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
@@ -44,7 +45,7 @@ block="server {
 
     location ~ /framework/.*(main|rpc|tiny_mce_gzip)\.php$ {
         fastcgi_keep_conn on;
-        fastcgi_pass   unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include        fastcgi_params;
