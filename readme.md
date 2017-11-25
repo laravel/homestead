@@ -7,10 +7,28 @@
 <a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/license.svg" alt="License"></a>
 </p>
 
-## Introduction
+# POD Point Homestead guide
+Welcome to our custom Homestead development environment guide!
 
-Laravel Homestead is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, and any other server software on your local machine. No more worrying about messing up your operating system! Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!
+***
 
-Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.1, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
+**Table of Content**
+
+* [PreRequisites](./docs/PreRequisites.md)
+
+* [Installation & Use](./docs/InstallationAndUse.md)
+
+* [Our Stack](./docs/OurStack.md)
+
+* [Reminder](./docs/Reminder.md)
+
+* [Troubleshooting](./docs/Troubleshooting.md)
+
+***
+
+# Learn more about Homestead
+Find out more about the Official Homestead (from which our stack inherit)
+
+=======
 
 Official documentation [is located here](https://laravel.com/docs/homestead).
