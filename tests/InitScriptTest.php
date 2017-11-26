@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class InitScriptTest extends TestCase
 {

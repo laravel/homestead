@@ -5,7 +5,7 @@ namespace Tests;
 use Symfony\Component\Yaml\Yaml;
 use Laravel\Homestead\MakeCommand;
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Laravel\Homestead\Traits\GeneratesSlugs;
 use Symfony\Component\Console\Tester\CommandTester;
 

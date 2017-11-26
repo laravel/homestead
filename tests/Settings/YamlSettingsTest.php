@@ -4,7 +4,7 @@ namespace Tests\Settings;
 
 use Symfony\Component\Yaml\Yaml;
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Laravel\Homestead\Settings\YamlSettings;
 
 class YamlSettingsTest extends TestCase

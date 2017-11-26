@@ -3,7 +3,7 @@
 namespace Tests\Settings;
 
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Laravel\Homestead\Settings\JsonSettings;
 
 class JsonSettingsTest extends TestCase
