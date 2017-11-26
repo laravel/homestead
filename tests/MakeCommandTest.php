@@ -42,9 +42,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile');
 
-        $this->assertEquals(
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile'),
-            file_get_contents(__DIR__.'/../resources/localized/Vagrantfile')
+        $this->assertFileEquals(
+            self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile',
+            __DIR__.'/../resources/localized/Vagrantfile'
         );
     }
 
@@ -74,9 +74,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases');
 
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../resources/aliases'),
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        $this->assertFileEquals(
+            __DIR__.'/../resources/aliases',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'aliases'
         );
     }
 
@@ -91,9 +91,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases');
 
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../resources/localized/aliases'),
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        $this->assertFileEquals(
+            __DIR__.'/../resources/localized/aliases',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'aliases'
         );
     }
 
@@ -137,9 +137,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh');
 
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../resources/after.sh'),
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh')
+        $this->assertFileEquals(
+            __DIR__.'/../resources/after.sh',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh'
         );
     }
 
