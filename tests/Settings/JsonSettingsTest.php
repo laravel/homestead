@@ -33,7 +33,7 @@ class JsonSettingsTest extends TestCase
 
         $settings->save($filename);
 
-        $this->assertTrue(file_exists($filename));
+        $this->assertFileExists($filename);
         $attributes = json_decode(file_get_contents($filename), true);
         $this->assertEquals('192.168.10.10', $attributes['ip']);
         $this->assertEquals('2048', $attributes['memory']);

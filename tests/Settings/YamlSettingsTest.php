@@ -34,7 +34,7 @@ class YamlSettingsTest extends TestCase
 
         $settings->save($filename);
 
-        $this->assertTrue(file_exists($filename));
+        $this->assertFileExists($filename);
         $attributes = Yaml::parse(file_get_contents($filename));
         $this->assertEquals('192.168.10.10', $attributes['ip']);
         $this->assertEquals('2048', $attributes['memory']);
