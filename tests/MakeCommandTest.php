@@ -396,9 +396,11 @@ class MakeCommandTest extends TestCase
 
         $settings = Yaml::parse(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml'));
 
-        $this->assertEquals('test_name', $settings['name']);
-        $this->assertEquals('test_hostname', $settings['hostname']);
-        $this->assertEquals('127.0.0.1', $settings['ip']);
+        $this->assertArraySubset([
+            'name' => 'test_name',
+            'hostname' => 'test_hostname',
+            'ip' => '127.0.0.1',
+        ], $settings);
     }
 
     /** @test */
@@ -417,9 +419,11 @@ class MakeCommandTest extends TestCase
 
         $settings = json_decode(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json'), true);
 
-        $this->assertEquals('test_name', $settings['name']);
-        $this->assertEquals('test_hostname', $settings['hostname']);
-        $this->assertEquals('127.0.0.1', $settings['ip']);
+        $this->assertArraySubset([
+            'name' => 'test_name',
+            'hostname' => 'test_hostname',
+            'ip' => '127.0.0.1',
+        ], $settings);
     }
 
     /** @test */
