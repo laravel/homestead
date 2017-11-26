@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Tests\Traits\GeneratesTestDirectory;
 use PHPUnit\Framework\TestCase;
+use Tests\Traits\GeneratesTestDirectory;
 
 class InitScriptTest extends TestCase
 {
