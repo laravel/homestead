@@ -29,10 +29,10 @@ block="<VirtualHost *:$3>
     ServerAdmin webmaster@localhost
     ServerName $1
     ServerAlias www.$1
-    DocumentRoot $2
+    DocumentRoot "$2"
     $paramsTXT
 
-    <Directory $2>
+    <Directory "$2">
         AllowOverride All
         Require all granted
     </Directory>
@@ -66,10 +66,10 @@ blockssl="<IfModule mod_ssl.c>
         ServerAdmin webmaster@localhost
         ServerName $1
         ServerAlias www.$1
-        DocumentRoot $2
+        DocumentRoot "$2"
         $paramsTXT
 
-        <Directory $2>
+        <Directory "$2">
             AllowOverride All
             Require all granted
         </Directory>
