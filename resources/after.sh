@@ -20,9 +20,6 @@ GREEN="\033[0;37m"
 WHITE_ON_PURPLE="\033[37;45m"
 WHITE_ON_GREEN="\033[37;42m"
 
-# Constants
-ES_PORT=9200
-
 #
 ## Functions
 #
@@ -55,9 +52,9 @@ displayServerInfo () {
     displayMessage "--------------------------------------"
     echo "${WHITE_ON_GREEN}  ALL READY!  ${NC}"
     echo " "
+
     displayMessage "bower version: `bower -v`"
     displayMessage "composer version: `composer -V | grep -Po '\d+(\.\d+)+'`"
-    displayMessage "elasticsearch version: `curl -s -XGET http://localhost:$ES_PORT | grep -E \"\\\"number\\\"\" | grep -Po '\d+(\.\d+)+'`"
     displayMessage "php version: `php -v | grep -Po 'PHP \d+(\.\d+)+' | sed -e 's/PHP //'`"
     displayMessage "mysql version: `mysql -Vmysql -V | grep -Po 'Distrib \d+(\.\d+)+' | sed -e 's/Distrib //g'`"
     displayMessage "node version: `node -v`"
@@ -68,21 +65,11 @@ displayServerInfo () {
 }
 
 #
-## Manage current packages
-#
-displayTitle "Update current packages"
-
-dpkg --configure -a --force-confnew
-apt-get -o Dpkg::Options::="--force-confnew" update --fix-missing -y
-
-displayOkMessage
-
-#
 ## Install missing dependencies
 #
 displayTitle "Installing missing dependencies"
 
-apt-get -o Dpkg::Options::="--force-confnew" install -y php7.1-fpm php7.1-bz2 php7.1-mcrypt php7.1-gmp php7.1-xdebug
+apt-get -o Dpkg::Options::="--force-confnew" install -y php7.0-bz2 php7.0-mcrypt php7.0-gmp php7.0-xdebug php7.1-bz2 php7.1-mcrypt php7.1-gmp php7.1-xdebug
 
 displayOkMessage
 
@@ -97,54 +84,35 @@ mysql --login-path=local  -e "SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO
 displayOkMessage
 
 #
-## Install Java
+## Copying Configurations
 #
-displayTitle "Installing Java"
 
-apt-get -o Dpkg::Options::="--force-confnew" install -y default-jre
-
-displaySpacedMessage "Export JAVA_HOME environment variable"
-export JAVA_HOME="/usr/bin/java"
-
-displayOkMessage
-
-#
-## Install ElasticSearch
-#
-displayTitle "Installing ElasticSearch"
-
-displaySpacedMessage "Download and install PGP public signing key..."
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-
-displaySpacedMessage "Installing missing dependencies..."
-apt-get -o Dpkg::Options::="--force-confnew" install -y apt-transport-https
-
-displaySpacedMessage "Saving repository definition..."
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
-
-displaySpacedMessage "Installing ElasticSearch..."
-apt-get -o Dpkg::Options::="--force-confnew" update -y && apt-get -o Dpkg::Options::="--force-confnew" install -y elasticsearch
+displayTitle "Copying Configurations"
 
 displaySpacedMessage "Copying elasticsearch.yml (ES config)..."
-mv /tmp/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+cp /home/vagrant/config/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
-displaySpacedMessage "Configuring system to automatically start ElasticSearch at boot..."
-/bin/systemctl daemon-reload
-/bin/systemctl enable elasticsearch.service
+displaySpacedMessage "Copying PHP Configurations"
+cp --force /home/vagrant/config/php.ini /etc/php/7.0/cli/php.ini
+cp --force /home/vagrant/config/php.ini /etc/php/7.1/cli/php.ini
+cp --force /home/vagrant/config/php.ini /etc/php/7.2/cli/php.ini
 
-displaySpacedMessage "Starting Elasticsearch server..."
-systemctl start elasticsearch.service
+displaySpacedMessage "Copying PHP Configurations for Craft CMS"
+cp --force /home/vagrant/config/craftConfig.ini /etc/php/7.0/mods-available/craftConfig.ini
+cp --force /home/vagrant/config/craftConfig.ini /etc/php/7.1/mods-available/craftConfig.ini
+cp --force /home/vagrant/config/craftConfig.ini /etc/php/7.2/mods-available/craftConfig.ini
+rm /etc/php/7.0/fpm/conf.d/100-craftConfig.ini && ln -s /etc/php/7.0/mods-available/craftConfig.ini /etc/php/7.0/fpm/conf.d/100-craftConfig.ini
+rm /etc/php/7.1/fpm/conf.d/100-craftConfig.ini && ln -s /etc/php/7.1/mods-available/craftConfig.ini /etc/php/7.1/fpm/conf.d/100-craftConfig.ini
+rm /etc/php/7.2/fpm/conf.d/100-craftConfig.ini && ln -s /etc/php/7.2/mods-available/craftConfig.ini /etc/php/7.2/fpm/conf.d/100-craftConfig.ini
 
 displayOkMessage
 
 #
-## Copying PHP Configurations
+## Restarting Elasticsearch
 #
-displayTitle "Copying PHP Configurations"
+displayTitle "Restarting elasticsearch"
 
-mv --force /tmp/php.ini /etc/php/7.1/cli/php.ini
-mv --force /tmp/craftConfig.ini /etc/php/7.1/mods-available/craftConfig.ini
-ln -s /etc/php/7.1/mods-available/craftConfig.ini /etc/php/7.1/fpm/conf.d/100-craftConfig.ini
+/etc/init.d/elasticsearch restart
 
 displayOkMessage
 
@@ -153,7 +121,9 @@ displayOkMessage
 #
 displayTitle "Restarting php-fpm"
 
+/etc/init.d/php7.0-fpm restart
 /etc/init.d/php7.1-fpm restart
+/etc/init.d/php7.2-fpm restart
 
 displayOkMessage
 

@@ -3,6 +3,7 @@ ip: "192.168.10.10"
 memory: 4096
 cpus: 2
 provider: virtualbox
+elasticsearch: true
 
 authorize: ~/.ssh/id_rsa.pub
 
@@ -15,6 +16,9 @@ folders:
       type: "nfs"
     - map: {vendorPath}
       to: /home/vagrant/vendor
+      type: "nfs"
+    - map: {vendorPath}/../files/custom
+      to: /home/vagrant/config
       type: "nfs"
 
 sites:
@@ -58,8 +62,10 @@ sites:
     - map: opencharge-web-app.dev
       to: /home/vagrant/code/opencharge-web-app/public
 
-databases:
-    - homestead
+ports:
+    - send: 9200
+      to: 9200
+
 
 # blackfire:
 #     - id: foo

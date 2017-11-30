@@ -15,7 +15,7 @@
     ],
     "sites": [
         {
-            "map": "homestead.localhost",
+            "map": "homestead.test",
             "to": "/home/vagrant/code/public"
         }
     ],

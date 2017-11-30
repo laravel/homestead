@@ -3,7 +3,7 @@
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl;
-    server_name $1;
+    server_name .$1;
 
     location / {
         proxy_set_header X-Real-IP \$remote_addr;
