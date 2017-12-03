@@ -6,7 +6,7 @@ Please note that the Homestead issue tracker is reserved for bug reports and enh
   - Homestead: Run `homestead --version` to show the version.
 
 **A lot of issues can be resolved by simply updating vagrant, provider or homestead.**
->**Note:** Virtualbox users, please upgrade to `~5.1`. You *will* show as up-to-date from the `~5.0` branch when you `About -> Check for Updates`. You'll need to download a newer version of [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
+>**Note:** Virtualbox users, please upgrade to `~5.2`. You *will* show as up-to-date from the `~5.0` version when you `About -> Check for Updates`. You'll need to download a newer version of [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
 
 ## Host operating system
 This is the operating system that you run locally.
@@ -16,8 +16,8 @@ This is the operating system that you run locally.
 # Copy-paste your Homestead.yaml here
 ```
 
-## Vagrant up output
-Provide a link to a [GitHub Gist](https://gist.github.com/) containing the complete output.
+## Vagrant destroy & up output
+Provide a link to a [GitHub Gist](https://gist.github.com/) containing the complete output of `vagrant destroy && vagrant up`.
 Do **NOT** paste the debug output in the issue, just paste the link to the Gist.
 
 ## Expected behavior
