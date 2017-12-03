@@ -33,6 +33,7 @@ sudo update-rc.d elasticsearch defaults 95 10
 
 sudo sed -i "s/#cluster.name: my-application/cluster.name: homestead/" /etc/elasticsearch/elasticsearch.yml
 
-# Start Elasticsearch
+# Enable Start Elasticsearch
 
+sudo systemctl enable elasticsearch.service
 sudo service elasticsearch start
