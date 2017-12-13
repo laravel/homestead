@@ -212,6 +212,10 @@ class Homestead
                     s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= ""]
                 end
 
+                # Remove all existing Cron Schedules
+                config.vm.provision "shell" do |s|
+                    s.inline = "rm -f /etc/cron.d/*"
+		        end
                 # Configure The Cron Schedule
                 if (site.has_key?("schedule"))
                     config.vm.provision "shell" do |s|
@@ -220,9 +224,6 @@ class Homestead
                         if (site["schedule"])
                             s.path = scriptDir + "/cron-schedule.sh"
                             s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
-                        else
-                            s.inline = "rm -f /etc/cron.d/$1"
-                            s.args = [site["map"].tr('^A-Za-z0-9', '')]
                         end
                     end
                 else
