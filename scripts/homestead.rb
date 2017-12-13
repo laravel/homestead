@@ -222,8 +222,12 @@ class Homestead
                         s.name = "Creating Schedule"
 
                         if (site["schedule"])
+                            # create new cron with prefixed site_domain.
                             s.path = scriptDir + "/cron-schedule.sh"
                             s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
+                            # remove old, non-prefixed crons
+                            s.inline = "rm -f /etc/cron.d/$1"
+                            s.args = [site["map"].tr('^A-Za-z0-9', '')]
                         end
                     end
                 else
