@@ -214,8 +214,8 @@ class Homestead
 
                 # Remove all existing Cron Schedules
                 config.vm.provision "shell" do |s|
-                    s.inline = "rm -f /etc/cron.d/*"
-		        end
+                    s.inline = "rm -f /etc/cron.d/homestead-schedule-*"
+		end
                 # Configure The Cron Schedule
                 if (site.has_key?("schedule"))
                     config.vm.provision "shell" do |s|
