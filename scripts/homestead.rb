@@ -235,6 +235,45 @@ class Homestead
             end
         end
 
+        # Configure All Of The Server Environment Variables
+        config.vm.provision "shell" do |s|
+            s.name = "Clear Variables"
+            s.path = scriptDir + "/clear-variables.sh"
+        end
+
+        if settings.has_key?("variables")
+            settings["variables"].each do |var|
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.2/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
+                    s.args = [var["key"], var["value"]]
+                end
+            end
+
+            config.vm.provision "shell" do |s|
+                s.inline = "service php5.6-fpm restart; service php7.0-fpm restart; service php7.1-fpm restart; service php7.2-fpm restart;"
+            end
+        end
+
         config.vm.provision "shell" do |s|
             s.name = "Restarting Cron"
             s.inline = "sudo service cron restart"
@@ -303,45 +342,6 @@ class Homestead
                         s.args = [db]
                     end
                 end
-            end
-        end
-
-        # Configure All Of The Server Environment Variables
-        config.vm.provision "shell" do |s|
-            s.name = "Clear Variables"
-            s.path = scriptDir + "/clear-variables.sh"
-        end
-
-        if settings.has_key?("variables")
-            settings["variables"].each do |var|
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/pool.d/www.conf"
-                    s.args = [var["key"], var["value"]]
-                end
-
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/pool.d/www.conf"
-                    s.args = [var["key"], var["value"]]
-                end
-
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/pool.d/www.conf"
-                    s.args = [var["key"], var["value"]]
-                end
-
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.2/fpm/pool.d/www.conf"
-                    s.args = [var["key"], var["value"]]
-                end
-
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
-                    s.args = [var["key"], var["value"]]
-                end
-            end
-
-            config.vm.provision "shell" do |s|
-                s.inline = "service php5.6-fpm restart; service php7.0-fpm restart; service php7.1-fpm restart; service php7.2-fpm restart;"
             end
         end
 
