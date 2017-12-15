@@ -2,10 +2,10 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use Laravel\Homestead\MakeCommand;
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Traits\GeneratesSlugs;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -42,9 +42,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile');
 
-        $this->assertEquals(
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile'),
-            file_get_contents(__DIR__.'/../resources/localized/Vagrantfile')
+        $this->assertFileEquals(
+            self::$testDirectory.DIRECTORY_SEPARATOR.'Vagrantfile',
+            __DIR__.'/../resources/localized/Vagrantfile'
         );
     }
 
@@ -74,9 +74,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases');
 
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../resources/aliases'),
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        $this->assertFileEquals(
+            __DIR__.'/../resources/aliases',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'aliases'
         );
     }
 
@@ -91,9 +91,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases');
 
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../resources/localized/aliases'),
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'aliases')
+        $this->assertFileEquals(
+            __DIR__.'/../resources/localized/aliases',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'aliases'
         );
     }
 
@@ -137,9 +137,9 @@ class MakeCommandTest extends TestCase
 
         $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh');
 
-        $this->assertEquals(
-            file_get_contents(__DIR__.'/../resources/after.sh'),
-            file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh')
+        $this->assertFileEquals(
+            __DIR__.'/../resources/after.sh',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh'
         );
     }
 
@@ -396,9 +396,11 @@ class MakeCommandTest extends TestCase
 
         $settings = Yaml::parse(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.yaml'));
 
-        $this->assertEquals('test_name', $settings['name']);
-        $this->assertEquals('test_hostname', $settings['hostname']);
-        $this->assertEquals('127.0.0.1', $settings['ip']);
+        $this->assertArraySubset([
+            'name' => 'test_name',
+            'hostname' => 'test_hostname',
+            'ip' => '127.0.0.1',
+        ], $settings);
     }
 
     /** @test */
@@ -417,9 +419,11 @@ class MakeCommandTest extends TestCase
 
         $settings = json_decode(file_get_contents(self::$testDirectory.DIRECTORY_SEPARATOR.'Homestead.json'), true);
 
-        $this->assertEquals('test_name', $settings['name']);
-        $this->assertEquals('test_hostname', $settings['hostname']);
-        $this->assertEquals('127.0.0.1', $settings['ip']);
+        $this->assertArraySubset([
+            'name' => 'test_name',
+            'hostname' => 'test_hostname',
+            'ip' => '127.0.0.1',
+        ], $settings);
     }
 
     /** @test */

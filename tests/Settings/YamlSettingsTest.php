@@ -2,9 +2,9 @@
 
 namespace Tests\Settings;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\YamlSettings;
 
 class YamlSettingsTest extends TestCase
@@ -16,10 +16,11 @@ class YamlSettingsTest extends TestCase
     {
         $settings = YamlSettings::fromFile(__DIR__.'/../../resources/Homestead.yaml');
 
-        $attributes = $settings->toArray();
-        $this->assertEquals('192.168.10.10', $attributes['ip']);
-        $this->assertEquals('2048', $attributes['memory']);
-        $this->assertEquals(1, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '192.168.10.10',
+            'memory' => '2048',
+            'cpus' => '1',
+        ], $settings->toArray());
     }
 
     /** @test */
@@ -34,11 +35,12 @@ class YamlSettingsTest extends TestCase
 
         $settings->save($filename);
 
-        $this->assertTrue(file_exists($filename));
-        $attributes = Yaml::parse(file_get_contents($filename));
-        $this->assertEquals('192.168.10.10', $attributes['ip']);
-        $this->assertEquals('2048', $attributes['memory']);
-        $this->assertEquals(1, $attributes['cpus']);
+        $this->assertFileExists($filename);
+        $this->assertArraySubset([
+            'ip' => '192.168.10.10',
+            'memory' => '2048',
+            'cpus' => '1',
+        ], Yaml::parse(file_get_contents($filename)));
     }
 
     /** @test */
@@ -56,10 +58,11 @@ class YamlSettingsTest extends TestCase
             'cpus' => 2,
         ]);
 
-        $attributes = $settings->toArray();
-        $this->assertEquals('127.0.0.1', $attributes['ip']);
-        $this->assertEquals('4096', $attributes['memory']);
-        $this->assertEquals(2, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '127.0.0.1',
+            'memory' => '4096',
+            'cpus' => '2',
+        ], $settings->toArray());
     }
 
     /** @test */
@@ -77,10 +80,11 @@ class YamlSettingsTest extends TestCase
             'cpus' => null,
         ]);
 
-        $attributes = $settings->toArray();
-        $this->assertEquals('192.168.10.10', $attributes['ip']);
-        $this->assertEquals('2048', $attributes['memory']);
-        $this->assertEquals(1, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '192.168.10.10',
+            'memory' => '2048',
+            'cpus' => '1',
+        ], $settings->toArray());
     }
 
     /** @test */
