@@ -308,7 +308,12 @@ class Homestead
         # Install Elasticsearch If Necessary
         if settings.has_key?("elasticsearch") && settings["elasticsearch"]
             config.vm.provision "shell" do |s|
-                s.path = scriptDir + "/install-elasticsearch.sh"
+                s.name = "Installing Elasticsearch"
+                if settings["elasticsearch"] == 6
+                    s.path = scriptDir + "/install-elasticsearch6.sh"
+                else
+                    s.path = scriptDir + "/install-elasticsearch5.sh"
+                end
             end
         end
 
