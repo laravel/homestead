@@ -211,9 +211,13 @@ class Homestead
                     s.path = scriptDir + "/serve-#{type}.sh"
                     s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["zray"] ||= "false"]
 
-                    if site.include? 'zray'
+                    if site["zray"] == 'true'
                         config.vm.provision "shell" do |s|
                             s.inline = "ln -sf /opt/zray/gui/public " + site["to"] + "/ZendServer"
+                        end
+                    else
+                        config.vm.provision "shell" do |s|
+                            s.inline = "rm -rf " + site["to"] + "/ZendServer"
                         end
                     end
                 end
