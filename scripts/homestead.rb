@@ -243,6 +243,14 @@ class Homestead
                     end
                 end
             end
+
+            if Vagrant.has_plugin?('vagrant-hostsupdater')
+                config.hostsupdater.aliases = settings['sites'].map { |site| site['map'] }
+            elsif Vagrant.has_plugin?('vagrant-hostmanager')
+                config.hostmanager.enabled = true
+                config.hostmanager.manage_host = true
+                config.hostmanager.aliases = settings['sites'].map { |site| site['map'] }
+            end
         end
 
         # Configure All Of The Server Environment Variables
