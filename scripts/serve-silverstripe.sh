@@ -48,7 +48,7 @@ block="server {
         location ~ /\. {
             deny all;
         }
-        sendfile on;
+        sendfile off;
         try_files \$uri /framework/main.php?url=\$uri&\$query_string;
     }
 
