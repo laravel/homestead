@@ -32,24 +32,21 @@ block="server {
     }
 
     location / {
-        try_files \$uri /framework/main.php?url=\$uri&\$query_string;
+        try_files \$uri /index.php?url=\$uri&\$query_string;
     }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
 
     error_page 404 /assets/error-404.html;
     error_page 500 /assets/error-500.html;
 
     access_log off;
     error_log  /var/log/nginx/$1-error.log error;
-
+    sendfile off;
+    
     location ^~ /assets/ {
         location ~ /\. {
             deny all;
         }
-        sendfile off;
-        try_files \$uri /framework/main.php?url=\$uri&\$query_string;
+        try_files \$uri /index.php?url=\$uri&\$query_string;
     }
 
     location ~ /framework/.*(main|rpc|tiny_mce_gzip)\.php$ {
@@ -59,13 +56,6 @@ block="server {
         fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include        fastcgi_params;
         $paramsTXT
-
-        fastcgi_intercept_errors off;
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
-        fastcgi_connect_timeout 300;
-        fastcgi_send_timeout 300;
-        fastcgi_read_timeout 300;
     }
 
     location ~ /(mysite|framework|cms)/.*\.(php|php3|php4|php5|phtml|inc)$ {
