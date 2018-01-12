@@ -23,43 +23,46 @@ folders:
 
 sites:
     # API 3
-    - map: api3.dev
+    - map: api3.test
       to: /home/vagrant/code/api3/public
     # Auth Service
-    - map: auth-service.dev
+    - map: auth-service.test
       to: /home/vagrant/code/auth-service/public
     # Contractors Tool
-    - map: contractors-tool.dev
+    - map: contractors-tool.test
       to: /home/vagrant/code/contractors-tool/public
     # Dashboard API
-    - map: dashboard-api.dev
+    - map: dashboard-api.test
       to: /home/vagrant/code/dashboard-api/public
     # Dealerships Tool
-    - map: dealerships-tool.dev
+    - map: dealerships-tool.test
       to: /home/vagrant/code/dealerships-tool/public
     # Installs Reporting
-    - map: installs-reporting.dev
+    - map: installs-reporting.test
       to: /home/vagrant/code/installs-reporting/public
     # Install tools - Ordering tools
-    - map: installs-tool.dev
+    - map: installs-tool.test
       to: /home/vagrant/code/installs-tool/public
     # Install tools - Renault
-    - map: installs-tool-renault.dev
+    - map: installs-tool-renault.test
       to: /home/vagrant/code/renault/public
     # MIS
-    - map: admin-tool.dev
+    - map: admin-tool.test
       to: /home/vagrant/code/admin-tool/public
+    # OCPP Service
+    - map: ocpp-service.test
+      to: /home/vagrant/code/ocpp-service/public
     # Pod Comms Service
-    - map: pod-comms-service.dev
+    - map: pod-comms-service.test
       to: /home/vagrant/code/pod-comms-service/public
     # POD Point - Web
-    - map: pod-point.dev
+    - map: pod-point.test
       to: /home/vagrant/code/pod-point.com/public
     # POD Point - Web Craft CMS
-    - map: craft.dev
+    - map: craft.test
       to: /home/vagrant/code/pod-point.com/public
     # Open Charge Web App
-    - map: opencharge-web-app.dev
+    - map: opencharge-web-app.test
       to: /home/vagrant/code/opencharge-web-app/public
 
 ports:

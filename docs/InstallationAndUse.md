@@ -103,7 +103,7 @@ Simply update the `sites` key of the `Homestead.yaml` file as follows (replace `
 
  ```yaml
 sites:
-    - map: my-great-project.dev
+    - map: my-great-project.test
       to: /home/vagrant/code/<my-repository>/public
 ```
 
@@ -125,12 +125,12 @@ and now add the needed map (where `<homesteadIP>` is the virtual machine's IP ad
 ##
 # Homestead
 #
-<homesteadIP>  my-great-project.dev
+<homesteadIP>  my-great-project.test
 ```
 
 > NOTE: You can find the `homesteadIP` value in `VagrantFile` file. Default is `192.168.10.10`.
 
-Now your project is accessible from your host on the following URL: http://my-great-project.dev
+Now your project is accessible from your host on the following URL: http://my-great-project.test
 
 <a id="running-the-development-environment"></a>
 # Running the Development Environment
