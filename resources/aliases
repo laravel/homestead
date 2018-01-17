@@ -4,6 +4,7 @@ alias ...="cd ../.."
 alias h='cd ~'
 alias c='clear'
 alias art=artisan
+alias composer56=composer56
 
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
@@ -14,6 +15,12 @@ alias xon='sudo phpenmod -s cli xdebug'
 
 function artisan() {
     php artisan "$@"
+}
+
+function composer56() {
+    path=$(pwd)
+    
+    /usr/bin/php5.6 /usr/local/bin/composer $@ --working-dir="$path"
 }
 
 function dusk() {
