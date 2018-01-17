@@ -16,6 +16,10 @@ function artisan() {
     php artisan "$@"
 }
 
+function composer56() {
+    /usr/bin/php5.6 /usr/local/bin/composer $@ --working-dir="$(pwd)"
+}
+
 function dusk() {
     pids=$(pidof /usr/bin/Xvfb)
 
