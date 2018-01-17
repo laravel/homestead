@@ -19,13 +19,8 @@ function artisan() {
 
 function composer56() {
     path=$(pwd)
-    composerFile=/home/vagrant/composer.phar
-
-    if sudo [ ! -f $composerFile ]; then
-        wget https://getcomposer.org/composer.phar -O $composerFile
-    fi  
     
-    /usr/bin/php5.6 $composerFile $@ --working-dir="$path"
+    /usr/bin/php5.6 /usr/local/bin/composer $@ --working-dir="$path"
 }
 
 function dusk() {
