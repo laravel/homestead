@@ -1,6 +1,3 @@
 /vendor
 /.vagrant
 phpunit.xml
-/Homestead.json
-
-github-personal-access-token.txt
