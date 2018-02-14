@@ -1,0 +1,24 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ../platform
+      to: /var/veromo
+      type: "nfs"
+
+sites:
+    - map: local.go.veromo.com.au
+      to: /var/veromo/web
+      php: "7.1"
+      type: "symfony2"
+
+databases:
+    - harmony_db
