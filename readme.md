@@ -1,16 +1,22 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-homestead.svg"></p>
+# Vagrant Homestead for Veromo's Platform project
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/homestead"><img src="https://travis-ci.org/laravel/homestead.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/license.svg" alt="License"></a>
-</p>
+## Requirements
+- VirtualBox [5.2.6](https://www.virtualbox.org/wiki/Downloads)
+- Vagrant [2.0.2](https://www.vagrantup.com/downloads.html)
 
-## Introduction
+## Installation
+1. Clone `veromo/homestead`
+1. `vagrant up` 
+1. Add `192.168.10.10 local.go.veromo.com.au` to your `/etc/hosts`
 
-Laravel Homestead is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, and any other server software on your local machine. No more worrying about messing up your operating system! Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!
+# Accessing VM
+- `vagrant ssh`
 
-Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.2, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
+## Accessing DB
+- 
 
-Official documentation [is located here](https://laravel.com/docs/homestead).
+## Ports
+- SSH: 2222 → Forwards To 22
+- HTTP: 8000 → Forwards To 80
+- HTTPS: 44300 → Forwards To 443
+- MySQL: 33060 → Forwards To 3306
