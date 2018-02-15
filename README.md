@@ -48,6 +48,8 @@ Finally:
 - If errors occur during provisioning, fix and run `vagrant provision`
 - To avoid permission problems, use `composer` from your host machine and not from within the vagrant vm.
 - Authenticated sessions will redirect to `local.adminimiser.veromo.com.au:3000` expecting the [adminimiser](https://github.com/Veromo/adminimiser) project running
+- `vagrant halt` to stop VM
+- `vagrant destroy` to delete VM image
 
 ## Ports mapped: Client VM -> Host
 - SSH: 2222 -> Forwards To 22
