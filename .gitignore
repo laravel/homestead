@@ -1,3 +1,4 @@
 /vendor
 /.vagrant
 phpunit.xml
+Homestead.yaml
