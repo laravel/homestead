@@ -48,13 +48,16 @@ Finally:
 - `vagrant halt` to stop VM
 - `vagrant destroy` to delete VM image
 
+## Connecting to MYSQL database
+To connect MYSQL Workbench:
+1. New Standard TCP/IP connection
+1. Hostname `192.168.10.10`
+1. Port `3306`
+1. Username `homestead`
+1. Password `secret`
+
 ## Ports mapped: Client VM -> Host
 - SSH: 2222 -> Forwards To 22
 - HTTP: 8000 -> Forwards To 80
 - HTTPS: 44300 -> Forwards To 443
 - MySQL: 33060 -> Forwards To 3306
-
-## Todo
-- Add notes on reprovisioning and using both `vagrant provision` and `vagrant reload --provision`
-- Add notes on connecting MySQL Workbench
-
