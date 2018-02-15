@@ -32,15 +32,15 @@ SSH into VM and provision database:
 vagrant ssh
 cd /var/veromo
 
-# Compile assets to speed up VM
-php app/console assetic:dump
-
 # Execute the platform Database Provisioning commands
 ...
 ```
 - See [platform database provisioning commands](https://github.com/Veromo/platform#database-provisioning)
 
-
+Compile assets to speed up VM
+```bash
+php app/console assetic:dump
+```
 
 Finally:
 - Add `192.168.10.10 local.go.veromo.com.au` to your `/etc/hosts`
