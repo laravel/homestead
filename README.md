@@ -1,7 +1,7 @@
 Veromo Homestead
 ===
 
-For local development of the [platform](https://github.com/Veromo/platform) project locally.
+For local development of the [platform](https://github.com/Veromo/platform) project
 
 ## Requirements
 - Local [platform](https://github.com/Veromo/platform) project installed 
@@ -27,17 +27,14 @@ Launch VM:
 vagrant up
 ```
 
-SSH into VM and prepare database:
+SSH into VM and provision database:
 ```bash
 vagrant ssh
 cd /var/veromo
-php app/console doctrine:schema:update --force
-
-# Provision demo data:
-php app/console veromo:schema:provision
-php app/console veromo:batch:testaccounts
-php app/console veromo:batch:testdata
+# Execute the platform Database Provisioning commands
+...
 ```
+- See [platform database provisioning commands](https://github.com/Veromo/platform#database-provisioning)
 
 Finally:
 - Add `192.168.10.10 local.go.veromo.com.au` to your `/etc/hosts`
