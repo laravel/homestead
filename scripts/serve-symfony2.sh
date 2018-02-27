@@ -27,6 +27,11 @@ block="server {
 
     index index.html index.htm index.php app_dev.php;
 
+	add_header 'Access-Control-Allow-Origin' '\$http_origin';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE, HEAD';
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Headers' 'Origin,Content-Type,Accept,Authorization';
+
     charset utf-8;
 
     location / {
