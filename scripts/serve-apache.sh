@@ -169,6 +169,9 @@ sudo a2enmod rewrite
 # Turn on HTTPS support
 sudo a2enmod ssl
 
+# Turn on headers support
+sudo a2enmod headers
+
 service apache2 restart
 
 if [ $? == 0 ]
