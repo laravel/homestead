@@ -20,7 +20,7 @@ cat <<EOT >> /etc/default/minio
 # Local export path.
 MINIO_VOLUMES="/usr/local/share/minio/"
 # Use if you want to run Minio on a custom port.
-MINIO_OPTS="--config-dir /etc/minio --address :9000"
+MINIO_OPTS="--config-dir /etc/minio --address :9600"
 MINIO_ACCESS_KEY=homestead
 MINIO_SECRET_KEY=secretkey
 
@@ -35,4 +35,4 @@ sudo systemctl daemon-reload
 sudo systemctl enable minio
 sudo systemctl start minio
 
-sudo ufw allow 9000
+sudo ufw allow 9600
