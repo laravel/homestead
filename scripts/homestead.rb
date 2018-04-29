@@ -317,6 +317,13 @@ class Homestead
             end
         end
 
+        # Install Minio If Necessary
+        if settings.has_key?("minio") && settings["minio"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-minio.sh"
+            end
+        end
+        
         # Install MongoDB If Necessary
         if settings.has_key?("mongodb") && settings["mongodb"]
             config.vm.provision "shell" do |s|
