@@ -9,14 +9,14 @@
     ],
     "folders": [
         {
-            "map": "~/Code",
-            "to": "/home/vagrant/Code"
+            "map": "~/code",
+            "to": "/home/vagrant/code"
         }
     ],
     "sites": [
         {
-            "map": "homestead.app",
-            "to": "/home/vagrant/Code/Laravel/public"
+            "map": "homestead.test",
+            "to": "/home/vagrant/code/public"
         }
     ],
     "databases": [

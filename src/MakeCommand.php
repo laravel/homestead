@@ -33,7 +33,7 @@ class MakeCommand extends Command
      *
      * @var string
      */
-    protected $defaultName;
+    protected $defaultProjectName;
 
     /**
      * Configure the command options.
@@ -44,13 +44,13 @@ class MakeCommand extends Command
     {
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
-        $this->defaultName = $this->slug($this->projectName);
+        $this->defaultProjectName = $this->slug($this->projectName);
 
         $this
             ->setName('make')
             ->setDescription('Install Homestead into the current project')
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultName)
-            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultName)
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultProjectName)
+            ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultProjectName)
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('no-after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is not created.')
             ->addOption('no-aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is not created.')
@@ -99,6 +99,16 @@ class MakeCommand extends Command
     }
 
     /**
+     * Determines if Homestead has been installed "per project".
+     *
+     * @return bool
+     */
+    protected function isPerProjectInstallation()
+    {
+        return (bool) preg_match('/vendor\/laravel\/homestead/', __DIR__);
+    }
+
+    /**
      * Determine if the Vagrantfile exists.
      *
      * @return bool
@@ -115,7 +125,7 @@ class MakeCommand extends Command
      */
     protected function createVagrantfile()
     {
-        copy(__DIR__.'/../resources/LocalizedVagrantfile', "{$this->basePath}/Vagrantfile");
+        copy(__DIR__.'/../resources/localized/Vagrantfile', "{$this->basePath}/Vagrantfile");
     }
 
     /**
@@ -135,7 +145,11 @@ class MakeCommand extends Command
      */
     protected function createAliasesFile()
     {
-        copy(__DIR__.'/../resources/aliases', "{$this->basePath}/aliases");
+        if ($this->isPerProjectInstallation()) {
+            copy(__DIR__.'/../resources/localized/aliases', "{$this->basePath}/aliases");
+        } else {
+            copy(__DIR__.'/../resources/aliases', "{$this->basePath}/aliases");
+        }
     }
 
     /**
@@ -188,13 +202,13 @@ class MakeCommand extends Command
 
         if (! $this->exampleSettingsExists($format)) {
             $settings->updateName($options['name'])
-                     ->updateHostname($options['hostname']);
+                ->updateHostname($options['hostname']);
         }
 
         $settings->updateIpAddress($options['ip'])
-                 ->configureSites($this->projectName, $this->defaultName)
-                 ->configureSharedFolders($this->basePath, $this->defaultName)
-                 ->save("{$this->basePath}/Homestead.{$format}");
+            ->configureSites($this->projectName, $this->defaultProjectName)
+            ->configureSharedFolders($this->basePath, $this->defaultProjectName)
+            ->save("{$this->basePath}/Homestead.{$format}");
     }
 
     /**

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-declare -A params=$5     # Create an associative array
+
+declare -A params=$6     # Create an associative array
 paramsTXT=""
-if [ -n "$5" ]; then
+if [ -n "$6" ]; then
    for element in "${!params[@]}"
    do
       paramsTXT="${paramsTXT}

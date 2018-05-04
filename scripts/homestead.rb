@@ -6,25 +6,26 @@ class Homestead
         # Configure Local Variable To Access Scripts From Remote Location
         scriptDir = File.dirname(__FILE__)
 
-        # Prevent TTY Errors
-        config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
-
         # Allow SSH Agent Forward from The Box
         config.ssh.forward_agent = true
 
         # Configure The Box
         config.vm.define settings["name"] ||= "homestead-7"
         config.vm.box = settings["box"] ||= "laravel/homestead"
-        config.vm.box_version = settings["version"] ||= ">= 2.0.0"
+        config.vm.box_version = settings["version"] ||= ">= 5.2.0"
         config.vm.hostname = settings["hostname"] ||= "homestead"
 
         # Configure A Private Network IP
-        config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+        if settings["ip"] != "autonetwork"
+            config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+        else
+            config.vm.network :private_network, :ip => "0.0.0.0", :auto_network => true
+        end
 
         # Configure Additional Networks
         if settings.has_key?("networks")
             settings["networks"].each do |network|
-                config.vm.network network["type"], ip: network["ip"], bridge: network["bridge"] ||= nil
+                config.vm.network network["type"], ip: network["ip"], bridge: network["bridge"] ||= nil, netmask: network["netmask"] ||= "255.255.255.0"
             end
         end
 
@@ -39,6 +40,11 @@ class Homestead
             if settings.has_key?("gui") && settings["gui"]
                 vb.gui = true
             end
+        end
+
+        # Override Default SSH port on the host
+        if (settings.has_key?("default_ssh_port"))
+            config.vm.network :forwarded_port, guest: 22, host: settings["default_ssh_port"], auto_correct: false, id: "ssh"
         end
 
         # Configure A Few VMware Settings
@@ -78,6 +84,7 @@ class Homestead
             80 => 8000,
             443 => 44300,
             3306 => 33060,
+            4040 => 4040,
             5432 => 54320,
             8025 => 8025,
             27017 => 27017
@@ -111,11 +118,20 @@ class Homestead
 
         # Copy The SSH Private Keys To The Box
         if settings.include? 'keys'
+            if settings["keys"].to_s.length == 0
+                puts "Check your Homestead.yaml file, you have no private key(s) specified."
+                exit
+            end
             settings["keys"].each do |key|
-                config.vm.provision "shell" do |s|
-                    s.privileged = false
-                    s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
-                    s.args = [File.read(File.expand_path(key)), key.split('/').last]
+                if File.exists? File.expand_path(key)
+                    config.vm.provision "shell" do |s|
+                        s.privileged = false
+                        s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
+                        s.args = [File.read(File.expand_path(key)), key.split('/').last]
+                    end
+                else
+                    puts "Check your Homestead.yaml file, the path to your private key does not exist."
+                    exit
                 end
             end
         end
@@ -151,8 +167,10 @@ class Homestead
                     config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, **options
 
                     # Bindfs support to fix shared folder (NFS) permission issue on Mac
-                    if Vagrant.has_plugin?("vagrant-bindfs")
-                        config.bindfs.bind_folder folder["to"], folder["to"]
+                    if (folder["type"] == "nfs")
+                        if Vagrant.has_plugin?("vagrant-bindfs")
+                            config.bindfs.bind_folder folder["to"], folder["to"]
+                        end
                     end
                 else
                     config.vm.provision "shell" do |s|
@@ -165,6 +183,14 @@ class Homestead
         # Install All The Configured Nginx Sites
         config.vm.provision "shell" do |s|
             s.path = scriptDir + "/clear-nginx.sh"
+        end
+
+        # Temporary fix to disable Z-Ray by default to be fixed in future base box update
+        config.vm.provision "shell" do |s|
+            s.inline = "rm -rf /usr/lib/php/20170718/zray.so"
+        end
+        config.vm.provision "shell" do |s|
+            s.inline = "rm -rf /etc/php/7.2/fpm/conf.d/zray.ini"
         end
 
         if settings.include? 'sites'
@@ -193,7 +219,23 @@ class Homestead
                         params += " )"
                     end
                     s.path = scriptDir + "/serve-#{type}.sh"
-                    s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", params ||= ""]
+                    s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443", site["php"] ||= "7.2", params ||= "", site["zray"] ||= "false"]
+
+                    if site["zray"] == 'true'
+                        config.vm.provision "shell" do |s|
+                            s.inline = "ln -sf /opt/zray/gui/public " + site["to"] + "/ZendServer"
+                        end
+                        config.vm.provision "shell" do |s|
+                            s.inline = "ln -sf /opt/zray/lib/zray.so /usr/lib/php/20170718/zray.so"
+                        end
+                        config.vm.provision "shell" do |s|
+                            s.inline = "ln -sf /opt/zray/zray.ini /etc/php/7.2/fpm/conf.d/zray.ini"
+                        end
+                    else
+                        config.vm.provision "shell" do |s|
+                            s.inline = "rm -rf " + site["to"] + "/ZendServer"
+                        end
+                    end
                 end
 
                 # Configure The Cron Schedule
@@ -219,9 +261,53 @@ class Homestead
             end
         end
 
+        # Configure All Of The Server Environment Variables
+        config.vm.provision "shell" do |s|
+            s.name = "Clear Variables"
+            s.path = scriptDir + "/clear-variables.sh"
+        end
+
+        if settings.has_key?("variables")
+            settings["variables"].each do |var|
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.2/fpm/pool.d/www.conf"
+                    s.args = [var["key"], var["value"]]
+                end
+
+                config.vm.provision "shell" do |s|
+                    s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
+                    s.args = [var["key"], var["value"]]
+                end
+            end
+
+            config.vm.provision "shell" do |s|
+                s.inline = "service php5.6-fpm restart; service php7.0-fpm restart; service php7.1-fpm restart; service php7.2-fpm restart;"
+            end
+        end
+
+        config.vm.provision "shell" do |s|
+            s.name = "Restarting Cron"
+            s.inline = "sudo service cron restart"
+        end
+
         config.vm.provision "shell" do |s|
             s.name = "Restarting Nginx"
-            s.inline = "sudo service nginx restart; sudo service php7.1-fpm restart"
+            s.inline = "sudo service nginx restart; sudo service php5.6-fpm restart; sudo service php7.0-fpm restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart"
         end
 
         # Install MariaDB If Necessary
@@ -231,10 +317,33 @@ class Homestead
             end
         end
 
+        # Install Minio If Necessary
+        if settings.has_key?("minio") && settings["minio"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-minio.sh"
+            end
+        end
+        
         # Install MongoDB If Necessary
         if settings.has_key?("mongodb") && settings["mongodb"]
             config.vm.provision "shell" do |s|
                 s.path = scriptDir + "/install-mongo.sh"
+            end
+        end
+
+        # Install CouchDB If Necessary
+        if settings.has_key?("couchdb") && settings["couchdb"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-couch.sh"
+            end
+        end
+
+        # Install Elasticsearch If Necessary
+        if settings.has_key?("elasticsearch") && settings["elasticsearch"]
+            config.vm.provision "shell" do |s|
+                s.name = "Installing Elasticsearch"
+                s.path = scriptDir + "/install-elasticsearch.sh"
+                s.args = settings["elasticsearch"]
             end
         end
 
@@ -260,37 +369,21 @@ class Homestead
                         s.args = [db]
                     end
                 end
-            end
-        end
 
-        # Configure All Of The Server Environment Variables
-        config.vm.provision "shell" do |s|
-            s.name = "Clear Variables"
-            s.path = scriptDir + "/clear-variables.sh"
-        end
-
-        if settings.has_key?("variables")
-            settings["variables"].each do |var|
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/php-fpm.conf"
-                    s.args = [var["key"], var["value"]]
+                if settings.has_key?("couchdb") && settings["couchdb"]
+                    config.vm.provision "shell" do |s|
+                        s.name = "Creating Couch Database: " + db
+                        s.path = scriptDir + "/create-couch.sh"
+                        s.args = [db]
+                    end
                 end
-
-                config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
-                    s.args = [var["key"], var["value"]]
-                end
-            end
-
-            config.vm.provision "shell" do |s|
-                s.inline = "service php7.1-fpm restart"
             end
         end
 
         # Update Composer On Every Provision
         config.vm.provision "shell" do |s|
             s.name = "Update Composer"
-            s.inline = "sudo /usr/local/bin/composer self-update && sudo chown -R vagrant:vagrant /home/vagrant/.composer/"
+            s.inline = "sudo /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.composer/"
             s.privileged = false
         end
 
@@ -305,6 +398,13 @@ class Homestead
                     settings["blackfire"][0]["client-token"]
                 ]
             end
+        end
+
+        # Add config file for ngrok
+        config.vm.provision "shell" do |s|
+            s.path = scriptDir + "/create-ngrok.sh"
+            s.args = [settings["ip"]]
+            s.privileged = false
         end
     end
 end

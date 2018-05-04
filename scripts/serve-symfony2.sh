@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
-declare -A params=$5     # Create an associative array
+
+declare -A params=$6     # Create an associative array
 paramsTXT=""
-if [ -n "$5" ]; then
+if [ -n "$6" ]; then
     for element in "${!params[@]}"
     do
         paramsTXT="${paramsTXT}
         fastcgi_param ${element} ${params[$element]};"
     done
+fi
+
+if [ "$7" = "true" ] && [ "$5" = "7.2" ]
+then configureZray="
+location /ZendServer {
+        try_files \$uri \$uri/ /ZendServer/index.php?\$args;
+}
+"
+else configureZray=""
 fi
 
 block="server {
@@ -35,8 +45,8 @@ block="server {
 
     # DEV
     location ~ ^/(app_dev|app_test|config)\.php(/|\$) {
-        fastcgi_split_path_info ^(.+\.php)(/.+)\$;
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)\$;
+        fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         $paramsTXT
@@ -48,8 +58,8 @@ block="server {
 
     # PROD
     location ~ ^/app\.php(/|$) {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         $paramsTXT
@@ -63,6 +73,8 @@ block="server {
     location ~ /\.ht {
         deny all;
     }
+
+    $configureZray
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;

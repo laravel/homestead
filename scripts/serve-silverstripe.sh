@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
-declare -A params=$5     # Create an associative array
+
+declare -A params=$6     # Create an associative array
 paramsTXT=""
-if [ -n "$5" ]; then
+if [ -n "$6" ]; then
    for element in "${!params[@]}"
    do
       paramsTXT="${paramsTXT}
       fastcgi_param ${element} ${params[$element]};"
    done
+fi
+
+if [ "$7" = "true" ] && [ "$5" = "7.2" ]
+then configureZray="
+location /ZendServer {
+        try_files \$uri \$uri/ /ZendServer/index.php?\$args;
+}
+"
+else configureZray=""
 fi
 
 block="server {
@@ -22,40 +32,30 @@ block="server {
     }
 
     location / {
-        try_files \$uri /framework/main.php?url=\$uri&\$query_string;
+        try_files \$uri /index.php?url=\$uri&\$query_string;
     }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
 
     error_page 404 /assets/error-404.html;
     error_page 500 /assets/error-500.html;
 
     access_log off;
     error_log  /var/log/nginx/$1-error.log error;
-
+    sendfile off;
+    
     location ^~ /assets/ {
         location ~ /\. {
             deny all;
         }
-        sendfile on;
-        try_files \$uri /framework/main.php?url=\$uri&\$query_string;
+        try_files \$uri /index.php?url=\$uri&\$query_string;
     }
 
     location ~ /framework/.*(main|rpc|tiny_mce_gzip)\.php$ {
         fastcgi_keep_conn on;
-        fastcgi_pass   unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include        fastcgi_params;
         $paramsTXT
-
-        fastcgi_intercept_errors off;
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
-        fastcgi_connect_timeout 300;
-        fastcgi_send_timeout 300;
-        fastcgi_read_timeout 300;
     }
 
     location ~ /(mysite|framework|cms)/.*\.(php|php3|php4|php5|phtml|inc)$ {
@@ -98,7 +98,7 @@ block="server {
 
     location ~ \.php$ {
         fastcgi_keep_conn on;
-        fastcgi_pass   unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         include        fastcgi_params;
@@ -107,6 +107,8 @@ block="server {
         fastcgi_buffers 4 32k;
         $paramsTXT
     }
+
+    $configureZray
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;

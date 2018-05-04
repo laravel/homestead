@@ -2,8 +2,8 @@
 
 namespace Tests\Settings;
 
+use PHPUnit\Framework\TestCase;
 use Tests\Traits\GeneratesTestDirectory;
-use PHPUnit\Framework\TestCase as TestCase;
 use Laravel\Homestead\Settings\JsonSettings;
 
 class JsonSettingsTest extends TestCase
@@ -15,10 +15,11 @@ class JsonSettingsTest extends TestCase
     {
         $settings = JsonSettings::fromFile(__DIR__.'/../../resources/Homestead.json');
 
-        $attributes = $settings->toArray();
-        $this->assertEquals('192.168.10.10', $attributes['ip']);
-        $this->assertEquals('2048', $attributes['memory']);
-        $this->assertEquals(1, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '192.168.10.10',
+            'memory' => '2048',
+            'cpus' => '1',
+        ], $settings->toArray());
     }
 
     /** @test */
@@ -33,11 +34,13 @@ class JsonSettingsTest extends TestCase
 
         $settings->save($filename);
 
-        $this->assertTrue(file_exists($filename));
+        $this->assertFileExists($filename);
         $attributes = json_decode(file_get_contents($filename), true);
-        $this->assertEquals('192.168.10.10', $attributes['ip']);
-        $this->assertEquals('2048', $attributes['memory']);
-        $this->assertEquals(1, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '192.168.10.10',
+            'memory' => '2048',
+            'cpus' => '1',
+        ], $settings->toArray());
     }
 
     /** @test */
@@ -55,10 +58,11 @@ class JsonSettingsTest extends TestCase
             'cpus' => 2,
         ]);
 
-        $attributes = $settings->toArray();
-        $this->assertEquals('127.0.0.1', $attributes['ip']);
-        $this->assertEquals('4096', $attributes['memory']);
-        $this->assertEquals(2, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '127.0.0.1',
+            'memory' => '4096',
+            'cpus' => '2',
+        ], $settings->toArray());
     }
 
     /** @test */
@@ -76,10 +80,11 @@ class JsonSettingsTest extends TestCase
             'cpus' => null,
         ]);
 
-        $attributes = $settings->toArray();
-        $this->assertEquals('192.168.10.10', $attributes['ip']);
-        $this->assertEquals('2048', $attributes['memory']);
-        $this->assertEquals(1, $attributes['cpus']);
+        $this->assertArraySubset([
+            'ip' => '192.168.10.10',
+            'memory' => '2048',
+            'cpus' => '1',
+        ], $settings->toArray());
     }
 
     /** @test */
@@ -116,15 +121,16 @@ class JsonSettingsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_configure_its_sites()
+    public function it_can_configure_its_sites_from_existing_settings()
     {
         $settings = new JsonSettings([
             'sites' => [
                 [
-                    'map' => 'homestead.app',
-                    'to' => '/home/vagrant/Code/Laravel/public',
+                    'map' => 'homestead.test',
+                    'to' => '/home/vagrant/Laravel/public',
                     'type' => 'laravel',
                     'schedule' => true,
+                    'php' => '5.6',
                 ],
             ],
         ]);
@@ -133,20 +139,37 @@ class JsonSettingsTest extends TestCase
 
         $attributes = $settings->toArray();
         $this->assertEquals([
-            'map' => 'test.com.app',
-            'to' => '/home/vagrant/Code/test-com/public',
+            'map' => 'homestead.test',
+            'to' => '/home/vagrant/Laravel/public',
             'type' => 'laravel',
             'schedule' => true,
+            'php' => '5.6',
         ], $attributes['sites'][0]);
     }
 
     /** @test */
-    public function it_can_configure_its_shared_folders()
+    public function it_can_configure_its_sites_from_empty_settings()
+    {
+        $settings = new JsonSettings([]);
+        $settings->configureSites('test.com', 'test-com');
+
+        $attributes = $settings->toArray();
+        $this->assertEquals([
+            'map' => 'test.com.test',
+            'to' => '/home/vagrant/test-com/public',
+        ], $attributes['sites'][0]);
+    }
+
+    /** @test */
+    public function it_can_configure_its_shared_folders_from_existing_settings()
     {
         $settings = new JsonSettings([
             'folders' => [
-                'map' => '~/Code',
-                'to' => '/home/vagrant/Code',
+                [
+                    'map' => '~/code',
+                    'to' => '/home/vagrant/code',
+                    'type' => 'nfs',
+                ],
             ],
         ]);
 
@@ -155,7 +178,22 @@ class JsonSettingsTest extends TestCase
         $attributes = $settings->toArray();
         $this->assertEquals([
             'map' => '/a/path/for/project_name',
-            'to' => '/home/vagrant/Code/project_name',
+            'to' => '/home/vagrant/code',
+            'type' => 'nfs',
+        ], $attributes['folders'][0]);
+    }
+
+    /** @test */
+    public function it_can_configure_its_shared_folders_from_empty_settings()
+    {
+        $settings = new JsonSettings([]);
+
+        $settings->configureSharedFolders('/a/path/for/project_name', 'project_name');
+
+        $attributes = $settings->toArray();
+        $this->assertEquals([
+            'map' => '/a/path/for/project_name',
+            'to' => '/home/vagrant/project_name',
         ], $attributes['folders'][0]);
     }
 }
