@@ -68,7 +68,7 @@ block="server {
     }
 
     $configureZray
-    
+
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ \.php$ {
         try_files \$uri @elgg;
