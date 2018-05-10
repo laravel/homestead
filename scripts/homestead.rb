@@ -331,6 +331,13 @@ class Homestead
             end
         end
 
+        # Install Neo4j If Necessary
+        if settings.has_key?("neo4j") && settings["neo4j"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-neo4j.sh"
+            end
+        end
+
         # Install CouchDB If Necessary
         if settings.has_key?("couchdb") && settings["couchdb"]
             config.vm.provision "shell" do |s|
