@@ -2,7 +2,7 @@
 
 sudo service nginx stop
 
-if [ -d /etc/apache2 ]
+if [ -d /etc/apache2/sites-availiable ]
 then
     sudo service apache2 stop
 fi
