@@ -205,7 +205,12 @@ class Homestead
 
                 type = site["type"] ||= "laravel"
 
-                if (type == "symfony")
+                case type
+                when "apigility"
+                    type = "zf"
+                when "expressive"
+                    type = "zf"
+                when "symfony"
                     type = "symfony2"
                 end
 
