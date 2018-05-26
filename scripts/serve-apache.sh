@@ -172,6 +172,9 @@ sudo a2enmod ssl
 # Turn on headers support
 sudo a2enmod headers
 
+# Add Mutex to config to prevent auto restart issues
+echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+
 service apache2 restart
 
 if [ $? == 0 ]
