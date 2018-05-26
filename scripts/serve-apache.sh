@@ -173,7 +173,10 @@ sudo a2enmod ssl
 sudo a2enmod headers
 
 # Add Mutex to config to prevent auto restart issues
-echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
+then
+    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+fi
 
 service apache2 restart
 
