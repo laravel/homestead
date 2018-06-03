@@ -12,7 +12,7 @@ class Homestead
         # Configure The Box
         config.vm.define settings["name"] ||= "homestead-7"
         config.vm.box = settings["box"] ||= "laravel/homestead"
-        config.vm.box_version = settings["version"] ||= ">= 5.2.0"
+        config.vm.box_version = settings["version"] ||= ">= 6.0.0"
         config.vm.hostname = settings["hostname"] ||= "homestead"
 
         # Configure A Private Network IP
@@ -183,14 +183,6 @@ class Homestead
         # Install All The Configured Nginx Sites
         config.vm.provision "shell" do |s|
             s.path = scriptDir + "/clear-nginx.sh"
-        end
-
-        # Temporary fix to disable Z-Ray by default to be fixed in future base box update
-        config.vm.provision "shell" do |s|
-            s.inline = "rm -rf /usr/lib/php/20170718/zray.so"
-        end
-        config.vm.provision "shell" do |s|
-            s.inline = "rm -rf /etc/php/7.2/fpm/conf.d/zray.ini"
         end
 
         if settings.include? 'sites'
