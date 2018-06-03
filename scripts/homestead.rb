@@ -315,6 +315,22 @@ class Homestead
             s.inline = "sudo service nginx restart; sudo service php5.6-fpm restart; sudo service php7.0-fpm restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart"
         end
 
+        # Install CouchDB If Necessary
+        if settings.has_key?("couchdb") && settings["couchdb"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-couch.sh"
+            end
+        end
+
+        # Install Elasticsearch If Necessary
+        if settings.has_key?("elasticsearch") && settings["elasticsearch"]
+            config.vm.provision "shell" do |s|
+                s.name = "Installing Elasticsearch"
+                s.path = scriptDir + "/install-elasticsearch.sh"
+                s.args = settings["elasticsearch"]
+            end
+        end
+
         # Install MariaDB If Necessary
         if settings.has_key?("mariadb") && settings["mariadb"]
             config.vm.provision "shell" do |s|
@@ -340,22 +356,6 @@ class Homestead
         if settings.has_key?("neo4j") && settings["neo4j"]
             config.vm.provision "shell" do |s|
                 s.path = scriptDir + "/install-neo4j.sh"
-            end
-        end
-
-        # Install CouchDB If Necessary
-        if settings.has_key?("couchdb") && settings["couchdb"]
-            config.vm.provision "shell" do |s|
-                s.path = scriptDir + "/install-couch.sh"
-            end
-        end
-
-        # Install Elasticsearch If Necessary
-        if settings.has_key?("elasticsearch") && settings["elasticsearch"]
-            config.vm.provision "shell" do |s|
-                s.name = "Installing Elasticsearch"
-                s.path = scriptDir + "/install-elasticsearch.sh"
-                s.args = settings["elasticsearch"]
             end
         end
 
