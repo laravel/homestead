@@ -44,7 +44,7 @@ debconf-set-selections <<< "mariadb-server-10.2 mysql-server/root_password_again
 
 # Install MariaDB
 
-apt-get install -y mariadb-server
+apt-get install -y mariadb-server-10.2
 
 # Configure Maria Remote Access
 
