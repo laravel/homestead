@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sudo DEBIAN_FRONTEND=noninteractive
+
 if [ -f /home/vagrant/.mongo ]
 then
     echo "MongoDB already installed."
@@ -14,7 +16,8 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongod
 
 sudo apt-get update
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get -yq -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
+
+sudo apt-get -y -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
 
 sudo ufw allow 27017
 sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
@@ -28,7 +31,8 @@ sudo mv /tmp/mongo-php-driver /usr/src/mongo-php-driver
 cd /usr/src/mongo-php-driver
 git submodule -q update --init
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get install php5.6-dev -yq
+
+sudo apt-get -y install php5.6-dev
 phpize5.6
 ./configure --with-php-config=/usr/bin/php-config5.6 > /dev/null
 make clean > /dev/null
@@ -40,7 +44,7 @@ sudo ln -s /etc/php/5.6/mods-available/mongo.ini /etc/php/5.6/cli/conf.d/20-mong
 sudo ln -s /etc/php/5.6/mods-available/mongo.ini /etc/php/5.6/fpm/conf.d/20-mongo.ini
 sudo service php5.6-fpm restart
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get install php7.0-dev -yq
+sudo apt-get -y install php7.0-dev
 phpize7.0
 ./configure --with-php-config=/usr/bin/php-config7.0 > /dev/null
 make clean > /dev/null
@@ -52,7 +56,7 @@ sudo ln -s /etc/php/7.0/mods-available/mongo.ini /etc/php/7.0/cli/conf.d/20-mong
 sudo ln -s /etc/php/7.0/mods-available/mongo.ini /etc/php/7.0/fpm/conf.d/20-mongo.ini
 sudo service php7.0-fpm restart
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get install php7.1-dev -yq
+sudo apt-get -y install php7.1-dev
 phpize7.1
 ./configure --with-php-config=/usr/bin/php-config7.1 > /dev/null
 make clean > /dev/null
