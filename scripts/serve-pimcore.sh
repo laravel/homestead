@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 export DEBIAN_FRONTEND=noninteractive
-sudo service nginx stop
 apt-get update
 apt-get install -y php"$5"-bz2
 
@@ -152,4 +151,4 @@ server {
 echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 
-sudo service nginx start
+sudo service nginx restart
