@@ -410,5 +410,29 @@ class Homestead
             s.args = [settings["ip"]]
             s.privileged = false
         end
+
+        if settings.has_key?("backup") && settings["backup"] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin('vagrant-triggers'))
+            dirPrefix = '/vagrant/'
+            settings["databases"].each do |database|
+                Homestead.backupMysql(database, "#{dirPrefix}/mysql_backup", config)
+                Homestead.backupPostgres(database, "#{dirPrefix}/postgres_backup", config)
+            end
+        end
+    end
+
+    def Homestead.backupMysql(database, dir, config)
+        now = Time.now.strftime("%Y%m%d%H%M")
+        config.trigger.before :destroy do |trigger|
+            trigger.warn = "Backing up mysql database #{database}..."
+            trigger.run_remote = {"inline": "mkdir -p #{dir} && mysqldump #{database} > #{dir}/#{database}-#{now}.sql"}
+        end
+    end
+
+    def Homestead.backupPostgres(database, dir, config)
+        now = Time.now.strftime("%Y%m%d%H%M")
+        config.trigger.before :destroy do |trigger|
+            trigger.warn = "Backing up postgres database #{database}..."
+            trigger.run_remote = {"inline": "mkdir -p #{dir} && echo localhost:5432:#{database}:homestead:secret > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U homestead -h localhost #{database} > #{dir}/#{database}-#{now}.sql"}
+        end
     end
 end
