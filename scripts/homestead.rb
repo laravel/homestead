@@ -401,6 +401,13 @@ class Homestead
             end
         end
 
+        # Install grafana if Necessary
+        if settings.has_key?("grafana") && settings["grafana"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-grafana.sh"
+            end
+        end
+
         # Install chronograf if Necessary
         if settings.has_key?("chronograf") && settings["chronograf"]
             config.vm.provision "shell" do |s|
