@@ -10,8 +10,11 @@ fi
 
 touch /home/vagrant/.chronograf
 
-wget -q https://dl.influxdata.com/chronograf/releases/chronograf_1.5.0.1_amd64.deb
-sudo dpkg -i chronograf_1.5.0.1_amd64.deb
+chronourl="https://dl.influxdata.com/chronograf/releases/chronograf_1.5.0.1_amd64.deb"
+
+wget -q -O chronograf.deb $chronourl
+sudo dpkg -i chronograf.deb
+rm chronograf.deb
 
 systemctl enable chronograf
 systemctl daemon-reload
