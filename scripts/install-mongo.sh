@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
 
 if [ -f /home/vagrant/.mongo ]
 then
@@ -16,8 +16,7 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongod
 
 sudo apt-get update
 
-
-sudo apt-get -y -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
 
 sudo ufw allow 27017
 sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
