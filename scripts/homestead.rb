@@ -351,6 +351,14 @@ class Homestead
             end
         end
 
+        # Install InfluxDB if Necessary
+        if settings.has_key?("influxdb") && settings["influxdb"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-influxdb.sh"
+            end
+        end
+       
+
         # Configure All Of The Configured Databases
         if settings.has_key?("databases")
             settings["databases"].each do |db|
@@ -381,6 +389,29 @@ class Homestead
                         s.args = [db]
                     end
                 end
+
+                if settings.has_key?("influxdb") && settings["influxdb"]
+                    config.vm.provision "shell" do |s|
+                        s.name = "Creating InfluxDB Database: " + db
+                        s.path = scriptDir + "/create-influxdb.sh"
+                        s.args = [db]
+                    end
+                end
+
+            end
+        end
+
+        # Install grafana if Necessary
+        if settings.has_key?("grafana") && settings["grafana"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-grafana.sh"
+            end
+        end
+
+        # Install chronograf if Necessary
+        if settings.has_key?("chronograf") && settings["chronograf"]
+            config.vm.provision "shell" do |s|
+                s.path = scriptDir + "/install-chronograf.sh"
             end
         end
 
