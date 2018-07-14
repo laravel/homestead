@@ -124,8 +124,11 @@ sudo a2enmod rewrite
 # Turn on HTTPS support
 sudo a2enmod ssl
 
+# Turn on proxy & fcgi
+sudo a2enmod proxy proxy_fcgi
+
 # Turn on headers support
-sudo a2enmod headers actions fastcgi alias
+sudo a2enmod headers actions alias
 
 # Add Mutex to config to prevent auto restart issues
 if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
