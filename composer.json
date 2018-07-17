@@ -1,5 +1,5 @@
 {
-    "name": "laravel/homestead",
+    "name": "arifhidayat95/homestead",
     "description": "A virtual machine for web artisans.",
     "require": {
         "php": "^5.6 || ^7.0",
