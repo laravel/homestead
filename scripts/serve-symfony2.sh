@@ -33,9 +33,6 @@ block="server {
         try_files \$uri \$uri/ /app_dev.php?\$query_string;
     }
 
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
     access_log off;
     error_log  /var/log/nginx/$1-ssl-error.log error;
 
