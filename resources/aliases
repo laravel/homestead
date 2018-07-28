@@ -12,6 +12,8 @@ alias serve=serve-laravel
 alias xoff='sudo phpdismod -s cli xdebug'
 alias xon='sudo phpenmod -s cli xdebug'
 
+alias nah='git reset --hard;git clean -df'
+
 alias nrd="npm run dev"
 alias nrw="npm run watch"
 alias nrww="npm run watch-poll"
