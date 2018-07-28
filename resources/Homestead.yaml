@@ -16,10 +16,16 @@ folders:
 sites:
     - map: homestead.test
       to: /home/vagrant/code/public
-#     zray: "true"
 
 databases:
     - homestead
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
 
 # blackfire:
 #     - id: foo
@@ -32,10 +38,3 @@ databases:
 #     - email: foo@bar.com
 #       token: foo
 #  Don't forget to ensure that you have 'zray: "true"' for your site.
-
-# ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
