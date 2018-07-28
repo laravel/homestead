@@ -16,6 +16,7 @@ folders:
 sites:
     - map: homestead.test
       to: /home/vagrant/code/public
+#     zray: "true"
 
 databases:
     - homestead
@@ -25,6 +26,12 @@ databases:
 #       token: bar
 #       client-id: foo
 #       client-token: bar
+
+# zray:
+#  If you've already freely registered Z-Ray, you can place the token here.
+#     - email: foo@bar.com
+#       token: foo
+#  Don't forget to ensure that you have 'zray: "true"' for your site.
 
 # ports:
 #     - send: 50000
