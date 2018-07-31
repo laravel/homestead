@@ -11,7 +11,7 @@ class Homestead
     config.ssh.forward_agent = true
 
     # Configure The Box
-    config.vm.define settings['names'] ||= 'homestead-7'
+    config.vm.define settings['name'] ||= 'homestead-7'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     config.vm.box_version = settings['version'] ||= '>= 6.0.0'
     config.vm.hostname = settings['hostname'] ||= 'homestead'
