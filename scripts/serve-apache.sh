@@ -33,6 +33,13 @@ block="<VirtualHost *:$3>
         Alias /php"$5"-fcgi /usr/lib/cgi-bin/php"$5"
         FastCgiExternalServer /usr/lib/cgi-bin/php"$5" -socket /var/run/php/php"$5"-fpm.sock -pass-header Authorization
     </IfModule>
+    <IfModule !mod_fastcgi.c>
+        <IfModule mod_proxy_fcgi.c>
+            <FilesMatch \".+\.ph(ar|p|tml)$\">
+                SetHandler \"proxy:unix:/var/run/php/php"$5"-fpm.sock|fcgi://localhost/\"
+            </FilesMatch>
+        </IfModule>
+    </IfModule>
     #LogLevel info ssl:warn
 
     ErrorLog \${APACHE_LOG_DIR}/$1-error.log
