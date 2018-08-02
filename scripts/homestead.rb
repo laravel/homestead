@@ -61,6 +61,18 @@ class Homestead
       end
     end
 
+    # Configure A Few Hyper-V Settings
+    config.vm.provider "hyperv" do |h, override|
+      h.vmname = settings['names'] ||= 'homestead-7'
+      h.cpus = settings['cpus'] ||= 1
+      h.memory = settings['memory'] ||= 2048
+      h.differencing_disk = true
+
+      if Vagrant.has_plugin?('vagrant-hostmanager')
+        override.hostmanager.ignore_private_ip = true
+      end
+    end
+
     # Configure A Few Parallels Settings
     config.vm.provider 'parallels' do |v|
       v.name = settings['name'] ||= 'homestead-7'
@@ -152,6 +164,10 @@ class Homestead
       settings['folders'].each do |folder|
         if File.exist? File.expand_path(folder['map'])
           mount_opts = []
+
+          if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'hyperv'
+            folder['type'] = 'smb'
+          end
 
           if folder['type'] == 'nfs'
             mount_opts = folder['mount_options'] ? folder['mount_options'] : ['actimeo=1', 'nolock']
