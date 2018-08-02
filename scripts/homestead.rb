@@ -165,6 +165,10 @@ class Homestead
         if File.exist? File.expand_path(folder['map'])
           mount_opts = []
 
+          if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'hyperv'
+            folder['type'] = 'smb'
+          end
+
           if folder['type'] == 'nfs'
             mount_opts = folder['mount_options'] ? folder['mount_options'] : ['actimeo=1', 'nolock']
           elsif folder['type'] == 'smb'
