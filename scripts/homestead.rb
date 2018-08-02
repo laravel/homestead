@@ -61,6 +61,18 @@ class Homestead
       end
     end
 
+    # Configure A Few Hyper-V Settings
+    config.vm.provider "hyperv" do |h, override|
+      h.vmname = settings['names'] ||= 'homestead-7'
+      h.cpus = settings['cpus'] ||= 1
+      h.memory = settings['memory'] ||= 2048
+      h.differencing_disk = true
+
+      if Vagrant.has_plugin?('vagrant-hostmanager')
+        override.hostmanager.ignore_private_ip = true
+      end
+    end
+
     # Configure A Few Parallels Settings
     config.vm.provider 'parallels' do |v|
       v.name = settings['name'] ||= 'homestead-7'
