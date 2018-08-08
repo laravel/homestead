@@ -1,93 +1,154 @@
 #!/usr/bin/env bash
 
-# install apache and bzip PHP extension
 export DEBIAN_FRONTEND=noninteractive
-sudo service nginx stop
 apt-get update
-apt-get install -y apache2 libapache2-mod-fastcgi
 apt-get install -y php"$5"-bz2
 
-block="<VirtualHost *:$3>
-    ServerName $1
-    ServerAlias *.$1
-
-    DocumentRoot $2
-    <Directory $2>
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    # Force Apache to pass the Authorization header to PHP:
-    # required for "basic_auth" under PHP-FPM and FastCGI
-    SetEnvIfNoCase ^Authorization\$ \"(.+)\" HTTP_AUTHORIZATION=\$1
-
-    # Using SetHandler avoids issues with using ProxyPassMatch in combination
-    # with mod_rewrite or mod_autoindex
-    <FilesMatch \.php$>
-        SetHandler \"proxy:unix:/var/run/php/php$5-fpm.sock|fcgi://localhost\"
-    </FilesMatch>
-
-    ErrorLog \${APACHE_LOG_DIR}/$1-error.log
-    CustomLog \${APACHE_LOG_DIR}/$1-access.log combined
-</VirtualHost>
+if [ "$7" = "true" ] && [ "$5" = "7.2" ]
+then configureZray="
+location /ZendServer {
+        try_files \$uri \$uri/ /ZendServer/index.php?\$args;
+}
 "
-
-blockssl="<IfModule mod_ssl.c>
-    <VirtualHost *:$4>
-        ServerName $1
-        ServerAlias *.$1
-
-        DocumentRoot $2
-        <Directory $2>
-            AllowOverride All
-            Require all granted
-        </Directory>
-
-        # Force Apache to pass the Authorization header to PHP:
-        # required for "basic_auth" under PHP-FPM and FastCGI
-        SetEnvIfNoCase ^Authorization\$ \"(.+)\" HTTP_AUTHORIZATION=\$1
-
-        # Using SetHandler avoids issues with using ProxyPassMatch in combination
-        # with mod_rewrite or mod_autoindex
-        <FilesMatch \.php$>
-            SetHandler \"proxy:unix:/var/run/php/php$5-fpm.sock|fcgi://localhost\"
-        </FilesMatch>
-
-        ErrorLog \${APACHE_LOG_DIR}/$1-error.log
-        CustomLog \${APACHE_LOG_DIR}/$1-access.log combined
-
-        SSLEngine on
-        SSLCertificateFile      /etc/nginx/ssl/$1.crt
-        SSLCertificateKeyFile   /etc/nginx/ssl/$1.key
-
-        <FilesMatch \"\.(cgi|shtml|phtml|php)$\">
-            SSLOptions +StdEnvVars
-        </FilesMatch>
-        <Directory /usr/lib/cgi-bin>
-            SSLOptions +StdEnvVars
-        </Directory>
-
-        BrowserMatch \"MSIE [2-6]\" \
-            nokeepalive ssl-unclean-shutdown \
-            downgrade-1.0 force-response-1.0
-        # MSIE 7 and newer should be able to use keepalive
-        BrowserMatch \"MSIE [17-9]\" ssl-unclean-shutdown
-    </VirtualHost>
-</IfModule>
-"
-
-echo "$block" > "/etc/apache2/sites-available/$1.conf"
-echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
-
-sudo a2dissite 000-default
-sudo a2ensite $1 $1-ssl
-
-ps auxw | grep apache2 | grep -v grep > /dev/null
-
-sudo a2enmod ssl rewrite proxy proxy_fcgi
-service apache2 restart
-
-if [ $? == 0 ]
-then
-    service apache2 reload
+else configureZray=""
 fi
+
+block="# mime types are covered in nginx.conf by:
+# http {
+#   include       mime.types;
+# }
+
+upstream php-pimcore5 {
+    server unix:/var/run/php/php$5-fpm.sock;
+}
+
+server {
+    listen ${3:-80};
+    listen ${4:-443} ssl http2;
+    server_name $1;
+    root \"$2\";
+
+    index index.php;
+
+    access_log off;
+    error_log  /var/log/nginx/$1-ssl-error.log error;
+
+    # Pimcore Head-Link Cache-Busting
+    rewrite ^/cache-buster-(?:\d+)/(.*) /\$1 last;
+
+    # Stay secure
+    #
+    # a) don't allow PHP in folders allowing file uploads
+    location ~* /var/assets/*\.php(/|\$) {
+        return 404;
+    }
+    # b) Prevent clients from accessing hidden files (starting with a dot)
+    # Access to `/.well-known/` is allowed.
+    # https://www.mnot.net/blog/2010/04/07/well-known
+    # https://tools.ietf.org/html/rfc5785
+    location ~* /\.(?!well-known/) {
+        deny all;
+        log_not_found off;
+        access_log off;
+    }
+    # c) Prevent clients from accessing to backup/config/source files
+    location ~* (?:\.(?:bak|conf(ig)?|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)\$ {
+        deny all;
+    }
+
+    # Some Admin Modules need this:
+    # Database Admin, Server Info
+    location ~* ^/admin/(adminer|external) {
+        rewrite .* /app.php\$is_args\$args last;
+    }
+
+    # Thumbnails
+    location ~* .*/(image|video)-thumb__\d+__.* {
+        try_files /var/tmp/\$1-thumbnails\$uri /app.php;
+        expires 2w;
+        access_log off;
+        add_header Cache-Control \"public\";
+    }
+
+    # Assets
+    # Still use a whitelist approach to prevent each and every missing asset to go through the PHP Engine.
+    location ~* (.+?)\.((?:css|js)(?:\.map)?|jpe?g|gif|png|svgz?|eps|exe|gz|zip|mp\d|ogg|ogv|webm|pdf|docx?|xlsx?|pptx?)\$ {
+        try_files /var/assets\$uri \$uri =404;
+        expires 2w;
+        access_log off;
+        log_not_found off;
+        add_header Cache-Control \"public\";
+    }
+
+    # Installer
+    # Remove this if you don't need the web installer (anymore)
+    if (-f \$document_root/install.php) {
+        rewrite ^/install(/?.*) /install.php last;
+    }
+
+    location / {
+        error_page 404 /meta/404;
+        add_header \"X-UA-Compatible\" \"IE=edge\";
+        try_files \$uri /app.php\$is_args\$args;
+    }
+
+    # Use this location when the installer has to be run
+    # location ~ /(app|install)\.php(/|\$) {
+    #
+    # Use this after initial install is done:
+    location ~ /(app|install)\.php(/|\$) {
+        send_timeout 1800;
+        fastcgi_read_timeout 1800;
+        # regex to split \$uri to \$fastcgi_script_name and \$fastcgi_path
+        fastcgi_split_path_info ^(.+\.php)(/.+)\$;
+        # Check that the PHP script exists before passing it
+        try_files \$fastcgi_script_name =404;
+        include fastcgi.conf;
+        # Bypass the fact that try_files resets \$fastcgi_path_info
+        # see: http://trac.nginx.org/nginx/ticket/321
+        set \$path_info \$fastcgi_path_info;
+        fastcgi_param PATH_INFO \$path_info;
+
+        # Activate these, if using Symlinks and opcache
+        # fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
+        # fastcgi_param DOCUMENT_ROOT \$realpath_root;
+
+        fastcgi_pass php-pimcore5;
+        # Prevents URIs that include the front controller. This will 404:
+        # http://domain.tld/app.php/some-path
+        # Remove the internal directive to allow URIs like this
+        internal;
+    }
+
+    # PHP-FPM Status and Ping
+    location /fpm- {
+        access_log off;
+        include fastcgi_params;
+        location /fpm-status {
+            allow 127.0.0.1;
+            # add additional IP's or Ranges
+            deny all;
+            fastcgi_pass php-pimcore5;
+        }
+        location /fpm-ping {
+            fastcgi_pass php-pimcore5;
+        }
+    }
+    # nginx Status
+    # see: https://nginx.org/en/docs/http/ngx_http_stub_status_module.html
+    location /nginx-status {
+        allow 127.0.0.1;
+        deny all;
+        access_log off;
+        stub_status;
+    }
+
+    ssl_certificate     /etc/nginx/ssl/$1.crt;
+    ssl_certificate_key /etc/nginx/ssl/$1.key;
+}
+"
+
+echo "$block" > "/etc/nginx/sites-available/$1"
+ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
+
+sudo service nginx restart
