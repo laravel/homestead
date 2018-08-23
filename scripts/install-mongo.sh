@@ -79,7 +79,7 @@ sudo ln -s /etc/php/7.2/mods-available/mongo.ini /etc/php/7.2/fpm/conf.d/20-mong
 sudo service php7.2-fpm restart
 
 phpize7.3
-./configure --with-php-config=/usr/bin/php-config7.2 > /dev/null
+./configure --with-php-config=/usr/bin/php-config7.3 > /dev/null
 make clean > /dev/null
 make >/dev/null 2>&1
 sudo make install
@@ -87,6 +87,6 @@ sudo chmod 644 /usr/lib/php/20160303/mongodb.so
 sudo bash -c "echo 'extension=mongodb.so' > /etc/php/7.3/mods-available/mongo.ini"
 sudo ln -s /etc/php/7.3/mods-available/mongo.ini /etc/php/7.3/cli/conf.d/20-mongo.ini
 sudo ln -s /etc/php/7.3/mods-available/mongo.ini /etc/php/7.3/fpm/conf.d/20-mongo.ini
-sudo service php7.2-fpm restart
+sudo service php7.3-fpm restart
 
 mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
