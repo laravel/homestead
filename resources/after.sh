@@ -5,5 +5,5 @@
 # be run after the Homestead machine is provisioned.
 #
 # If you have user-specific configurations you would like
-# to apply, you may also create after.local.sh, which will
-# be run after this script.
+# to apply, you may also create user-customizations.sh,
+# which will be run after this script.

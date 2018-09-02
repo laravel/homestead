@@ -4,8 +4,8 @@ phpunit.xml
 /Homestead.yaml
 /Homestead.json
 /after.sh
-/after.local.sh
 /aliases
 /mysqldump.sql.gz
 /mysql_backup
 /postgres_backup
+/user-customizations.sh
