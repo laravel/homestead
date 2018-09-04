@@ -462,7 +462,7 @@ class Homestead
       s.privileged = false
     end
 
-    if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin('vagrant-triggers'))
+    if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin?('vagrant-triggers'))
       dir_prefix = '/vagrant/'
       settings['databases'].each do |database|
         Homestead.backup_mysql(database, "#{dir_prefix}/mysql_backup", config)
