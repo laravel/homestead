@@ -28,18 +28,32 @@ function dusk() {
 
 function php56() {
     sudo update-alternatives --set php /usr/bin/php5.6
+    sudo update-alternatives --set php-config /usr/bin/php-config5.6
+    sudo update-alternatives --set phpize /usr/bin/phpize5.6
 }
 
 function php70() {
     sudo update-alternatives --set php /usr/bin/php7.0
+    sudo update-alternatives --set php-config /usr/bin/php-config7.0
+    sudo update-alternatives --set phpize /usr/bin/phpize7.0
 }
 
 function php71() {
     sudo update-alternatives --set php /usr/bin/php7.1
+    sudo update-alternatives --set php-config /usr/bin/php-config7.1
+    sudo update-alternatives --set phpize /usr/bin/phpize7.1
 }
 
 function php72() {
     sudo update-alternatives --set php /usr/bin/php7.2
+    sudo update-alternatives --set php-config /usr/bin/php-config7.2
+    sudo update-alternatives --set phpize /usr/bin/phpize7.2
+}
+
+function php73() {
+    sudo update-alternatives --set php /usr/bin/php7.3
+    sudo update-alternatives --set php-config /usr/bin/php-config7.3
+    sudo update-alternatives --set phpize /usr/bin/phpize7.3
 }
 
 function serve-apache() {
