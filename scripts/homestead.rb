@@ -421,6 +421,17 @@ class Homestead
       end
     end
 
+    # Create Minio Buckets
+    if settings.has_key?('buckets') && settings['minio']
+        settings['buckets'].each do |bucket|
+            config.vm.provision 'shell' do |s|
+                s.name = 'Creating Minio Bucket: ' + bucket['name']
+                s.path = script_dir + '/create-minio-bucket.sh'
+                s.args = [bucket['name'], bucket['policy'] || 'none']
+            end
+        end
+    end
+
     # Install grafana if Necessary
     if settings.has_key?('influxdb') && settings['influxdb']
       config.vm.provision 'shell' do |s|
