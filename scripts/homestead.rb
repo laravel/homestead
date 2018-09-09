@@ -231,7 +231,7 @@ class Homestead
             params += ' )'
           end
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= '80', site['ssl'] ||= '443', site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false']
+          s.args = [site['map'], site['to'], site['port'] ||= '80', site['ssl'] ||= '443', site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
