@@ -496,7 +496,7 @@ class Homestead
     now = Time.now.strftime("%Y%m%d%H%M")
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up mysql database #{database}..."
-      trigger.run_remote = { inline: "mkdir -p #{dir} && mysqldump #{database} > #{dir}/#{database}-#{now}.sql" }
+      trigger.run_remote = { inline: "mkdir -p #{dir} && mysqldump --routines #{database} > #{dir}/#{database}-#{now}.sql" }
     end
   end
 
