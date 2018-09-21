@@ -231,7 +231,7 @@ class Homestead
             params += ' )'
           end
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= '80', site['ssl'] ||= '443', site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false']
+          s.args = [site['map'], site['to'], site['port'] ||= '80', site['ssl'] ||= '443', site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
@@ -421,6 +421,17 @@ class Homestead
       end
     end
 
+    # Create Minio Buckets
+    if settings.has_key?('buckets') && settings['minio']
+        settings['buckets'].each do |bucket|
+            config.vm.provision 'shell' do |s|
+                s.name = 'Creating Minio Bucket: ' + bucket['name']
+                s.path = script_dir + '/create-minio-bucket.sh'
+                s.args = [bucket['name'], bucket['policy'] || 'none']
+            end
+        end
+    end
+
     # Install grafana if Necessary
     if settings.has_key?('influxdb') && settings['influxdb']
       config.vm.provision 'shell' do |s|
@@ -485,7 +496,7 @@ class Homestead
     now = Time.now.strftime("%Y%m%d%H%M")
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up mysql database #{database}..."
-      trigger.run_remote = { inline: "mkdir -p #{dir} && mysqldump #{database} > #{dir}/#{database}-#{now}.sql" }
+      trigger.run_remote = { inline: "mkdir -p #{dir} && mysqldump --routines #{database} > #{dir}/#{database}-#{now}.sql" }
     end
   end
 

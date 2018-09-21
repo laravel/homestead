@@ -8,7 +8,7 @@ fi
 
 touch /home/vagrant/.minio
 
-curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio
+curl -sO https://dl.minio.io/server/minio/release/linux-amd64/minio
 
 sudo chmod +x minio
 sudo mv minio /usr/local/bin
@@ -29,10 +29,16 @@ EOT
 sudo chown minio-user:minio-user /usr/local/share/minio
 sudo chown minio-user:minio-user /etc/minio
 
-curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
+curl -sO https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
 sudo mv minio.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable minio
 sudo systemctl start minio
 
 sudo ufw allow 9600
+
+# Installing Minio Client
+curl -sO https://dl.minio.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+sudo mv mc /usr/local/bin
+mc config host add homestead http://127.0.1.1:9600 homestead secretkey

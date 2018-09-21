@@ -232,9 +232,9 @@ function dbexport() {
         HUMAN_READABLE_SIZE=$(numfmt --to=iec-i --suffix=B --format="%.3f" $ADJUSTED_SIZE)
 
         echo "Estimated uncompressed size: $HUMAN_READABLE_SIZE"
-        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | pv  --size=$ADJUSTED_SIZE | gzip > "$FILE"
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables --routines 2>/dev/null | pv  --size=$ADJUSTED_SIZE | gzip > "$FILE"
     else
-        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | gzip > "$FILE"
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables --routines 2>/dev/null | gzip > "$FILE"
     fi
 
     echo "Done."

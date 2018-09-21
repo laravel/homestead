@@ -104,6 +104,19 @@ blockssl="<IfModule mod_ssl.c>
             SSLOptions +StdEnvVars
         </Directory>
 
+        <IfModule mod_fastcgi.c>
+            AddHandler php"$5"-fcgi .php
+            Action php"$5"-fcgi /php"$5"-fcgi
+            Alias /php"$5"-fcgi /usr/lib/cgi-bin/php"$5"
+            FastCgiExternalServer /usr/lib/cgi-bin/php"$5" -socket /var/run/php/php"$5"-fpm.sock -pass-header Authorization
+        </IfModule>
+        <IfModule !mod_fastcgi.c>
+            <IfModule mod_proxy_fcgi.c>
+                <FilesMatch \".+\.ph(ar|p|tml)$\">
+                    SetHandler \"proxy:unix:/var/run/php/php"$5"-fpm.sock|fcgi://localhost/\"
+                </FilesMatch>
+            </IfModule>
+        </IfModule>
         BrowserMatch \"MSIE [2-6]\" \
             nokeepalive ssl-unclean-shutdown \
             downgrade-1.0 force-response-1.0
