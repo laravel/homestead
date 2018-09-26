@@ -9,6 +9,8 @@ confDir = $confDir ||= File.expand_path("vendor/laravel/homestead", File.dirname
 
 homesteadYamlPath = File.expand_path("Homestead.yaml", File.dirname(__FILE__))
 homesteadJsonPath = File.expand_path("Homestead.json", File.dirname(__FILE__))
+homesteadOverrideYamlPath = File.expand_path("Homestead.override.yaml", File.dirname(__FILE__))
+homesteadOverrideJsonPath = File.expand_path("Homestead.override.json", File.dirname(__FILE__))
 afterScriptPath = "after.sh"
 customizationScriptPath = "user-customizations.sh"
 aliasesPath = "aliases"
@@ -31,6 +33,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         settings = JSON.parse(File.read(homesteadJsonPath))
     else
         abort "Homestead settings file not found in #{confDir}"
+    end
+
+    if File.exist? homesteadOverrideYamlPath then
+        settings = settings.merge(YAML::load(File.read(homesteadOverrideYamlPath)))
+    elsif File.exist? homesteadOverrideJsonPath then
+        settings = settings.merge(JSON.parse(File.read(homesteadOverrideJsonPath)))
     end
 
     Homestead.configure(config, settings)
