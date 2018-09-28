@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     elsif File.exist? homesteadJsonPath then
         settings = JSON.parse(File.read(homesteadJsonPath))
     else
-        abort "Homestead settings file not found in #{confDir}"
+        abort "Homestead settings file not found in " + File.dirname(__FILE__)
     end
 
     Homestead.configure(config, settings)
