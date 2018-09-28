@@ -94,6 +94,18 @@ function serve-proxy() {
     fi
 }
 
+function serve-ngrok() {
+    if [[ "$1" && "$2" && "$3" ]]
+    then
+        sudo dos2unix /vagrant/scripts/serve-ngrok.sh
+        sudo bash /vagrant/scripts/serve-ngrok.sh "$1" "$2" "$3" 80 443 "${4:-7.1}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-ngrok origin domain port"
+    fi
+}
+
 function serve-silverstripe() {
     if [[ "$1" && "$2" ]]
     then
