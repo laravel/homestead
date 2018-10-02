@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 
 declare -A params=$6     # Create an associative array
+declare -A headers=$9    # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
    for element in "${!params[@]}"
    do
       paramsTXT="${paramsTXT}
       fastcgi_param ${element} ${params[$element]};"
+   done
+fi
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
+   do
+      headersTXT="${headersTXT}
+      add_header ${element} ${headers[$element]};"
    done
 fi
 
@@ -31,6 +40,7 @@ block="server {
 
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;
+        $headersTXT
     }
 
     $configureZray
