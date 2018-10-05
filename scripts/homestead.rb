@@ -211,6 +211,15 @@ class Homestead
         end
 
         type = site['type'] ||= 'laravel'
+        load_balancer = settings['load_balancer'] ||= false
+        http_port = load_balancer ? '8111' : '80'
+        https_port = load_balancer ? '8112' : '443'
+
+        if load_balancer
+            config.vm.provision 'shell' do |s|
+                s.path = script_dir + '/install-load-balancer.sh'
+            end
+        end
 
         case type
         when 'apigility'
@@ -238,7 +247,7 @@ class Homestead
             headers += ' )'
           end
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= '80', site['ssl'] ||= '443', site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '']
+          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
