@@ -1,3 +1,9 @@
+# forEst における利用方法
+- [ホスト(物理端末)側初回導入手順](https://wiki.for-e-study.com/environment/local/setup/homestead)
+- [ゲスト(仮想環境)側初回導入手順 - ATLS編](https://wiki.for-e-study.com/applications/atls/setup)
+
+
+# 以下、本家 readme.md
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-homestead.svg"></p>
 
 <p align="center">
