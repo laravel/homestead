@@ -13,3 +13,7 @@ sudo ln -sf /usr/share/zoneinfo/Japan /etc/localtime
 sudo locale-gen ja_JP.UTF-8
 sudo /usr/sbin/update-locale LANG=ja_JP.UTF-8
 
+# phpMyAdmin インストール
+sudo apt-get update
+sudo bash -c 'export DEBIAN_FRONTEND=noninteractive; apt-get -yq install phpmyadmin'
+

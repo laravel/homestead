@@ -20,6 +20,8 @@ sites:
       to: /home/vagrant/products/atls_school/backend/web
     - map: atls-cam-api.homestead
       to: /home/vagrant/products/atls_cam_api/public
+    - map: phpmyadmin.homestead
+      to: /usr/share/phpmyadmin
 
 databases:
     - homestead
