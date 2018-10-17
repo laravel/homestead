@@ -11,11 +11,15 @@ keys:
 
 folders:
     - map: ~/code
-      to: /home/vagrant/code
+      to: /home/vagrant/products
 
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+    - map: atls.homestead
+      to: /home/vagrant/products/atls/public
+    - map: atls-school.homestead
+      to: /home/vagrant/products/atls_school/backend/web
+    - map: atls-cam-api.homestead
+      to: /home/vagrant/products/atls_cam_api/public
 
 databases:
     - homestead
