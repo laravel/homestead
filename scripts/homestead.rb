@@ -10,13 +10,10 @@ class Homestead
     # Allow SSH Agent Forward from The Box
     config.ssh.forward_agent = true
     
-    # Configure Verify Host Key
+   # Configure Verify Host Key
     if settings.has_key?('verify_host_key')
       config.ssh.verify_host_key = settings['verify_host_key']
-    else
-      config.ssh.verify_host_key = true || :accept_new_or_local_tunnel
-    end    
-    config.ssh.verify_host_key = :accept_new_or_local_tunnel
+    end
 
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead-7'
