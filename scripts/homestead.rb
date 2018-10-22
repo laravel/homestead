@@ -11,7 +11,13 @@ class Homestead
     config.ssh.forward_agent = true
       
     # Configure Verify Host Key
-    config.ssh.verify_host_key = :never
+    config.ssh.verify_host_key = true
+
+    if config.ssh.verify_host_key == nil
+      config.ssh.verify_host_key = true
+    else
+      config.ssh.verify_host_key = :never
+    end
 
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead-7'
