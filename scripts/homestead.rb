@@ -10,7 +10,7 @@ class Homestead
     # Allow SSH Agent Forward from The Box
     config.ssh.forward_agent = true
       
-    # Configure Verfiy Host Key
+    # Configure Verify Host Key
     config.ssh.verify_host_key = :never
 
     # Configure The Box
