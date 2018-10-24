@@ -9,6 +9,11 @@ class Homestead
 
     # Allow SSH Agent Forward from The Box
     config.ssh.forward_agent = true
+    
+    # Configure Verify Host Key
+    if settings.has_key?('verify_host_key')
+      config.ssh.verify_host_key = settings['verify_host_key']
+    end
 
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead-7'
