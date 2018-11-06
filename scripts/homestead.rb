@@ -385,6 +385,13 @@ class Homestead
       end
     end
 
+    # Install MySQL 8 If Necessary
+    if settings.has_key?('mysql8') && settings['mysql8']
+        config.vm.provision 'shell' do |s|
+            s.path = script_dir + '/install-mysql8.sh'
+        end
+    end
+
     # Install Neo4j If Necessary
     if settings.has_key?('neo4j') && settings['neo4j']
       config.vm.provision 'shell' do |s|
@@ -459,6 +466,7 @@ class Homestead
         s.path = script_dir + '/install-grafana.sh'
       end
     end
+
 
     # Install chronograf if Necessary
     if settings.has_key?('chronograf') && settings['chronograf']
