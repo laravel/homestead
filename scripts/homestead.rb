@@ -148,7 +148,7 @@ class Homestead
             s.args = [File.read(File.expand_path(key)), key.split('/').last]
           end
         else
-          puts 'Check your Homestead.yaml file, the path to your private key does not exist.'
+          puts 'Check your Homestead.yaml (or Homestead.json) file, the path to your private key does not exist.'
           exit
         end
       end
