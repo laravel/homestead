@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 if [ -f /etc/neo4j/neo4j.conf ]
 then
     echo "Neo4j already installed."
