@@ -45,6 +45,9 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 # Configure MySQL 8 Remote Access
 echo "bind-address = 0.0.0.0" | tee -a /etc/mysql/conf.d/mysql.cnf
 
+# Use Native Pluggable Authentication
+echo -e "[mysqld]\ndefault_authentication_plugin=mysql_native_password"
+
 mysql --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'secret';"
 mysql --user="root" --password="secret" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
 mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
