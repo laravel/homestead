@@ -265,8 +265,11 @@ class Homestead
               s.inline = 'ln -sf /opt/zray/zray.ini /etc/php/7.2/fpm/conf.d/zray.ini'
             end
           else
-            config.vm.provision 'shell' do |s|
+            # For proxy type sites, "to" is a port number
+            if site['to'].is_a? String
+              config.vm.provision 'shell' do |s|
               s.inline = 'rm -rf ' + site['to'] + '/ZendServer'
+              end
             end
           end
         end
