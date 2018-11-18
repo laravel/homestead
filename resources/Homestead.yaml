@@ -20,15 +20,21 @@ sites:
 databases:
     - homestead
 
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar
-
 # ports:
 #     - send: 50000
 #       to: 5000
 #     - send: 7777
 #       to: 777
 #       protocol: udp
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# zray:
+#  If you've already freely registered Z-Ray, you can place the token here.
+#     - email: foo@bar.com
+#       token: foo
+#  Don't forget to ensure that you have 'zray: "true"' for your site.

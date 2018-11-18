@@ -1,21 +1,12 @@
 #!/usr/bin/env bash
 
 declare -A params=$6     # Create an associative array
-declare -A headers=$9    # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
    for element in "${!params[@]}"
    do
       paramsTXT="${paramsTXT}
       fastcgi_param ${element} ${params[$element]};"
-   done
-fi
-headersTXT=""
-if [ -n "$9" ]; then
-   for element in "${!headers[@]}"
-   do
-      headersTXT="${headersTXT}
-      add_header ${element} ${headers[$element]};"
    done
 fi
 
@@ -39,10 +30,12 @@ block="server {
     charset utf-8;
 
     location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
-        $headersTXT
+        try_files \$uri \$uri/ /index.php\$is_args\$args;
     }
 
+    location ~ ^/assets/.*\.php\$ {
+        deny all;
+    }
     $configureZray
 
     location = /favicon.ico { access_log off; log_not_found off; }
@@ -62,7 +55,7 @@ block="server {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         $paramsTXT
-
+        try_files \$uri =404;
         fastcgi_intercept_errors off;
         fastcgi_buffer_size 16k;
         fastcgi_buffers 4 16k;
@@ -71,7 +64,7 @@ block="server {
         fastcgi_read_timeout 300;
     }
 
-    location ~ /\.ht {
+    location ~* /\. {
         deny all;
     }
 

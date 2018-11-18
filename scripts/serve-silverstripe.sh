@@ -41,7 +41,7 @@ block="server {
     access_log off;
     error_log  /var/log/nginx/$1-error.log error;
     sendfile off;
-    
+
     location ^~ /assets/ {
         location ~ /\. {
             deny all;
