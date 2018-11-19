@@ -266,7 +266,7 @@ class Homestead
             end
           else
             config.vm.provision 'shell' do |s|
-              s.inline = 'rm -rf ' + site['to'] + '/ZendServer'
+              s.inline = 'rm -rf ' + site['to'].to_s + '/ZendServer'
             end
           end
         end
