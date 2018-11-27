@@ -24,6 +24,8 @@ alias yrwp="yarn run watch-poll"
 alias yrh="yarn run hot"
 alias yrp="yarn run production"
 
+alias da="composer dumpautoload"
+
 function artisan() {
     php artisan "$@"
 }
