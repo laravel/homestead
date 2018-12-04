@@ -183,7 +183,7 @@ class Homestead
           end
 
           # For b/w compatibility keep separate 'mount_opts', but merge with options
-          options = (folder['options'] || {}).merge({ mount_options: mount_opts })
+          options = (folder['options'] || {}).merge({ mount_options: mount_opts }).merge(smb_creds || {})
 
           # Double-splat (**) operator only works with symbol keys, so convert
           options.keys.each{|k| options[k.to_sym] = options.delete(k) }
