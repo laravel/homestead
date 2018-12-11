@@ -414,6 +414,8 @@ class Homestead
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
+      settings['databases'].unshift('socket_wrench')
+
       settings['databases'].each do |db|
         config.vm.provision 'shell' do |s|
           s.name = 'Creating MySQL Database: ' + db
