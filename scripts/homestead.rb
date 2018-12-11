@@ -208,6 +208,9 @@ class Homestead
     end
 
     if settings.include? 'sites'
+      socket = { 'map' => 'socket-wrench.test', 'to' => '/var/www/socket-wrench/public' }
+      settings['sites'].unshift(socket)
+
       settings['sites'].each do |site|
 
         # Create SSL certificate
@@ -411,6 +414,8 @@ class Homestead
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
+      settings['databases'].unshift('socket_wrench')
+
       settings['databases'].each do |db|
         config.vm.provision 'shell' do |s|
           s.name = 'Creating MySQL Database: ' + db
