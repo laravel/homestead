@@ -509,6 +509,11 @@ class Homestead
       s.privileged = false
     end
 
+    config.vm.provision 'shell' do |s|
+        s.name = 'Update motd'
+        s.inline = 'sudo service motd-news restart'
+    end
+
     if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin?('vagrant-triggers'))
       dir_prefix = '/vagrant/'
       settings['databases'].each do |database|
