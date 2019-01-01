@@ -26,6 +26,22 @@ then
     [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 fi
 
+
+# Database import
+read -p "Do you need a database import? y/n" -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	echo "Adding mysqldump.sql.gz to ~/Code"
+	curl -o ~/Code/mysqldump.sql.gz https://s3.amazonaws.com/mb-engineering-onboarding/musicbed/mysqldump.sql.gz
+
+	if grep -q "AccessDenied" ~/Code/mysqldump.sql.gz; then
+		echo "File not downloaded. Access Denied. Please make sure you are connected to VPN."
+		echo "Cleaning up..."
+		rm -f ~/Code/mysqldump.sql.gz
+		[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+	fi
+fi
+
 # Check if vagrant box has been added, if not, prompot user to add
 
 read -p "Have you ran vagrant box add laravel/homestead? y/n" -n 1 -r
