@@ -1,36 +1,41 @@
 {
-    "ip": "192.168.10.10",
-    "memory": 2048,
-    "cpus": 2,
+    "ip": "10.1.1.33",
+    "memory": 4096,
+    "cpus": 4,
     "provider": "virtualbox",
+    "elasticsearch": "5.6.3",
     "authorize": "~/.ssh/id_rsa.pub",
     "keys": [
         "~/.ssh/id_rsa"
     ],
+    "features": [
+        {
+            "elasticsearch": "5.6.3"
+        },
+        {
+            "ohmyzsh": true
+        }
+    ],
     "folders": [
         {
-            "map": "~/code",
-            "to": "/home/vagrant/code"
+            "map": "~/Code",
+            "to": "/home/vagrant/Code"
         }
     ],
     "sites": [
         {
-            "map": "homestead.test",
-            "to": "/home/vagrant/code/public"
-        }
-    ],
-    "databases": [
-        "homestead"
-    ],
-    "features": [
+            "map": "admin.musicbed.test",
+            "to": "/home/vagrant/Code/musicbed/musicbed/public",
+            "php": "7.1"
+        },
         {
-            "mariadb": false
-        }, 
+            "map": "api3.musicbed.test",
+            "to": "/home/vagrant/Code/musicbed/musicbed-api/public"
+        },
         {
-            "ohmyzsh": false
-        }, 
-        {
-            "webdriver": false
+            "map": "sabre.musicbed.test",
+            "to": "/home/vagrant/Code/musicbed/sabre/public",
+            "php": "7.0"
         }
     ]
 }

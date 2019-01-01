@@ -25,6 +25,16 @@ alias yrwp="yarn run watch-poll"
 alias yrh="yarn run hot"
 alias yrp="yarn run production"
 
+alias code="cd ~/Code"
+alias sites="cd ~/Code"
+alias musicbed="code && cd musicbed"
+alias mb="musicbed && cd musicbed"
+alias mbapi="musicbed && cd musicbed-api"
+alias sabre="musicbed && cd sabre"
+
+alias tinker="php artisan tinker"
+alias migrate="php artisan migrate"
+
 function artisan() {
     php artisan "$@"
 }
