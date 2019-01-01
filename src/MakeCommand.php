@@ -243,7 +243,7 @@ class MakeCommand extends Command
      */
     protected function checkForDuplicateConfigs(OutputInterface $output)
     {
-        if (file_exists("{$this->basePath}/Homestead.yaml") && file_exists("{$this->basePath}/Homestead.json")) {
+        if (file_exists("{$this->basePath}/Homestead.yaml") or file_exists("{$this->basePath}/Homestead.json")) {
             $output->writeln(
                 '<error>WARNING! You have Homestead.yaml AND Homestead.json configuration files</error>'
             );
