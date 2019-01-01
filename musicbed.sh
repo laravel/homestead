@@ -31,13 +31,13 @@ fi
 read -p "Do you need a database import? y/n" -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-	echo "Adding mysqldump.sql.gz to ~/Code"
-	curl -o ~/Code/mysqldump.sql.gz https://s3.amazonaws.com/mb-engineering-onboarding/musicbed/mysqldump.sql.gz
+	echo "Adding mysqldump.sql.gz to ~/Homestead"
+	curl -o ~/Homestead/mysqldump.sql.gz https://s3.amazonaws.com/mb-engineering-onboarding/musicbed/mysqldump.sql.gz
 
-	if grep -q "AccessDenied" ~/Code/mysqldump.sql.gz; then
+	if grep -q "AccessDenied" ~/Homestead/mysqldump.sql.gz; then
 		echo "File not downloaded. Access Denied. Please make sure you are connected to VPN."
 		echo "Cleaning up..."
-		rm -f ~/Code/mysqldump.sql.gz
+		rm -f ~/Homestead/mysqldump.sql.gz
 		[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 	fi
 fi
@@ -164,5 +164,6 @@ if ! grep -q "10.1.1.33   sabre.test" "/etc/hosts"; then
   echo '10.1.1.33   sabre.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
+vagrant up
 
 echo "Musicbed Homestead initialized!"

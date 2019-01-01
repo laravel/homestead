@@ -35,6 +35,23 @@ alias sabre="musicbed && cd sabre"
 alias tinker="php artisan tinker"
 alias migrate="php artisan migrate"
 
+function init() {
+    echo "musicbed/musicbed composer install"
+    cd ~/Code/musicbed/musicbed
+    composer install
+    php artisan migrate
+
+    echo "musicbed/musicbed-api composer install"
+    cd ~/Code/musicbed/musicbed-api
+    composer install
+
+    echo "musicbed/sabre composer install"
+    cd ~/Code/musicbed/sabre
+    composer install
+
+    echo "init complete"
+}
+
 function artisan() {
     php artisan "$@"
 }
