@@ -42,19 +42,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	fi
 fi
 
-# Check if vagrant box has been added, if not, prompot user to add
-
-read -p "Have you ran vagrant box add laravel/homestead? y/n" -n 1 -r
-echo    # (optional) move to a new line
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-	read -p "Do you want to add vagrant box? y/n" -n 1 -r
-	echo    # (optional) move to a new line
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		vagrant box add laravel/homestead
-	fi
-fi
-
 # Add homestead related files since bash.sh is no longer a thing
 
 echo "Generating Homestead.json file"
@@ -69,6 +56,19 @@ fi
 
 if [ ! -d ~/Homestead/aliases ]; then
 	cp -i resources/aliases aliases
+fi
+
+# Check if vagrant box has been added, if not, prompot user to add
+
+read -p "Have you ran vagrant box add laravel/homestead? y/n" -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+	read -p "Do you want to add vagrant box? y/n" -n 1 -r
+	echo    # (optional) move to a new line
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		vagrant box add laravel/homestead
+	fi
 fi
 
 # Start cloning repositories and adding .env to each repo
