@@ -36,17 +36,18 @@ fi
 
 # Add homestead related files since bash.sh is no longer a thing
 
-echo "Generating Homestead.json file"
-
 if [ ! -f ~/Homestead/Homestead.json ]; then
+	echo "Generating Homestead.json file"
 	cp -i resources/Homestead.json Homestead.json
 fi
 
 if [ ! -f ~/Homestead/after.sh ]; then
+	echo "Generating after.sh file"
 	cp -i resources/after.sh after.sh
 fi
 
 if [ ! -f ~/Homestead/aliases ]; then
+	echo "Generating aliases file"
 	cp -i resources/aliases aliases
 fi
 
@@ -112,6 +113,15 @@ if [ ! -f ~/Code/musicbed/musicbed-www/.env ]; then
 	fi
 fi
 
+read -p "Have you ran yarn on musicbed-www? y/n" -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+	cd ~/Code/musicbed/musicbed-www
+	yarn
+	cd ~/Homestead
+fi
+
 if [ ! -d ~/Code/musicbed/sabre ]; then
 	mkdir -p ~/Code/musicbed/sabre
 	git clone https://github.com/musicbed/sabre.git ~/Code/musicbed/sabre
@@ -130,26 +140,26 @@ fi
 
 # add sites to /etc/hosts
 
-echo "Adding sites to /etc/hosts"
 if ! grep -q "# Musicbed" "/etc/hosts"; then
-  echo -e '\n\n##\n# Musicbed\n#' | sudo tee -a /etc/hosts > /dev/null
+	echo "Adding sites to /etc/hosts"
+  	echo -e '\n\n##\n# Musicbed\n#' | sudo tee -a /etc/hosts > /dev/null
 fi
 
 if ! grep -q "127.0.0.1   musicbed.test" "/etc/hosts"; then
-  echo '127.0.0.1   musicbed.test' | sudo tee -a /etc/hosts > /dev/null
+	echo '127.0.0.1   musicbed.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
 if ! grep -q "10.1.1.33   api3.musicbed.test" "/etc/hosts"; then
-  echo '10.1.1.33   api3.musicbed.test' | sudo tee -a /etc/hosts > /dev/null
+	echo '10.1.1.33   api3.musicbed.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
 
 if ! grep -q "10.1.1.33   admin.musicbed.test" "/etc/hosts"; then
-  echo '10.1.1.33   admin.musicbed.test' | sudo tee -a /etc/hosts > /dev/null
+	echo '10.1.1.33   admin.musicbed.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
 if ! grep -q "10.1.1.33   sabre.test" "/etc/hosts"; then
-  echo '10.1.1.33   sabre.test' | sudo tee -a /etc/hosts > /dev/null
+	echo '10.1.1.33   sabre.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
 vagrant up
