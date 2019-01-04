@@ -31,44 +31,32 @@ fi
 read -p "Do you need a database import? y/n" -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-	echo "Adding mysqldump.sql.gz to ~/Homestead"
-	curl -o ~/Homestead/mysqldump.sql.gz https://s3.amazonaws.com/mb-engineering-onboarding/musicbed/mysqldump.sql.gz
-
-	if grep -q "AccessDenied" ~/Homestead/mysqldump.sql.gz; then
-		echo "File not downloaded. Access Denied. Please make sure you are connected to VPN."
-		echo "Cleaning up..."
-		rm -f ~/Homestead/mysqldump.sql.gz
-		[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
-	fi
+	. db.sh
 fi
 
 # Add homestead related files since bash.sh is no longer a thing
 
 echo "Generating Homestead.json file"
 
-if [ ! -d ~/Homestead/Homestead.json ]; then
+if [ ! -f ~/Homestead/Homestead.json ]; then
 	cp -i resources/Homestead.json Homestead.json
 fi
 
-if [ ! -d ~/Homestead/after.sh ]; then
+if [ ! -f ~/Homestead/after.sh ]; then
 	cp -i resources/after.sh after.sh
 fi
 
-if [ ! -d ~/Homestead/aliases ]; then
+if [ ! -f ~/Homestead/aliases ]; then
 	cp -i resources/aliases aliases
 fi
 
 # Check if vagrant box has been added, if not, prompot user to add
 
-read -p "Have you ran vagrant box add laravel/homestead? y/n" -n 1 -r
+read -p "Run vagrant box add? y/n" -n 1 -r
 echo    # (optional) move to a new line
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-	read -p "Do you want to add vagrant box? y/n" -n 1 -r
-	echo    # (optional) move to a new line
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		vagrant box add laravel/homestead
-	fi
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	echo "adding vagrant box laravel/homestead"
+	vagrant box add laravel/homestead
 fi
 
 # Start cloning repositories and adding .env to each repo
@@ -80,7 +68,7 @@ if [ ! -d ~/Code/musicbed/musicbed ]; then
 	git clone https://github.com/musicbed/musicbed.git ~/Code/musicbed/musicbed
 fi
 
-if [ ! -d ~/Code/musicbed/musicbed/.env ]; then
+if [ ! -f ~/Code/musicbed/musicbed/.env ]; then
 	echo "Adding .env to musicbed"
 	curl -o ~/Code/musicbed/musicbed/.env https://s3.amazonaws.com/mb-engineering-onboarding/musicbed/.env
 	if grep -q "AccessDenied" ~/Code/musicbed/musicbed/.env; then
@@ -96,7 +84,7 @@ if [ ! -d ~/Code/musicbed/musicbed-api ]; then
 	git clone https://github.com/musicbed/musicbed-api.git ~/Code/musicbed/musicbed-api
 fi
 
-if [ ! -d ~/Code/musicbed/musicbed-api/.env ]; then
+if [ ! -f ~/Code/musicbed/musicbed-api/.env ]; then
 	echo "Adding .env to musicbed-api"
 	curl -o ~/Code/musicbed/musicbed-api/.env https://s3.amazonaws.com/mb-engineering-onboarding/musicbed-api/.env
 	if grep -q "AccessDenied" ~/Code/musicbed/musicbed-api/.env; then
@@ -113,7 +101,7 @@ if [ ! -d ~/Code/musicbed/musicbed-www ]; then
 	git clone https://github.com/musicbed/musicbed-www.git ~/Code/musicbed/musicbed-www
 fi
 
-if [ ! -d ~/Code/musicbed/musicbed-www/.env ]; then
+if [ ! -f ~/Code/musicbed/musicbed-www/.env ]; then
 	echo "Adding .env to musicbed-www"
 	curl -o ~/Code/musicbed/musicbed-www/.env https://s3.amazonaws.com/mb-engineering-onboarding/www/.env
 	if grep -q "AccessDenied" ~/Code/musicbed/musicbed-www/.env; then
@@ -129,7 +117,7 @@ if [ ! -d ~/Code/musicbed/sabre ]; then
 	git clone https://github.com/musicbed/sabre.git ~/Code/musicbed/sabre
 fi
 
-if [ ! -d ~/Code/musicbed/sabre/.env ]; then
+if [ ! -f ~/Code/musicbed/sabre/.env ]; then
 	echo "Adding .env to sabre"
 	curl -o ~/Code/musicbed/sabre/.env https://s3.amazonaws.com/mb-engineering-onboarding/sabre/.env
 	if grep -q "AccessDenied" ~/Code/musicbed/sabre/.env; then
