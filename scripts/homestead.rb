@@ -256,8 +256,18 @@ class Homestead
             end
             headers += ' )'
           end
+          if site.include? 'rewrites'
+            rewrites = '('
+            site['rewrites'].each do |rewrite|
+                rewrites += ' [' + rewrite['map'] + ']=' + "'" + rewrite['to'] + "'"
+            end
+            rewrites += ' )'
+            # Escape variables for bash
+            rewrites.gsub! '$', '\$'
+          end
+
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '']
+          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
