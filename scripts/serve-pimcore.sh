@@ -4,6 +4,16 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y php"$5"-bz2
 
+declare -A rewrites=${10}  # Create an associative array
+rewritesTXT=""
+if [ -n "${10}" ]; then
+   for element in "${!rewrites[@]}"
+   do
+      rewritesTXT="${rewritesTXT}
+      location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
+   done
+fi
+
 if [ "$7" = "true" ] && [ "$5" = "7.2" ]
 then configureZray="
 location /ZendServer {
@@ -35,6 +45,8 @@ server {
 
     # Pimcore Head-Link Cache-Busting
     rewrite ^/cache-buster-(?:\d+)/(.*) /\$1 last;
+
+    $rewritesTXT
 
     # Stay secure
     #

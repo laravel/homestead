@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+declare -A rewrites=${10}  # Create an associative array
+rewritesTXT=""
+if [ -n "${10}" ]; then
+   for element in "${!rewrites[@]}"
+   do
+      rewritesTXT="${rewritesTXT}
+      location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
+   done
+fi
+
 if [ "$7" = "true" ] && [ "$5" = "7.2" ]
 then configureZray="
 location /ZendServer {
@@ -18,6 +28,8 @@ block="server {
     index index.html index.htm index.php;
 
     charset utf-8;
+
+    $rewritesTXT
 
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;
