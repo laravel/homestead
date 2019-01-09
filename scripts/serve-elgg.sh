@@ -86,6 +86,9 @@ block="server {
         fastcgi_param SCRIPT_NAME     /index.php;
         fastcgi_param QUERY_STRING    __elgg_uri=\$uri&\$args;
     }
+
+    ssl_certificate     /etc/nginx/ssl/$1.crt;
+    ssl_certificate_key /etc/nginx/ssl/$1.key;
 }
 "
 
