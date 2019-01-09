@@ -1,24 +1,5 @@
 #!/usr/bin/env bash
 
-declare -A params=$6       # Create an associative array
-declare -A rewrites=${10}  # Create an associative array
-paramsTXT=""
-if [ -n "$6" ]; then
-   for element in "${!params[@]}"
-   do
-      paramsTXT="${paramsTXT}
-      fastcgi_param ${element} ${params[$element]};"
-   done
-fi
-rewritesTXT=""
-if [ -n "${10}" ]; then
-   for element in "${!rewrites[@]}"
-   do
-      rewritesTXT="${rewritesTXT}
-      location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
-   done
-fi
-
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl http2;
@@ -48,8 +29,6 @@ block="server {
     location ~ /\.ht {
         deny all;
     }
-
-    $paramsTXT
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;
