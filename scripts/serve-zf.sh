@@ -13,7 +13,8 @@
 #
 # The first two are aliases for the last.
 
-declare -A params=$6     # Create an associative array
+declare -A params=$6       # Create an associative array
+declare -A rewrites=${10}  # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
     for element in "${!params[@]}"
@@ -21,6 +22,14 @@ if [ -n "$6" ]; then
         paramsTXT="${paramsTXT}
         fastcgi_param ${element} ${params[$element]};"
     done
+fi
+rewritesTXT=""
+if [ -n "${10}" ]; then
+   for element in "${!rewrites[@]}"
+   do
+      rewritesTXT="${rewritesTXT}
+      location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
+   done
 fi
 
 if [ "$7" = "true" ] && [ "$5" = "7.2" ]
@@ -41,6 +50,8 @@ block="server {
     charset utf-8;
 
     index index.php index.html;
+
+    $rewritesTXT
 
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;

@@ -10,6 +10,8 @@ block="server {
 
     charset utf-8;
 
+    $rewritesTXT
+
     location / {
         try_files \$uri \$uri/ /index.html;
     }
