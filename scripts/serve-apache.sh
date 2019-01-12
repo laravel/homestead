@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 declare -A params=$6     # Create an associative array
+declare -A headers=$9      # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
     for element in "${!params[@]}"
@@ -8,6 +9,14 @@ if [ -n "$6" ]; then
         paramsTXT="${paramsTXT}
         SetEnv ${element} \"${params[$element]}\""
     done
+fi
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
+   do
+      headersTXT="${headersTXT}
+      Header always set ${element} \"${headers[$element]}\""
+   done
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -22,6 +31,7 @@ block="<VirtualHost *:$3>
     ServerAlias www.$1
     DocumentRoot "$2"
     $paramsTXT
+    $headersTXT
 
     <Directory "$2">
         AllowOverride All
