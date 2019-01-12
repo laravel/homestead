@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
+declare -A headers=$9      # Create an associative array
 declare -A rewrites=${10}  # Create an associative array
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
+   do
+      headersTXT="${headersTXT}
+      add_header ${element} ${headers[$element]};"
+   done
+fi
 rewritesTXT=""
 if [ -n "${10}" ]; then
    for element in "${!rewrites[@]}"
@@ -33,6 +42,7 @@ block="server {
 
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;
+        $headersTXT
     }
 
     location = /favicon.ico { access_log off; log_not_found off; }

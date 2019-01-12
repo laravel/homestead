@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 declare -A params=$6       # Create an associative array
+declare -A headers=$9      # Create an associative array
 declare -A rewrites=${10}  # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
@@ -8,6 +9,14 @@ if [ -n "$6" ]; then
    do
       paramsTXT="${paramsTXT}
       fastcgi_param ${element} ${params[$element]};"
+   done
+fi
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
+   do
+      headersTXT="${headersTXT}
+      add_header ${element} ${headers[$element]};"
    done
 fi
 rewritesTXT=""
@@ -45,6 +54,7 @@ block="server {
             rewrite  ^(.*)$  /index.php?s=/\$1  last;
             break;
         }
+        $headersTXT
     }
 
     $configureZray

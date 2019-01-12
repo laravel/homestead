@@ -4,7 +4,16 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y php"$5"-bz2
 
+declare -A headers=$9      # Create an associative array
 declare -A rewrites=${10}  # Create an associative array
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
+   do
+      headersTXT="${headersTXT}
+      add_header ${element} ${headers[$element]};"
+   done
+fi
 rewritesTXT=""
 if [ -n "${10}" ]; then
    for element in "${!rewrites[@]}"
@@ -80,6 +89,7 @@ server {
         expires 2w;
         access_log off;
         add_header Cache-Control \"public\";
+        $headersTXT
     }
 
     # Assets
@@ -90,6 +100,7 @@ server {
         access_log off;
         log_not_found off;
         add_header Cache-Control \"public\";
+        $headersTXT
     }
 
     # Installer
@@ -102,6 +113,7 @@ server {
         error_page 404 /meta/404;
         add_header \"X-UA-Compatible\" \"IE=edge\";
         try_files \$uri /app.php\$is_args\$args;
+        $headersTXT
     }
 
     # Use this location when the installer has to be run
