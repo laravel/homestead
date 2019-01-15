@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-declare -A params=$6     # Create an associative array
-paramsTXT=""
-if [ -n "$6" ]; then
-   for element in "${!params[@]}"
+declare -A headers=$9      # Create an associative array
+
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
    do
-      paramsTXT="${paramsTXT}
-      fastcgi_param ${element} ${params[$element]};"
+      headersTXT="${headersTXT}
+      add_header ${element} ${headers[$element]};"
    done
 fi
 
@@ -20,8 +21,11 @@ block="server {
 
     charset utf-8;
 
+    $rewritesTXT
+
     location / {
         try_files \$uri \$uri/ /index.html;
+        $headersTXT
     }
 
     location = /favicon.ico { access_log off; log_not_found off; }
@@ -37,8 +41,6 @@ block="server {
     location ~ /\.ht {
         deny all;
     }
-
-    $paramsTXT
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;
