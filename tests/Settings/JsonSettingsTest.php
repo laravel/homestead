@@ -130,7 +130,7 @@ class JsonSettingsTest extends TestCase
                     'to' => '/home/vagrant/Laravel/public',
                     'type' => 'laravel',
                     'schedule' => true,
-                    'php' => '5.6',
+                    'php' => '7.1',
                 ],
             ],
         ]);
@@ -143,7 +143,7 @@ class JsonSettingsTest extends TestCase
             'to' => '/home/vagrant/Laravel/public',
             'type' => 'laravel',
             'schedule' => true,
-            'php' => '5.6',
+            'php' => '7.1',
         ], $attributes['sites'][0]);
     }
 

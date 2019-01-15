@@ -18,7 +18,7 @@ class Homestead
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead-7'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
-    config.vm.box_version = settings['version'] ||= '>= 6.3.0'
+    # config.vm.box_version = settings['version'] ||= '>= 6.3.0'
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
     # Configure A Private Network IP
@@ -257,7 +257,7 @@ class Homestead
             headers += ' )'
           end
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.2', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '']
+          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
@@ -308,16 +308,6 @@ class Homestead
     if settings.has_key?('variables')
       settings['variables'].each do |var|
         config.vm.provision 'shell' do |s|
-          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/pool.d/www.conf"
-          s.args = [var['key'], var['value']]
-        end
-
-        config.vm.provision 'shell' do |s|
-          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/pool.d/www.conf"
-          s.args = [var['key'], var['value']]
-        end
-
-        config.vm.provision 'shell' do |s|
           s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/pool.d/www.conf"
           s.args = [var['key'], var['value']]
         end
@@ -339,7 +329,7 @@ class Homestead
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php5.6-fpm restart; service php7.0-fpm restart; service php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
+        s.inline = 'service php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
       end
     end
 
@@ -350,7 +340,7 @@ class Homestead
 
     config.vm.provision 'shell' do |s|
       s.name = 'Restarting Nginx'
-      s.inline = 'sudo service nginx restart; sudo service php5.6-fpm restart; sudo service php7.0-fpm restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
+      s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
     # Install CouchDB If Necessary
