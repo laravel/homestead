@@ -14,7 +14,7 @@ alias xon='sudo phpenmod -s cli xdebug'
 
 alias nrd="npm run dev"
 alias nrw="npm run watch"
-alias nrww="npm run watch-poll"
+alias nrwp="npm run watch-poll"
 alias nrh="npm run hot"
 alias nrp="npm run production"
 
