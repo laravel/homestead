@@ -485,8 +485,7 @@ class Homestead
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
-      s.inline = 'sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.composer/'
-      s.privileged = false
+      s.inline = 'curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer'
     end
 
     # Configure Blackfire.io
