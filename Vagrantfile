@@ -12,6 +12,7 @@ homesteadJsonPath = confDir + "/Homestead.json"
 afterScriptPath = confDir + "/after.sh"
 customizationScriptPath = confDir + "/user-customizations.sh"
 aliasesPath = confDir + "/aliases"
+hostPath = '~/code'
 
 require File.expand_path(File.dirname(__FILE__) + '/scripts/homestead.rb')
 
@@ -26,9 +27,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     if File.exist? homesteadYamlPath then
-        settings = YAML::load(File.read(homesteadYamlPath))
+        settings = YAML::load(File.read(homesteadYamlPath) % { HOST_PATH: hostPath })
     elsif File.exist? homesteadJsonPath then
-        settings = JSON::parse(File.read(homesteadJsonPath))
+        settings = JSON::parse(File.read(homesteadJsonPath) % { HOST_PATH: hostPath })
     else
         abort "Homestead settings file not found in #{confDir}"
     end
@@ -36,11 +37,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     Homestead.configure(config, settings)
 
     if File.exist? afterScriptPath then
-        config.vm.provision "shell", path: afterScriptPath, privileged: false, keep_color: true
+        config.vm.provision "shell", path: afterScriptPath, privileged: true, keep_color: true, env: { HOST_PATH: hostPath }
     end
 
     if File.exist? customizationScriptPath then
-        config.vm.provision "shell", path: customizationScriptPath, privileged: false, keep_color: true
+        config.vm.provision "shell", path: customizationScriptPath, privileged: true, keep_color: true, env: { HOST_PATH: hostPath }
     end
 
     if Vagrant.has_plugin?('vagrant-hostsupdater')
