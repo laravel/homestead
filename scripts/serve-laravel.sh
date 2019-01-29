@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-declare -A params=$6     # Create an associative array
-declare -A headers=$9    # Create an associative array
+declare -A params=$6       # Create an associative array
+declare -A headers=$9      # Create an associative array
+declare -A rewrites=${10}  # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
    for element in "${!params[@]}"
@@ -16,6 +17,14 @@ if [ -n "$9" ]; then
    do
       headersTXT="${headersTXT}
       add_header ${element} ${headers[$element]};"
+   done
+fi
+rewritesTXT=""
+if [ -n "${10}" ]; then
+   for element in "${!rewrites[@]}"
+   do
+      rewritesTXT="${rewritesTXT}
+      location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
    done
 fi
 
@@ -37,6 +46,8 @@ block="server {
     index index.html index.htm index.php;
 
     charset utf-8;
+
+    $rewritesTXT
 
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;
@@ -82,3 +93,4 @@ block="server {
 
 echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
+#echo "127.0.0.1 $1" >> /etc/hosts

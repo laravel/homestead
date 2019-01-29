@@ -26,18 +26,6 @@ function dusk() {
     php artisan dusk "$@"
 }
 
-function php56() {
-    sudo update-alternatives --set php /usr/bin/php5.6
-    sudo update-alternatives --set php-config /usr/bin/php-config5.6
-    sudo update-alternatives --set phpize /usr/bin/phpize5.6
-}
-
-function php70() {
-    sudo update-alternatives --set php /usr/bin/php7.0
-    sudo update-alternatives --set php-config /usr/bin/php-config7.0
-    sudo update-alternatives --set phpize /usr/bin/phpize7.0
-}
-
 function php71() {
     sudo update-alternatives --set php /usr/bin/php7.1
     sudo update-alternatives --set php-config /usr/bin/php-config7.1
@@ -261,4 +249,16 @@ function xphp() {
         "$@"
 
     if ! $XDEBUG_ENABLED; then xoff; fi
+}
+
+function update-socket-wrench() {
+    cd /var/www/socket-wrench
+    git pull origin release
+    composer install
+    php artisan migrate --force
+}
+
+function seed-socket-wrench() {
+    cd /var/www/socket-wrench
+    php artisan db:seed
 }
