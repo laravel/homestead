@@ -525,10 +525,10 @@ class Homestead
     # Turn off CFQ scheduler idling https://github.com/laravel/homestead/issues/896
     if settings.has_key?('disable_cfq')
       config.vm.provision 'shell' do |s|
-        s.inline = 'sudo echo 0 >/sys/block/sda/queue/iosched/slice_idle'
+        s.inline = 'sudo sh -c "echo 0 >> /sys/block/sda/queue/iosched/slice_idle"'
       end
       config.vm.provision 'shell' do |s|
-        s.inline = 'sudo echo 0 >/sys/block/sda/queue/iosched/group_idle'
+        s.inline = 'sudo sh -c "echo 0 >> /sys/block/sda/queue/iosched/group_idle"'
       end
     end
   end
