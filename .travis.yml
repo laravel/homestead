@@ -8,7 +8,7 @@ php:
 
 before_script:
   - phpenv config-rm xdebug.ini || true
-  - composer install --no-interaction
+  - composer install --no-interaction $PREFER_LOWEST
 
 script:
   - vendor/bin/phpunit
