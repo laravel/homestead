@@ -8,10 +8,15 @@ php:
 
 before_script:
   - phpenv config-rm xdebug.ini || true
-  - composer install --no-interaction
+  - composer update --no-interaction $PREFER_LOWEST
 
 script:
   - vendor/bin/phpunit
+
+env:
+  matrix:
+    - PREFER_LOWEST="--prefer-lowest"
+    - PREFER_LOWEST=""
 
 matrix:
   allow_failures:
