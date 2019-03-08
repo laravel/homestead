@@ -284,6 +284,25 @@ class Homestead
               s.inline = 'rm -rf ' + site['to'].to_s + '/ZendServer'
             end
           end
+
+          if site['xhgui'] == 'true'
+            config.vm.provision 'shell' do |s|
+              s.path = script_dir + '/install-mongo.sh'
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.path = script_dir + '/install-xhgui.sh'
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.inline = 'ln -sf /opt/xhgui/webroot ' + site['to'] + '/xhgui'
+            end
+          else
+            config.vm.provision 'shell' do |s|
+              s.inline = 'rm -rf ' + site['to'].to_s + '/xhgui'
+            end
+          end
+
         end
 
         # Configure The Cron Schedule
@@ -410,7 +429,6 @@ class Homestead
         s.path = script_dir + '/install-influxdb.sh'
       end
     end
-
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
