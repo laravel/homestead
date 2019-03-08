@@ -32,6 +32,15 @@ location /ZendServer {
 else configureZray=""
 fi
 
+if [ "$8" = "true" ]
+then configureXhgui="
+location /xhgui {
+        try_files \$uri \$uri/ /xhgui/index.php?\$args;
+}
+"
+else configureXhgui=""
+fi
+
 block="# mime types are covered in nginx.conf by:
 # http {
 #   include       mime.types;
@@ -56,6 +65,10 @@ server {
     rewrite ^/cache-buster-(?:\d+)/(.*) /\$1 last;
 
     $rewritesTXT
+
+    $configureZray
+
+    $configureXhgui
 
     # Stay secure
     #
