@@ -37,6 +37,15 @@ location /ZendServer {
 else configureZray=""
 fi
 
+if [ "$8" = "true" ]
+then configureXhgui="
+location /xhgui {
+        try_files \$uri \$uri/ /xhgui/index.php?\$args;
+}
+"
+else configureXhgui=""
+fi
+
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl http2;
@@ -89,6 +98,8 @@ block="server {
     }
 
     $configureZray
+
+    $configureXhgui
 
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ \.php$ {
