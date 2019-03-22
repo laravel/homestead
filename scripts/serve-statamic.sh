@@ -37,6 +37,15 @@ location /ZendServer {
 else configureZray=""
 fi
 
+if [ "$8" = "true" ]
+then configureXhgui="
+location /xhgui {
+        try_files \$uri \$uri/ /xhgui/index.php?\$args;
+}
+"
+else configureXhgui=""
+fi
+
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl http2;
@@ -86,6 +95,8 @@ block="server {
     }
 
     $configureZray
+
+    $configureXhgui
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;

@@ -267,7 +267,7 @@ class Homestead
           end
 
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
+          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
@@ -284,6 +284,25 @@ class Homestead
               s.inline = 'rm -rf ' + site['to'].to_s + '/ZendServer'
             end
           end
+
+          if site['xhgui'] == 'true'
+            config.vm.provision 'shell' do |s|
+              s.path = script_dir + '/install-mongo.sh'
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.path = script_dir + '/install-xhgui.sh'
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.inline = 'ln -sf /opt/xhgui/webroot ' + site['to'] + '/xhgui'
+            end
+          else
+            config.vm.provision 'shell' do |s|
+              s.inline = 'rm -rf ' + site['to'].to_s + '/xhgui'
+            end
+          end
+
         end
 
         # Configure The Cron Schedule
@@ -410,7 +429,6 @@ class Homestead
         s.path = script_dir + '/install-influxdb.sh'
       end
     end
-
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
