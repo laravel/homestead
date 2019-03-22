@@ -482,6 +482,13 @@ class Homestead
       end
     end
 
+    # Install openresty if Necessary
+    if settings.has_key?('openresty') && settings['openresty']
+      config.vm.provision 'shell' do |s|
+        s.path = script_dir + '/install-openresty.sh'
+      end
+    end
+
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
