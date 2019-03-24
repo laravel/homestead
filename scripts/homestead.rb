@@ -503,7 +503,10 @@ class Homestead
     # Install openresty if Necessary
     if settings.has_key?('openresty') && settings['openresty']
       config.vm.provision 'shell' do |s|
+        s.name = 'Installing Elasticsearch'
         s.path = script_dir + '/install-openresty.sh'
+        s.args = settings['openresty']
+        
       end
     end
 
