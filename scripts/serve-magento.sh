@@ -7,9 +7,10 @@ block="server {
 
     root \$MAGE_ROOT/pub;
 
-    index index.html index.htm index.php;
+    index index.php;
     autoindex off;
     charset utf-8;
+    error_page 404 403 = /errors/404.php;
 
 
     # PHP entry point for setup application
@@ -181,6 +182,8 @@ block="server {
         deny all;
     }
 
+    ssl_certificate     /etc/nginx/ssl/$1.crt;
+    ssl_certificate_key /etc/nginx/ssl/$1.key;
 
 }"
 
