@@ -31,7 +31,7 @@ rm -rf /etc/mysql
 # Add Maria PPA
 
 sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.3/ubuntu bionic main'
+sudo add-apt-repository 'deb [arch=amd64,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.3/ubuntu bionic main'
 apt-get update
 
 # Set The Automated Root Password
