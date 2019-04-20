@@ -202,6 +202,22 @@ class Homestead
       end
     end
 
+    # Install Crystal If Necessary
+    if settings.has_key?("crystal") && settings["crystal"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Crystal & Lucky"
+            s.path = scriptDir + "/install-crystal.sh"
+        end
+    end
+
+    # Install Zend Z-Ray If Necessary
+    if settings.has_key?("zray") && settings["zray"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Zend Z-Ray"
+            s.path = scriptDir + "/install-zray.sh"
+        end
+    end
+
     # Install All The Configured Nginx Sites
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
@@ -379,6 +395,14 @@ class Homestead
       end
     end
 
+    # Install DotNetCore If Necessary
+    if settings.has_key?("dotnetcore") && settings["dotnetcore"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing DotNet Core"
+            s.path = scriptDir + "/install-dotnet-core.sh"
+        end
+    end
+
     # Install Elasticsearch If Necessary
     if settings.has_key?('elasticsearch') && settings['elasticsearch']
       config.vm.provision 'shell' do |s|
@@ -386,6 +410,21 @@ class Homestead
         s.path = script_dir + '/install-elasticsearch.sh'
         s.args = settings['elasticsearch']
       end
+    end
+
+    # Install Go If Necessary
+    if settings.has_key?("golang") && settings["golang"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Go"
+            s.path = scriptDir + "/install-golang.sh"
+        end
+    end
+
+    # Install InfluxDB if Necessary
+    if settings.has_key?('influxdb') && settings['influxdb']
+        config.vm.provision 'shell' do |s|
+            s.path = script_dir + '/install-influxdb.sh'
+        end
     end
 
     # Install MariaDB If Necessary
@@ -423,11 +462,28 @@ class Homestead
       end
     end
 
-    # Install InfluxDB if Necessary
-    if settings.has_key?('influxdb') && settings['influxdb']
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/install-influxdb.sh'
-      end
+    # Install Oh-My-Zsh If Necessary
+    if settings.has_key?("ohmyzsh") && settings["ohmyzsh"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Oh-My-Zsh"
+            s.path = scriptDir + "/install-ohmyzsh.sh"
+        end
+    end
+
+    # Install Ruby & Rails If Necessary
+    if settings.has_key?("ruby") && settings["ruby"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Ruby & Rails"
+            s.path = scriptDir + "/install-ruby.sh"
+        end
+    end
+
+    # Install WebDriver & Dust Utils If Necessary
+    if settings.has_key?("webdriver") && settings["webdriver"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing WebDriver Utilities"
+            s.path = scriptDir + "/install-webdriver.sh"
+        end
     end
 
     # Configure All Of The Configured Databases
