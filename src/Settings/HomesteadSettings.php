@@ -154,6 +154,10 @@ abstract class HomesteadSettings
 
         if (isset($this->attributes['folders']) && ! empty($this->attributes['folders'])) {
             foreach ($this->attributes['folders'] as $index => $user_folder) {
+                if (isset($user_folder['map']) && empty($folders[$index]['map'])) {
+                    $folders[$index]['map'] = dirname($projectPath).'/'.basename($user_folder['map']);
+                }
+
                 if (isset($user_folder['to'])) {
                     $folders[$index]['to'] = $user_folder['to'];
                 }
