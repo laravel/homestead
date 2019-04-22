@@ -206,7 +206,7 @@ class Homestead
     if settings.has_key?("crystal") && settings["crystal"]
         config.vm.provision "shell" do |s|
             s.name = "Installing Crystal & Lucky"
-            s.path = scriptDir + "/install-crystal.sh"
+            s.path = script_dir + "/install-crystal.sh"
         end
     end
 
@@ -214,7 +214,7 @@ class Homestead
     if settings.has_key?("zray") && settings["zray"]
         config.vm.provision "shell" do |s|
             s.name = "Installing Zend Z-Ray"
-            s.path = scriptDir + "/install-zray.sh"
+            s.path = script_dir + "/install-zray.sh"
         end
     end
 
@@ -399,7 +399,7 @@ class Homestead
     if settings.has_key?("dotnetcore") && settings["dotnetcore"]
         config.vm.provision "shell" do |s|
             s.name = "Installing DotNet Core"
-            s.path = scriptDir + "/install-dotnet-core.sh"
+            s.path = script_dir + "/install-dotnet-core.sh"
         end
     end
 
@@ -416,7 +416,7 @@ class Homestead
     if settings.has_key?("golang") && settings["golang"]
         config.vm.provision "shell" do |s|
             s.name = "Installing Go"
-            s.path = scriptDir + "/install-golang.sh"
+            s.path = script_dir + "/install-golang.sh"
         end
     end
 
@@ -466,7 +466,7 @@ class Homestead
     if settings.has_key?("ohmyzsh") && settings["ohmyzsh"]
         config.vm.provision "shell" do |s|
             s.name = "Installing Oh-My-Zsh"
-            s.path = scriptDir + "/install-ohmyzsh.sh"
+            s.path = script_dir + "/install-ohmyzsh.sh"
         end
     end
 
@@ -474,7 +474,7 @@ class Homestead
     if settings.has_key?("ruby") && settings["ruby"]
         config.vm.provision "shell" do |s|
             s.name = "Installing Ruby & Rails"
-            s.path = scriptDir + "/install-ruby.sh"
+            s.path = script_dir + "/install-ruby.sh"
         end
     end
 
@@ -482,7 +482,7 @@ class Homestead
     if settings.has_key?("webdriver") && settings["webdriver"]
         config.vm.provision "shell" do |s|
             s.name = "Installing WebDriver Utilities"
-            s.path = scriptDir + "/install-webdriver.sh"
+            s.path = script_dir + "/install-webdriver.sh"
         end
     end
 
