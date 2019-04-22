@@ -478,7 +478,7 @@ class Homestead
         end
     end
 
-    # Install WebDriver & Dust Utils If Necessary
+    # Install WebDriver & Dusk Utils If Necessary
     if settings.has_key?("webdriver") && settings["webdriver"]
         config.vm.provision "shell" do |s|
             s.name = "Installing WebDriver Utilities"
