@@ -17,3 +17,4 @@ rbenv global 2.6.1
 apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
 gem install rails -v 5.2.2
 rbenv rehash
+chown -Rf vagrant:vagrant /home/vagrant/.rbenv
