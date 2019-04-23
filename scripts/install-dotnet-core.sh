@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.dotnetcore
+chown -Rf vagrant:vagrant /home/vagrant/.dotnetcore
 
 # Install .net core
 
