@@ -8,3 +8,4 @@ printf "\nsource ~/.bash_aliases\n" | tee -a /home/vagrant/.zshrc
 printf "\nsource ~/.profile\n" | tee -a /home/vagrant/.zshrc
 chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
 chown vagrant:vagrant /home/vagrant/.zshrc
+chsh -s /bin/zsh vagrant
