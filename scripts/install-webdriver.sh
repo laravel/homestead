@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.webdriverutils
+chown -Rf vagrant:vagrant /home/vagrant/.webdriverutils
 
 # Install The Chrome Web Driver & Dusk Utilities
 
