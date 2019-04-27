@@ -395,6 +395,14 @@ class Homestead
       end
     end
 
+    # Install Docker-CE If Necessary
+    if settings.has_key?("docker") && settings["docker"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Docker-CE"
+            s.path = script_dir + "/install-docker-ce.sh"
+        end
+    end
+
     # Install DotNetCore If Necessary
     if settings.has_key?("dotnetcore") && settings["dotnetcore"]
         config.vm.provision "shell" do |s|
