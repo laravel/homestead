@@ -10,6 +10,7 @@ then
 fi
 
 touch /home/vagrant/.mysql8
+chown -Rf vagrant:vagrant /home/vagrant/.mysql8
 
 # Disable Apparmor
 ## See https://github.com/laravel/homestead/issues/629#issue-247524528
