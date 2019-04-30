@@ -10,6 +10,7 @@ then
 fi
 
 touch /home/vagrant/.mysql8
+chown -Rf vagrant:vagrant /home/vagrant/.mysql8
 
 # Disable Apparmor
 ## See https://github.com/laravel/homestead/issues/629#issue-247524528
@@ -41,7 +42,7 @@ debconf-set-selections <<< "mysql-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
 
-apt-get install -y mysql-server=8.0.15-1ubuntu18.04
+apt-get install -y mysql-server
 
 # Configure MySQL 8 Remote Access
 echo "bind-address = 0.0.0.0" | tee -a /etc/mysql/conf.d/mysql.cnf
