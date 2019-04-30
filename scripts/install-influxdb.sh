@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.influxdb
+chown -Rf vagrant:vagrant /home/vagrant/.influxdb
 
 apt-get update
 apt-get install -y influxdb
