@@ -10,6 +10,7 @@ then
 fi
 
 touch /home/vagrant/.maria
+chown -Rf vagrant:vagrant /home/vagrant/.maria
 
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528
