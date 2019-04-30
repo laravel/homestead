@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.chronograf
+chown -Rf vagrant:vagrant /home/vagrant/.chronograf
 
 chronourl="https://dl.influxdata.com/chronograf/releases/chronograf_1.5.0.1_amd64.deb"
 

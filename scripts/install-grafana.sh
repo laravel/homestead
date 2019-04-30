@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.grafana
+chown -Rf vagrant:vagrant /home/vagrant/.grafana
 
 echo "deb https://packagecloud.io/grafana/stable/debian/ stretch main" > /etc/apt/sources.list.d/grafana.list
 curl -s https://packagecloud.io/gpg.key | apt-key add -

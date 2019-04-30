@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.couch
+chown -Rf vagrant:vagrant /home/vagrant/.couch
 
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:couchdb/stable

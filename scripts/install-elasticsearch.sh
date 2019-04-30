@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.elasticsearch
+chown -Rf vagrant:vagrant /home/vagrant/.elasticsearch
 
 # Determine version from config
 

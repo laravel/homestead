@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.xhgui
+chown -Rf vagrant:vagrant /home/vagrant/.xhgui
 
 apt install -y php-tideways
 phpenmod -v ALL tideways
