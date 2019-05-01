@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.elasticsearch
+chown -Rf vagrant:vagrant /home/vagrant/.elasticsearch
 
 # Determine version from config
 
@@ -21,19 +22,12 @@ else
     installVersion="=$1"
 fi
 
-# Install Java 8
-
-sudo add-apt-repository -y ppa:webupd8team/java
-sudo apt-get update
-echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-sudo apt-get -y install oracle-java8-installer
-
-# Install Elasticsearch
+# Install Java & Elasticsearch
 
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 echo "deb https://artifacts.elastic.co/packages/${version[0]}.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-${version[0]}.x.list
 sudo apt-get update
+sudo apt-get -y install openjdk-11-jre
 sudo apt-get -y install elasticsearch"$installVersion"
 
 # Start Elasticsearch on boot

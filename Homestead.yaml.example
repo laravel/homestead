@@ -1,0 +1,44 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/Code/quickstart-5.7
+      to: /home/vagrant/qs
+    - map: ~/Code/JoeFerguson.me-Jigsaw
+      to: /home/vagrant/joe
+
+sites:
+    - map: qs.test
+      to: /home/vagrant/qs/public
+    - map: joe.test
+      to: /home/vagrant/joe/build_local
+
+databases:
+    - homestead
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# zray:
+#  If you've already freely registered Z-Ray, you can place the token here.
+#     - email: foo@bar.com
+#       token: foo
+#  Don't forget to ensure that you have 'zray: "true"' for your site.

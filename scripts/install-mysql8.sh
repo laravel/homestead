@@ -10,6 +10,7 @@ then
 fi
 
 touch /home/vagrant/.mysql8
+chown -Rf vagrant:vagrant /home/vagrant/.mysql8
 
 # Disable Apparmor
 ## See https://github.com/laravel/homestead/issues/629#issue-247524528
@@ -29,18 +30,19 @@ rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
 # Add MySQL PPA
-wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
-dpkg -i mysql-apt-config_0.8.10-1_all.deb
+wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
+dpkg -i mysql-apt-config_0.8.12-1_all.deb
 sed -i 's/mysql-5.7/mysql-8.0/g' /etc/apt/sources.list.d/mysql.list
-rm -rf mysql-apt-config_0.8.10-1_all.deb
+rm -rf mysql-apt-config_0.8.12-1_all.deb
+apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
 apt-get update
-apt-get install -y mysql-server
 
 # Set The Automated Root Password
-
 debconf-set-selections <<< "mysql-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
+
+apt-get install -y mysql-server
 
 # Configure MySQL 8 Remote Access
 echo "bind-address = 0.0.0.0" | tee -a /etc/mysql/conf.d/mysql.cnf

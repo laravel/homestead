@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-declare -A headers=$9      # Create an associative array
-declare -A rewrites=${10}  # Create an associative array
+declare -A headers=${10}   # Create an associative array
+declare -A rewrites=${11}  # Create an associative array
 headersTXT=""
-if [ -n "$9" ]; then
+if [ -n "${10}" ]; then
    for element in "${!headers[@]}"
    do
       headersTXT="${headersTXT}
@@ -11,7 +11,7 @@ if [ -n "$9" ]; then
    done
 fi
 rewritesTXT=""
-if [ -n "${10}" ]; then
+if [ -n "${11}" ]; then
    for element in "${!rewrites[@]}"
    do
       rewritesTXT="${rewritesTXT}
@@ -26,6 +26,15 @@ location /ZendServer {
 }
 "
 else configureZray=""
+fi
+
+if [ "$8" = "true" ]
+then configureXhgui="
+location /xhgui {
+        try_files \$uri \$uri/ /xhgui/index.php?\$args;
+}
+"
+else configureXhgui=""
 fi
 
 block="server {
@@ -72,6 +81,8 @@ block="server {
     }
 
     $configureZray
+
+    $configureXhgui
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;

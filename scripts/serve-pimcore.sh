@@ -4,10 +4,10 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y php"$5"-bz2
 
-declare -A headers=$9      # Create an associative array
-declare -A rewrites=${10}  # Create an associative array
+declare -A headers=${10}   # Create an associative array
+declare -A rewrites=${11}  # Create an associative array
 headersTXT=""
-if [ -n "$9" ]; then
+if [ -n "${10}" ]; then
    for element in "${!headers[@]}"
    do
       headersTXT="${headersTXT}
@@ -15,7 +15,7 @@ if [ -n "$9" ]; then
    done
 fi
 rewritesTXT=""
-if [ -n "${10}" ]; then
+if [ -n "${11}" ]; then
    for element in "${!rewrites[@]}"
    do
       rewritesTXT="${rewritesTXT}
@@ -30,6 +30,15 @@ location /ZendServer {
 }
 "
 else configureZray=""
+fi
+
+if [ "$8" = "true" ]
+then configureXhgui="
+location /xhgui {
+        try_files \$uri \$uri/ /xhgui/index.php?\$args;
+}
+"
+else configureXhgui=""
 fi
 
 block="# mime types are covered in nginx.conf by:
@@ -56,6 +65,10 @@ server {
     rewrite ^/cache-buster-(?:\d+)/(.*) /\$1 last;
 
     $rewritesTXT
+
+    $configureZray
+
+    $configureXhgui
 
     # Stay secure
     #

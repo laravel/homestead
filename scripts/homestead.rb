@@ -18,7 +18,7 @@ class Homestead
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead-7'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
-    config.vm.box_version = settings['version'] ||= '>= 7.0.0'
+    config.vm.box_version = settings['version'] ||= '>= 7.2.1'
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
     # Configure A Private Network IP
@@ -68,7 +68,7 @@ class Homestead
 
     # Configure A Few Hyper-V Settings
     config.vm.provider "hyperv" do |h, override|
-      h.vmname = settings['names'] ||= 'homestead-7'
+      h.vmname = settings['name'] ||= 'homestead-7'
       h.cpus = settings['cpus'] ||= 1
       h.memory = settings['memory'] ||= 2048
       h.linked_clone = true
@@ -202,14 +202,30 @@ class Homestead
       end
     end
 
+    # Install Crystal If Necessary
+    if settings.has_key?("crystal") && settings["crystal"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Crystal & Lucky"
+            s.path = script_dir + "/install-crystal.sh"
+        end
+    end
+
+    # Install Zend Z-Ray If Necessary
+    if settings.has_key?("zray") && settings["zray"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Zend Z-Ray"
+            s.path = script_dir + "/install-zray.sh"
+        end
+    end
+
     # Install All The Configured Nginx Sites
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
     end
 
     if settings.include? 'sites'
-      socket = { 'map' => 'socket-wrench.test', 'to' => '/var/www/socket-wrench/public' }
-      settings['sites'].unshift(socket)
+      # socket = { 'map' => 'socket-wrench.test', 'to' => '/var/www/socket-wrench/public' }
+      # settings['sites'].unshift(socket)
 
       settings['sites'].each do |site|
 
@@ -267,7 +283,7 @@ class Homestead
           end
 
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
+          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
 
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
@@ -284,6 +300,25 @@ class Homestead
               s.inline = 'rm -rf ' + site['to'].to_s + '/ZendServer'
             end
           end
+
+          if site['xhgui'] == 'true'
+            config.vm.provision 'shell' do |s|
+              s.path = script_dir + '/install-mongo.sh'
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.path = script_dir + '/install-xhgui.sh'
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.inline = 'ln -sf /opt/xhgui/webroot ' + site['to'] + '/xhgui'
+            end
+          else
+            config.vm.provision 'shell' do |s|
+              s.inline = 'rm -rf ' + site['to'].to_s + '/xhgui'
+            end
+          end
+
         end
 
         # Configure The Cron Schedule
@@ -360,6 +395,22 @@ class Homestead
       end
     end
 
+    # Install Docker-CE If Necessary
+    if settings.has_key?("docker") && settings["docker"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Docker-CE"
+            s.path = script_dir + "/install-docker-ce.sh"
+        end
+    end
+
+    # Install DotNetCore If Necessary
+    if settings.has_key?("dotnetcore") && settings["dotnetcore"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing DotNet Core"
+            s.path = script_dir + "/install-dotnet-core.sh"
+        end
+    end
+
     # Install Elasticsearch If Necessary
     if settings.has_key?('elasticsearch') && settings['elasticsearch']
       config.vm.provision 'shell' do |s|
@@ -367,6 +418,21 @@ class Homestead
         s.path = script_dir + '/install-elasticsearch.sh'
         s.args = settings['elasticsearch']
       end
+    end
+
+    # Install Go If Necessary
+    if settings.has_key?("golang") && settings["golang"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Go"
+            s.path = script_dir + "/install-golang.sh"
+        end
+    end
+
+    # Install InfluxDB if Necessary
+    if settings.has_key?('influxdb') && settings['influxdb']
+        config.vm.provision 'shell' do |s|
+            s.path = script_dir + '/install-influxdb.sh'
+        end
     end
 
     # Install MariaDB If Necessary
@@ -404,17 +470,33 @@ class Homestead
       end
     end
 
-    # Install InfluxDB if Necessary
-    if settings.has_key?('influxdb') && settings['influxdb']
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/install-influxdb.sh'
-      end
+    # Install Oh-My-Zsh If Necessary
+    if settings.has_key?("ohmyzsh") && settings["ohmyzsh"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Oh-My-Zsh"
+            s.path = script_dir + "/install-ohmyzsh.sh"
+        end
     end
 
+    # Install Ruby & Rails If Necessary
+    if settings.has_key?("ruby") && settings["ruby"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Ruby & Rails"
+            s.path = script_dir + "/install-ruby.sh"
+        end
+    end
+
+    # Install WebDriver & Dusk Utils If Necessary
+    if settings.has_key?("webdriver") && settings["webdriver"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing WebDriver Utilities"
+            s.path = script_dir + "/install-webdriver.sh"
+        end
+    end
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
-      settings['databases'].unshift('socket_wrench')
+      # settings['databases'].unshift('socket_wrench')
 
       settings['databases'].each do |db|
         config.vm.provision 'shell' do |s|
@@ -485,7 +567,7 @@ class Homestead
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
-      s.inline = 'sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.composer/'
+      s.inline = 'sudo chown -R vagrant:vagrant /usr/local/bin && sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.composer/'
       s.privileged = false
     end
 
@@ -525,10 +607,10 @@ class Homestead
     # Turn off CFQ scheduler idling https://github.com/laravel/homestead/issues/896
     if settings.has_key?('disable_cfq')
       config.vm.provision 'shell' do |s|
-        s.inline = 'sudo echo 0 >/sys/block/sda/queue/iosched/slice_idle'
+        s.inline = 'sudo sh -c "echo 0 >> /sys/block/sda/queue/iosched/slice_idle"'
       end
       config.vm.provision 'shell' do |s|
-        s.inline = 'sudo echo 0 >/sys/block/sda/queue/iosched/group_idle'
+        s.inline = 'sudo sh -c "echo 0 >> /sys/block/sda/queue/iosched/group_idle"'
       end
     end
   end

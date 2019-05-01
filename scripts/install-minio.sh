@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.minio
+chown -Rf vagrant:vagrant /home/vagrant/.minio
 
 curl -sO https://dl.minio.io/server/minio/release/linux-amd64/minio
 
