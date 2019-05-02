@@ -2,7 +2,7 @@
 
 # Check If python Has Been Installed
 
-if [ -f /home/vagrant/.python ]
+if [ -f /home/vagrant/.pythontools ]
 then
     echo "python already installed."
     exit 0
