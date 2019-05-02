@@ -478,6 +478,14 @@ class Homestead
         end
     end
 
+    # Install Python If Necessary
+    if settings.has_key?("python") && settings["python"]
+        config.vm.provision "shell" do |s|
+            s.name = "Installing Python"
+            s.path = script_dir + "/install-python.sh"
+        end
+    end
+
     # Install Ruby & Rails If Necessary
     if settings.has_key?("ruby") && settings["ruby"]
         config.vm.provision "shell" do |s|
