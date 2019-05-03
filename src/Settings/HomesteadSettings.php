@@ -128,6 +128,10 @@ abstract class HomesteadSettings
                 if (isset($user_site['php'])) {
                     $sites[$index]['php'] = $user_site['php'];
                 }
+
+                if (isset($user_site['xhgui'])) {
+                    $sites[$index]['xhgui'] = $user_site['xhgui'];
+                }
             }
         }
 
