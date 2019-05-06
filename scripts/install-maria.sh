@@ -39,13 +39,13 @@ apt-get update
 
 export DEBIAN_FRONTEND=noninteractive
 
-debconf-set-selections <<< "mariadb-server-10.4 mysql-server/data-dir select ''"
-debconf-set-selections <<< "mariadb-server-10.4 mysql-server/root_password password secret"
-debconf-set-selections <<< "mariadb-server-10.4 mysql-server/root_password_again password secret"
+debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
+debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
+debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password secret"
 
 # Install MariaDB
 
-apt-get install -y mariadb-server-10.4
+apt-get install -y mariadb-server
 
 # Configure Maria Remote Access
 
