@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Install Ruby & RVM
+# Install Ruby & rbenv
 
 apt-get -y install libssl-dev libyaml-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common \
-libffi-dev rbenv
+libffi-dev
 
 git clone https://github.com/rbenv/rbenv.git /home/vagrant/.rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc
