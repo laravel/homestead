@@ -13,9 +13,10 @@ echo 'eval "$(rbenv init -)"' >> /home/vagrant/.profile
 git clone https://github.com/rbenv/ruby-build.git /home/vagrant/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/.profile
 
-rbenv install 2.6.1
-rbenv global 2.6.1
-apt-get -y install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
-gem install rails -v 5.2.2
-rbenv rehash
 chown -Rf vagrant:vagrant /home/vagrant/.rbenv
+
+# Run as vagrant user
+sudo -i -u vagrant -- rbenv install 2.6.1
+sudo -i -u vagrant -- rbenv global 2.6.1
+sudo -i -u vagrant -- rbenv rehash
+sudo -i -u vagrant -- gem install rails -v 5.2.2
