@@ -103,4 +103,5 @@ block="server {
 
 echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
-#echo "127.0.0.1 $1" >> /etc/hosts
+
+sudo /vagrant/scripts/hosts-add.sh '127.0.0.1' "$1"
