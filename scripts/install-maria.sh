@@ -31,7 +31,7 @@ rm -rf /etc/mysql
 
 # Add Maria PPA
 
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xF1656F24C74CD1D8
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-keys 0xF1656F24C74CD1D8
 sudo add-apt-repository 'deb [arch=amd64,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.4/ubuntu bionic main'
 apt-get update
 

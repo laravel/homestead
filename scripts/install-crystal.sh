@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Install Crystal Programming Language Support
-apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-keys 09617FD37CC06B54
+apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys 09617FD37CC06B54
 echo "deb https://dist.crystal-lang.org/apt crystal main" | tee /etc/apt/sources.list.d/crystal.list
 apt-get update
 apt-get install -y crystal
