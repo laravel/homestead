@@ -223,6 +223,11 @@ class Homestead
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
     end
+    
+    # Clear any Homestead sites and insert markers in /etc/hosts
+    config.vm.provision 'shell' do |s|
+      s.path = script_dir + '/hosts-reset.sh'
+    end
 
     if settings.include? 'sites'
       # socket = { 'map' => 'socket-wrench.test', 'to' => '/var/www/socket-wrench/public' }
