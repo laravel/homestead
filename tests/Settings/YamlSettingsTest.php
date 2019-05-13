@@ -19,7 +19,7 @@ class YamlSettingsTest extends TestCase
         $this->assertArraySubset([
             'ip' => '192.168.10.10',
             'memory' => '2048',
-            'cpus' => '1',
+            'cpus' => '2',
         ], $settings->toArray());
     }
 
