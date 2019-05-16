@@ -12,7 +12,7 @@ then
             echo "$HOSTNAME already exists:";
             echo $(grep [^\.]$HOSTNAME /etc/hosts);
         else
-            sudo sed -i "/#### HOMESTEAD-SITES-BEGIN/c\#### HOMESTEAD-SITES-BEGIN\\n$IP\t$HOSTNAME\twww.$HOSTNAME" /etc/hosts
+            sudo sed -i "/#### HOMESTEAD-SITES-BEGIN/c\#### HOMESTEAD-SITES-BEGIN\\n$IP\t$HOSTNAME" /etc/hosts
 
             if ! [ -n "$(grep [^\.]$HOSTNAME /etc/hosts)" ]
                 then
