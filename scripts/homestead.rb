@@ -211,14 +211,6 @@ class Homestead
         end
     end
 
-    # Install Zend Z-Ray If Necessary
-    if settings.has_key?("zray") && settings["zray"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing Zend Z-Ray"
-            s.path = script_dir + "/install-zray.sh"
-        end
-    end
-
     # Install All The Configured Nginx Sites
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
@@ -289,23 +281,7 @@ class Homestead
           end
 
           s.path = script_dir + "/serve-#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
-
-          if site['zray'] == 'true'
-            config.vm.provision 'shell' do |s|
-              s.inline = 'ln -sf /opt/zray/gui/public ' + site['to'] + '/ZendServer'
-            end
-            config.vm.provision 'shell' do |s|
-              s.inline = 'ln -sf /opt/zray/lib/zray.so /usr/lib/php/20170718/zray.so'
-            end
-            config.vm.provision 'shell' do |s|
-              s.inline = 'ln -sf /opt/zray/zray.ini /etc/php/7.2/fpm/conf.d/zray.ini'
-            end
-          else
-            config.vm.provision 'shell' do |s|
-              s.inline = 'rm -rf ' + site['to'].to_s + '/ZendServer'
-            end
-          end
+          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
 
           if site['xhgui'] == 'true'
             config.vm.provision 'shell' do |s|

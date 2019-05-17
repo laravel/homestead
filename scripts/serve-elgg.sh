@@ -28,15 +28,6 @@ if [ -n "${11}" ]; then
    done
 fi
 
-if [ "$7" = "true" ] && [ "$5" = "7.2" ]
-then configureZray="
-location /ZendServer {
-        try_files \$uri \$uri/ /ZendServer/index.php?\$args;
-}
-"
-else configureZray=""
-fi
-
 if [ "$8" = "true" ]
 then configureXhgui="
 location /xhgui {
@@ -96,8 +87,6 @@ block="server {
         try_files \$uri \$uri/ @elgg;
         $headersTXT
     }
-
-    $configureZray
 
     $configureXhgui
 
