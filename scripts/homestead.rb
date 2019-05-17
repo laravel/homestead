@@ -409,14 +409,6 @@ class Homestead
         end
     end
 
-    # Install DotNetCore If Necessary
-    if settings.has_key?("dotnetcore") && settings["dotnetcore"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing DotNet Core"
-            s.path = script_dir + "/install-dotnet-core.sh"
-        end
-    end
-
     # Install Elasticsearch If Necessary
     if settings.has_key?('elasticsearch') && settings['elasticsearch']
       config.vm.provision 'shell' do |s|
