@@ -492,14 +492,6 @@ class Homestead
         end
     end
 
-    # Install Ruby & Rails If Necessary
-    if settings.has_key?("ruby") && settings["ruby"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing Ruby & Rails"
-            s.path = script_dir + "/install-ruby.sh"
-        end
-    end
-
     # Install WebDriver & Dusk Utils If Necessary
     if settings.has_key?("webdriver") && settings["webdriver"]
         config.vm.provision "shell" do |s|
