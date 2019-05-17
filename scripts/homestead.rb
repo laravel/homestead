@@ -285,6 +285,19 @@ class Homestead
           s.path = script_dir + "/serve-#{type}.sh"
           s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['zray'] ||= 'false', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
 
+          # generate pm2 json config file
+          if site['pm2']
+            config.vm.provision "shell" do |s2|
+              s2.name = 'Creating Site Ecosystem for pm2: ' + site['map']
+              s2.path = script_dir + "/create-ecosystem.sh"
+              s2.args = Array.new
+              s2.args << site['pm2'][0]['name']
+              s2.args << site['pm2'][0]['script'] ||= "npm"
+              s2.args << site['pm2'][0]['args'] ||= "run serve"
+              s2.args << site['pm2'][0]['cwd']
+            end
+          end
+
           if site['zray'] == 'true'
             config.vm.provision 'shell' do |s|
               s.inline = 'ln -sf /opt/zray/gui/public ' + site['to'] + '/ZendServer'
@@ -395,6 +408,15 @@ class Homestead
       end
     end
 
+     # Install Elasticsearch If Necessary
+    if settings.has_key?('elasticsearch') && settings['elasticsearch']
+      config.vm.provision 'shell' do |s|
+        s.name = 'Installing Elasticsearch'
+        s.path = script_dir + '/install-elasticsearch.sh'
+        s.args = settings['elasticsearch']
+      end
+    end
+
     # Install DotNetCore If Necessary
     if settings.has_key?("dotnetcore") && settings["dotnetcore"]
         config.vm.provision "shell" do |s|
@@ -404,11 +426,11 @@ class Homestead
     end
 
     # Install Elasticsearch If Necessary
-    if settings.has_key?('elasticsearch') && settings['elasticsearch']
+    if settings.has_key?('pm2') && settings['pm2']
       config.vm.provision 'shell' do |s|
-        s.name = 'Installing Elasticsearch'
-        s.path = script_dir + '/install-elasticsearch.sh'
-        s.args = settings['elasticsearch']
+        s.name = 'Installing pm2'
+        s.path = script_dir + '/install-pm2.sh'
+        s.args = settings['pm2']
       end
     end
 
