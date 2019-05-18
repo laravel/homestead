@@ -296,22 +296,6 @@ class Homestead
             end
           end
 
-          if site['zray'] == 'true'
-            config.vm.provision 'shell' do |s|
-              s.inline = 'ln -sf /opt/zray/gui/public ' + site['to'] + '/ZendServer'
-            end
-            config.vm.provision 'shell' do |s|
-              s.inline = 'ln -sf /opt/zray/lib/zray.so /usr/lib/php/20170718/zray.so'
-            end
-            config.vm.provision 'shell' do |s|
-              s.inline = 'ln -sf /opt/zray/zray.ini /etc/php/7.2/fpm/conf.d/zray.ini'
-            end
-          else
-            config.vm.provision 'shell' do |s|
-              s.inline = 'rm -rf ' + site['to'].to_s + '/ZendServer'
-            end
-          end
-
           if site['xhgui'] == 'true'
             config.vm.provision 'shell' do |s|
               s.path = script_dir + '/install-mongo.sh'
