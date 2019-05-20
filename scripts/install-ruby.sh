@@ -16,7 +16,7 @@ echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> /home/vagrant/
 chown -Rf vagrant:vagrant /home/vagrant/.rbenv
 
 # Run as vagrant user
-sudo -i -u vagrant -- rbenv install 2.6.1
-sudo -i -u vagrant -- rbenv global 2.6.1
+sudo -i -u vagrant -- rbenv install 2.6.3
+sudo -i -u vagrant -- rbenv global 2.6.3
 sudo -i -u vagrant -- rbenv rehash
-sudo -i -u vagrant -- gem install rails -v 5.2.2
+sudo -i -u vagrant -- gem install rails -v 5.2.3
