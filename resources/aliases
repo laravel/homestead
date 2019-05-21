@@ -254,9 +254,11 @@ function xphp() {
     fi
 
     if ! $XDEBUG_ENABLED; then xon; fi
+	
+    HOST_IP=$(last --limit=1 | grep -oP '\d+(\.\d+){3}')
 
     php \
-        -dxdebug.remote_host=192.168.10.1 \
+        -dxdebug.remote_host=${HOST_IP} \
         -dxdebug.remote_autostart=1 \
         "$@"
 
