@@ -375,13 +375,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install InfluxDB if Necessary
-    if settings.has_key?('influxdb') && settings['influxdb']
-        config.vm.provision 'shell' do |s|
-            s.path = script_dir + '/install-influxdb.sh'
-        end
-    end
-
     # Install MariaDB If Necessary
     if settings.has_key?('mariadb') && settings['mariadb']
       config.vm.provision 'shell' do |s|
