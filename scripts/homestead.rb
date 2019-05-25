@@ -375,14 +375,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install Oh-My-Zsh If Necessary
-    if settings.has_key?("ohmyzsh") && settings["ohmyzsh"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing Oh-My-Zsh"
-            s.path = script_dir + "/install-ohmyzsh.sh"
-        end
-    end
-
     # Install Python If Necessary
     if settings.has_key?("python") && settings["python"]
         config.vm.provision "shell" do |s|
