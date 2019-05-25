@@ -203,6 +203,37 @@ class Homestead
       end
     end
 
+    # Install opt-in features
+    if settings.has_key?('features')
+      settings['features'].each do |feature|
+        feature_name = feature.keys[0]
+        feature_arguments = feature[feature_name]
+        feature_path = script_dir + "/features/" + feature_name + ".sh"
+
+        # Check for boolean parameters
+        # Compares against true/false to show that it really means "<feature>: <boolean>"
+        if feature_arguments == false
+          config.vm.provision "shell", inline: "echo Ignoring feature: #{feature_name} because it is set to false \n"
+          next
+        elsif feature_arguments == true
+          # If feature_arguments is true, set it to empty, so it could be passed to script without problem
+          feature_arguments = ""
+        end
+
+        # Check if feature really exists
+        if !File.exist? File.expand_path(feature_path)
+          config.vm.provision "shell", inline: "echo Invalid feature: #{feature_name} \n"
+          next
+        end
+
+        config.vm.provision "shell" do |s|
+          s.name = "Installing " + feature_name
+          s.path = feature_path
+          s.args = [feature_arguments]
+        end
+      end
+    end
+
     # Install All The Configured Nginx Sites
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
@@ -480,36 +511,6 @@ class Homestead
       end
     end
 
-    # Install opt-in features
-    if settings.has_key?('features')
-      settings['features'].each do |feature|
-        feature_name = feature.keys[0]
-        feature_arguments = feature[feature_name]
-        feature_path = script_dir + "/features/" + feature_name + ".sh"
-
-        # Check for boolean parameters
-        # Compares against true/false to show that it really means "<feature>: <boolean>"
-        if feature_arguments == false
-          config.vm.provision "shell", inline: "echo Ignoring feature: #{feature_name} because it is set to false \n"
-          next
-        elsif feature_arguments == true
-          # If feature_arguments is true, set it to empty, so it could be passed to script without problem
-          feature_arguments = ""
-        end
-
-        # Check if feature really exists
-        if !File.exist? File.expand_path(feature_path)
-          config.vm.provision "shell", inline: "echo Invalid feature: #{feature_name} \n"
-          next
-        end
-
-        config.vm.provision "shell" do |s|
-          s.name = "Installing " + feature_name
-          s.path = feature_path
-          s.args = [feature_arguments]
-        end
-      end
-    end
   end
 
   def self.backup_mysql(database, dir, config)
