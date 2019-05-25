@@ -383,13 +383,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install CouchDB If Necessary
-    if settings.has_key?('couchdb') && settings['couchdb']
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/install-couch.sh'
-      end
-    end
-
     # Install Docker-CE If Necessary
     if settings.has_key?("docker") && settings["docker"]
         config.vm.provision "shell" do |s|
