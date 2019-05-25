@@ -180,7 +180,7 @@ class Homestead
           elsif folder['type'] == 'smb'
             mount_opts = folder['mount_options'] ? folder['mount_options'] : ['vers=3.02', 'mfsymlinks']
 
-            smb_creds = {'smb_host': folder['smb_host'], 'smb_username': folder['smb_username'], 'smb_password': folder['smb_password']}
+            smb_creds = {smb_host: folder['smb_host'], smb_username: folder['smb_username'], smb_password: folder['smb_password']}
           end
 
           # For b/w compatibility keep separate 'mount_opts', but merge with options
