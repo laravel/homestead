@@ -543,14 +543,6 @@ class Homestead
       end
     end
 
-
-    # Install chronograf if Necessary
-    if settings.has_key?('chronograf') && settings['chronograf']
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/install-chronograf.sh'
-      end
-    end
-
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
