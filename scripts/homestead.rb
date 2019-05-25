@@ -375,13 +375,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install MySQL 8 If Necessary
-    if settings.has_key?('mysql8') && settings['mysql8']
-        config.vm.provision 'shell' do |s|
-            s.path = script_dir + '/install-mysql8.sh'
-        end
-    end
-
     # Install Neo4j If Necessary
     if settings.has_key?('neo4j') && settings['neo4j']
       config.vm.provision 'shell' do |s|
