@@ -484,19 +484,6 @@ class Homestead
       s.privileged = false
     end
 
-    # Configure Blackfire.io
-    if settings.has_key?('blackfire')
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/features/blackfire.sh'
-        s.args = [
-          settings['blackfire'][0]['id'],
-          settings['blackfire'][0]['token'],
-          settings['blackfire'][0]['client-id'],
-          settings['blackfire'][0]['client-token']
-        ]
-      end
-    end
-
     # Add config file for ngrok
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/create-ngrok.sh'
