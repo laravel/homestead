@@ -203,14 +203,6 @@ class Homestead
       end
     end
 
-    # Install Crystal If Necessary
-    if settings.has_key?("crystal") && settings["crystal"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing Crystal & Lucky"
-            s.path = script_dir + "/install-crystal.sh"
-        end
-    end
-
     # Install All The Configured Nginx Sites
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
