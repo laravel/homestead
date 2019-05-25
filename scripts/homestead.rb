@@ -375,14 +375,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install Python If Necessary
-    if settings.has_key?("python") && settings["python"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing Python"
-            s.path = script_dir + "/install-python.sh"
-        end
-    end
-
     # Install WebDriver & Dusk Utils If Necessary
     if settings.has_key?("webdriver") && settings["webdriver"]
         config.vm.provision "shell" do |s|
