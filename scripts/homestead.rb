@@ -375,13 +375,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install MariaDB If Necessary
-    if settings.has_key?('mariadb') && settings['mariadb']
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/install-maria.sh'
-      end
-    end
-
     # Install Minio If Necessary
     if settings.has_key?('minio') && settings['minio']
       config.vm.provision 'shell' do |s|
