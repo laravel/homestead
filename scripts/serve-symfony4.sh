@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
+declare -A params=$6       # Create an associative array
 declare -A headers=${10}   # Create an associative array
 declare -A rewrites=${11}  # Create an associative array
+paramsTXT=""
+if [ -n "$6" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
+fi
 headersTXT=""
 if [ -n "${10}" ]; then
    for element in "${!headers[@]}"
@@ -61,6 +70,7 @@ block="server {
         fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        $paramsTXT
 
         fastcgi_intercept_errors off;
         fastcgi_buffer_size 16k;
