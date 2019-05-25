@@ -375,14 +375,6 @@ class Homestead
       s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
-    # Install Go If Necessary
-    if settings.has_key?("golang") && settings["golang"]
-        config.vm.provision "shell" do |s|
-            s.name = "Installing Go"
-            s.path = script_dir + "/install-golang.sh"
-        end
-    end
-
     # Install InfluxDB if Necessary
     if settings.has_key?('influxdb') && settings['influxdb']
         config.vm.provision 'shell' do |s|
