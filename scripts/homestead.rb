@@ -496,13 +496,6 @@ class Homestead
         end
     end
 
-    # Install grafana if Necessary
-    if settings.has_key?('influxdb') && settings['influxdb']
-      config.vm.provision 'shell' do |s|
-        s.path = script_dir + '/install-grafana.sh'
-      end
-    end
-
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
