@@ -410,6 +410,22 @@ class Homestead
     if settings.has_key?('databases')
       # settings['databases'].unshift('socket_wrench')
 
+      # Check which databases are enabled
+      enabled_databases = Array.new
+      if settings.has_key?('features')
+        settings['features'].each do |feature|
+          feature_name = feature.keys[0]
+          feature_arguments = feature[feature_name]
+
+          # If feature is set to false, ignore
+          if feature_arguments == false
+            next
+          end
+
+          enabled_databases.push feature_name
+        end
+      end
+
       settings['databases'].each do |db|
         config.vm.provision 'shell' do |s|
           s.name = 'Creating MySQL Database: ' + db
@@ -423,7 +439,7 @@ class Homestead
           s.args = [db]
         end
 
-        if settings.has_key?('mongodb') && settings['mongodb']
+        if enabled_databases.include? 'mongodb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Mongo Database: ' + db
             s.path = script_dir + '/create-mongo.sh'
@@ -431,7 +447,7 @@ class Homestead
           end
         end
 
-        if settings.has_key?('couchdb') && settings['couchdb']
+        if enabled_databases.include? 'couchdb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Couch Database: ' + db
             s.path = script_dir + '/create-couch.sh'
@@ -439,7 +455,7 @@ class Homestead
           end
         end
 
-        if settings.has_key?('influxdb') && settings['influxdb']
+        if enabled_databases.include? 'influxdb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating InfluxDB Database: ' + db
             s.path = script_dir + '/create-influxdb.sh'
