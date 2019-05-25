@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
+echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
+
+# Install Blackfire
+
+apt-get install -y blackfire-agent blackfire-php
+
 agent="[blackfire]
 ca-cert=
 collector=https://blackfire.io
