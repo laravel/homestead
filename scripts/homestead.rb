@@ -283,6 +283,9 @@ class Homestead
           s.path = script_dir + "/serve-#{type}.sh"
           s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
 
+          s.path = script_dir + "/hosts-add.sh"
+          s.args = ['127.0.0.1', site['map']]
+
           # generate pm2 json config file
           if site['pm2']
             config.vm.provision "shell" do |s2|
