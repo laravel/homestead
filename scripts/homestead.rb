@@ -339,6 +339,11 @@ class Homestead
 
         end
 
+        config.vm.provision 'shell' do |s|
+          s.path = script_dir + "/hosts-add.sh"
+          s.args = ['127.0.0.1', site['map']]
+        end
+
         # Configure The Cron Schedule
         if site.has_key?('schedule')
           config.vm.provision 'shell' do |s|
