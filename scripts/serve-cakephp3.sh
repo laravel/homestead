@@ -105,6 +105,21 @@ server {
 }
 "
 
+# Restart nginx if it started before vagrant path was mounted
+# (happens after stopping and restarting the VM)
+timer="[Unit]
+Description=Nginx delay
+
+[Timer]
+OnStartupSec=40sec
+
+[Install]
+WantedBy=timers.target
+"
+
+echo "$timer" > "/lib/systemd/system/nginx.timer"
+systemctl enable nginx.timer
+
 echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
 #echo "127.0.0.1 $1" >> /etc/hosts
