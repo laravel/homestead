@@ -456,6 +456,13 @@ class Homestead
       end
     end
 
+    # Install Solr If Necessary
+    if settings.has_key?('solr') && settings['solr']
+      config.vm.provision 'shell' do |s|
+        s.path = script_dir + '/install-solr.sh'
+      end
+    end
+
     # Install MySQL 8 If Necessary
     if settings.has_key?('mysql8') && settings['mysql8']
         config.vm.provision 'shell' do |s|
@@ -523,6 +530,14 @@ class Homestead
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Mongo Database: ' + db
             s.path = script_dir + '/create-mongo.sh'
+            s.args = [db]
+          end
+        end
+
+        if settings.has_key?('solr') && settings['solr']
+          config.vm.provision 'shell' do |s|
+            s.name = 'Creating Solr Database: ' + db
+            s.path = script_dir + '/create-solr.sh'
             s.args = [db]
           end
         end
