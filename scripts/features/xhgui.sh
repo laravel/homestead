@@ -2,14 +2,14 @@
 
 # Check If xhgui Has Been Installed
 
-if [ -f /home/vagrant/.xhgui ]
+if [ -f /home/vagrant/.homestead-features/xhgui ]
 then
     echo "xhgui already installed."
     exit 0
 fi
 
-touch /home/vagrant/.xhgui
-chown -Rf vagrant:vagrant /home/vagrant/.xhgui
+touch /home/vagrant/.homestead-features/xhgui
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/xhgui
 
 apt install -y php-tideways
 phpenmod -v ALL tideways
