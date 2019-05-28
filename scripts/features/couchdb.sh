@@ -2,14 +2,14 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/vagrant/.couch ]
+if [ -f /home/vagrant/.homestead-features/couchdb ]
 then
     echo "CouchDB already installed."
     exit 0
 fi
 
-touch /home/vagrant/.couch
-chown -Rf vagrant:vagrant /home/vagrant/.couch
+touch /home/vagrant/.homestead-features/couchdb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/couchdb
 
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:couchdb/stable

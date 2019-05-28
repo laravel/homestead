@@ -203,6 +203,10 @@ class Homestead
       end
     end
 
+    # Creates folder for opt-in features lockfiles
+    config.vm.provision "shell", inline: "mkdir /home/vagrant/.homestead-features"
+    config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
+
     # Install opt-in features
     if settings.has_key?('features')
       settings['features'].each do |feature|
