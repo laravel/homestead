@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Install Java Runtime Enviroment
-sudo apt-get update
-sudo apt-get install default-jre php-solr -y
+sudo apt update
+sudo apt install default-jre php-solr -y
 
 # Install Solr 7.7.1
 wget -q http://archive.apache.org/dist/lucene/solr/7.7.1/solr-7.7.1.tgz
