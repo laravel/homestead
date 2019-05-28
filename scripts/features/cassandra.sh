@@ -2,9 +2,9 @@
 
 # Install Cassandra and driver dependencies
 echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
-curl -s https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+wget -q -O - https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
 sudo DEBIAN_FRONTEND=noninteractive apt update
-sudo DEBIAN_FRONTEND=noninteractive apt install cassandra default-jre git libgmp-dev php7.1-dev php7.2-dev php7.3-dev -y
+sudo DEBIAN_FRONTEND=noninteractive apt install cassandra openjdk-8-jdk git libgmp-dev php7.1-dev php7.2-dev php7.3-dev -y
 
 # Start Cassandra and boot at runtime
 sudo service cassandra start
@@ -69,3 +69,9 @@ sudo phpenmod cassandra
 
 # Clean Up
 sudo rm -R /usr/src/php-driver
+
+# Just in case other Java versions exist, set JAVA_HOME, because Cassandra doesn't work with newer
+# Java versions than Java 8
+echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" | sudo tee -a /etc/default/cassandra
+sudo service cassandra stop
+sudo service cassandra start
