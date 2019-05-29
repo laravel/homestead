@@ -204,7 +204,7 @@ class Homestead
     end
 
     # Creates folder for opt-in features lockfiles
-    config.vm.provision "shell", inline: "mkdir /home/vagrant/.homestead-features"
+    config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
     # Install opt-in features
@@ -411,7 +411,7 @@ class Homestead
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php5.6-fpm restart; php7.0-fpm restart; php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
+        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
       end
     end
 
@@ -422,7 +422,7 @@ class Homestead
 
     config.vm.provision 'shell' do |s|
       s.name = 'Restarting Nginx'
-      s.inline = 'sudo service nginx restart; sudo service php5.6-fpm restart; php7.0-fpm restart;php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
+      s.inline = 'sudo service nginx restart;sudo service php5.6-fpm restart;sudo service php7.0-fpm restart;sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
     # Configure All Of The Configured Databases
