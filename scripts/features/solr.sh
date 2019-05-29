@@ -6,6 +6,8 @@ then
     exit 0
 fi
 
+touch /home/vagrant/.homestead-features/solr
+
 # Install Java Runtime Enviroment
 sudo apt update
 sudo apt install default-jre php-solr -y

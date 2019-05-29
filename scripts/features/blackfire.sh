@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if [ -f /home/vagrant/.homestead-features/blackfire ]
+then
+    echo "blackfire already installed."
+    exit 0
+fi
+
+touch /home/vagrant/.homestead-features/blackfire
+
 wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 

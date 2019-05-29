@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if [ -f /home/vagrant/.homestead-features/cassandra ]
+then
+    echo "Cassandra already installed."
+    exit 0
+fi
+
+touch /home/vagrant/.homestead-features/cassandra
+
 # Install Cassandra and driver dependencies
 echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
 wget -q -O - https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -

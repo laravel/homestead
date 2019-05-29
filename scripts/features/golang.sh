@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if [ -f /home/vagrant/.homestead-features/go ]
+then
+    echo "Golang already installed."
+    exit 0
+fi
+
+touch /home/vagrant/.homestead-features/go
+
 # Install Golang
 
 golangVersion="1.12.5"

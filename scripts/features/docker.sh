@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if [ -f /home/vagrant/.homestead-features/docker ]
+then
+    echo "docker already installed."
+    exit 0
+fi
+
+touch /home/vagrant/.homestead-features/docker
+
 # Install docker-ce
 curl -fsSL https://get.docker.com | bash -s
 
