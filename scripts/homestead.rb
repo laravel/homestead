@@ -558,7 +558,7 @@ class Homestead
     end
 
     # Install grafana if Necessary
-    if settings.has_key?('influxdb') && settings['influxdb']
+    if settings.has_key?('grafana') && settings['grafana']
       config.vm.provision 'shell' do |s|
         s.path = script_dir + '/install-grafana.sh'
       end
