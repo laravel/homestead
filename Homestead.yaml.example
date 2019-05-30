@@ -14,6 +14,10 @@ folders:
       to: /home/vagrant/qs
     - map: ~/Code/JoeFerguson.me-Jigsaw
       to: /home/vagrant/joe
+      type: rsync
+      options:
+          rsync__exclude: [".git/", ".idea", "web/sites/*/files", "web/sites/*/files-private", "web/artifacts", "web/sites/simpletest"]
+          rsync__args: ["--verbose", "--archive", "--delete", "-z", "--chmod=g+rwX"]
 
 sites:
     - map: qs.test
