@@ -10,20 +10,12 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code/quickstart-5.7
-      to: /home/vagrant/qs
-    - map: ~/Code/JoeFerguson.me-Jigsaw
-      to: /home/vagrant/joe
-      type: rsync
-      options:
-          rsync__exclude: [".git/", ".idea", "web/sites/*/files", "web/sites/*/files-private", "web/artifacts", "web/sites/simpletest"]
-          rsync__args: ["--verbose", "--archive", "--delete", "-z", "--chmod=g+rwX"]
+    - map: ~/code
+      to: /home/vagrant/code
 
 sites:
-    - map: qs.test
-      to: /home/vagrant/qs/public
-    - map: joe.test
-      to: /home/vagrant/joe/build_local
+    - map: homestead.test
+      to: /home/vagrant/code/public
 
 databases:
     - homestead
@@ -34,10 +26,3 @@ databases:
 #     - send: 7777
 #       to: 777
 #       protocol: udp
-
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar
-
