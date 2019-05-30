@@ -169,6 +169,10 @@ abstract class HomesteadSettings
                 if (isset($user_folder['type'])) {
                     $folders[$index]['type'] = $user_folder['type'];
                 }
+
+                if (isset($user_folder['options'])) {
+                    $folders[$index]['options'] = $user_folder['options'];
+                }
             }
         }
 
