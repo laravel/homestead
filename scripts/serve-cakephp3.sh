@@ -107,9 +107,3 @@ server {
 
 echo "$block" > "/etc/nginx/sites-available/$1"
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
-#echo "127.0.0.1 $1" >> /etc/hosts
-if [ -n "$(grep $1 /etc/hosts)" ] # Check is site already exists in hosts
-    then
-        sudo sed -i".bak" "/$1/d" /etc/hosts # Remove site entry if it does
-fi
-printf "%s\t%s\n" 127.0.0.1 "$1" | sudo tee -a /etc/hosts > /dev/null;    # Add site to hosts file
