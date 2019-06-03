@@ -122,18 +122,13 @@ if ( ! defined( 'WP_CONTENT_URL' ) ) {\\n\
 "
 
 
-# Check if wp-cli is installed or not, else install it
+# If wp-cli is installed, try and update it
 if [ -f /usr/local/bin/wp ]
 then
-    echo "WP-Cli is already installed."
-else
-    curl -O -s https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-    chmod +x wp-cli.phar
-    mv wp-cli.phar /usr/local/bin/wp
-    echo "WP-Cli has been installed."
+    wp cli update --stable --yes
 fi
 
-# If wp is not installed then download it
+# If WP is not installed then download it
 if [ -d "$2/wp" ]
 then
     echo "WordPress is already installed."
