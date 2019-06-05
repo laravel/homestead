@@ -26,9 +26,3 @@ databases:
 #     - send: 7777
 #       to: 777
 #       protocol: udp
-
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar

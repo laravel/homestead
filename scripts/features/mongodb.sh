@@ -2,14 +2,14 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/vagrant/.mongo ]
+if [ -f /home/vagrant/homestead-features/.mongodb ]
 then
     echo "MongoDB already installed."
     exit 0
 fi
 
-touch /home/vagrant/.mongo
-chown -Rf vagrant:vagrant /home/vagrant/.mongo
+touch /home/vagrant/.homestead-features/mongodb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/mongodb
 
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4 2>&1
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
@@ -29,6 +29,30 @@ git clone -c advice.detachedHead=false -q -b '1.5.2' --single-branch https://git
 sudo mv /tmp/mongo-php-driver /usr/src/mongo-php-driver
 cd /usr/src/mongo-php-driver
 git submodule -q update --init
+
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install php5.6-dev
+phpize5.6
+./configure --with-php-config=/usr/bin/php-config5.6 > /dev/null
+make clean > /dev/null
+make >/dev/null 2>&1
+sudo make install
+sudo chmod 644 /usr/lib/php/20160303/mongodb.so
+sudo bash -c "echo 'extension=mongodb.so' > /etc/php/5.6/mods-available/mongo.ini"
+sudo ln -s /etc/php/7.1/mods-available/mongo.ini /etc/php/5.6/cli/conf.d/20-mongo.ini
+sudo ln -s /etc/php/7.1/mods-available/mongo.ini /etc/php/5.6/fpm/conf.d/20-mongo.ini
+sudo service php5.6-fpm restart
+
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install php7.0-dev
+phpize7.0
+./configure --with-php-config=/usr/bin/php-config7.0 > /dev/null
+make clean > /dev/null
+make >/dev/null 2>&1
+sudo make install
+sudo chmod 644 /usr/lib/php/20160303/mongodb.so
+sudo bash -c "echo 'extension=mongodb.so' > /etc/php/7.0/mods-available/mongo.ini"
+sudo ln -s /etc/php/7.0/mods-available/mongo.ini /etc/php/7.0/cli/conf.d/20-mongo.ini
+sudo ln -s /etc/php/7.0/mods-available/mongo.ini /etc/php/7.0/fpm/conf.d/20-mongo.ini
+sudo service php7.0-fpm restart
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install php7.1-dev
 phpize7.1

@@ -18,7 +18,7 @@ class Homestead
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
-    config.vm.box_version = settings['version'] ||= '>= 7.2.1'
+    config.vm.box_version = settings['version'] ||= '>= 8.0.0.pre.alpha2'
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
     # Configure A Private Network IP
@@ -203,6 +203,10 @@ class Homestead
       end
     end
 
+    # Creates folder for opt-in features lockfiles
+    config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
+    config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
+
     # Install opt-in features
     if settings.has_key?('features')
       settings['features'].each do |feature|
@@ -376,6 +380,16 @@ class Homestead
     if settings.has_key?('variables')
       settings['variables'].each do |var|
         config.vm.provision 'shell' do |s|
+           s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/pool.d/www.conf"
+            s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
+            s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/pool.d/www.conf"
+            s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
           s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/pool.d/www.conf"
           s.args = [var['key'], var['value']]
         end
@@ -397,7 +411,7 @@ class Homestead
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
+        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
       end
     end
 
@@ -408,7 +422,7 @@ class Homestead
 
     config.vm.provision 'shell' do |s|
       s.name = 'Restarting Nginx'
-      s.inline = 'sudo service nginx restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
+      s.inline = 'sudo service nginx restart;sudo service php5.6-fpm restart;sudo service php7.0-fpm restart;sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
     end
 
     # Configure All Of The Configured Databases
