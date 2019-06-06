@@ -28,6 +28,6 @@ sudo apt-get -y install rabbitmq-server php-amqp php-bcmath
 
 # Enable RabbitMQ HTTP Admin Interface
 sudo rabbitmq-plugins enable rabbitmq_management
-sudo rabbitmqctl add_user homestead homestead
+sudo rabbitmqctl add_user homestead secret
 sudo rabbitmqctl set_user_tags homestead administrator
 sudo rabbitmqctl set_permissions -p / homestead ".*" ".*" ".*"
