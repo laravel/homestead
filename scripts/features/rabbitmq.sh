@@ -10,20 +10,14 @@ fi
 
 touch /home/vagrant/.homestead-features/rabbitmq
 
-
-# Install Erlang
-
-wget -q -O- https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo apt-key add -
-echo "deb https://packages.erlang-solutions.com/ubuntu bionic contrib" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
-sudo apt-get update
-sudo apt-get -y install erlang
-
-# Install RabbitMQ
-
+# Setup Repositories
 wget -q -O- https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc | sudo apt-key add -
 wget -q -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
-echo "deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+echo "deb http://dl.bintray.com/rabbitmq-erlang/debian bionic erlang" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+echo "deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/rabbitmq.list
 sudo apt-get update
+
+# Install RabbitMQ
 sudo apt-get -y install rabbitmq-server php-amqp php-bcmath
 
 # Enable RabbitMQ HTTP Admin Interface
