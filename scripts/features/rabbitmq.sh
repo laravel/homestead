@@ -24,7 +24,7 @@ wget -q -O- https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.as
 wget -q -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
 echo "deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
 sudo apt-get update
-sudo apt-get -y install rabbitmq-server php-amqp
+sudo apt-get -y install rabbitmq-server php-amqp php-bcmath
 
 # Enable RabbitMQ HTTP Admin Interface
 sudo rabbitmq-plugins enable rabbitmq_management
