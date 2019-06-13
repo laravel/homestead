@@ -10,6 +10,7 @@ then
 fi
 
 touch /home/vagrant/.maria
+chown -Rf vagrant:vagrant /home/vagrant/.maria
 
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528
@@ -30,21 +31,21 @@ rm -rf /etc/mysql
 
 # Add Maria PPA
 
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-sudo add-apt-repository 'deb [arch=amd64,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.3/ubuntu bionic main'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xF1656F24C74CD1D8
+sudo add-apt-repository 'deb [arch=amd64,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.4/ubuntu bionic main'
 apt-get update
 
 # Set The Automated Root Password
 
 export DEBIAN_FRONTEND=noninteractive
 
-debconf-set-selections <<< "mariadb-server-10.3 mysql-server/data-dir select ''"
-debconf-set-selections <<< "mariadb-server-10.3 mysql-server/root_password password secret"
-debconf-set-selections <<< "mariadb-server-10.3 mysql-server/root_password_again password secret"
+debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
+debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
+debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password secret"
 
 # Install MariaDB
 
-apt-get install -y mariadb-server-10.3
+apt-get install -y mariadb-server
 
 # Configure Maria Remote Access
 

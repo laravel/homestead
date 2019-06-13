@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 declare -A params=$6       # Create an associative array
-declare -A headers=${10}   # Create an associative array
-declare -A rewrites=${11}  # Create an associative array
+declare -A headers=$9      # Create an associative array
+declare -A rewrites=${10}  # Create an associative array
 paramsTXT=""
 if [ -n "$6" ]; then
    for element in "${!params[@]}"
@@ -12,7 +12,7 @@ if [ -n "$6" ]; then
    done
 fi
 headersTXT=""
-if [ -n "${10}" ]; then
+if [ -n "$9" ]; then
    for element in "${!headers[@]}"
    do
       headersTXT="${headersTXT}
@@ -20,7 +20,7 @@ if [ -n "${10}" ]; then
    done
 fi
 rewritesTXT=""
-if [ -n "${11}" ]; then
+if [ -n "${10}" ]; then
    for element in "${!rewrites[@]}"
    do
       rewritesTXT="${rewritesTXT}
@@ -28,19 +28,10 @@ if [ -n "${11}" ]; then
    done
 fi
 
-if [ "$8" = "true" ]
-then configureXhgui="
-location /xhgui {
-        try_files \$uri \$uri/ /xhgui/index.php?\$args;
-}
-"
-else configureXhgui=""
-fi
-
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl http2;
-    server_name $1;
+    server_name .$1;
     root \"$2\";
 
     index index.html index.htm index.php;
@@ -50,8 +41,9 @@ block="server {
     $rewritesTXT
 
     location / {
-        rewrite ^/admin.php.*$ /admin.php;
-        try_files \$uri \$uri/ /index.php?\$query_string;
+        if (!-e \$request_filename) {
+            rewrite ^/(.*)\$ /index.php?q=\$1 last;
+        }
         $headersTXT
     }
 
@@ -84,8 +76,6 @@ block="server {
     location ~ /\.ht {
         deny all;
     }
-
-    $configureXhgui
 
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;

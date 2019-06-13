@@ -1,13 +1,30 @@
 #!/usr/bin/env bash
 
+declare -A params=$6       # Create an associative array
 declare -A headers=${10}   # Create an associative array
-
+declare -A rewrites=${11}  # Create an associative array
+paramsTXT=""
+if [ -n "$6" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
+fi
 headersTXT=""
 if [ -n "${10}" ]; then
    for element in "${!headers[@]}"
    do
       headersTXT="${headersTXT}
       add_header ${element} ${headers[$element]};"
+   done
+fi
+rewritesTXT=""
+if [ -n "${11}" ]; then
+   for element in "${!rewrites[@]}"
+   do
+      rewritesTXT="${rewritesTXT}
+      location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
    done
 fi
 
@@ -26,6 +43,7 @@ block="server {
     location / {
         try_files \$uri \$uri/ /index.html;
         $headersTXT
+        $paramsTXT
     }
 
     location = /favicon.ico { access_log off; log_not_found off; }

@@ -4,8 +4,17 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -y php"$5"-bz2
 
+declare -A params=$6       # Create an associative array
 declare -A headers=${10}   # Create an associative array
 declare -A rewrites=${11}  # Create an associative array
+paramsTXT=""
+if [ -n "$6" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
+fi
 headersTXT=""
 if [ -n "${10}" ]; then
    for element in "${!headers[@]}"
@@ -21,15 +30,6 @@ if [ -n "${11}" ]; then
       rewritesTXT="${rewritesTXT}
       location ~ ${element} { if (!-f \$request_filename) { return 301 ${rewrites[$element]}; } }"
    done
-fi
-
-if [ "$7" = "true" ] && [ "$5" = "7.2" ]
-then configureZray="
-location /ZendServer {
-        try_files \$uri \$uri/ /ZendServer/index.php?\$args;
-}
-"
-else configureZray=""
 fi
 
 if [ "$8" = "true" ]
@@ -66,8 +66,6 @@ server {
 
     $rewritesTXT
 
-    $configureZray
-
     $configureXhgui
 
     # Stay secure
@@ -103,6 +101,7 @@ server {
         access_log off;
         add_header Cache-Control \"public\";
         $headersTXT
+        $paramsTXT
     }
 
     # Assets
@@ -114,6 +113,7 @@ server {
         log_not_found off;
         add_header Cache-Control \"public\";
         $headersTXT
+        $paramsTXT
     }
 
     # Installer
@@ -127,6 +127,7 @@ server {
         add_header \"X-UA-Compatible\" \"IE=edge\";
         try_files \$uri /app.php\$is_args\$args;
         $headersTXT
+        $paramsTXT
     }
 
     # Use this location when the installer has to be run

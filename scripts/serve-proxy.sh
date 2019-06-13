@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
 
+declare -A params=$6       # Create an associative array
+declare -A headers=$9      # Create an associative array
+paramsTXT=""
+if [ -n "$6" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+        ${element} ${params[$element]};"
+   done
+fi
+headersTXT=""
+if [ -n "$9" ]; then
+   for element in "${!headers[@]}"
+   do
+      headersTXT="${headersTXT}
+        add_header ${element} ${headers[$element]};"
+   done
+fi
+
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl;
@@ -13,6 +32,8 @@ block="server {
         proxy_set_header Host \$host;
         proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:${2};
+        $headersTXT
+        $paramsTXT
     }
 
     access_log off;
