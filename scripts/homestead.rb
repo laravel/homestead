@@ -577,8 +577,6 @@ class Homestead
       config.vm.provision 'shell' do |s|
         s.name = 'Installing Elasticsearch'
         s.path = script_dir + '/install-openresty.sh'
-        s.args = settings['openresty']
-        
       end
     end
 
