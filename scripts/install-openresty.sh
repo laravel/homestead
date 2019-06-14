@@ -17,10 +17,11 @@ wget -qO - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main"
 sudo apt-get update
-sudo apt-get install openresty
+sudo service nginx stop
+sudo apt-get install -y openresty
+sudo sed -i "s/listen\s*80;/listen\       8888;/g" /etc/openresty/nginx.conf
 
-# Enable Start Openresty
+# Start Openresty
 
-sudo systemctl enable openresty.service
-sudo service openresty start
-
+sudo service openresty restart
+sudo service nginx start
