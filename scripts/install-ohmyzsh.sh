@@ -2,11 +2,13 @@
 
 # Install oh-my-zsh
 
-if [ -f /home/vagrant/.oh-my-zsh ]
+if [ -f /home/vagrant/.ohmyzsh ]
 then
     echo "oh my zsh already installed."
     exit 0
 fi
+
+touch /home/vagrant/.ohmyzsh
 
 git clone https://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
 cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
