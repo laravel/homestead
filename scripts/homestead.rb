@@ -203,6 +203,14 @@ class Homestead
       end
     end
 
+    # Change PHP CLI Version Based On Configuration
+    if settings.has_key?('php') && settings['php']
+      config.vm.provision 'shell' do |s|
+        s.name = 'Changing PHP CLI Version'
+        s.inline = "sudo update-alternatives --set php /usr/bin/php#{settings['php']}; sudo update-alternatives --set php-config /usr/bin/php-config#{settings['php']}; sudo update-alternatives --set phpize /usr/bin/phpize#{settings['php']}"
+      end
+    end
+
     # Install Crystal If Necessary
     if settings.has_key?("crystal") && settings["crystal"]
       config.vm.provision "shell" do |s|
