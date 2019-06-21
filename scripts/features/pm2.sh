@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/pm2
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install pm2
 

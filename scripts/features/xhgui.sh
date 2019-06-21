@@ -9,7 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/xhgui
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/xhgui
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 apt install -y php-tideways
 phpenmod -v ALL tideways

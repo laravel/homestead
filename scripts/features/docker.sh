@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/docker
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install docker-ce
 curl -fsSL https://get.docker.com | bash -s

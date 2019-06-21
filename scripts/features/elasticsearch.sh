@@ -9,7 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/elasticsearch
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/elasticsearch
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Determine version from config
 

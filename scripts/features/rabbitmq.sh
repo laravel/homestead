@@ -9,6 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/rabbitmq
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Setup Repositories
 wget -q -O- https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc | sudo apt-key add -

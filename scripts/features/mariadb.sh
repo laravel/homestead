@@ -10,7 +10,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/mariadb
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/mariadb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528

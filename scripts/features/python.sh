@@ -9,7 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/pythontools
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/pythontools
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Python
 

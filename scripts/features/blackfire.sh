@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/blackfire
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list

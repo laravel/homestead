@@ -7,7 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/webdriverutils
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/webdriverutils
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install The Chrome Web Driver & Dusk Utilities
 

@@ -9,7 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/influxdb
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/influxdb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 apt-get update
 apt-get install -y influxdb

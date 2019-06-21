@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/crystal
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Crystal Programming Language Support
 apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-keys 09617FD37CC06B54

@@ -9,7 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/chronograf
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/chronograf
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 chronourl="https://dl.influxdata.com/chronograf/releases/chronograf_1.5.0.1_amd64.deb"
 

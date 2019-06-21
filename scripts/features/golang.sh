@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/go
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Golang
 

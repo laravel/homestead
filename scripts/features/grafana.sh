@@ -2,14 +2,14 @@
 
 # Check If Grafana Has Been Installed
 
-if [ -f /home/vagrant/.grafana ]
+if [ -f /home/vagrant/.homestead-features/grafana ]
 then
     echo "Grafana already installed."
     exit 0
 fi
 
-touch /home/vagrant/.grafana
-chown -Rf vagrant:vagrant /home/vagrant/.grafana
+touch /home/vagrant/.homestead-features/grafana
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 echo "deb https://packagecloud.io/grafana/stable/debian/ stretch main" > /etc/apt/sources.list.d/grafana.list
 curl -s https://packagecloud.io/gpg.key | apt-key add -

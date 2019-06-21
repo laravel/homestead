@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-if [ -f /etc/neo4j/neo4j.conf ]
+if [ -f /home/vagrant/.homestead-features/neo4j ]
 then
     echo "Neo4j already installed."
     exit 0
 fi
+
+touch /home/vagrant/.homestead-features/neo4j
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
 echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list

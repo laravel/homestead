@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/gearman
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Gearman Job Server and PHP Extension
 sudo apt-get update

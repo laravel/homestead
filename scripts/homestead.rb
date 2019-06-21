@@ -238,7 +238,7 @@ class Homestead
       end
     end
 
-    # Install All The Configured Nginx Sites
+    # Clear any existing nginx sites
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/clear-nginx.sh'
     end
@@ -248,6 +248,7 @@ class Homestead
       s.path = script_dir + '/hosts-reset.sh'
     end
 
+    # Install All The Configured Nginx Sites
     if settings.include? 'sites'
       # socket = { 'map' => 'socket-wrench.test', 'to' => '/var/www/socket-wrench/public' }
       # settings['sites'].unshift(socket)
@@ -427,8 +428,6 @@ class Homestead
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
-      # settings['databases'].unshift('socket_wrench')
-
       # Check which databases are enabled
       enabled_databases = Array.new
       if settings.has_key?('features')

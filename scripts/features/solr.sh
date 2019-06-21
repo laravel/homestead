@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/solr
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Java Runtime Enviroment
 sudo apt update

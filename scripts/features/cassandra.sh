@@ -7,6 +7,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/cassandra
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Cassandra and driver dependencies
 echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list

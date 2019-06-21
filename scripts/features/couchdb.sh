@@ -2,14 +2,14 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/vagrant/.couch ]
+if [ -f /home/vagrant/.homestead-features/couchdb ]
 then
     echo "CouchDB already installed."
     exit 0
 fi
 
-touch /home/vagrant/.couch
-chown -Rf vagrant:vagrant /home/vagrant/.couch
+touch /home/vagrant/.homestead-features/couchdb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 echo "deb https://apache.bintray.com/couchdb-deb bionic main" \
     | sudo tee -a /etc/apt/sources.list

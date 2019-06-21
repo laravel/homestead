@@ -9,7 +9,7 @@ then
 fi
 
 touch /home/vagrant/.homestead-features/openresty
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features/openresty
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Openresty
 
