@@ -5,6 +5,7 @@ alias h='cd ~'
 alias c='clear'
 alias art=artisan
 
+alias codecept='vendor/bin/codecept'
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
@@ -24,6 +25,18 @@ function dusk() {
     fi
 
     php artisan dusk "$@"
+}
+
+function php56() {
+    sudo update-alternatives --set php /usr/bin/php5.6
+    sudo update-alternatives --set php-config /usr/bin/php-config5.6
+    sudo update-alternatives --set phpize /usr/bin/phpize5.6
+}
+
+function php70() {
+    sudo update-alternatives --set php /usr/bin/php7.0
+    sudo update-alternatives --set php-config /usr/bin/php-config7.0
+    sudo update-alternatives --set phpize /usr/bin/phpize7.0
 }
 
 function php71() {
