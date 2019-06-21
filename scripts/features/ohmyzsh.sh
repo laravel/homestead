@@ -6,11 +6,11 @@ then
     exit 0
 fi
 
-touch /home/vagrant/.homestead-features/pm2
+touch /home/vagrant/.homestead-features/oh-my-zsh
 
 # Install oh-my-zsh
 
-git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
+git clone https://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
 cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
 printf "\nemulate sh -c 'source ~/.bash_aliases'\n" | tee -a /home/vagrant/.zprofile
 printf "\nemulate sh -c 'source ~/.profile'\n" | tee -a /home/vagrant/.zprofile
