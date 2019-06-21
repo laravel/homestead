@@ -203,6 +203,14 @@ class Homestead
       end
     end
 
+    # Change PHP CLI version based on configuration
+    if settings.has_key?('php') && settings['php']
+      config.vm.provision 'shell' do |s|
+        s.name = 'Changing PHP CLI Version'
+        s.inline = "sudo update-alternatives --set php /usr/bin/php#{settings['php']}; sudo update-alternatives --set php-config /usr/bin/php-config#{settings['php']}; sudo update-alternatives --set phpize /usr/bin/phpize#{settings['php']}"
+      end
+    end
+
     # Creates folder for opt-in features lockfiles
     config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
