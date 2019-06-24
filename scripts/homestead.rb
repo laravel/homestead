@@ -522,6 +522,11 @@ class Homestead
         s.inline = 'sudo service motd-news restart'
     end
 
+    config.vm.provision 'shell', run: "always" do |s|
+        s.name = 'Restart Nginx'
+        s.path = script_dir + '/server-reset.sh'
+    end
+
     if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin?('vagrant-triggers'))
       dir_prefix = '/vagrant/'
       settings['databases'].each do |database|
