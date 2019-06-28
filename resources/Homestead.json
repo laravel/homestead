@@ -31,7 +31,8 @@
         },
         {
             "map": "api3.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/musicbed-api/public"
+            "to": "/home/vagrant/Code/musicbed/musicbed-api/public",
+            "php": "7.1"
         },
         {
             "map": "sabre.musicbed.test",
