@@ -334,7 +334,7 @@ class Homestead
 
           if site['xhgui'] == 'true'
             config.vm.provision 'shell' do |s|
-              s.path = script_dir + '/install-mongo.sh'
+              s.path = script_dir + '/features/mongodb.sh'
             end
 
             config.vm.provision 'shell' do |s|
