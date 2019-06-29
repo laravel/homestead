@@ -338,7 +338,7 @@ class Homestead
             end
 
             config.vm.provision 'shell' do |s|
-              s.path = script_dir + '/features/xhgui.sh'
+              s.path = script_dir + '/install-xhgui.sh'
             end
 
             config.vm.provision 'shell' do |s|
