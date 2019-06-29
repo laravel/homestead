@@ -548,12 +548,12 @@ class Homestead
       end
 
       config.trigger.after :up do |trigger|
-        trigger.info = "Copying CA files to share..."
+        trigger.info = "Importing CA files..."
         trigger.run = {path: script_dir + "/import-ca.sh"}
       end
 
       config.trigger.after :destroy, :halt do |trigger|
-        trigger.info = "Copying CA files to share..."
+        trigger.info = "Removing CA files..."
         trigger.run = {path: script_dir + "/remove-ca.sh"}
       end
     end
