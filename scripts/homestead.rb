@@ -629,6 +629,25 @@ class Homestead
         s.inline = 'sudo sh -c "echo 0 >> /sys/block/sda/queue/iosched/group_idle"'
       end
     end
+
+    # Import CA cert into host trusted repository if desired
+    if settings.has_key?('import_ca') && settings['import_ca']
+      config.trigger.after :up do |trigger|
+        trigger.info = "Copying CA files to share..."
+        trigger.run_remote = {path: script_dir + "/share-ca.sh"}
+      end
+
+      config.trigger.after :up do |trigger|
+        trigger.info = "Copying CA files to share..."
+        trigger.run = {path: script_dir + "/import-ca.sh"}
+      end
+
+      config.trigger.after :destroy, :halt do |trigger|
+        trigger.info = "Copying CA files to share..."
+        trigger.run = {path: script_dir + "/remove-ca.sh"}
+      end
+    end
+
   end
 
   def self.backup_mysql(database, dir, config)
