@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-if [ -f /home/vagrant/.minio ]
+if [ -f /home/vagrant/.homestead-features/minio ]
 then
     echo "Minio already installed."
     exit 0
 fi
 
-touch /home/vagrant/.minio
-chown -Rf vagrant:vagrant /home/vagrant/.minio
+touch /home/vagrant/.homestead-features/minio
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 curl -sO https://dl.minio.io/server/minio/release/linux-amd64/minio
 

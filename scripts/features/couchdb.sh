@@ -2,14 +2,14 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/vagrant/.couch ]
+if [ -f /home/vagrant/.homestead-features/couchdb ]
 then
     echo "CouchDB already installed."
     exit 0
 fi
 
-touch /home/vagrant/.couch
-chown -Rf vagrant:vagrant /home/vagrant/.couch
+touch /home/vagrant/.homestead-features/couchdb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 echo "deb https://apache.bintray.com/couchdb-deb bionic main" \
     | sudo tee -a /etc/apt/sources.list
@@ -31,6 +31,8 @@ sudo service couchdb restart
 
 sudo service nginx restart
 
+sudo service php5.6-fpm restart
+sudo service php7.0-fpm restart
 sudo service php7.1-fpm restart
 sudo service php7.2-fpm restart
 sudo service php7.3-fpm restart

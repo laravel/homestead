@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+if [ -f /home/vagrant/.homestead-features/crystal ]
+then
+    echo "Crystal already installed."
+    exit 0
+fi
+
+touch /home/vagrant/.homestead-features/crystal
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+
 # Install Crystal Programming Language Support
 apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-keys 09617FD37CC06B54
 echo "deb https://dist.crystal-lang.org/apt crystal main" | tee /etc/apt/sources.list.d/crystal.list

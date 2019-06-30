@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-if [ -f /home/vagrant/.webdriverutils ]
+if [ -f /home/vagrant/.homestead-features/webdriverutils ]
 then
     echo "Web Driver utilities already installed."
     exit 0
 fi
 
-touch /home/vagrant/.webdriverutils
-chown -Rf vagrant:vagrant /home/vagrant/.webdriverutils
+touch /home/vagrant/.homestead-features/webdriverutils
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install The Chrome Web Driver & Dusk Utilities
 

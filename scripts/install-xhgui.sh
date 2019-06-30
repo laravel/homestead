@@ -2,14 +2,14 @@
 
 # Check If xhgui Has Been Installed
 
-if [ -f /home/vagrant/.xhgui ]
+if [ -f /home/vagrant/.homestead-features/xhgui ]
 then
     echo "xhgui already installed."
     exit 0
 fi
 
-touch /home/vagrant/.xhgui
-chown -Rf vagrant:vagrant /home/vagrant/.xhgui
+touch /home/vagrant/.homestead-features/xhgui
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 apt install -y php-tideways
 phpenmod -v ALL tideways
@@ -143,7 +143,7 @@ db.results.ensureIndex( { "meta.request_ts" : 1 }, { expireAfterSeconds : 432000
 cd /opt/xhgui
 php install.php
 
-for version in 7.1 7.2 7.3
+for version in 5.6 7.0 7.1 7.2 7.3
 do
   cat << 'EOT' > /etc/php/$version/mods-available/xhgui.ini
 ; Include xhgui's header for performance profiling.

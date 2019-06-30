@@ -3,14 +3,14 @@
 export DEBIAN_FRONTEND=noninteractive
 # Check If Maria Has Been Installed
 
-if [ -f /home/vagrant/.maria ]
+if [ -f /home/vagrant/.homestead-features/mariadb ]
 then
     echo "MariaDB already installed."
     exit 0
 fi
 
-touch /home/vagrant/.maria
-chown -Rf vagrant:vagrant /home/vagrant/.maria
+touch /home/vagrant/.homestead-features/mariadb
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528
@@ -25,7 +25,6 @@ apt-get remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
 
-rm -rf /var/lib/mysql
 rm -rf /var/log/mysql
 rm -rf /etc/mysql
 

@@ -2,14 +2,14 @@
 
 # Check If python Has Been Installed
 
-if [ -f /home/vagrant/.pythontools ]
+if [ -f /home/vagrant/.homestead-features/pythontools ]
 then
     echo "python already installed."
     exit 0
 fi
 
-touch /home/vagrant/.pythontools
-chown -Rf vagrant:vagrant /home/vagrant/.pythontools
+touch /home/vagrant/.homestead-features/pythontools
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Python
 

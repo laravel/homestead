@@ -2,14 +2,14 @@
 
 # Check if Elasticsearch has been installed
 
-if [ -f /home/vagrant/.elasticsearch ]
+if [ -f /home/vagrant/.homestead-features/elasticsearch ]
 then
     echo "Elasticsearch already installed."
     exit 0
 fi
 
-touch /home/vagrant/.elasticsearch
-chown -Rf vagrant:vagrant /home/vagrant/.elasticsearch
+touch /home/vagrant/.homestead-features/elasticsearch
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Determine version from config
 
