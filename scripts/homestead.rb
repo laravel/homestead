@@ -37,7 +37,7 @@ class Homestead
 
     # Configure A Few VirtualBox Settings
     config.vm.provider 'virtualbox' do |vb|
-      vb.name = settings['name'] ||= 'homestead-7'
+      vb.name = settings['name'] ||= 'homestead'
       vb.customize ['modifyvm', :id, '--memory', settings['memory'] ||= '2048']
       vb.customize ['modifyvm', :id, '--cpus', settings['cpus'] ||= '1']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
@@ -56,7 +56,7 @@ class Homestead
     # Configure A Few VMware Settings
     ['vmware_fusion', 'vmware_workstation'].each do |vmware|
       config.vm.provider vmware do |v|
-        v.vmx['displayName'] = settings['name'] ||= 'homestead-7'
+        v.vmx['displayName'] = settings['name'] ||= 'homestead'
         v.vmx['memsize'] = settings['memory'] ||= 2048
         v.vmx['numvcpus'] = settings['cpus'] ||= 1
         v.vmx['guestOS'] = 'ubuntu-64'
@@ -68,7 +68,7 @@ class Homestead
 
     # Configure A Few Hyper-V Settings
     config.vm.provider "hyperv" do |h, override|
-      h.vmname = settings['name'] ||= 'homestead-7'
+      h.vmname = settings['name'] ||= 'homestead'
       h.cpus = settings['cpus'] ||= 1
       h.memory = settings['memory'] ||= 2048
       h.linked_clone = true
@@ -80,7 +80,7 @@ class Homestead
 
     # Configure A Few Parallels Settings
     config.vm.provider 'parallels' do |v|
-      v.name = settings['name'] ||= 'homestead-7'
+      v.name = settings['name'] ||= 'homestead'
       v.update_guest_tools = settings['update_parallels_tools'] ||= false
       v.memory = settings['memory'] ||= 2048
       v.cpus = settings['cpus'] ||= 1
