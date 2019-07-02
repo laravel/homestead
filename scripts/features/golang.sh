@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -f /home/vagrant/.homestead-features/go ]
+if [ -f /home/vagrant/.homestead-features/golang ]
 then
     echo "Golang already installed."
     exit 0
 fi
 
-touch /home/vagrant/.homestead-features/go
+touch /home/vagrant/.homestead-features/golang
 chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install Golang
