@@ -219,17 +219,17 @@ class Homestead
     if settings.has_key?('features')
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
-        feature_arguments = feature[feature_name]
+        feature_variables = feature[feature_name]
         feature_path = script_dir + "/features/" + feature_name + ".sh"
 
         # Check for boolean parameters
         # Compares against true/false to show that it really means "<feature>: <boolean>"
-        if feature_arguments == false
+        if feature_variables == false
           config.vm.provision "shell", inline: "echo Ignoring feature: #{feature_name} because it is set to false \n"
           next
-        elsif feature_arguments == true
+        elsif feature_variables == true
           # If feature_arguments is true, set it to empty, so it could be passed to script without problem
-          feature_arguments = ""
+          feature_variables = {}
         end
 
         # Check if feature really exists
@@ -241,7 +241,7 @@ class Homestead
         config.vm.provision "shell" do |s|
           s.name = "Installing " + feature_name
           s.path = feature_path
-          s.args = [feature_arguments]
+          s.env = feature_variables
         end
       end
     end

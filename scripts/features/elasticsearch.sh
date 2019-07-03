@@ -14,7 +14,7 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 # Determine version from config
 
 set -- "$1"
-IFS="."; declare -a version=($*)
+IFS=".";
 
 if [ -z "${version[1]}" ]; then
     installVersion=""
