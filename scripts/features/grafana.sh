@@ -11,9 +11,8 @@ fi
 touch /home/vagrant/.homestead-features/grafana
 chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
-echo "deb https://packagecloud.io/grafana/stable/debian/ stretch main" > /etc/apt/sources.list.d/grafana.list
-curl -s https://packagecloud.io/gpg.key | apt-key add -
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40F370A1F9081B64
+echo "deb https://packages.grafana.com/oss/deb stable main" > /etc/apt/sources.list.d/grafana.list
+curl -s https://packages.grafana.com/gpg.key | apt-key add -
 
 apt-get update -y
 apt-get install -y grafana
