@@ -20,6 +20,9 @@ sites:
 databases:
     - homestead
 
+features:
+    - webdriver: false
+
 # ports:
 #     - send: 50000
 #       to: 5000
