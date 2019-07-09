@@ -64,4 +64,7 @@ mysql --user="root" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secre
 mysql --user="root" -e "FLUSH PRIVILEGES;"
 service mysql restart
 
+mysql_upgrade --user="root" --password="secret" --verbose --force
+service mysql restart
+
 unset MYSQL_PWD
