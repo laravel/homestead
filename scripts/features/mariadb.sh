@@ -46,7 +46,12 @@ debconf-set-selections <<< "mariadb-server mysql-server/root_password_again pass
 
 apt-get install -y mariadb-server
 
-# Configure Maria Remote Access
+# Configure Maria Remote Access and ignore db dirs
+cat > /etc/mysql/conf.d/mysql.cnf << EOF
+[mysqld]
+bind-address = 0.0.0.0
+ignore-db-dir = lost+found
+EOF
 
 sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
 
