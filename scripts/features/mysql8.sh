@@ -42,11 +42,13 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 
 apt-get install -y mysql-server
 
-# Configure MySQL 8 Remote Access
-echo "bind-address = 0.0.0.0" | tee -a /etc/mysql/conf.d/mysql.cnf
+# Configure MySQL 8 Remote Access and Native Pluggable Authentication
+cat > /etc/mysql/conf.d/mysqld.cnf << EOF
+[mysqld]
+bind-address = 0.0.0.0
+default_authentication_plugin = mysql_native_password
+EOF
 
-# Use Native Pluggable Authentication
-echo -e "[mysqld]\ndefault_authentication_plugin = mysql_native_password" | tee -a /etc/mysql/conf.d/mysql.cnf
 service mysql restart
 
 mysql --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'secret';"
