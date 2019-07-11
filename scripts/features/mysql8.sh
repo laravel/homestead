@@ -13,10 +13,9 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Disable Apparmor
 ## See https://github.com/laravel/homestead/issues/629#issue-247524528
-
-sudo service apparmor stop
-sudo service apparmor teardown
-sudo update-rc.d -f apparmor remove
+service apparmor stop
+service apparmor teardown
+update-rc.d -f apparmor remove
 
 # Remove MySQL
 
