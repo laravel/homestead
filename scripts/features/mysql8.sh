@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
-export DEBIAN_FRONTEND=noninteractive
 # Check If MySQL 8 Has Been Installed
-
-if [ -f /home/vagrant/.homestead-features/mysql8 ]
-then
+if [[ -f /home/vagrant/.homestead-features/mysql8 ]]; then
     echo "MySQL 8 already installed."
     exit 0
 fi
+
+export DEBIAN_FRONTEND=noninteractive
 
 touch /home/vagrant/.homestead-features/mysql8
 chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
