@@ -18,7 +18,6 @@ service apparmor teardown
 update-rc.d -f apparmor remove
 
 # Remove MySQL
-
 apt-get remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
@@ -40,6 +39,7 @@ debconf-set-selections <<< "mysql-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
 
+# Install MySQL 8
 apt-get install -y mysql-server
 
 # Configure MySQL 8 Remote Access and Native Pluggable Authentication
