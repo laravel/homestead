@@ -61,3 +61,6 @@ mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'0.0.0.0' WIT
 mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRANT OPTION;"
 mysql --user="root" -e "FLUSH PRIVILEGES;"
 service mysql restart
+
+unset MYSQL_PWD
+unset DEBIAN_FRONTEND
