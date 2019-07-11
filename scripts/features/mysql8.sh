@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
 
-export DEBIAN_FRONTEND=noninteractive
 # Check If MySQL 8 Has Been Installed
-
-if [ -f /home/vagrant/.homestead-features/mysql8 ]
-then
+if [[ -f /home/vagrant/.homestead-features/mysql8 ]]; then
     echo "MySQL 8 already installed."
     exit 0
 fi
+
+export DEBIAN_FRONTEND=noninteractive
 
 touch /home/vagrant/.homestead-features/mysql8
 chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Disable Apparmor
 ## See https://github.com/laravel/homestead/issues/629#issue-247524528
-
-sudo service apparmor stop
-sudo service apparmor teardown
-sudo update-rc.d -f apparmor remove
+service apparmor stop
+service apparmor teardown
+update-rc.d -f apparmor remove
 
 # Remove MySQL
-
 apt-get remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
@@ -42,20 +39,28 @@ debconf-set-selections <<< "mysql-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
 
+# Install MySQL 8
 apt-get install -y mysql-server
 
-# Configure MySQL 8 Remote Access
-echo "bind-address = 0.0.0.0" | tee -a /etc/mysql/conf.d/mysql.cnf
+# Configure MySQL 8 Remote Access and Native Pluggable Authentication
+cat > /etc/mysql/conf.d/mysqld.cnf << EOF
+[mysqld]
+bind-address = 0.0.0.0
+default_authentication_plugin = mysql_native_password
+EOF
 
-# Use Native Pluggable Authentication
-echo -e "[mysqld]\ndefault_authentication_plugin = mysql_native_password" | tee -a /etc/mysql/conf.d/mysql.cnf
 service mysql restart
+
+export MYSQL_PWD=secret
 
 mysql --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -e "CREATE USER 'homestead'@'%' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'0.0.0.0' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
+mysql --user="root" -e "CREATE USER 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "CREATE USER 'homestead'@'%' IDENTIFIED BY 'secret';"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'0.0.0.0' WITH GRANT OPTION;"
+mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRANT OPTION;"
+mysql --user="root" -e "FLUSH PRIVILEGES;"
 service mysql restart
+
+unset MYSQL_PWD
+unset DEBIAN_FRONTEND
