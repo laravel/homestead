@@ -24,13 +24,13 @@
     ],
     "features": [
         {
-            "mariadb": "false"
+            "mariadb": false
         }, 
         {
-            "ohmyzsh": "false"
+            "ohmyzsh": false
         }, 
         {
-            "webdriver": "false"
+            "webdriver": false
         }
     ]
 }
