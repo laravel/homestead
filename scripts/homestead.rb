@@ -261,11 +261,11 @@ class Homestead
       # socket = { 'map' => 'socket-wrench.test', 'to' => '/var/www/socket-wrench/public' }
       # settings['sites'].unshift(socket)
 
-      aliases = []
+      domains = []
 
       settings['sites'].each do |site|
 
-        aliases.push(site['map'])
+        domains.push(site['map'])
 
         # Create SSL certificate
         config.vm.provision 'shell' do |s|
@@ -383,7 +383,7 @@ class Homestead
         end
       end
 
-      config.vm.provision "shell", args: aliases.join(","), inline: <<-SHELL
+      config.vm.provision "shell", args: domains.join(","), inline: <<-SHELL
         sed -i "s/#browse-domains=.*/browse-domains=$1/" /etc/avahi/avahi-daemon.conf
         sed -i "s/browse-domains=.*/browse-domains=$1/" /etc/avahi/avahi-daemon.conf
         service avahi-daemon restart
