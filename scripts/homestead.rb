@@ -316,8 +316,21 @@ class Homestead
             rewrites.gsub! '$', '\$'
           end
 
+          # Convert the site & any options to an array of arguments passed to the
+          # specific site type script (defaults to laravel)
           s.path = script_dir + "/site-types/#{type}.sh"
-          s.args = [site['map'], site['to'], site['port'] ||= http_port, site['ssl'] ||= https_port, site['php'] ||= '7.3', params ||= '', site['xhgui'] ||= '', site['exec'] ||= 'false', headers ||= '', rewrites ||= '']
+          s.args = [
+              site['map'],                # $1
+              site['to'],                 # $2
+              site['port'] ||= http_port, # $3
+              site['ssl'] ||= https_port, # $4
+              site['php'] ||= '7.3',      # $5
+              params ||= '',              # $6
+              site['xhgui'] ||= '',       # $7
+              site['exec'] ||= 'false',   # $8
+              headers ||= '',             # $9
+              rewrites ||= ''             # $10
+          ]
 
           # generate pm2 json config file
           if site['pm2']
