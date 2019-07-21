@@ -15,7 +15,7 @@ aliasesPath = confDir + "/aliases"
 
 require File.expand_path(File.dirname(__FILE__) + '/scripts/homestead.rb')
 
-Vagrant.require_version '>= 2.1.0'
+Vagrant.require_version '>= 2.2.4'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if File.exist? aliasesPath then
@@ -49,5 +49,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.hostmanager.enabled = true
         config.hostmanager.manage_host = true
         config.hostmanager.aliases = settings['sites'].map { |site| site['map'] }
+    end
+
+    if Vagrant.has_plugin?('vagrant-notify-forwarder')
+        config.notify_forwarder.enable = true
     end
 end

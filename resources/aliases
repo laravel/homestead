@@ -5,6 +5,7 @@ alias h='cd ~'
 alias c='clear'
 alias art=artisan
 
+alias codecept='vendor/bin/codecept'
 alias phpspec='vendor/bin/phpspec'
 alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
@@ -38,6 +39,18 @@ function dusk() {
     php artisan dusk "$@"
 }
 
+function php56() {
+    sudo update-alternatives --set php /usr/bin/php5.6
+    sudo update-alternatives --set php-config /usr/bin/php-config5.6
+    sudo update-alternatives --set phpize /usr/bin/phpize5.6
+}
+
+function php70() {
+    sudo update-alternatives --set php /usr/bin/php7.0
+    sudo update-alternatives --set php-config /usr/bin/php-config7.0
+    sudo update-alternatives --set phpize /usr/bin/phpize7.0
+}
+
 function php71() {
     sudo update-alternatives --set php /usr/bin/php7.1
     sudo update-alternatives --set php-config /usr/bin/php-config7.1
@@ -61,7 +74,7 @@ function serve-apache() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-apache.sh
-        sudo bash /vagrant/scripts/serve-apache.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-apache.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -74,7 +87,7 @@ function serve-laravel() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-laravel.sh
-        sudo bash /vagrant/scripts/serve-laravel.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-laravel.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -86,7 +99,7 @@ function serve-proxy() {
     if [[ "$1" && "$2" ]]
     then
         sudo dos2unix /vagrant/scripts/serve-proxy.sh
-        sudo bash /vagrant/scripts/serve-proxy.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-proxy.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -99,7 +112,7 @@ function serve-silverstripe() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-silverstripe.sh
-        sudo bash /vagrant/scripts/serve-silverstripe.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-silverstripe.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -112,7 +125,7 @@ function serve-spa() {
   then
     sudo bash /vagrant/scripts/create-certificate.sh "$1"
     sudo dos2unix /vagrant/scripts/serve-spa.sh
-    sudo bash /vagrant/scripts/serve-spa.sh "$1" "$2" 80 443 "${3:-7.1}"
+    sudo bash /vagrant/scripts/serve-spa.sh "$1" "$2" 80 443 "${3:-7.3}"
   else
     echo "Error: missing required parameters."
     echo "Usage: "
@@ -125,7 +138,7 @@ function serve-statamic() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-statamic.sh
-        sudo bash /vagrant/scripts/serve-statamic.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-statamic.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -138,7 +151,7 @@ function serve-symfony2() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-symfony2.sh
-        sudo bash /vagrant/scripts/serve-symfony2.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-symfony2.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -151,7 +164,7 @@ function serve-symfony4() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-symfony4.sh
-        sudo bash /vagrant/scripts/serve-symfony4.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-symfony4.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -164,7 +177,7 @@ function serve-pimcore() {
     then
         sudo bash /vagrant/scripts/create-certificate.sh "$1"
         sudo dos2unix /vagrant/scripts/serve-pimcore.sh
-        sudo bash /vagrant/scripts/serve-pimcore.sh "$1" "$2" 80 443 "${3:-7.1}"
+        sudo bash /vagrant/scripts/serve-pimcore.sh "$1" "$2" 80 443 "${3:-7.3}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -254,23 +267,13 @@ function xphp() {
     fi
 
     if ! $XDEBUG_ENABLED; then xon; fi
+	
+    HOST_IP=$(last --limit=1 | grep -oP '\d+(\.\d+){3}')
 
     php \
-        -dxdebug.remote_host=192.168.10.1 \
+        -dxdebug.remote_host=${HOST_IP} \
         -dxdebug.remote_autostart=1 \
         "$@"
 
     if ! $XDEBUG_ENABLED; then xoff; fi
-}
-
-function update-socket-wrench() {
-    cd /var/www/socket-wrench
-    git pull origin release
-    composer install
-    php artisan migrate --force
-}
-
-function seed-socket-wrench() {
-    cd /var/www/socket-wrench
-    php artisan db:seed
 }

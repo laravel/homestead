@@ -2,11 +2,11 @@ Please note that the Homestead issue tracker is reserved for bug reports and enh
 
 ## Versions
   - Vagrant: Run `vagrant -v` to show the version.
-  - Provider: Virtualbox, VMWare or Parallels and its version.
-  - Homestead: Run `homestead --version` to show the version.
+  - Provider: Virtualbox, VMWare, Hyper-V, or Parallels and its version.
+  - Homestead: You should be on the most recent `release` branch.
 
 **A lot of issues can be resolved by simply updating vagrant, provider or homestead.**
->**Note:** Virtualbox users, please upgrade to `~5.2`. You *will* show as up-to-date from the `~5.0` version when you `About -> Check for Updates`. You'll need to download a newer version of [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
+>**Note:** Virtualbox users, please upgrade to `6.x`. You'll need to download a newer version of [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
 
 ## Host operating system
 This is the operating system that you run locally.
