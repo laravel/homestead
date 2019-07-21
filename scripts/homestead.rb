@@ -396,11 +396,11 @@ class Homestead
         end
       end
 
-      config.vm.provision "shell", args: domains.join(","), inline: <<-SHELL
-        sed -i "s/#browse-domains=.*/browse-domains=$1/" /etc/avahi/avahi-daemon.conf
-        sed -i "s/browse-domains=.*/browse-domains=$1/" /etc/avahi/avahi-daemon.conf
-        service avahi-daemon restart
-      SHELL
+      config.vm.provision 'shell' do |s|
+        s.name = 'Configure Avahi Service'
+        s.path = script_dir + '/configure-avahi.sh'
+        s.args = domains.join(",")
+      end
     end
 
     # Configure All Of The Server Environment Variables
