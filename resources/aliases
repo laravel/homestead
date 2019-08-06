@@ -121,16 +121,16 @@ function serve-silverstripe() {
 }
 
 function serve-spa() {
-  if [[ "$1" && "$2" ]]
-  then
-    sudo bash /vagrant/scripts/create-certificate.sh "$1"
-    sudo dos2unix /vagrant/scripts/site-types/spa.sh
-    sudo bash /vagrant/scripts/site-types/spa.sh "$1" "$2" 80 443 "${3:-7.3}"
-  else
-    echo "Error: missing required parameters."
-    echo "Usage: "
-    echo "  serve-spa domain path"
-  fi
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/spa.sh
+        sudo bash /vagrant/scripts/site-types/spa.sh "$1" "$2" 80 443 "${3:-7.3}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-spa domain path"
+    fi
 }
 
 function serve-statamic() {
@@ -267,7 +267,7 @@ function xphp() {
     fi
 
     if ! $XDEBUG_ENABLED; then xon; fi
-	
+
     HOST_IP=$(last --limit=1 | grep -oP '\d+(\.\d+){3}')
 
     php \
