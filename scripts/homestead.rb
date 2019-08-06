@@ -18,7 +18,9 @@ class Homestead
     # Configure The Box
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
-    config.vm.box_version = settings['version'] ||= '>= 8.0.0'
+    unless settings.has_key?('SpeakFriendAndEnter')
+      config.vm.box_version = settings['version'] ||= '>= 8.0.0'
+    end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
     # Configure A Private Network IP
