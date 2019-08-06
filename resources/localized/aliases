@@ -109,16 +109,16 @@ function serve-silverstripe() {
 }
 
 function serve-spa() {
-  if [[ "$1" && "$2" ]]
-  then
-    sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-    sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-spa.sh
-    sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-spa.sh "$1" "$2" 80 443 "${3:-7.1}"
-  else
-    echo "Error: missing required parameters."
-    echo "Usage: "
-    echo "  serve-spa domain path"
-  fi
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-spa.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-spa.sh "$1" "$2" 80 443 "${3:-7.1}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-spa domain path"
+    fi
 }
 
 function serve-statamic() {
