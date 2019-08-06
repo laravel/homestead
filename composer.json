@@ -27,11 +27,6 @@
             "Tests\\": "tests/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.0-dev"
-        }
-    },
     "bin": [
         "bin/homestead"
     ]
