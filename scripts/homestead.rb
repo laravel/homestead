@@ -518,7 +518,7 @@ class Homestead
     end
 
     # Create Minio Buckets
-    if settings.has_key?('buckets') && settings['minio']
+    if settings.has_key?('buckets') && settings['features'].any? { |feature| feature.include?('minio') }
       settings['buckets'].each do |bucket|
         config.vm.provision 'shell' do |s|
           s.name = 'Creating Minio Bucket: ' + bucket['name']
