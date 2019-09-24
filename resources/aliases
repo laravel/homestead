@@ -192,7 +192,7 @@ function share() {
         PATH_NGROK="/home/vagrant/.ngrok2"
         PATH_CONFIG="${PATH_NGROK}/ngrok.yml"
 
-        sed -i "/web_addr:/c\web_addr: ${LOCAL_IP}:4040" ${PATH_CONFIG}
+        sed -i "/^web_addr:/c\web_addr: ${LOCAL_IP}:4040" ${PATH_CONFIG}
 
         ngrok http ${@:2} -host-header="$1" 80
     else
