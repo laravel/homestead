@@ -188,6 +188,12 @@ function serve-pimcore() {
 function share() {
     if [[ "$1" ]]
     then
+        LOCAL_IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+        PATH_NGROK="/home/vagrant/.ngrok2"
+        PATH_CONFIG="${PATH_NGROK}/ngrok.yml"
+
+        sed -i "/web_addr:/c\web_addr: ${LOCAL_IP}:4040" ${PATH_CONFIG}
+
         ngrok http ${@:2} -host-header="$1" 80
     else
         echo "Error: missing required parameters."
