@@ -57,6 +57,12 @@ function php73() {
     sudo update-alternatives --set phpize /usr/bin/phpize7.3
 }
 
+function php74() {
+    sudo update-alternatives --set php /usr/bin/php7.4
+    sudo update-alternatives --set php-config /usr/bin/php-config7.4
+    sudo update-alternatives --set phpize /usr/bin/phpize7.4
+}
+
 function serve-apache() {
     if [[ "$1" && "$2" ]]
     then

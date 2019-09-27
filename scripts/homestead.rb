@@ -445,7 +445,7 @@ class Homestead
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart;'
+        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart;'
       end
     end
 
@@ -456,7 +456,7 @@ class Homestead
 
     config.vm.provision 'shell' do |s|
       s.name = 'Restarting Nginx'
-      s.inline = 'sudo service nginx restart;sudo service php5.6-fpm restart;sudo service php7.0-fpm restart;sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart;'
+      s.inline = 'sudo service nginx restart;sudo service php5.6-fpm restart;sudo service php7.0-fpm restart;sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart; sudo service php7.4-fpm restart;'
     end
 
     # Configure All Of The Configured Databases
