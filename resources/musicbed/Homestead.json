@@ -1,5 +1,6 @@
 {
     "name": "musicbed",
+    "hostname": "musicbed",
     "ip": "10.1.1.33",
     "memory": 4096,
     "cpus": 4,
