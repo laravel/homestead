@@ -51,6 +51,52 @@ if [ ! -f ~/Homestead/aliases ]; then
 	cp -i resources/aliases aliases
 fi
 
+# musicbed homestead files
+
+if [ ! -d ~/Homestead/musicbed ]; then
+	echo "Generating musicbed homestead files"
+
+	mkdir ~/Homestead/musicbed
+
+	if [ ! -f ~/Homestead/musicbed/Homestead.json ]; then
+		echo "Generating Homestead.json file"
+		cp -i resources/musicbed/Homestead.json musicbed/Homestead.json
+	fi
+
+	if [ ! -f ~/Homestead/musicbed/after.sh ]; then
+		echo "Generating after.sh file"
+		cp -i resources/musicbed/after.sh musicbed/after.sh
+	fi
+
+	if [ ! -f ~/Homestead/musicbed/aliases ]; then
+		echo "Generating aliases file"
+		cp -i resources/musicbed/aliases musicbed/aliases
+	fi
+fi
+
+# post homestead files
+
+if [ ! -d ~/Homestead/post ]; then
+	echo "Generating musicbed homestead files"
+
+	mkdir ~/Homestead/post
+
+	if [ ! -f ~/Homestead/post/Homestead.json ]; then
+		echo "Generating Homestead.json file"
+		cp -i resources/post/Homestead.json post/Homestead.json
+	fi
+
+	if [ ! -f ~/Homestead/post/after.sh ]; then
+		echo "Generating after.sh file"
+		cp -i resources/post/after.sh post/after.sh
+	fi
+
+	if [ ! -f ~/Homestead/post/aliases ]; then
+		echo "Generating aliases file"
+		cp -i resources/post/aliases post/aliases
+	fi
+fi
+
 # Check if vagrant box has been added, if not, prompot user to add
 
 read -p "Run vagrant box add? y/n" -n 1 -r
@@ -138,6 +184,11 @@ if [ ! -f ~/Code/musicbed/sabre/.env ]; then
 	fi
 fi
 
+if [ ! -d ~/Code/musicbed/post-api ]; then
+    mkdir -p ~/Code/musicbed/post-api
+	git clone https://github.com/musicbed/post-api.git ~/Code/musicbed/post-api
+fi
+
 # add sites to /etc/hosts
 
 if ! grep -q "# Musicbed" "/etc/hosts"; then
@@ -162,6 +213,8 @@ if ! grep -q "10.1.1.33   sabre.test" "/etc/hosts"; then
 	echo '10.1.1.33   sabre.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
-vagrant up
+if ! grep -q "10.1.1.33   api.post.test" "/etc/hosts"; then
+	echo '10.1.1.33   api.post.test' | sudo tee -a /etc/hosts > /dev/null
+fi
 
 echo "Musicbed Homestead initialized!"

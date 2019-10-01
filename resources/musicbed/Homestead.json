@@ -4,8 +4,6 @@
     "memory": 4096,
     "cpus": 4,
     "provider": "virtualbox",
-    "elasticsearch": "5.6.3",
-    "ohmyzsh": true,
     "authorize": "~/.ssh/id_rsa.pub",
     "keys": [
         "~/.ssh/id_rsa"
