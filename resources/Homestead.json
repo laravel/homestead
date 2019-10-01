@@ -11,9 +11,9 @@
     ],
     "features": [
         {
-            "elasticsearch": "5.6.3"
-        },
-        {
+            "elasticsearch": {
+                "version": "5.6.3"
+            },
             "ohmyzsh": true
         }
     ],
