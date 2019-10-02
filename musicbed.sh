@@ -189,6 +189,11 @@ if [ ! -d ~/Code/musicbed/post-api-admin ]; then
 	git clone https://github.com/musicbed/post-api-admin.git ~/Code/musicbed/post-api-admin
 fi
 
+if [ ! -d ~/Code/musicbed/post ]; then
+    mkdir -p ~/Code/musicbed/post
+	git clone https://github.com/musicbed/post.git ~/Code/musicbed/post
+fi
+
 # add sites to /etc/hosts
 
 if ! grep -q "# Musicbed" "/etc/hosts"; then
