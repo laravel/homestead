@@ -17,7 +17,8 @@
     "folders": [
         {
             "map": "~/Code/musicbed/post-api-admin",
-            "to": "/home/vagrant/post-api-admin"
+            "to": "/home/vagrant/post-api-admin",
+            "type": "nfs"
         }
     ],
     "sites": [
