@@ -1,6 +1,5 @@
 {
     "name": "musicbed",
-    "hostname": "musicbed",
     "ip": "10.1.1.33",
     "memory": 4096,
     "cpus": 4,
@@ -12,31 +11,42 @@
     "features": [
         {
             "elasticsearch": {
-                "version": "5.6.3"
+                "version": "5"
             },
             "ohmyzsh": true
         }
     ],
     "folders": [
         {
-            "map": "~/Code",
-            "to": "/home/vagrant/Code"
-        }
+            "map": "~/Code/musicbed/musicbed",
+            "to": "/home/vagrant/musicbed",
+            "type": "nfs"
+        },
+        {
+            "map": "~/Code/musicbed/musicbed-api",
+            "to": "/home/vagrant/musicbed-api",
+            "type": "nfs"
+        },
+        {
+            "map": "~/Code/musicbed/sabre",
+            "to": "/home/vagrant/sabre",
+            "type": "nfs"
+        }                
     ],
     "sites": [
         {
             "map": "admin.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/musicbed/public",
+            "to": "/home/vagrant/musicbed/public",
             "php": "7.1"
         },
         {
             "map": "api3.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/musicbed-api/public",
+            "to": "/home/vagrant/musicbed-api/public",
             "php": "7.1"
         },
         {
             "map": "sabre.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/sabre/public",
+            "to": "/home/vagrant/sabre/public",
             "php": "7.0"
         }
     ]

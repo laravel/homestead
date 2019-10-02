@@ -34,16 +34,16 @@ alias migrate="php artisan migrate"
 
 function init() {
     echo "musicbed/musicbed composer install"
-    cd ~/Code/musicbed/musicbed
+    cd ~/musicbed
     composer install
     php artisan migrate
 
     echo "musicbed/musicbed-api composer install"
-    cd ~/Code/musicbed/musicbed-api
+    cd ~/musicbed-api
     composer install
 
     echo "musicbed/sabre composer install"
-    cd ~/Code/musicbed/sabre
+    cd ~/sabre
     composer install
 
     echo "init complete"

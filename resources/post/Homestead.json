@@ -16,14 +16,14 @@
     ],
     "folders": [
         {
-            "map": "~/Code",
-            "to": "/home/vagrant/Code"
+            "map": "~/Code/musicbed/post-api-admin",
+            "to": "/home/vagrant/post-api-admin"
         }
     ],
     "sites": [
         {
-            "map": "api.post.test",
-            "to": "/home/vagrant/Code/musicbed/post-api/public"
+            "map": "api-admin.post.test",
+            "to": "/home/vagrant/post-api-admin/public"
         }
     ]
 }
