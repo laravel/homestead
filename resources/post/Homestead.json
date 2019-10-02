@@ -26,5 +26,15 @@
             "map": "api-admin.post.test",
             "to": "/home/vagrant/post-api-admin/public"
         }
+    ],
+    "ports": [
+        {
+            "send": "8002",
+            "to": "80"
+        },
+        {
+            "send": "33062",
+            "to": "3306"
+        }
     ]
 }

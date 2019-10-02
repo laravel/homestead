@@ -49,5 +49,15 @@
             "to": "/home/vagrant/sabre/public",
             "php": "7.0"
         }
+    ],
+    "ports": [
+        {
+            "send": "8001",
+            "to": "80"
+        },,
+        {
+            "send": "33061",
+            "to": "3306"
+        }
     ]
 }
