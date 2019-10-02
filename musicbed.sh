@@ -218,8 +218,8 @@ if ! grep -q "10.1.1.33   sabre.test" "/etc/hosts"; then
 	echo '10.1.1.33   sabre.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
-if ! grep -q "10.1.1.33   api.post.test" "/etc/hosts"; then
-	echo '10.1.1.33   api.post.test' | sudo tee -a /etc/hosts > /dev/null
+if ! grep -q "10.1.1.33   api-admin.post.test" "/etc/hosts"; then
+	echo '10.1.1.33   api-admin.post.test' | sudo tee -a /etc/hosts > /dev/null
 fi
 
 echo "Musicbed Homestead initialized!"
