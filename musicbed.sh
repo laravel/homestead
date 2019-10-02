@@ -184,9 +184,9 @@ if [ ! -f ~/Code/musicbed/sabre/.env ]; then
 	fi
 fi
 
-if [ ! -d ~/Code/musicbed/post-api ]; then
-    mkdir -p ~/Code/musicbed/post-api
-	git clone https://github.com/musicbed/post-api.git ~/Code/musicbed/post-api
+if [ ! -d ~/Code/musicbed/post-api-admin ]; then
+    mkdir -p ~/Code/musicbed/post-api-admin
+	git clone https://github.com/musicbed/post-api-admin.git ~/Code/musicbed/post-api-admin
 fi
 
 # add sites to /etc/hosts
