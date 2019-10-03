@@ -12,3 +12,4 @@ phpunit.xml
 .DS_Store
 /musicbed/*
 /post/*
+/filmsupply/*

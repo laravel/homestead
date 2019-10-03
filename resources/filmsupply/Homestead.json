@@ -1,0 +1,43 @@
+{
+    "name": "filmsupply",
+    "ip": "10.1.1.33",
+    "memory": 4096,
+    "cpus": 4,
+    "provider": "virtualbox",
+    "authorize": "~/.ssh/id_rsa.pub",
+    "keys": [
+        "~/.ssh/id_rsa"
+    ],
+    "features": [
+        {
+            "elasticsearch": {
+                "version": "6.3"
+            },
+            "ohmyzsh": true
+        }
+    ],
+    "folders": [
+        {
+            "map": "~/Code/musicbed/filmsupply",
+            "to": "/home/vagrant/filmsupply",
+            "type": "nfs"
+        }             
+    ],
+    "sites": [
+        {
+            "map": "filmsupply.test",
+            "to": "/home/vagrant/filmsupply/public",
+            "php": "7.0"
+        },
+    ],
+    "ports": [
+        {
+            "send": "8003",
+            "to": "80"
+        },,
+        {
+            "send": "33063",
+            "to": "3306"
+        }
+    ]
+}

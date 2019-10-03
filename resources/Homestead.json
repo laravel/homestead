@@ -10,34 +10,12 @@
         "~/.ssh/id_rsa"
     ],
     "features": [
-        {
-            "elasticsearch": {
-                "version": "5.6.3"
-            },
-            "ohmyzsh": true
-        }
+        
     ],
     "folders": [
-        {
-            "map": "~/Code",
-            "to": "/home/vagrant/Code"
-        }
+    
     ],
     "sites": [
-        {
-            "map": "admin.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/musicbed/public",
-            "php": "7.1"
-        },
-        {
-            "map": "api3.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/musicbed-api/public",
-            "php": "7.1"
-        },
-        {
-            "map": "sabre.musicbed.test",
-            "to": "/home/vagrant/Code/musicbed/sabre/public",
-            "php": "7.0"
-        }
+
     ]
 }
