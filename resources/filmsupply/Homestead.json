@@ -11,7 +11,7 @@
     "features": [
         {
             "elasticsearch": {
-                "version": "6.3"
+                "version": "6"
             },
             "ohmyzsh": true
         }
@@ -28,13 +28,13 @@
             "map": "filmsupply.test",
             "to": "/home/vagrant/filmsupply/public",
             "php": "7.0"
-        },
+        }
     ],
     "ports": [
         {
             "send": "8003",
             "to": "80"
-        },,
+        },
         {
             "send": "33063",
             "to": "3306"
