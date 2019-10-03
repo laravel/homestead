@@ -5,9 +5,7 @@
     "cpus": 4,
     "provider": "virtualbox",
     "authorize": "~/.ssh/id_rsa.pub",
-    "keys": [
-        "~/.ssh/id_rsa"
-    ],
+    "keys": ["~/.ssh/id_rsa"],
     "features": [
         {
             "elasticsearch": {
@@ -31,7 +29,7 @@
             "map": "~/Code/musicbed/sabre",
             "to": "/home/vagrant/sabre",
             "type": "nfs"
-        }                
+        }
     ],
     "sites": [
         {
@@ -54,7 +52,7 @@
         {
             "send": "8001",
             "to": "80"
-        },,
+        },
         {
             "send": "33061",
             "to": "3306"
