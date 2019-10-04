@@ -25,10 +25,17 @@
     ],
     "sites": [
         {
-            "map": "filmsupply.test",
-            "to": "/home/vagrant/filmsupply/public",
+            "map": "api.filmsupply.test",
+            "to": "/home/vagrant/filmsupply/public/api",
             "php": "7.0"
+        },
+        {
+            "map": "filmsupply.test",
+            "to": "/home/vagrant/filmsupply/public/client"
         }
+    ],
+    "databases": [
+        "filmsupply"
     ],
     "ports": [
         {

@@ -27,6 +27,9 @@
             "to": "/home/vagrant/post-api-admin/public"
         }
     ],
+    "databases": [
+        "post"
+    ],
     "ports": [
         {
             "send": "8002",
