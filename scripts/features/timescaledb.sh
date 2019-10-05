@@ -19,9 +19,9 @@ sudo add-apt-repository -y ppa:timescale/timescaledb-ppa
 sudo apt-get update
 
 # Now install appropriate package for PG version
-sudo apt-get -y install timescaledb-oss-postgresql-10
+sudo apt-get -y install timescaledb-oss-postgresql-11
 
 sudo timescaledb-tune --quiet --yes
-printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/10/main/postgresql.conf
+printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/11/main/postgresql.conf
 
 sudo service postgresql restart
