@@ -43,10 +43,6 @@ block="server {
 
     $rewritesTXT
 
-    location ~* \/\.ht {
-      deny all;
-    }
-
     location ~* ^\/(classes|errors\/logs|sys\-temp|cache|xmldb|static|packages) {
       deny all;
     }
