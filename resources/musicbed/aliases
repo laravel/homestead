@@ -49,6 +49,18 @@ function init() {
     echo "init complete"
 }
 
+function reindex() {
+    echo "Musicbed Index"
+    cd ~/sabre
+    php7.1 artisan cron:index_data
+}
+
+function index() {
+    echo "Musicbed Index"
+    cd ~/sabre
+    php7.1 artisan cron:index_data
+}
+
 function artisan() {
     php artisan "$@"
 }

@@ -33,10 +33,23 @@ alias migrate="php artisan migrate"
 function init() {
     echo "musicbed/filmsupply composer install"
     cd ~/filmsupply
+    git pull --rebase
     composer install
     php artisan migrate
 
     echo "init complete"
+}
+
+function reindex() {
+    echo "Filmsupply Index"
+    cd ~/filmsupply
+    php artisan fs:reindex_models
+}
+
+function index() {
+    echo "Filmsupply Index"
+    cd ~/filmsupply
+    php artisan fs:reindex_models
 }
 
 function artisan() {

@@ -33,6 +33,7 @@ alias migrate="php artisan migrate"
 function init() {
     echo "musicbed/post-api-admin composer install"
     cd ~/post-api-admin
+    git pull --rebase
     composer install
     php artisan migrate
 
