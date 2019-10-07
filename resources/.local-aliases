@@ -5,8 +5,6 @@ function mb() {
     	BRAND=post vagrant suspend
     	BRAND=filmsupply vagrant suspend
 
-    	echo $1
-
     	if [[ $1 == 'yarn' || $1 == 'npm' ]]
 		then
 			BRAND=musicbed vagrant up
@@ -27,8 +25,6 @@ function post() {
     	BRAND=musicbed vagrant suspend
     	BRAND=filmsupply vagrant suspend
 
-    	echo $1
-
     	if [[ $1 == 'yarn' || $1 == 'npm' ]]
 		then
 			BRAND=post vagrant up
@@ -48,8 +44,6 @@ function fs() {
     	cd ~/Homestead
     	BRAND=post vagrant suspend
     	BRAND=musicbed vagrant suspend
-
-    	echo $1
 
     	if [[ $1 == 'yarn' || $1 == 'npm' ]]
 		then
