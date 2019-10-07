@@ -1,0 +1,68 @@
+# START F+M HOMESTEAD FUNCTIONS
+function mb() {
+    (
+    	cd ~/Homestead
+    	BRAND=post vagrant suspend
+    	BRAND=filmsupply vagrant suspend
+
+    	echo $1
+
+    	if [[ $1 == 'yarn' || $1 == 'npm' ]]
+		then
+			BRAND=musicbed vagrant up
+
+			ssh -t vagrant@10.1.1.33 -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes /bin/bash -ic 'init'
+
+			cd ~/Code/musicbed/musicbed-www
+			$*
+		else
+			BRAND=musicbed vagrant $*
+		fi
+    )
+}
+
+function post() {
+    (
+    	cd ~/Homestead
+    	BRAND=musicbed vagrant suspend
+    	BRAND=filmsupply vagrant suspend
+
+    	echo $1
+
+    	if [[ $1 == 'yarn' || $1 == 'npm' ]]
+		then
+			BRAND=post vagrant up
+
+			ssh -t vagrant@10.1.1.33 -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes /bin/bash -ic 'init'
+
+			cd ~/Code/musicbed/post
+			$*
+		else
+			BRAND=post vagrant $*
+		fi
+	)
+}
+
+function fs() {
+    (
+    	cd ~/Homestead
+    	BRAND=post vagrant suspend
+    	BRAND=musicbed vagrant suspend
+
+    	echo $1
+
+    	if [[ $1 == 'yarn' || $1 == 'npm' ]]
+		then
+			BRAND=filmsupply vagrant up
+
+			ssh -t vagrant@10.1.1.33 -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes /bin/bash -ic 'init'
+
+			cd ~/Code/musicbed/filmsupply
+			$*
+		else
+			BRAND=filmsupply vagrant $*
+		fi
+	)
+}
+
+# END F+M HOMESTEAD FUNCTIONS
