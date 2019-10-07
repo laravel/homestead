@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-read -p "Do you need a database import? y/n" -n 1 -r
+read -p "Do you need a Musicbed database import? y/n" -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	echo "Adding mysqldump.sql.gz to ~/Homestead"
