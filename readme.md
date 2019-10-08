@@ -14,3 +14,16 @@ Laravel Homestead is an official, pre-packaged Vagrant box that provides you a w
 Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.3, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
 
 Official documentation [is located here](https://laravel.com/docs/homestead).
+
+## Developing Homestead
+
+To keep any in-development changes separate from other Homestead installations, create a new project and install
+Homestead from composer, forcing it to use a git checkout.
+
+```
+$ mkdir homestead && \
+    cd homestead && \
+    composer require --prefer-source laravel/homestead:dev-master
+```
+
+After it's complete, `vendor/laravel/homestead` will be a git checkout and can be used normally.
