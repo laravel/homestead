@@ -74,8 +74,6 @@ server {
 
     sendfile off;
 
-    client_max_body_size 100m;
-
     location ~ \.php$ {
         try_files \$uri =404;
         include fastcgi_params;

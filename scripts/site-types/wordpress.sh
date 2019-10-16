@@ -86,8 +86,6 @@ block="server {
 
     sendfile off;
 
-    client_max_body_size 100m;
-
     location ~ /\.ht {
         deny all;
     }
