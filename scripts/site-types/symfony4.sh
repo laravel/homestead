@@ -62,8 +62,6 @@ block="server {
 
     sendfile off;
 
-    client_max_body_size 100m;
-
     # DEV
     location ~ ^/index\.php(/|\$) {
         fastcgi_split_path_info ^(.+\.php)(/.*)\$;
