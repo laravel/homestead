@@ -43,13 +43,13 @@ function init() {
 function reindex() {
     echo "Filmsupply Index"
     cd ~/filmsupply
-    php artisan fs:reindex_models
+    php7.0 artisan fs:reindex_models
 }
 
 function index() {
     echo "Filmsupply Index"
     cd ~/filmsupply
-    php artisan fs:reindex_models
+    php7.0 artisan fs:reindex_models
 }
 
 function artisan() {
