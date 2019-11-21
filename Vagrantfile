@@ -44,6 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     if Vagrant.has_plugin?('vagrant-hostsupdater')
+        config.hostsupdater.remove_on_suspend = false
         config.hostsupdater.aliases = settings['sites'].map { |site| site['map'] }
     elsif Vagrant.has_plugin?('vagrant-hostmanager')
         config.hostmanager.enabled = true
