@@ -43,14 +43,12 @@ block="server {
     server_name .$1;
     root \"$2\";
 
-    index index.html index.htm index.php;
-
     charset utf-8;
 
     $rewritesTXT
 
     location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
+        try_files \$uri /index.php?\$query_string;
         $headersTXT
     }
 
@@ -64,7 +62,7 @@ block="server {
 
     sendfile off;
 
-    location ~ \.php$ {
+    location = /index.php {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
         fastcgi_index index.php;
