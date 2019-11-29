@@ -143,7 +143,7 @@ db.results.ensureIndex( { "meta.request_ts" : 1 }, { expireAfterSeconds : 432000
 cd /opt/xhgui
 php install.php
 
-for version in 5.6 7.0 7.1 7.2 7.3
+for version in 5.6 7.0 7.1 7.2 7.3 7.4
 do
   cat << 'EOT' > /etc/php/$version/mods-available/xhgui.ini
 ; Include xhgui's header for performance profiling.
