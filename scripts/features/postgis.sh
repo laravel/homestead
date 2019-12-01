@@ -13,8 +13,5 @@ fi
 
 touch /home/vagrant/.homestead-features/postgis
 
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main" >> /etc/apt/sources.list'
-wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
-
-sudo apt update
-sudo apt-get -y install postgresql-11-postgis-2.5 postgresql-11-postgis-scripts
+sudo apt-get update
+sudo apt-get -y install postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
