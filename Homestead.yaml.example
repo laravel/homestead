@@ -20,6 +20,8 @@ sites:
 databases:
     - homestead
 
+backup: true
+
 features:
     - mariadb: false
     - ohmyzsh: false
