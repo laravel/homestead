@@ -36,7 +36,7 @@ function dusk() {
         Xvfb :0 -screen 0 1280x960x24 &
     fi
 
-    php artisan dusk "$@"
+    php artisan dusk --filter "$@"
 }
 
 function php56() {
