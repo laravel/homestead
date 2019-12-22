@@ -87,6 +87,10 @@ then
         -key "$PATH_ROOT_KEY" \
         -x509 -new -extensions v3_ca -days 3650 -sha256 \
         -out "$PATH_ROOT_CRT" 2>/dev/null
+        
+        # Symlink ca to local certificate storage and run update command
+        ln --force --symbolic $PATH_ROOT_CRT /usr/local/share/ca-certificates/
+        update-ca-certificates
 fi
 
 # Only generate a certificate if there isn't one already there.
