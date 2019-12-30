@@ -16,7 +16,7 @@ then
 
             if ! [ -n "$(grep [^\.]$HOSTNAME /etc/hosts)" ]
                 then
-                    echo "Failed to Add $HOSTNAME, Try again!";
+                    echo "Failed to add $HOSTNAME.";
             fi
     fi
 else
