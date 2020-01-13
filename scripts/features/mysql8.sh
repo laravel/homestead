@@ -27,10 +27,10 @@ rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
 # Add MySQL PPA
-wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.12-1_all.deb
-dpkg -i mysql-apt-config_0.8.12-1_all.deb
+wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.14-1_all.deb
+dpkg -i mysql-apt-config_0.8.14-1_all.deb
 sed -i 's/mysql-5.7/mysql-8.0/g' /etc/apt/sources.list.d/mysql.list
-rm -rf mysql-apt-config_0.8.12-1_all.deb
+rm -rf mysql-apt-config_0.8.14-1_all.deb
 apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
 apt-get update
 
