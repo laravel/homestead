@@ -15,6 +15,7 @@ abstract class HomesteadSettings
      * JsonSettings constructor.
      *
      * @param  array  $attributes
+     * @return void
      */
     public function __construct($attributes)
     {

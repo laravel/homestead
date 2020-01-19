@@ -240,7 +240,7 @@ class MakeCommand extends Command
      * the user is warned that Yaml will be used before
      * JSON until Yaml is renamed / removed.
      *
-     * @param  OutputInterface  $output
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return void
      */
     protected function checkForDuplicateConfigs(OutputInterface $output)
