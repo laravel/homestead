@@ -16,16 +16,24 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 set -- "$1"
 IFS=".";
 
-if [ -z "${version[1]}" ]; then
-    installVersion=""
+if [ -z "${version}" ]; then
+    installVersion="" # by not specifying we'll install latest
+    majorVersion="7" # default to version 7
 else
-    installVersion="=$1"
+    installVersion="=$version"
+    majorVersion="$(echo $version | head -c 1)"
 fi
+
+
+echo "Elasticsearch installVersion: $installVersion"
+echo "Elasticsearch majorVersion: $majorVersion"
+
 
 # Install Java & Elasticsearch
 
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb https://artifacts.elastic.co/packages/${version[0]}.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-${version[0]}.x.list
+echo "deb https://artifacts.elastic.co/packages/$majorVersion.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-$majorVersion.x.list
+
 sudo apt-get update
 sudo apt-get -y install openjdk-11-jre
 sudo apt-get -y install elasticsearch"$installVersion"
