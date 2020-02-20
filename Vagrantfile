@@ -36,6 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     Homestead.configure(config, settings)
 
     config.vm.provision "shell", path: "scripts-custom/tools.sh"
+    config.vm.provision "shell", path: "scripts-custom/php.sh"
     config.vm.provision "shell", path: "scripts-custom/node.sh"
     config.vm.provision "shell", path: "scripts-custom/laravel-echo.sh"
     config.vm.provision "shell", path: "scripts-custom/supervisor.sh"
