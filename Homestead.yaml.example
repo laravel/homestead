@@ -1,5 +1,6 @@
 ---
-ip: "192.168.10.10"
+name: homestead-unit3d
+ip: "192.168.10.20"
 memory: 2048
 cpus: 2
 provider: virtualbox
@@ -10,18 +11,19 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/code
+    - map: ~/code/unit3d
       to: /home/vagrant/code
 
 sites:
-    - map: homestead.test
+    - map: unit3d.local
       to: /home/vagrant/code/public
 
 databases:
-    - homestead
+    - unit3d
+    - unit3d_test
 
 features:
-    - mariadb: false
+    - mariadb: true
     - ohmyzsh: false
     - webdriver: false
 

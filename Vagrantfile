@@ -35,11 +35,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     Homestead.configure(config, settings)
 
+    code_path = settings['folders'][0]['to']
+
     config.vm.provision "shell", path: "scripts-custom/tools.sh"
     config.vm.provision "shell", path: "scripts-custom/php.sh"
     config.vm.provision "shell", path: "scripts-custom/node.sh"
-    config.vm.provision "shell", path: "scripts-custom/laravel-echo.sh"
-    config.vm.provision "shell", path: "scripts-custom/supervisor.sh"
+    config.vm.provision "shell", path: "scripts-custom/laravel-echo.sh", args: code_path
+    config.vm.provision "shell", path: "scripts-custom/supervisor.sh", args: code_path
     config.vm.provision "shell", path: "scripts-custom/chromedriver.sh"
     config.vm.provision "shell", path: "scripts-custom/postfix.sh"
     config.vm.provision "shell", path: "scripts-custom/dovecot.sh"
