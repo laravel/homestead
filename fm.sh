@@ -12,9 +12,6 @@ echo "Starting F+M Homestead initialization!"
 # Filmsupply homestead, repo cloning, and .env
 . ./scripts/fm/fs.sh
 
-# Post homestead, repo cloning, and .env
-. ./scripts/fm/post.sh
-
 # Add vagrant prompt
 . ./scripts/fm/vagrant.sh
 

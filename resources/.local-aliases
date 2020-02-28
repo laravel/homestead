@@ -2,8 +2,7 @@
 function mb() {
     (
     	cd ~/Homestead
-    	BRAND=post vagrant suspend
-    	BRAND=filmsupply vagrant suspend
+    	BRAND=filmsupply vagrant halt
 
     	if [[ $1 == 'yarn' || $1 == 'npm' ]]
 		then
@@ -19,31 +18,10 @@ function mb() {
     )
 }
 
-function post() {
-    (
-    	cd ~/Homestead
-    	BRAND=musicbed vagrant suspend
-    	BRAND=filmsupply vagrant suspend
-
-    	if [[ $1 == 'yarn' || $1 == 'npm' ]]
-		then
-			BRAND=post vagrant up
-
-			ssh -t vagrant@10.1.1.33 -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no -o IdentitiesOnly=yes /bin/bash -ic 'init'
-
-			cd ~/Code/musicbed/post
-			$*
-		else
-			BRAND=post vagrant $*
-		fi
-	)
-}
-
 function fs() {
     (
     	cd ~/Homestead
-    	BRAND=post vagrant suspend
-    	BRAND=musicbed vagrant suspend
+    	BRAND=musicbed vagrant halt
 
     	if [[ $1 == 'yarn' || $1 == 'npm' ]]
 		then

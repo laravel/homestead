@@ -19,8 +19,7 @@
     "folders": [
         {
             "map": "~/Code/musicbed/filmsupply",
-            "to": "/home/vagrant/filmsupply",
-            "type": "nfs"
+            "to": "/home/vagrant/filmsupply"
         }             
     ],
     "sites": [

@@ -17,35 +17,32 @@
     "folders": [
         {
             "map": "~/Code/musicbed/musicbed",
-            "to": "/home/vagrant/musicbed",
-            "type": "nfs"
+            "to": "/home/vagrant/musicbed"
         },
         {
             "map": "~/Code/musicbed/musicbed-api",
-            "to": "/home/vagrant/musicbed-api",
-            "type": "nfs"
+            "to": "/home/vagrant/musicbed-api"
         },
         {
             "map": "~/Code/musicbed/sabre",
-            "to": "/home/vagrant/sabre",
-            "type": "nfs"
+            "to": "/home/vagrant/sabre"
         }
     ],
     "sites": [
         {
             "map": "admin.musicbed.test",
             "to": "/home/vagrant/musicbed/public",
-            "php": "7.1"
+            "php": "7.3"
         },
         {
             "map": "api3.musicbed.test",
             "to": "/home/vagrant/musicbed-api/public",
-            "php": "7.1"
+            "php": "7.3"
         },
         {
             "map": "sabre.musicbed.test",
             "to": "/home/vagrant/sabre/public",
-            "php": "7.0"
+            "php": "7.3"
         }
     ],
     "ports": [
