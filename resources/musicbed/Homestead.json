@@ -24,8 +24,8 @@
             "to": "/home/vagrant/musicbed-api"
         },
         {
-            "map": "~/Code/musicbed/sabre",
-            "to": "/home/vagrant/sabre"
+            "map": "~/Code/musicbed/laravel-sabre",
+            "to": "/home/vagrant/laravel-sabre"
         }
     ],
     "sites": [
@@ -41,7 +41,7 @@
         },
         {
             "map": "sabre.musicbed.test",
-            "to": "/home/vagrant/sabre/public",
+            "to": "/home/vagrant/laravel-sabre/public",
             "php": "7.3"
         }
     ],

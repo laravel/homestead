@@ -27,7 +27,7 @@ alias yrp="yarn run production"
 
 alias mb="cd ~/musicbed"
 alias mbapi="cd ~/musicbed-api"
-alias sabre="cd ~/sabre"
+alias sabre="cd ~/laravel-sabre"
 
 alias tinker="php artisan tinker"
 alias migrate="php artisan migrate"
@@ -42,8 +42,8 @@ function init() {
     cd ~/musicbed-api
     composer install
 
-    echo "musicbed/sabre composer install"
-    cd ~/sabre
+    echo "musicbed/laravel-sabre composer install"
+    cd ~/laravel-sabre
     composer install
 
     echo "init complete"
@@ -51,13 +51,13 @@ function init() {
 
 function reindex() {
     echo "Musicbed Index"
-    cd ~/sabre
+    cd ~/laravel-sabre
     php7.1 artisan cron:index_data
 }
 
 function index() {
     echo "Musicbed Index"
-    cd ~/sabre
+    cd ~/laravel-sabre
     php7.1 artisan cron:index_data
 }
 

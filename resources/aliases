@@ -30,7 +30,7 @@ alias sites="cd ~/Code"
 alias musicbed="code && cd musicbed"
 alias mb="musicbed && cd musicbed"
 alias mbapi="musicbed && cd musicbed-api"
-alias sabre="musicbed && cd sabre"
+alias sabre="musicbed && cd laravel-sabre"
 
 alias tinker="php artisan tinker"
 alias migrate="php artisan migrate"
@@ -45,8 +45,8 @@ function init() {
     cd ~/Code/musicbed/musicbed-api
     composer install
 
-    echo "musicbed/sabre composer install"
-    cd ~/Code/musicbed/sabre
+    echo "musicbed/laravel-sabre composer install"
+    cd ~/Code/musicbed/laravel-sabre
     composer install
 
     echo "init complete"

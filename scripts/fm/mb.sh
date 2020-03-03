@@ -87,18 +87,18 @@ then
 	cd ~/Homestead
 fi
 
-if [ ! -d ~/Code/musicbed/sabre ]; then
-	mkdir -p ~/Code/musicbed/sabre
-	git clone https://github.com/musicbed/sabre.git ~/Code/musicbed/sabre
+if [ ! -d ~/Code/musicbed/laravel-sabre ]; then
+	mkdir -p ~/Code/musicbed/laravel-sabre
+	git clone https://github.com/musicbed/laravel-sabre.git ~/Code/musicbed/laravel-sabre
 fi
 
-if [ ! -f ~/Code/musicbed/sabre/.env ]; then
+if [ ! -f ~/Code/musicbed/laravel-sabre/.env ]; then
 	echo "Adding .env to sabre"
-	curl -o ~/Code/musicbed/sabre/.env https://s3.amazonaws.com/mb-engineering-onboarding/sabre/.env
-	if grep -q "AccessDenied" ~/Code/musicbed/sabre/.env; then
+	curl -o ~/Code/musicbed/laravel-sabre/.env https://s3.amazonaws.com/mb-engineering-onboarding/sabre/.env
+	if grep -q "AccessDenied" ~/Code/musicbed/laravel-sabre/.env; then
 		echo "File not downloaded. Access Denied. Please make sure you are connected to VPN."
 		echo "Cleaning up..."
-		rm -f ~/Code/musicbed/sabre/.env
+		rm -f ~/Code/musicbed/laravel-sabre/.env
 		exit 1
 	fi
 fi
