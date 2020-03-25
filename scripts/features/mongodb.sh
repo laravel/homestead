@@ -17,7 +17,7 @@ wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add 
 
 sudo apt-get update
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev php-mongodb
 
 sudo ufw allow 27017
 sudo sed -i "s/bindIp: .*/bindIp: 0.0.0.0/" /etc/mongod.conf
