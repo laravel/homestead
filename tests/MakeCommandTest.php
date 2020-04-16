@@ -174,7 +174,7 @@ class MakeCommandTest extends TestCase
         $this->assertFileNotExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh');
     }
 
-        /** @test */
+    /** @test */
     public function an_after_up_shell_script_is_created_by_default()
     {
         $tester = new CommandTester(new MakeCommand());
