@@ -10,6 +10,7 @@ confDir = $confDir ||= File.expand_path(File.dirname(__FILE__))
 homesteadYamlPath = confDir + "/Homestead.yaml"
 homesteadJsonPath = confDir + "/Homestead.json"
 afterScriptPath = confDir + "/after.sh"
+afterUpScriptPath = confDir + "/after-up.sh"
 customizationScriptPath = confDir + "/user-customizations.sh"
 aliasesPath = confDir + "/aliases"
 
@@ -42,6 +43,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if File.exist? customizationScriptPath then
         config.vm.provision "shell", path: customizationScriptPath, privileged: false, keep_color: true
     end
+
+    if File.exist? afterUpScriptPath then
+        config.trigger.after :up do |trigger|
+            trigger.info = "Running scripts after Vagrant has started"
+            trigger.run_remote = {path: afterUpScriptPath, privileged: false, keep_color: true}
+        end
+    else
 
     if Vagrant.has_plugin?('vagrant-hostsupdater')
         config.hostsupdater.remove_on_suspend = false
