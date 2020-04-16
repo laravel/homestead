@@ -53,6 +53,14 @@ class InitScriptTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_an_after_up_shell_script()
+    {
+        exec('bash init.sh');
+
+        $this->assertFileExists(self::$testDirectory.'/after-up.sh');
+    }
+
+    /** @test */
     public function it_creates_an_aliases_file()
     {
         exec('bash init.sh');

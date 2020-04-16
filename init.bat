@@ -8,6 +8,7 @@ if ["%~1"]==[""] (
 )
 
 copy /-y resources\after.sh after.sh
+copy /-y resources\after-up.sh after-up.sh
 copy /-y resources\aliases aliases
 
 echo Homestead initialized!

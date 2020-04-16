@@ -174,6 +174,52 @@ class MakeCommandTest extends TestCase
         $this->assertFileNotExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after.sh');
     }
 
+        /** @test */
+    public function an_after_up_shell_script_is_created_by_default()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after-up.sh');
+
+        $this->assertFileEquals(
+            __DIR__.'/../resources/after-up.sh',
+            self::$testDirectory.DIRECTORY_SEPARATOR.'after-up.sh'
+        );
+    }
+
+    /** @test */
+    public function an_existing_after_up_shell_script_is_not_overwritten()
+    {
+        file_put_contents(
+            self::$testDirectory.DIRECTORY_SEPARATOR.'after-up.sh',
+            'Already existing after-up.sh'
+        );
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([]);
+
+        $this->assertFileExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after-up.sh');
+
+        $this->assertStringEqualsFile(
+            self::$testDirectory.DIRECTORY_SEPARATOR.'after-up.sh',
+            'Already existing after-up.sh'
+        );
+    }
+
+    /** @test */
+    public function an_after_up_file_is_not_created_if_it_is_explicitly_told_to()
+    {
+        $tester = new CommandTester(new MakeCommand());
+
+        $tester->execute([
+            '--no-after-up' => true,
+        ]);
+
+        $this->assertFileNotExists(self::$testDirectory.DIRECTORY_SEPARATOR.'after-up.sh');
+    }
+
     /** @test */
     public function an_example_homestead_yaml_settings_is_created_if_requested()
     {

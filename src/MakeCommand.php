@@ -53,6 +53,7 @@ class MakeCommand extends Command
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultProjectName)
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
             ->addOption('no-after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is not created.')
+            ->addOption('no-after-up', null, InputOption::VALUE_NONE, 'Determines if the after-up.sh file is not created.')
             ->addOption('no-aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is not created.')
             ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead example file is created.')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
@@ -77,6 +78,10 @@ class MakeCommand extends Command
 
         if (! $input->getOption('no-after') && ! $this->afterShellScriptExists()) {
             $this->createAfterShellScript();
+        }
+
+        if (! $input->getOption('no-after-up') && ! $this->afterUpShellScriptExists()) {
+            $this->createAfterUpShellScript();
         }
 
         $format = $input->getOption('json') ? 'json' : 'yaml';
@@ -165,6 +170,16 @@ class MakeCommand extends Command
     }
 
     /**
+     * Determine if the after-up shell script exists.
+     *
+     * @return bool
+     */
+    protected function afterUpShellScriptExists()
+    {
+        return file_exists("{$this->basePath}/after-up.sh");
+    }
+
+    /**
      * Create the after shell script.
      *
      * @return void
@@ -172,6 +187,16 @@ class MakeCommand extends Command
     protected function createAfterShellScript()
     {
         copy(__DIR__.'/../resources/after.sh', "{$this->basePath}/after.sh");
+    }
+
+    /**
+     * Create the after-up shell script.
+     *
+     * @return void
+     */
+    protected function createAfterUpShellScript()
+    {
+        copy(__DIR__.'/../resources/after-up.sh', "{$this->basePath}/after-up.sh");
     }
 
     /**
