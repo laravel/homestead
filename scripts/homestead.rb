@@ -452,6 +452,13 @@ class Homestead
       end
     end
 
+    ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4'].each { |version|
+      config.vm.provision 'shell' do |s|
+        s.inline = "echo \"xdebug.remote_autostart = 1\" >> /etc/php/$1/mods-available/xdebug.ini"
+        s.args = [version]
+      end
+    }
+
     config.vm.provision 'shell' do |s|
       s.name = 'Restarting Cron'
       s.inline = 'sudo service cron restart'
