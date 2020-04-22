@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir /etc/nginx/ssl 2>/dev/null
-
+set -f
 PATH_SSL="/etc/nginx/ssl"
 
 # Path to the custom Homestead $(hostname) Root CA certificate.

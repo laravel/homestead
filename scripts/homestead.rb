@@ -274,6 +274,14 @@ class Homestead
           s.args = [site['map']]
         end
 
+        if site['wildcard'] == 'yes'
+          config.vm.provision 'shell' do |s|
+            s.name = 'Creating Wildcard Certificate: *.' + site['map'].partition('.').last
+            s.path = script_dir + '/create-certificate.sh'
+            s.args = ['*.' + site['map'].partition('.').last]
+          end
+        end
+
         type = site['type'] ||= 'laravel'
         load_balancer = settings['load_balancer'] ||= false
         http_port = load_balancer ? '8111' : '80'
@@ -335,6 +343,18 @@ class Homestead
               headers ||= '',             # $9
               rewrites ||= ''             # $10
           ]
+
+          if site['use_wildcard'] == 'yes'
+            config.vm.provision 'shell' do |s|
+              s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
+              s.args = [site['map'], site['map'].partition('.').last]
+            end
+
+            config.vm.provision 'shell' do |s|
+              s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/nginx/sites-available/$1"
+              s.args = [site['map'], site['map'].partition('.').last]
+            end
+          end
 
           # generate pm2 json config file
           if site['pm2']
