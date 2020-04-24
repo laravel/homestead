@@ -345,14 +345,26 @@ class Homestead
           ]
 
           if site['use_wildcard'] == 'yes'
-            config.vm.provision 'shell' do |s|
-              s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
-              s.args = [site['map'], site['map'].partition('.').last]
-            end
+            if site['type'] != 'apache'
+              config.vm.provision 'shell' do |s|
+                s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
+                s.args = [site['map'], site['map'].partition('.').last]
+              end
 
-            config.vm.provision 'shell' do |s|
-              s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/nginx/sites-available/$1"
-              s.args = [site['map'], site['map'].partition('.').last]
+              config.vm.provision 'shell' do |s|
+                s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/nginx/sites-available/$1"
+                s.args = [site['map'], site['map'].partition('.').last]
+              end
+            else
+              config.vm.provision 'shell' do |s|
+                s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/apache2/sites-available/$1-ssl.conf"
+                s.args = [site['map'], site['map'].partition('.').last]
+              end
+
+              config.vm.provision 'shell' do |s|
+                s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/apache2/sites-available/$1-ssl.conf"
+                s.args = [site['map'], site['map'].partition('.').last]
+              end
             end
           end
 
@@ -415,12 +427,6 @@ class Homestead
           end
         end
       end
-
-      # config.vm.provision 'shell' do |s|
-      #   s.name = 'Configure Avahi Service'
-      #   s.path = script_dir + '/configure-avahi.sh'
-      #   s.args = domains.join(",")
-      # end
     end
 
     # Configure All Of The Server Environment Variables
@@ -478,8 +484,8 @@ class Homestead
     end
 
     config.vm.provision 'shell' do |s|
-      s.name = 'Restarting Nginx'
-      s.inline = 'sudo service nginx restart;sudo service php5.6-fpm restart;sudo service php7.0-fpm restart;sudo service php7.1-fpm restart; sudo service php7.2-fpm restart; sudo service php7.3-fpm restart; sudo service php7.4-fpm restart;'
+      s.name = 'Restart Webserver'
+      s.path = script_dir + '/restart-webserver.sh'
     end
 
     # Configure All Of The Configured Databases
