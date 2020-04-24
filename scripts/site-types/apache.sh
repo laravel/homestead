@@ -20,9 +20,12 @@ if [ -n "${9}" ]; then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
+
 sudo service nginx stop
+sudo systemctl disable nginx
+
 apt-get update
-apt-get install -y apache2 php"$5"-cgi libapache2-mod-fcgid
+apt-get -o Dpkg::Options::="--force-confold" install -y apache2 php"$5"-cgi libapache2-mod-fcgid
 sed -i "s/www-data/vagrant/" /etc/apache2/envvars
 
 block="<VirtualHost *:$3>
