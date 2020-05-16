@@ -359,7 +359,7 @@ class Homestead
             rewrites ||= '' # $10
           ]
 
-          if site['use_wildcard'] == 'yes'
+          if site['use_wildcard'] != 'no'
             if site['type'] != 'apache'
               config.vm.provision 'shell' do |s|
                 s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
