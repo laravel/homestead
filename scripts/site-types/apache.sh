@@ -24,10 +24,6 @@ export DEBIAN_FRONTEND=noninteractive
 sudo service nginx stop
 sudo systemctl disable nginx
 
-apt-get update
-apt-get -o Dpkg::Options::="--force-confold" install -y apache2 php"$5"-cgi libapache2-mod-fcgid
-sed -i "s/www-data/vagrant/" /etc/apache2/envvars
-
 block="<VirtualHost *:$3>
     ServerAdmin webmaster@localhost
     ServerName $1
@@ -145,29 +141,7 @@ blockssl="<IfModule mod_ssl.c>
 echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
 ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
 
-a2dissite 000-default
-
 ps auxw | grep apache2 | grep -v grep > /dev/null
-
-# Enable FPM
-sudo a2enconf php"$5"-fpm
-# Assume user wants mode_rewrite support
-sudo a2enmod rewrite
-
-# Turn on HTTPS support
-sudo a2enmod ssl
-
-# Turn on proxy & fcgi
-sudo a2enmod proxy proxy_fcgi
-
-# Turn on headers support
-sudo a2enmod headers actions alias
-
-# Add Mutex to config to prevent auto restart issues
-if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
-then
-    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
-fi
 
 service apache2 restart
 service php"$5"-fpm restart
