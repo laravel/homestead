@@ -91,8 +91,8 @@ blockssl="<IfModule mod_ssl.c>
         #SSLCertificateFile  /etc/ssl/certs/ssl-cert-snakeoil.pem
         #SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
 
-        SSLCertificateFile      /etc/nginx/ssl/$1.crt
-        SSLCertificateKeyFile   /etc/nginx/ssl/$1.key
+        SSLCertificateFile      /etc/ssl/certs/$1.crt
+        SSLCertificateKeyFile   /etc/ssl/certs/$1.key
 
 
         #SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
