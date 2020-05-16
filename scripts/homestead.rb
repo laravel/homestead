@@ -217,6 +217,19 @@ class Homestead
     config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
+    # Enable Services
+    if settings.has_key?('services')
+      settings['services'].each do |service|
+        service['enabled'].each do |enable_service|
+          config.vm.provision "shell", inline: "sudo systemctl enable #{enable_service}"
+        end if service.include?('enabled')
+
+        service['disabled'].each do |disable_service|
+          config.vm.provision "shell", inline: "sudo systemctl disable #{disable_service}"
+        end if service.include?('disabled')
+      end
+    end
+
     # Install opt-in features
     if settings.has_key?('features')
       settings['features'].each do |feature|
@@ -332,16 +345,16 @@ class Homestead
           # specific site type script (defaults to laravel)
           s.path = script_dir + "/site-types/#{type}.sh"
           s.args = [
-              site['map'],                # $1
-              site['to'],                 # $2
-              site['port'] ||= http_port, # $3
-              site['ssl'] ||= https_port, # $4
-              site['php'] ||= '7.4',      # $5
-              params ||= '',              # $6
-              site['xhgui'] ||= '',       # $7
-              site['exec'] ||= 'false',   # $8
-              headers ||= '',             # $9
-              rewrites ||= ''             # $10
+            site['map'], # $1
+            site['to'], # $2
+            site['port'] ||= http_port, # $3
+            site['ssl'] ||= https_port, # $4
+            site['php'] ||= '7.4', # $5
+            params ||= '', # $6
+            site['xhgui'] ||= '', # $7
+            site['exec'] ||= 'false', # $8
+            headers ||= '', # $9
+            rewrites ||= '' # $10
           ]
 
           if site['use_wildcard'] == 'yes'
@@ -599,7 +612,7 @@ class Homestead
     now = Time.now.strftime("%Y%m%d%H%M")
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up mysql database #{database}..."
-      trigger.run_remote = { inline: "mkdir -p #{dir}/#{now} && mysqldump --routines #{database} > #{dir}/#{now}/#{database}-#{now}.sql" }
+      trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && mysqldump --routines #{database} > #{dir}/#{now}/#{database}-#{now}.sql"}
     end
   end
 
@@ -607,7 +620,7 @@ class Homestead
     now = Time.now.strftime("%Y%m%d%H%M")
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up postgres database #{database}..."
-      trigger.run_remote = { inline: "mkdir -p #{dir}/#{now} && echo localhost:5432:#{database}:homestead:secret > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U homestead -h localhost #{database} > #{dir}/#{now}/#{database}-#{now}.sql" }
+      trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && echo localhost:5432:#{database}:homestead:secret > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U homestead -h localhost #{database} > #{dir}/#{now}/#{database}-#{now}.sql"}
     end
   end
 end
