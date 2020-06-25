@@ -11,7 +11,7 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Install The Chrome Web Driver & Dusk Utilities
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-echo 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee -a /etc/apt/sources.list.d/google-chrome.list
+echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee -a /etc/apt/sources.list.d/google-chrome.list
 
 apt-get update
 
