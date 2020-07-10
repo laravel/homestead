@@ -75,7 +75,7 @@ server {
         return 404;
     }
     # b) Prevent clients from accessing hidden files (starting with a dot)
-    # Access to `/.well-known/` is allowed.
+    # Access to \`/.well-known/\` is allowed.
     # https://www.mnot.net/blog/2010/04/07/well-known
     # https://tools.ietf.org/html/rfc5785
     location ~* /\.(?!well-known/) {
