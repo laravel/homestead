@@ -74,6 +74,15 @@ class Homestead
       h.cpus = settings['cpus'] ||= 1
       h.memory = settings['memory'] ||= 2048
       h.linked_clone = true
+      if settings.has_key?('hyperv_mac') && settings['hyperv_mac']
+        h.mac = settings['hyperv_mac']
+      end
+      if settings.has_key?('hyperv_maxmemory') && settings['hyperv_maxmemory']
+        h.maxmemory = settings['hyperv_maxmemory']
+      end
+      if settings.has_key?('hyperv_enable_virtualization_extensions') && settings['hyperv_enable_virtualization_extensions']
+        h.enable_virtualization_extensions = true
+      end
 
       if Vagrant.has_plugin?('vagrant-hostmanager')
         override.hostmanager.ignore_private_ip = true
