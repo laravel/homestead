@@ -9,7 +9,7 @@ fi
 touch /home/vagrant/.homestead-features/minio
 chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
-curl -sO https://dl.minio.io/server/minio/release/linux-amd64/minio
+wget https://dl.minio.io/server/minio/release/linux-amd64/minio
 
 sudo chmod +x minio
 sudo mv minio /usr/local/bin
