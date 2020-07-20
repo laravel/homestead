@@ -7,27 +7,27 @@ provider: virtualbox
 authorize: ~/.ssh/id_rsa.pub
 
 keys:
-    - ~/.ssh/id_rsa
+  - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/code
-      to: /home/vagrant/code
+  - map: ~/code
+    to: /home/vagrant/code
 
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+  - map: homestead.test
+    to: /home/vagrant/code/public
 
 databases:
-    - homestead
+  - homestead
 
 features:
-    - mariadb: false
-    - ohmyzsh: false
-    - webdriver: false
+  - mariadb: false
+  - ohmyzsh: false
+  - webdriver: false
 
 # ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+#   - send: 50000
+#     to: 5000
+#   - send: 7777
+#     to: 777
+#     protocol: udp
