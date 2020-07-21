@@ -356,38 +356,41 @@ class Homestead
           # specific site type script (defaults to laravel)
           s.path = script_dir + "/site-types/#{type}.sh"
           s.args = [
-            site['map'], # $1
-            site['to'], # $2
-            site['port'] ||= http_port, # $3
-            site['ssl'] ||= https_port, # $4
-            site['php'] ||= '7.4', # $5
-            params ||= '', # $6
-            site['xhgui'] ||= '', # $7
-            site['exec'] ||= 'false', # $8
-            headers ||= '', # $9
-            rewrites ||= '' # $10
+              site['map'],                # $1
+              site['to'],                 # $2
+              site['port'] ||= http_port, # $3
+              site['ssl'] ||= https_port, # $4
+              site['php'] ||= '7.4',      # $5
+              params ||= '',              # $6
+              site['xhgui'] ||= '',       # $7
+              site['exec'] ||= 'false',   # $8
+              headers ||= '',             # $9
+              rewrites ||= ''             # $10
           ]
 
-          if site['use_wildcard'] != 'no'
-            if site['type'] != 'apache'
-              config.vm.provision 'shell' do |s|
-                s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
-                s.args = [site['map'], site['map'].partition('.').last]
-              end
+          # Should we use the wildcard ssl?
+          if site['wildcard'] == 'yes' or site['use_wildcard'] == 'yes'
+            if site['use_wildcard'] != 'no'
+              if site['type'] != 'apache'
+                config.vm.provision 'shell' do |s|
+                  s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
+                  s.args = [site['map'], site['map'].partition('.').last]
+                end
 
-              config.vm.provision 'shell' do |s|
-                s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/nginx/sites-available/$1"
-                s.args = [site['map'], site['map'].partition('.').last]
-              end
-            else
-              config.vm.provision 'shell' do |s|
-                s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/apache2/sites-available/$1-ssl.conf"
-                s.args = [site['map'], site['map'].partition('.').last]
-              end
+                config.vm.provision 'shell' do |s|
+                  s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/nginx/sites-available/$1"
+                  s.args = [site['map'], site['map'].partition('.').last]
+                end
+              else
+                config.vm.provision 'shell' do |s|
+                  s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/apache2/sites-available/$1-ssl.conf"
+                  s.args = [site['map'], site['map'].partition('.').last]
+                end
 
-              config.vm.provision 'shell' do |s|
-                s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/apache2/sites-available/$1-ssl.conf"
-                s.args = [site['map'], site['map'].partition('.').last]
+                config.vm.provision 'shell' do |s|
+                  s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/apache2/sites-available/$1-ssl.conf"
+                  s.args = [site['map'], site['map'].partition('.').last]
+                end
               end
             end
           end
