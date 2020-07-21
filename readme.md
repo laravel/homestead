@@ -20,8 +20,8 @@ Ubuntu 18.04 can be found in the branch `master`
 
 | Ubuntu LTS | Settler Version | Homestead Version | Branch
 | -----------| -----------     | -----------       | -----------
-| 18.04      | 10.x            | 11.x              | `master`
-| 20.04      | 9.x             | 10.x              | `20.04`
+| 18.04      | 9.x             | 10.x              | `master`
+| 20.04      | 10.x            | 11.x              | `20.04`
 
 ## Developing Homestead
 
