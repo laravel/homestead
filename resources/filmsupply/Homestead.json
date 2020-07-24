@@ -5,6 +5,7 @@
     "cpus": 4,
     "provider": "virtualbox",
     "authorize": "~/.ssh/id_rsa.pub",
+    "version": "9.5.1",
     "keys": [
         "~/.ssh/id_rsa"
     ],

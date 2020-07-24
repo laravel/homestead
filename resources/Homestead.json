@@ -1,21 +1,71 @@
 {
+    "name": "musicbed",
     "ip": "10.1.1.33",
     "memory": 4096,
     "cpus": 4,
     "provider": "virtualbox",
-    "elasticsearch": "5.6.3",
-    "ohmyzsh": true,
     "authorize": "~/.ssh/id_rsa.pub",
-    "keys": [
-        "~/.ssh/id_rsa"
-    ],
+    "keys": ["~/.ssh/id_rsa"],
+    "version": "9.5.1",
     "features": [
-        
+        {
+            "elasticsearch": {
+                "version": "5"
+            },
+            "ohmyzsh": true
+        }
     ],
     "folders": [
-    
+        {
+            "map": "~/Code/musicbed/musicbed",
+            "to": "/home/vagrant/musicbed"
+        },
+        {
+            "map": "~/Code/musicbed/musicbed-api",
+            "to": "/home/vagrant/musicbed-api"
+        },
+        {
+            "map": "~/Code/musicbed/laravel-sabre",
+            "to": "/home/vagrant/laravel-sabre"
+        },
+        {
+            "map": "~/Code/musicbed/musicbed-www",
+            "to": "/home/vagrant/musicbed-www"
+        }
     ],
     "sites": [
-
+        {
+            "map": "musicbed.test",
+            "to": "/home/vagrant/musicbed/public",
+            "php": "7.3"
+        },
+        {
+            "map": "admin.musicbed.test",
+            "to": "/home/vagrant/musicbed/public",
+            "php": "7.3"
+        },
+        {
+            "map": "api3.musicbed.test",
+            "to": "/home/vagrant/musicbed-api/public",
+            "php": "7.3"
+        },
+        {
+            "map": "sabre.musicbed.test",
+            "to": "/home/vagrant/laravel-sabre/public",
+            "php": "7.3"
+        }
+    ],
+    "ports": [
+        {
+            "send": "8001",
+            "to": "80"
+        },
+        {
+            "send": "33061",
+            "to": "3306"
+        }
+    ],
+    "databases": [
+      "musicbed_testing"
     ]
-}
+  }
