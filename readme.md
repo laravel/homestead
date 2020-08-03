@@ -15,6 +15,14 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 Official documentation [is located here](https://laravel.com/docs/homestead).
 
+Ubuntu 20.04 can be found in the branch `20.04` 
+Ubuntu 18.04 can be found in the branch `master`
+
+| Ubuntu LTS | Settler Version | Homestead Version | Branch
+| -----------| -----------     | -----------       | -----------
+| 18.04      | 9.x             | 10.x              | `master`
+| 20.04      | 10.x            | 11.x              | `20.04`
+
 ## Developing Homestead
 
 To keep any in-development changes separate from other Homestead installations, create a new project and install

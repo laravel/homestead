@@ -2,7 +2,6 @@
 
 export DEBIAN_FRONTEND=noninteractive
 # Check If Maria Has Been Installed
-
 if [ -f /home/vagrant/.homestead-features/mariadb ]
 then
     echo "MariaDB already installed."
@@ -14,13 +13,11 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528
-
-sudo service apparmor stop
-sudo service apparmor teardown
-sudo update-rc.d -f apparmor remove
+service apparmor stop
+service apparmor teardown
+update-rc.d -f apparmor remove
 
 # Remove MySQL
-
 apt-get remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
@@ -29,27 +26,21 @@ rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
 # Add Maria PPA
-
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xF1656F24C74CD1D8
-sudo add-apt-repository 'deb [arch=amd64,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.4/ubuntu bionic main'
-apt-get update
+curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 
 # Set The Automated Root Password
-
-export DEBIAN_FRONTEND=noninteractive
-
 debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password secret"
 
 # Install MariaDB
-
-apt-get install -y mariadb-server
+apt-get install -y mariadb-server mariadb-client
 
 # Configure Maria Remote Access and ignore db dirs
-cat > /etc/mysql/conf.d/mysql.cnf << EOF
+sed -i "s/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
+
+cat > /etc/mysql/mariadb.conf.d/50-server.cnf << EOF
 [mysqld]
-bind-address = 0.0.0.0
 ignore-db-dir = lost+found
 EOF
 

@@ -67,8 +67,8 @@ function serve-apache() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-apache.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-apache.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/apache.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/apache.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -80,8 +80,8 @@ function serve-laravel() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-laravel.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-laravel.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/laravel.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/laravel.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -92,8 +92,8 @@ function serve-laravel() {
 function serve-proxy() {
     if [[ "$1" && "$2" ]]
     then
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-proxy.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-proxy.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/proxy.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/proxy.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -105,8 +105,8 @@ function serve-silverstripe() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-silverstripe.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-silverstripe.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/silverstripe.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/silverstripe.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -118,8 +118,8 @@ function serve-spa() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-spa.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-spa.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/spa.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/spa.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -131,8 +131,8 @@ function serve-statamic() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-statamic.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-statamic.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/statamic.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/statamic.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -144,8 +144,8 @@ function serve-symfony2() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-symfony2.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-symfony2.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/symfony2.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/symfony2.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -157,8 +157,8 @@ function serve-symfony4() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-symfony4.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-symfony4.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/symfony4.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/symfony4.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
@@ -170,8 +170,8 @@ function serve-pimcore() {
     if [[ "$1" && "$2" ]]
     then
         sudo bash /vagrant/vendor/laravel/homestead/scripts/create-certificate.sh "$1"
-        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh
-        sudo bash /vagrant/vendor/laravel/homestead/scripts/serve-pimcore.sh "$1" "$2" 80 443 "${3:-7.4}"
+        sudo dos2unix /vagrant/vendor/laravel/homestead/scripts/site-types/pimcore.sh
+        sudo bash /vagrant/vendor/laravel/homestead/scripts/site-types/pimcore.sh "$1" "$2" 80 443 "${3:-7.4}"
     else
         echo "Error: missing required parameters."
         echo "Usage: "
