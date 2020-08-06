@@ -21,13 +21,13 @@ else
 fi
 
 # Install repository
-curl -s https://packagecloud.io/install/repositories/EventStore/EventStore-OSS/script.deb.sh | sudo bash
+curl -s https://packagecloud.io/install/repositories/EventStore/EventStore-OSS/script.deb.sh | bash
 
 # Install EventStore package
-sudo apt-get install -y eventstore-oss"$installVersion"
+apt-get install -y eventstore-oss"$installVersion"
 
 # Update configuration
-sudo sed -i "s/RunProjections: None/RunProjections: ${run_projections:-All}/" /etc/eventstore/eventstore.conf
+sed -i "s/RunProjections: None/RunProjections: ${run_projections:-All}/" /etc/eventstore/eventstore.conf
 
 configuration="
 extIp: ${external_ip:-0.0.0.0}
@@ -35,11 +35,11 @@ extTcpPort: ${external_tcp_port:-2112}
 extHttpPort: ${external_http_port:-2113}
 AdminOnExt: ${admin_on_ext:-true}
 "
-sudo echo "$configuration" >> /etc/eventstore/eventstore.conf
+echo "$configuration" >> /etc/eventstore/eventstore.conf
 
 # Allow the Event Store executable to bind to a port lower than 1024
-sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/eventstored
+setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/eventstored
 
 # Enable and Start EventStore
-sudo systemctl enable eventstore.service
-sudo systemctl start eventstore.service
+systemctl enable eventstore.service
+systemctl start eventstore.service
