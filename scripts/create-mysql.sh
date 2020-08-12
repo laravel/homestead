@@ -12,7 +12,7 @@ cp /root/.my.cnf /home/vagrant/.my.cnf
 DB=$1;
 
 mysql=$(pidof mysqld)
-mariadb=$(pidof mariadb)
+mariadb=$(pidof mariadbd)
 
 if [ -z "$mysql" ]
 then
