@@ -23,6 +23,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 sudo service nginx stop
 sudo systemctl disable nginx
+sudo systemctl enable apache2
 
 block="<VirtualHost *:$3>
     ServerAdmin webmaster@localhost
