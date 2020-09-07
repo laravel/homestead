@@ -66,34 +66,34 @@ class WslCreateSiteCommand extends Command
         $settings = $this->parseSettingsFromFile($format, []);
 
         foreach ($settings['wsl_sites'] as $key => $site) {
-            $create_cmd = "";
-            $type = "laravel";
+            $create_cmd = '';
+            $type = 'laravel';
             $args = [
-                $site['map'],                                 # $1
-                $site['to'], # $2
-                isset($site['port']) ? $site['port'] : 80,    # $3
-                isset($site['ssl']) ? $site['ssl'] : 443,     # $4
-                isset($site['php']) ? $site['php'] : "7.4",   # $5
+                $site['map'],                                 // $1
+                $site['to'], // $2
+                isset($site['port']) ? $site['port'] : 80,    // $3
+                isset($site['ssl']) ? $site['ssl'] : 443,     // $4
+                isset($site['php']) ? $site['php'] : '7.4',   // $5
             ];
             $create_cmd = "sudo bash {$this->basePath}/scripts/site-types/{$type}.sh {$args[0]} \"{$args[1]}\"";
             $create_cmd .= " {$args[2]} {$args[3]} {$args[4]}";
 
-            # run command to create the site
+            // run command to create the site
             $output = shell_exec($create_cmd);
-            if(!isNull($output)) {
+            if (! isNull($output)) {
                 var_dump($output);
             }
 
-            # run command to create the site's SSL certificates
+            // run command to create the site's SSL certificates
             $cert_cmd = "sudo bash {$this->basePath}/scripts/create-certificate.sh {$site['map']}";
             $output = shell_exec($cert_cmd);
-            if(!is_null($output)) {
+            if (! is_null($output)) {
                 var_dump($output);
             }
 
-            # Restart nginx
-            $output = shell_exec("sudo service nginx restart");
-            if(!is_null($output)) {
+            // Restart nginx
+            $output = shell_exec('sudo service nginx restart');
+            if (! is_null($output)) {
                 var_dump($output);
             }
         }
