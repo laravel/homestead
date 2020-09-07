@@ -41,6 +41,7 @@ class WslInitializeCommand extends Command
         $cert_cmd = "sudo bash {$this->basePath}/scripts/wsl.sh > wsl-init.log";
         shell_exec($cert_cmd);
         $output->writeln('Initialization Complete, please check wsl-init.log');
+
         return 0;
     }
 }
