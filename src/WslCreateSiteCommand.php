@@ -80,7 +80,7 @@ class WslCreateSiteCommand extends Command
 
             // run command to create the site
             $output = shell_exec($create_cmd);
-            if (! isNull($output)) {
+            if (! is_null($output)) {
                 var_dump($output);
             }
 
