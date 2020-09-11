@@ -4,6 +4,8 @@
 # Find and replace `vagrant` /w your WSL username.                   #
 ######################################################################
 export DEBIAN_FRONTEND=noninteractive
+export WSL_USERNAME=vagrant
+export WSL_USER_GROUP=vagrant
 
 # Update Package List
 apt-get update
@@ -111,7 +113,7 @@ curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
 ## Install Laravel Envoy, Installer, and prestissimo for parallel downloads
-#sudo su vagrant <<'EOF'
+#sudo su $WSL_USERNAME <<'EOF'
 #/usr/local/bin/composer global require hirak/prestissimo
 #/usr/local/bin/composer global require "laravel/envoy=^2.0"
 #/usr/local/bin/composer global require "laravel/installer=^3.0.1"
@@ -153,7 +155,7 @@ mv composer.phar /usr/local/bin/composer
 #
 ## Install Apache
 #apt-get install -y apache2 libapache2-mod-fcgid
-#sed -i "s/www-data/vagrant/" /etc/apache2/envvars
+#sed -i "s/www-data/$WSL_USERNAME/" /etc/apache2/envvars
 #
 ## Enable FPM
 #a2enconf php5.6-fpm
@@ -191,10 +193,10 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
 # Create a configuration file for Nginx overrides.
-mkdir -p /home/vagrant/.config/nginx
-chown -R vagrant:vagrant /home/vagrant
-touch /home/vagrant/.config/nginx/nginx.conf
-ln -sf /home/vagrant/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+mkdir -p /home/$WSL_USERNAME/.config/nginx
+chown -R $WSL_USERNAME:$WSL_USER_GROUP /home/$WSL_USERNAME
+touch /home/$WSL_USERNAME/.config/nginx/nginx.conf
+ln -sf /home/$WSL_USERNAME/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Setup Some PHP-FPM Options
 echo "xdebug.remote_enable = 1" >> /etc/php/7.4/mods-available/xdebug.ini
@@ -261,13 +263,13 @@ printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php
 printf "[curl]\n" | tee -a /etc/php/7.3/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
+# sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
 #
 #printf "[openssl]\n" | tee -a /etc/php/7.2/fpm/php.ini
 #printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
@@ -321,49 +323,49 @@ sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
 #sudo phpdismod -s cli xdebug
 
 # Set The Nginx & PHP-FPM User
-sed -i "s/user www-data;/user vagrant;/" /etc/nginx/nginx.conf
+sed -i "s/user www-data;/user $WSL_USERNAME;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.2/fpm/pool.d/www.conf
+#sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.2/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.2/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.2/fpm/pool.d/www.conf
+#sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.2/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.2/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.1/fpm/pool.d/www.conf
+#sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.1/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.1/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.1/fpm/pool.d/www.conf
+#sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.1/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.1/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.0/fpm/pool.d/www.conf
+#sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.0/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/7.0/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.0/fpm/pool.d/www.conf
+#sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.0/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-#sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/5.6/fpm/pool.d/www.conf
+#sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/5.6/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-#sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/5.6/fpm/pool.d/www.conf
+#sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/5.6/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
 service nginx restart
@@ -374,10 +376,10 @@ service php7.3-fpm restart
 #service php7.0-fpm restart
 #service php5.6-fpm restart
 
-# Add Vagrant User To WWW-Data
-usermod -a -G www-data vagrant
-id vagrant
-groups vagrant
+# Add $WSL_USERNAME User To WWW-Data
+usermod -a -G www-data $WSL_USERNAME
+id $WSL_USERNAME
+groups $WSL_USER_GROUP
 
 # Install Node
 apt-get install -y nodejs
@@ -455,7 +457,7 @@ mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRAN
 mysql --user="root" -e "FLUSH PRIVILEGES;"
 mysql --user="root" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
 
-sudo tee /home/vagrant/.my.cnf <<EOL
+sudo tee /home/$WSL_USERNAME/.my.cnf <<EOL
 [mysqld]
 character-set-server=utf8mb4
 collation-server=utf8mb4_bin
@@ -503,7 +505,7 @@ chmod +x /usr/local/bin/mailhog
 #After=network.target
 #
 #[Service]
-#User=vagrant
+#User=$WSL_USERNAME
 #ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
 #
 #[Install]
@@ -567,11 +569,11 @@ apt-get upgrade -y
 # Clean Up
 apt -y autoremove
 apt -y clean
-chown -R vagrant:vagrant /home/vagrant
-chown -R vagrant:vagrant /usr/local/bin
+chown -R $WSL_USERNAME:$WSL_USER_GROUP /home/$WSL_USERNAME
+chown -R $WSL_USERNAME:$WSL_USER_GROUP /usr/local/bin
 
 # Add Composer Global Bin To Path
-printf "\nPATH=\"$(sudo su - vagrant -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
+printf "\nPATH=\"$(sudo su - $WSL_USERNAME -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/$WSL_USERNAME/.profile
 
 # Perform some cleanup from chef/bento packer_templates/ubuntu/scripts/cleanup.sh
 # Delete Linux source
