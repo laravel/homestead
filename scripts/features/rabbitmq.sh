@@ -14,8 +14,17 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 # Setup Repositories
 wget -q -O- https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc | sudo apt-key add -
 wget -q -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
-echo "deb http://dl.bintray.com/rabbitmq-erlang/debian bionic erlang" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
-echo "deb https://dl.bintray.com/rabbitmq/debian $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/rabbitmq.list
+sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
+## Installs the latest Erlang 23.x release.
+## Change component to "erlang-22.x" to install the latest 22.x version.
+## Example: deb https://dl.bintray.com/rabbitmq-erlang/debian $distribution $component
+## "bionic" as distribution name should work for any later Ubuntu or Debian release.
+## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
+deb https://dl.bintray.com/rabbitmq-erlang/debian focal erlang
+
+## Installs latest RabbitMQ release
+deb https://dl.bintray.com/rabbitmq/debian focal main
+EOF
 sudo apt-get update
 
 # Install RabbitMQ
