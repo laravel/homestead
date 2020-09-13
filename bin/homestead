@@ -3,7 +3,7 @@
 
 require __DIR__.'/../../../autoload.php';
 
-$app = new Symfony\Component\Console\Application('Laravel Homestead', '10.12.0');
+$app = new Symfony\Component\Console\Application('Laravel Homestead', '10.13.0');
 
 $app->add(new Laravel\Homestead\MakeCommand);
 
