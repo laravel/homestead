@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ######################################################################
 # You *probably* don't want this file.                               #
-# Find and replace `vagrant` /w your WSL username.                   #
+# Please replace `WSL_USERNAME` /w your WSL username.                #
+# Please replace `WSL_USER_GROUP` /w your WSL username.              #
 ######################################################################
 export DEBIAN_FRONTEND=noninteractive
-export WSL_USERNAME=vagrant
-export WSL_USER_GROUP=vagrant
+export WSL_USERNAME=${WSL_USERNAME:-vagrant}
+export WSL_USER_GROUP=${WSL_USER_GROUP:-vagrant}
 
 # Update Package List
 apt-get update
