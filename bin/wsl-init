@@ -123,16 +123,16 @@ mv composer.phar /usr/local/bin/composer
 #EOF
 
 ## Set Some PHP CLI Settings
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
-#
-#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
-#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
-#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
-#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
-#
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
+
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
+
 #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
 #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
 #sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
@@ -152,39 +152,39 @@ mv composer.phar /usr/local/bin/composer
 #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
 #sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
 #sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
-#
-## Install Apache
-#apt-get install -y apache2 libapache2-mod-fcgid
-#sed -i "s/www-data/$WSL_USERNAME/" /etc/apache2/envvars
-#
-## Enable FPM
-#a2enconf php5.6-fpm
-#a2enconf php7.0-fpm
-#a2enconf php7.1-fpm
-#a2enconf php7.2-fpm
-#a2enconf php7.3-fpm
-#a2enconf php7.4-fpm
-#
-## Assume user wants mode_rewrite support
-#sudo a2enmod rewrite
-#
-## Turn on HTTPS support
-#sudo a2enmod ssl
-#
-## Turn on proxy & fcgi
-#sudo a2enmod proxy proxy_fcgi
-#
-## Turn on headers support
-#sudo a2enmod headers actions alias
-#
-## Add Mutex to config to prevent auto restart issues
-#if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
-#then
-#    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
-#fi
-#
-#a2dissite 000-default
-#systemctl disable apache2
+
+# Install Apache
+apt-get install -y apache2 libapache2-mod-fcgid
+sed -i "s/www-data/$WSL_USERNAME/" /etc/apache2/envvars
+
+# Enable FPM
+a2enconf php5.6-fpm
+a2enconf php7.0-fpm
+a2enconf php7.1-fpm
+a2enconf php7.2-fpm
+a2enconf php7.3-fpm
+a2enconf php7.4-fpm
+
+# Assume user wants mode_rewrite support
+sudo a2enmod rewrite
+
+# Turn on HTTPS support
+sudo a2enmod ssl
+
+# Turn on proxy & fcgi
+sudo a2enmod proxy proxy_fcgi
+
+# Turn on headers support
+sudo a2enmod headers actions alias
+
+# Add Mutex to config to prevent auto restart issues
+if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
+then
+    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+fi
+
+a2dissite 000-default
+systemctl disable apache2
 
 # Install Nginx
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
