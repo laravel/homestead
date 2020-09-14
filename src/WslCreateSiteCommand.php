@@ -79,22 +79,22 @@ class WslCreateSiteCommand extends Command
             $create_cmd .= " {$args[2]} {$args[3]} {$args[4]}";
 
             // run command to create the site
-            $output = shell_exec($create_cmd);
-            if (! is_null($output)) {
-                var_dump($output);
+            $shell_output = shell_exec($create_cmd);
+            if (! is_null($shell_output)) {
+                var_dump($shell_output);
             }
 
             // run command to create the site's SSL certificates
             $cert_cmd = "sudo bash {$this->basePath}/scripts/create-certificate.sh {$site['map']}";
-            $output = shell_exec($cert_cmd);
-            if (! is_null($output)) {
-                var_dump($output);
+            $shell_output = shell_exec($cert_cmd);
+            if (! is_null($shell_output)) {
+                var_dump($shell_output);
             }
 
             // Restart nginx
-            $output = shell_exec('sudo service nginx restart');
-            if (! is_null($output)) {
-                var_dump($output);
+            $shell_output = shell_exec('sudo service nginx restart');
+            if (! is_null($shell_output)) {
+                var_dump($shell_output);
             }
         }
         $output->writeln('WSL sites have been created!');
