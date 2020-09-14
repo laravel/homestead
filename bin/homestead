@@ -1,11 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-if(is_file( __DIR__.'../../vendor/autoload.php')) {
-    require  __DIR__.'../../vendor/autoload.php';
-} else {
-    require __DIR__.'../../vendor/autoload.php';
-}
+require __DIR__.'/../../vendor/autoload.php';
 
 $app = new Symfony\Component\Console\Application('Laravel Homestead', '11.2.0');
 
