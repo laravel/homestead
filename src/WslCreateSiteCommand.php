@@ -47,7 +47,7 @@ class WslCreateSiteCommand extends Command
         $this->defaultProjectName = $this->slug($this->projectName);
 
         $this
-            ->setName('wsl:create-site')
+            ->setName('wsl:create-sites')
             ->setDescription('Create Sites in WSL from Homestead configuration')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
