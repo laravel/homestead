@@ -159,10 +159,10 @@ apt-get install -y apache2 libapache2-mod-fcgid
 sed -i "s/www-data/$WSL_USERNAME/" /etc/apache2/envvars
 
 # Enable FPM
-a2enconf php5.6-fpm
-a2enconf php7.0-fpm
-a2enconf php7.1-fpm
-a2enconf php7.2-fpm
+#a2enconf php5.6-fpm
+#a2enconf php7.0-fpm
+#a2enconf php7.1-fpm
+#a2enconf php7.2-fpm
 a2enconf php7.3-fpm
 a2enconf php7.4-fpm
 
@@ -483,9 +483,9 @@ apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-
 #echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
 echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
+service postgresql@12-main restart
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
-service postgresql@12-main restart
 
 # Install Redis, Memcached, & Beanstalk
 apt-get install -y redis-server
@@ -640,3 +640,8 @@ sysctl fs.protected_regular=0
 #/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
 #/sbin/mkswap /var/swap.1
 #/sbin/swapon /var/swap.1
+
+# Setup Homestead repo
+su $WSL_USERNAME -c 'composer install'
+su $WSL_USERNAME -c 'bash init.sh'
+
