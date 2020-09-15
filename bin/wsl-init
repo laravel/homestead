@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
-######################################################################
-# You *probably* don't want this file.                               #
-# Please replace `WSL_USERNAME` /w your WSL username.                #
-# Please replace `WSL_USER_GROUP` /w your WSL username.              #
-######################################################################
+########################################################
+# You need to export 2 variables which are your WSL    #
+# username and group:                                  #
+# $ export WSL_USERNAME=YOURUSER                       #
+# $ export WSL_USER_GROUP=USER_GROUP                   #
+########################################################
 export DEBIAN_FRONTEND=noninteractive
-export WSL_USERNAME=${WSL_USERNAME:-vagrant}
-export WSL_USER_GROUP=${WSL_USER_GROUP:-vagrant}
+# Check for variables we rely on
+if [ -z "$WSL_USERNAME" ]; then
+    echo "Missing WSL_USERNAME environment variable"
+    echo "Please run export WSL_USERNAME=username"
+    exit 1
+fi
+if [ -z "$WSL_USER_GROUP" ]; then
+    echo "Missing $WSL_USER_GROUP environment variable"
+    echo "Please run export WSL_USER_GROUP=user_group"
+    exit 1
+fi
 
 # Update Package List
 apt-get update
@@ -15,7 +25,7 @@ apt-get update
 apt-get upgrade -y
 
 # Force Locale
-echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
+echo "LC_ALL=en_US.UTF-8" >> /etc/defaulcdt/locale
 locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
@@ -25,11 +35,11 @@ apt-add-repository ppa:ondrej/php -y
 add-apt-repository ppa:chris-lea/redis-server -y
 # NodeJS
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-## PostgreSQL
-#tee /etc/apt/sources.list.d/pgdg.list <<END
-#deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
-#END
-#wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+# PostgreSQL
+tee /etc/apt/sources.list.d/pgdg.list <<END
+deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+END
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 ## Install RabbitMQ signing key
 #curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
@@ -48,9 +58,8 @@ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 apt-get update
 
 # Install Some Basic Packages
-apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make \
-python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv cifs-utils mcrypt bash-completion zsh \
-graphviz avahi-daemon tshark imagemagick
+apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev unzip make \
+python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv mcrypt bash-completion zsh imagemagick
 
 ## Set My Timezone
 #ln -sf /usr/share/zoneinfo/UTC /etc/localtime
@@ -483,7 +492,7 @@ apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-
 #echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
 echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
-service postgresql@12-main restart
+service postgresql restart
 sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 
