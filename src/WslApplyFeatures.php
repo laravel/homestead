@@ -52,7 +52,7 @@ class WslApplyFeatures extends Command
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
         $this->defaultProjectName = $this->slug($this->projectName);
-        $this->featuresPath = getcwd()."/scripts/features";
+        $this->featuresPath = getcwd().'/scripts/features';
 
         $this
             ->setName('wsl:apply-features')
@@ -86,7 +86,7 @@ class WslApplyFeatures extends Command
             }
         }
 
-        $output->writeln("WSL features have been configured!");
+        $output->writeln('WSL features have been configured!');
 
         return 0;
     }
