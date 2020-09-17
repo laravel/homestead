@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-########################################################
-# You need to export 2 variables which are your WSL    #
-# username and group:                                  #
-# $ export WSL_USERNAME=YOURUSER                       #
-# $ export WSL_USER_GROUP=USER_GROUP                   #
-########################################################
+##################################
+# Usage:                         #
+# sudo ./bin/homestead/wsl-init  #
+##################################
 export DEBIAN_FRONTEND=noninteractive
 
 echo "What is your WSL user name?"
-read WSL_USERNAME
+read WSL_USER_NAME
 
 echo "What is your WSL user group? (Same as username if you're unsure)"
 read WSL_USER_GROUP
@@ -123,7 +121,7 @@ curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
 ## Install Laravel Envoy, Installer, and prestissimo for parallel downloads
-#sudo su $WSL_USERNAME <<'EOF'
+#sudo su $WSL_USER_NAME <<'EOF'
 #/usr/local/bin/composer global require hirak/prestissimo
 #/usr/local/bin/composer global require "laravel/envoy=^2.0"
 #/usr/local/bin/composer global require "laravel/installer=^3.0.1"
@@ -165,7 +163,7 @@ sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
 
 # Install Apache
 apt-get install -y apache2 libapache2-mod-fcgid
-sed -i "s/www-data/$WSL_USERNAME/" /etc/apache2/envvars
+sed -i "s/www-data/$WSL_USER_NAME/" /etc/apache2/envvars
 
 # Enable FPM
 #a2enconf php5.6-fpm
@@ -203,10 +201,10 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
 # Create a configuration file for Nginx overrides.
-mkdir -p /home/$WSL_USERNAME/.config/nginx
-chown -R $WSL_USERNAME:$WSL_USER_GROUP /home/$WSL_USERNAME
-touch /home/$WSL_USERNAME/.config/nginx/nginx.conf
-ln -sf /home/$WSL_USERNAME/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+mkdir -p /home/$WSL_USER_NAME/.config/nginx
+chown -R $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME
+touch /home/$WSL_USER_NAME/.config/nginx/nginx.conf
+ln -sf /home/$WSL_USER_NAME/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Setup Some PHP-FPM Options
 echo "xdebug.remote_enable = 1" >> /etc/php/7.4/mods-available/xdebug.ini
@@ -330,51 +328,51 @@ printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.
 #printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
 #
 ## Disable XDebug On The CLI
-#sudo phpdismod -s cli xdebug
+sudo phpdismod -s cli xdebug
 
 # Set The Nginx & PHP-FPM User
-sed -i "s/user www-data;/user $WSL_USERNAME;/" /etc/nginx/nginx.conf
+sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
 sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.2/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.2/fpm/pool.d/www.conf
 #sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.2/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.2/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.2/fpm/pool.d/www.conf
 #sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.2/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.2/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.1/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.1/fpm/pool.d/www.conf
 #sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.1/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.1/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.1/fpm/pool.d/www.conf
 #sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.1/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.1/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/7.0/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.0/fpm/pool.d/www.conf
 #sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.0/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/7.0/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.0/fpm/pool.d/www.conf
 #sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.0/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
 #
-#sed -i "s/user = www-data/user = $WSL_USERNAME/" /etc/php/5.6/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/5.6/fpm/pool.d/www.conf
 #sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/5.6/fpm/pool.d/www.conf
 #
-#sed -i "s/listen\.owner.*/listen.owner = $WSL_USERNAME/" /etc/php/5.6/fpm/pool.d/www.conf
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/5.6/fpm/pool.d/www.conf
 #sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/5.6/fpm/pool.d/www.conf
 #sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
@@ -386,9 +384,9 @@ service php7.3-fpm restart
 #service php7.0-fpm restart
 #service php5.6-fpm restart
 
-# Add $WSL_USERNAME User To WWW-Data
-usermod -a -G www-data $WSL_USERNAME
-id $WSL_USERNAME
+# Add $WSL_USER_NAME User To WWW-Data
+usermod -a -G www-data $WSL_USER_NAME
+id $WSL_USER_NAME
 groups $WSL_USER_GROUP
 
 # Install Node
@@ -467,7 +465,7 @@ mysql --user="root" -e "GRANT ALL PRIVILEGES ON *.* TO 'homestead'@'%' WITH GRAN
 mysql --user="root" -e "FLUSH PRIVILEGES;"
 mysql --user="root" -e "CREATE DATABASE homestead character set UTF8mb4 collate utf8mb4_bin;"
 
-sudo tee /home/$WSL_USERNAME/.my.cnf <<EOL
+sudo tee /home/$WSL_USER_NAME/.my.cnf <<EOL
 [mysqld]
 character-set-server=utf8mb4
 collation-server=utf8mb4_bin
@@ -515,7 +513,7 @@ chmod +x /usr/local/bin/mailhog
 #After=network.target
 #
 #[Service]
-#User=$WSL_USERNAME
+#User=$WSL_USER_NAME
 #ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
 #
 #[Install]
@@ -573,17 +571,25 @@ sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 #rm -rf /etc/update-motd.d/50-landscape-sysinfo
 #service motd-news restart
 
+# Create folders to track features
+mkdir -p "/home/${WSL_USER_NAME}/.homestead-features"
+cat > "/home/${WSL_USER_NAME}/.homestead-features/wsl_user_name" << EOF
+$WSL_USER_NAME
+EOF
+cat > "/home/${WSL_USER_NAME}/.homestead-features/wsl_user_group" << EOF
+$WSL_USER_GROUP
+EOF
 # One last upgrade check
 apt-get upgrade -y
 
 # Clean Up
 apt -y autoremove
 apt -y clean
-chown -R $WSL_USERNAME:$WSL_USER_GROUP /home/$WSL_USERNAME
-chown -R $WSL_USERNAME:$WSL_USER_GROUP /usr/local/bin
+chown -R $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME
+chown -R $WSL_USER_NAME:$WSL_USER_GROUP /usr/local/bin
 
 # Add Composer Global Bin To Path
-printf "\nPATH=\"$(sudo su - $WSL_USERNAME -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/$WSL_USERNAME/.profile
+printf "\nPATH=\"$(sudo su - $WSL_USER_NAME -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/$WSL_USER_NAME/.profile
 
 # Perform some cleanup from chef/bento packer_templates/ubuntu/scripts/cleanup.sh
 # Delete Linux source
@@ -651,6 +657,6 @@ sysctl fs.protected_regular=0
 #/sbin/swapon /var/swap.1
 
 # Setup Homestead repo
-su $WSL_USERNAME -c 'composer install'
-su $WSL_USERNAME -c 'bash init.sh'
+su $WSL_USER_NAME -c 'composer install'
+su $WSL_USER_NAME -c 'bash init.sh'
 
