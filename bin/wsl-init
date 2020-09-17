@@ -6,17 +6,12 @@
 # $ export WSL_USER_GROUP=USER_GROUP                   #
 ########################################################
 export DEBIAN_FRONTEND=noninteractive
-# Check for variables we rely on
-if [ -z "$WSL_USERNAME" ]; then
-    echo "Missing WSL_USERNAME environment variable"
-    echo "Please run export WSL_USERNAME=username"
-    exit 1
-fi
-if [ -z "$WSL_USER_GROUP" ]; then
-    echo "Missing $WSL_USER_GROUP environment variable"
-    echo "Please run export WSL_USER_GROUP=user_group"
-    exit 1
-fi
+
+echo "What is your WSL user name?"
+read WSL_USERNAME
+
+echo "What is your WSL user group? (Same as username if you're unsure)"
+read WSL_USER_GROUP
 
 # Update Package List
 apt-get update
@@ -629,7 +624,7 @@ rm -rf /usr/share/doc/linux-firmware/*
 #systemctl disable postgresql@9.6-main
 #systemctl disable postgresql@10-main
 #systemctl disable postgresql@11-main
-#systemctl disable postgresql@12-main
+systemctl disable postgresql@12-main
 
 apt-get -y autoremove;
 apt-get -y clean;
