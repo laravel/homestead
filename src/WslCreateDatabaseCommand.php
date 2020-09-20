@@ -65,10 +65,10 @@ class WslCreateDatabaseCommand extends Command
         $format = $input->getOption('json') ? 'json' : 'yaml';
         $settings = $this->parseSettingsFromFile($format, []);
 
-        foreach ($settings['wsl_databases'] as $db) {
+        foreach ($settings['databases'] as $db) {
             $create_cmd = '';
             $query = "CREATE DATABASE IF NOT EXISTS {$db} DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci";
-            $create_cmd = "mysql -u homestead -psecret -e \"{$query}`";
+            $create_cmd = 'mysql -u homestead -psecret -e "' . $query . '"';
             // run command to create the database
             $shell_output = shell_exec($create_cmd);
             if (! is_null($shell_output)) {
