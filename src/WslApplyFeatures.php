@@ -80,7 +80,7 @@ class WslApplyFeatures extends Command
 
             if ($feature_variables !== false) {
                 $feature_path = "{$this->featuresPath}/{$feature_name}.sh > ~/.homestead-features/{$feature_name}.log";
-                # Prepare the feature variables if provided.
+                // Prepare the feature variables if provided.
                 if (is_array($feature_variables)) {
                     $variables = join(' ', $feature_variables);
                     $feature_cmd = "sudo -E bash {$feature_path} {$variables}";
