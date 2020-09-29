@@ -12,6 +12,7 @@ homesteadJsonPath = File.expand_path("Homestead.json", File.dirname(__FILE__))
 afterScriptPath = "after.sh"
 customizationScriptPath = "user-customizations.sh"
 aliasesPath = "aliases"
+userScriptPath = File.dirname(__FILE__) + "/homestead/scripts"
 
 require File.expand_path(confDir + '/scripts/homestead.rb')
 
@@ -33,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         abort "Homestead settings file not found in " + File.dirname(__FILE__)
     end
 
-    Homestead.configure(config, settings)
+    Homestead.configure(config, settings, userScriptPath)
 
     if File.exist? afterScriptPath then
         config.vm.provision "shell", path: afterScriptPath, privileged: false, keep_color: true

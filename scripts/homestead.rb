@@ -1,6 +1,6 @@
 # Main Homestead Class
 class Homestead
-  def self.configure(config, settings)
+  def self.configure(config, settings, user_script_path)
     # Set The VM Provider
     ENV['VAGRANT_DEFAULT_PROVIDER'] = settings['provider'] ||= 'virtualbox'
 
@@ -246,7 +246,7 @@ class Homestead
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
         feature_variables = feature[feature_name]
-        feature_path = script_dir + "/features/" + feature_name + ".sh"
+        feature_path = Homestead.get_script_path("features/" + feature_name + ".sh", script_dir, user_script_path)
 
         # Check for boolean parameters
         # Compares against true/false to show that it really means "<feature>: <boolean>"
@@ -274,12 +274,12 @@ class Homestead
 
     # Clear any existing nginx sites
     config.vm.provision 'shell' do |s|
-      s.path = script_dir + '/clear-nginx.sh'
+      s.path = Homestead.get_script_path('clear-nginx.sh', script_dir, user_script_path)
     end
 
     # Clear any Homestead sites and insert markers in /etc/hosts
     config.vm.provision 'shell' do |s|
-      s.path = script_dir + '/hosts-reset.sh'
+      s.path = Homestead.get_script_path('hosts-reset.sh', script_dir, user_script_path)
     end
 
     # Install All The Configured Nginx Sites
@@ -294,14 +294,14 @@ class Homestead
         # Create SSL certificate
         config.vm.provision 'shell' do |s|
           s.name = 'Creating Certificate: ' + site['map']
-          s.path = script_dir + '/create-certificate.sh'
+          s.path = Homestead.get_script_path('create-certificate.sh', script_dir, user_script_path)
           s.args = [site['map']]
         end
 
         if site['wildcard'] == 'yes'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Wildcard Certificate: *.' + site['map'].partition('.').last
-            s.path = script_dir + '/create-certificate.sh'
+            s.path = Homestead.get_script_path('create-certificate.sh', script_dir, user_script_path)
             s.args = ['*.' + site['map'].partition('.').last]
           end
         end
@@ -313,7 +313,7 @@ class Homestead
 
         if load_balancer
           config.vm.provision 'shell' do |s|
-            s.path = script_dir + '/install-load-balancer.sh'
+            s.path = Homestead.get_script_path('install-load-balancer.sh', script_dir, user_script_path)
           end
         end
 
@@ -354,7 +354,7 @@ class Homestead
 
           # Convert the site & any options to an array of arguments passed to the
           # specific site type script (defaults to laravel)
-          s.path = script_dir + "/site-types/#{type}.sh"
+          s.path = Homestead.get_script_path("site-types/#{type}.sh", script_dir, user_script_path)
           s.args = [
               site['map'],                # $1
               site['to'],                 # $2
@@ -399,7 +399,7 @@ class Homestead
           if site['pm2']
             config.vm.provision "shell" do |s2|
               s2.name = 'Creating Site Ecosystem for pm2: ' + site['map']
-              s2.path = script_dir + "/create-ecosystem.sh"
+              s2.path = Homestead.get_script_path("create-ecosystem.sh", script_dir, user_script_path)
               s2.args = Array.new
               s2.args << site['pm2'][0]['name']
               s2.args << site['pm2'][0]['script'] ||= "npm"
@@ -410,11 +410,11 @@ class Homestead
 
           if site['xhgui'] == 'true'
             config.vm.provision 'shell' do |s|
-              s.path = script_dir + '/features/mongodb.sh'
+              s.path = Homestead.get_script_path('features/mongodb.sh', script_dir, user_script_path)
             end
 
             config.vm.provision 'shell' do |s|
-              s.path = script_dir + '/install-xhgui.sh'
+              s.path = Homestead.get_script_path('install-xhgui.sh', script_dir, user_script_path)
             end
 
             config.vm.provision 'shell' do |s|
@@ -429,7 +429,7 @@ class Homestead
         end
 
         config.vm.provision 'shell' do |s|
-          s.path = script_dir + "/hosts-add.sh"
+          s.path = Homestead.get_script_path("hosts-add.sh", script_dir, user_script_path)
           s.args = ['127.0.0.1', site['map']]
         end
 
@@ -439,7 +439,7 @@ class Homestead
             s.name = 'Creating Schedule'
 
             if site['schedule']
-              s.path = script_dir + '/cron-schedule.sh'
+              s.path = Homestead.get_script_path('cron-schedule.sh', script_dir, user_script_path)
               s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to']]
             else
               s.inline = "rm -f /etc/cron.d/$1"
@@ -459,7 +459,7 @@ class Homestead
     # Configure All Of The Server Environment Variables
     config.vm.provision 'shell' do |s|
       s.name = 'Clear Variables'
-      s.path = script_dir + '/clear-variables.sh'
+      s.path = Homestead.get_script_path('clear-variables.sh', script_dir, user_script_path)
     end
 
     if settings.has_key?('variables')
@@ -512,7 +512,7 @@ class Homestead
 
     config.vm.provision 'shell' do |s|
       s.name = 'Restart Webserver'
-      s.path = script_dir + '/restart-webserver.sh'
+      s.path = Homestead.get_script_path('restart-webserver.sh', script_dir, user_script_path)
     end
 
     # Configure All Of The Configured Databases
@@ -536,20 +536,20 @@ class Homestead
       settings['databases'].each do |db|
         config.vm.provision 'shell' do |s|
           s.name = 'Creating MySQL Database: ' + db
-          s.path = script_dir + '/create-mysql.sh'
+          s.path = Homestead.get_script_path('create-mysql.sh', script_dir, user_script_path)
           s.args = [db]
         end
 
         config.vm.provision 'shell' do |s|
           s.name = 'Creating Postgres Database: ' + db
-          s.path = script_dir + '/create-postgres.sh'
+          s.path = Homestead.get_script_path('create-postgres.sh', script_dir, user_script_path)
           s.args = [db]
         end
 
         if enabled_databases.include? 'mongodb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Mongo Database: ' + db
-            s.path = script_dir + '/create-mongo.sh'
+            s.path = Homestead.get_script_path('create-mongo.sh', script_dir, user_script_path)
             s.args = [db]
           end
         end
@@ -557,7 +557,7 @@ class Homestead
         if enabled_databases.include? 'couchdb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Couch Database: ' + db
-            s.path = script_dir + '/create-couch.sh'
+            s.path = Homestead.get_script_path('create-couch.sh', script_dir, user_script_path)
             s.args = [db]
           end
         end
@@ -565,7 +565,7 @@ class Homestead
         if enabled_databases.include? 'influxdb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating InfluxDB Database: ' + db
-            s.path = script_dir + '/create-influxdb.sh'
+            s.path = Homestead.get_script_path('create-influxdb.sh', script_dir, user_script_path)
             s.args = [db]
           end
         end
@@ -578,7 +578,7 @@ class Homestead
       settings['buckets'].each do |bucket|
         config.vm.provision 'shell' do |s|
           s.name = 'Creating Minio Bucket: ' + bucket['name']
-          s.path = script_dir + '/create-minio-bucket.sh'
+          s.path = Homestead.get_script_path('create-minio-bucket.sh', script_dir, user_script_path)
           s.args = [bucket['name'], bucket['policy'] || 'none']
         end
       end
@@ -593,7 +593,7 @@ class Homestead
 
     # Add config file for ngrok
     config.vm.provision 'shell' do |s|
-      s.path = script_dir + '/create-ngrok.sh'
+      s.path = Homestead.get_script_path('create-ngrok.sh', script_dir, user_script_path)
       s.args = [settings['ip']]
       s.privileged = false
     end
@@ -635,6 +635,14 @@ class Homestead
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up postgres database #{database}..."
       trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && echo localhost:5432:#{database}:homestead:secret > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U homestead -h localhost #{database} > #{dir}/#{now}/#{database}-#{now}.sql"}
+    end
+  end
+
+  def self.get_script_path(script, script_path, user_script_path)
+    if !user_script_path.to_s.empty? and File.exist? File.expand_path(script, user_script_path)
+      return user_script_path + "/" + script
+    else
+      return script_path + "/" + script
     end
   end
 end
