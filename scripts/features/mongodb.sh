@@ -95,3 +95,12 @@ sudo ln -s /etc/php/7.4/mods-available/mongo.ini /etc/php/7.4/fpm/conf.d/20-mong
 sudo service php7.4-fpm restart
 
 mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
+
+SECURITY_AUTH="
+security:
+  authorization: "enabled"
+"
+
+echo "$SECURITY_AUTH" >> /etc/mongod.conf
+
+sudo systemctl restart mongod
