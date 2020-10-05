@@ -15,6 +15,7 @@ sudo update-alternatives --remove php /usr/bin/php$version
 sudo update-alternatives --remove php-config /usr/bin/php-config$version
 sudo update-alternatives --remove phpize /usr/bin/phpize$version
 sudo apt purge -y "php${version}*"
+sudo systemctl disable "php${version}-fpm.service"
 done
 
 # php memory limit
@@ -29,3 +30,13 @@ sudo sed -i "s/pm\.max_spare_servers\ =\ .*/pm\.max_spare_servers\ =\ 10/" /etc/
 
 # xdebug port
 sudo sed -i "s/xdebug.remote_port\ =\ .*/xdebug.remote_port\ =\ 9009/" /etc/php/${1}/mods-available/xdebug.ini
+
+# fix open-ssh
+sudo apt-get remove -y openssh-server
+sudo apt-get install -y openssh-server
+sudo sed -i "s/PasswordAuthentication\ no/PasswordAuthentication\ yes/" /etc/ssh/sshd_config
+
+# restart services
+sudo systemctl restart php7.4-fpm.service
+sudo systemctl restart nginx.service
+sudo systemctl restart ssh.service
