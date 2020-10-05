@@ -44,5 +44,6 @@ fi
 zplug load
 "
 
-cat ZPLUG_CONFIG > /home/vagrant/.zshrc
+echo "$ZPLUG_CONFIG" | sudo tee -a /home/vagrant/.zshrc
+
 
