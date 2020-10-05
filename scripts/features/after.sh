@@ -8,6 +8,15 @@
 # to apply, you may also create user-customizations.sh,
 # which will be run after this script.
 
+# Remove unused php version
+for version in 5.6 7.2 7.3
+do
+sudo update-alternatives --remove php /usr/bin/php$version
+sudo update-alternatives --remove php-config /usr/bin/php-config$version
+sudo update-alternatives --remove phpize /usr/bin/phpize$version
+sudo apt purge -y "php${version}*"
+done
+
 # php memory limit
 sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 4096M/" /etc/php/${1}/fpm/php.ini
 sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 4096M/" /etc/php/${1}/cli/php.ini
