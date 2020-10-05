@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class WslCreateSiteCommand extends Command
+class WslCreateDatabaseCommand extends Command
 {
     use GeneratesSlugs;
 
@@ -47,8 +47,8 @@ class WslCreateSiteCommand extends Command
         $this->defaultProjectName = $this->slug($this->projectName);
 
         $this
-            ->setName('wsl:create-sites')
-            ->setDescription('Create Sites in WSL from Homestead configuration')
+            ->setName('wsl:create-databases')
+            ->setDescription('Create Databases in WSL from Homestead configuration')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
 
@@ -65,38 +65,17 @@ class WslCreateSiteCommand extends Command
         $format = $input->getOption('json') ? 'json' : 'yaml';
         $settings = $this->parseSettingsFromFile($format, []);
 
-        foreach ($settings['wsl_sites'] as $key => $site) {
+        foreach ($settings['databases'] as $db) {
             $create_cmd = '';
-            $args = [
-                $site['map'],                                 // $1
-                $site['to'], // $2
-                isset($site['port']) ? $site['port'] : 80,    // $3
-                isset($site['ssl']) ? $site['ssl'] : 443,     // $4
-                isset($site['php']) ? $site['php'] : '7.4',   // $5
-            ];
-            $create_cmd = "sudo bash {$this->basePath}/scripts/site-types/laravel.sh {$args[0]} \"{$args[1]}\"";
-            $create_cmd .= " {$args[2]} {$args[3]} {$args[4]}";
-
-            // run command to create the site
+            $query = "CREATE DATABASE IF NOT EXISTS {$db} DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci";
+            $create_cmd = 'mysql -u homestead -psecret -e "'.$query.'"';
+            // run command to create the database
             $shell_output = shell_exec($create_cmd);
             if (! is_null($shell_output)) {
                 var_dump($shell_output);
             }
-
-            // run command to create the site's SSL certificates
-            $cert_cmd = "sudo bash {$this->basePath}/scripts/create-certificate.sh {$site['map']}";
-            $shell_output = shell_exec($cert_cmd);
-            if (! is_null($shell_output)) {
-                var_dump($shell_output);
-            }
-
-            // Restart nginx
-            $shell_output = shell_exec('sudo service nginx restart');
-            if (! is_null($shell_output)) {
-                var_dump($shell_output);
-            }
         }
-        $output->writeln('WSL sites have been created!');
+        $output->writeln('WSL Databases have been created!');
 
         return 0;
     }

@@ -13,5 +13,6 @@ $app = new Symfony\Component\Console\Application('Laravel Homestead', '11.2.2');
 $app->add(new Laravel\Homestead\MakeCommand);
 $app->add(new Laravel\Homestead\WslApplyFeatures);
 $app->add(new Laravel\Homestead\WslCreateSiteCommand);
+$app->add(new Laravel\Homestead\WslCreateDatabaseCommand());
 
 $app->run();
