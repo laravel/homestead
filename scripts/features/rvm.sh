@@ -12,7 +12,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/rvm ]
 then
-    echo "Solr already installed."
+    echo "rvm already installed."
     exit 0
 fi
 
