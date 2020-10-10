@@ -44,4 +44,5 @@ service php7.1-fpm restart
 service php7.2-fpm restart
 service php7.3-fpm restart
 service php7.4-fpm restart
+service php8.0-fpm restart
 service blackfire-agent restart
