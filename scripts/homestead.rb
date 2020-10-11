@@ -300,9 +300,9 @@ class Homestead
 
         if site['wildcard'] == 'yes'
           config.vm.provision 'shell' do |s|
-            s.name = 'Creating Wildcard Certificate: *.' + site['map'].partition('.').last
+            s.name = 'Creating Wildcard Certificate: *.' + site['map']
             s.path = script_dir + '/create-certificate.sh'
-            s.args = ['*.' + site['map'].partition('.').last]
+            s.args = ['*.' + site['map']]
           end
         end
 
@@ -373,23 +373,23 @@ class Homestead
             if site['use_wildcard'] != 'no'
               if site['type'] != 'apache'
                 config.vm.provision 'shell' do |s|
-                  s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/nginx/sites-available/$1"
-                  s.args = [site['map'], site['map'].partition('.').last]
+                  s.inline = "sed -i \"s/$1.crt/*.$1.crt/\" /etc/nginx/sites-available/$1"
+                  s.args = [site['map']]
                 end
 
                 config.vm.provision 'shell' do |s|
-                  s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/nginx/sites-available/$1"
-                  s.args = [site['map'], site['map'].partition('.').last]
+                  s.inline = "sed -i \"s/$1.key/*.$1.key/\" /etc/nginx/sites-available/$1"
+                  s.args = [site['map']]
                 end
               else
                 config.vm.provision 'shell' do |s|
-                  s.inline = "sed -i \"s/$1.crt/*.$2.crt/\" /etc/apache2/sites-available/$1-ssl.conf"
-                  s.args = [site['map'], site['map'].partition('.').last]
+                  s.inline = "sed -i \"s/$1.crt/*.$1.crt/\" /etc/apache2/sites-available/$1-ssl.conf"
+                  s.args = [site['map']]
                 end
 
                 config.vm.provision 'shell' do |s|
-                  s.inline = "sed -i \"s/$1.key/*.$2.key/\" /etc/apache2/sites-available/$1-ssl.conf"
-                  s.args = [site['map'], site['map'].partition('.').last]
+                  s.inline = "sed -i \"s/$1.key/*.$1.key/\" /etc/apache2/sites-available/$1-ssl.conf"
+                  s.args = [site['map']]
                 end
               end
             end
