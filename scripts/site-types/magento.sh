@@ -144,7 +144,8 @@ block="server {
     location ~ ^/(index|get|static|errors/report|errors/404|errors/503|health_check)\.php$ {
         try_files \$uri =404;
         fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
-        fastcgi_buffers 1024 4k;
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
 
         fastcgi_param  PHP_FLAG  \"session.auto_start=off \n suhosin.session.cryptua=off\";
         fastcgi_param  PHP_VALUE \"memory_limit=756M \n max_execution_time=18000\";
