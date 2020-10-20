@@ -534,16 +534,20 @@ class Homestead
       end
 
       settings['databases'].each do |db|
-        config.vm.provision 'shell' do |s|
-          s.name = 'Creating MySQL Database: ' + db
-          s.path = script_dir + '/create-mysql.sh'
-          s.args = [db]
+        if enabled_databases.include? 'mysql'
+          config.vm.provision 'shell' do |s|
+            s.name = 'Creating MySQL Database: ' + db
+            s.path = script_dir + '/create-mysql.sh'
+            s.args = [db]
+          end
         end
 
-        config.vm.provision 'shell' do |s|
-          s.name = 'Creating Postgres Database: ' + db
-          s.path = script_dir + '/create-postgres.sh'
-          s.args = [db]
+        if enabled_databases.include? 'postgresql'
+          config.vm.provision 'shell' do |s|
+            s.name = 'Creating Postgres Database: ' + db
+            s.path = script_dir + '/create-postgres.sh'
+            s.args = [db]
+          end
         end
 
         if enabled_databases.include? 'mongodb'
