@@ -2,7 +2,7 @@ language: php
 
 php:
   - 7.4
-  - nightly
+  - 8.0snapshot
 
 before_script:
   - phpenv config-rm xdebug.ini || true
@@ -13,4 +13,4 @@ script:
 
 matrix:
   allow_failures:
-    - php: nightly
+    - php: 8.0snapshot
