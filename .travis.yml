@@ -2,7 +2,7 @@ language: php
 
 php:
   - 7.4
-  - nightly
+  - 8.0snapshot
 
 before_script:
   - phpenv config-rm xdebug.ini || true
@@ -10,7 +10,3 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-
-matrix:
-  allow_failures:
-    - php: nightly
