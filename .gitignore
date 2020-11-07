@@ -11,3 +11,4 @@ phpunit.xml
 /user-customizations.sh
 .phpunit.result.cache
 wsl-init.log
+.backup/*
