@@ -608,7 +608,7 @@ class Homestead
     end
 
     if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin?('vagrant-triggers'))
-      dir_prefix = '/vagrant/'
+      dir_prefix = '/vagrant/.backup'
 
       # Rebuild the enabled_databases so we can check before backing up
       enabled_databases = Array.new
