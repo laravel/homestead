@@ -517,8 +517,8 @@ class Homestead
 
     # Configure All Of The Configured Databases
     if settings.has_key?('databases')
-      # Check which databases are enabled
       enabled_databases = Array.new
+      # Check which databases are enabled
       if settings.has_key?('features')
         settings['features'].each do |feature|
           feature_name = feature.keys[0]
@@ -608,10 +608,35 @@ class Homestead
     end
 
     if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin?('vagrant-triggers'))
-      dir_prefix = '/vagrant/'
+      dir_prefix = '/vagrant/.backup'
+
+      # Rebuild the enabled_databases so we can check before backing up
+      enabled_databases = Array.new
+      # Check which databases are enabled
+      if settings.has_key?('features')
+        settings['features'].each do |feature|
+          feature_name = feature.keys[0]
+          feature_arguments = feature[feature_name]
+
+          # If feature is set to false, ignore
+          if feature_arguments == false
+            next
+          end
+
+          enabled_databases.push feature_name
+        end
+      end
+
+      # Loop over each DB
       settings['databases'].each do |database|
-        Homestead.backup_mysql(database, "#{dir_prefix}/mysql_backup", config)
-        Homestead.backup_postgres(database, "#{dir_prefix}/postgres_backup", config)
+        # Backup MySQL/MariaDB
+        if (enabled_databases.include? 'mysql') || (enabled_databases.include? 'mariadb')
+          Homestead.backup_mysql(database, "#{dir_prefix}/mysql_backup", config)
+        end
+        # Backup PostgreSQL
+        if enabled_databases.include? 'postgresql'
+          Homestead.backup_postgres(database, "#{dir_prefix}/postgres_backup", config)
+        end
       end
     end
 
