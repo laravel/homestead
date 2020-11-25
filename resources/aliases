@@ -80,6 +80,12 @@ function php74() {
     sudo update-alternatives --set phpize /usr/bin/phpize7.4
 }
 
+function php80() {
+    sudo update-alternatives --set php /usr/bin/php8.0
+    sudo update-alternatives --set php-config /usr/bin/php-config8.0
+    sudo update-alternatives --set phpize /usr/bin/phpize8.0
+}
+
 function serve-apache() {
     if [[ "$1" && "$2" ]]
     then
