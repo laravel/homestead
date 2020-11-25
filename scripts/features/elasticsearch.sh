@@ -36,7 +36,12 @@ echo "deb https://artifacts.elastic.co/packages/$majorVersion.x/apt stable main"
 
 sudo apt-get update
 sudo apt-get -y install openjdk-11-jre
-sudo apt-get -y install elasticsearch"$installVersion"
+
+if [ $majorVersion == '5' ]; then
+    sudo apt-get -y install elasticsearch
+else
+    sudo apt-get -y install elasticsearch"$installVersion"
+fi
 
 # Start Elasticsearch on boot
 
