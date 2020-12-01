@@ -32,7 +32,10 @@ echo "Elasticsearch majorVersion: $majorVersion"
 # Install Java & Elasticsearch
 
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb https://artifacts.elastic.co/packages/$majorVersion.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-$majorVersion.x.list
+
+if [ ! -f /etc/apt/sources.list.d/elastic-$majorVersion.x.list ]; then
+    echo "deb https://artifacts.elastic.co/packages/$majorVersion.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-$majorVersion.x.list
+fi
 
 sudo apt-get update
 sudo apt-get -y install openjdk-11-jre

@@ -591,7 +591,7 @@ class Homestead
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
-      s.inline = 'sudo chown -R vagrant:vagrant /usr/local/bin && sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.composer/'
+      s.inline = 'sudo chown -R vagrant:vagrant /usr/local/bin && sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.config/'
       s.privileged = false
     end
 
