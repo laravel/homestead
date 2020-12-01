@@ -24,11 +24,17 @@
     ],
     "features": [
         {
+            "mysql": true
+        },
+        {
             "mariadb": false
-        }, 
+        },
+        {
+            "postgresql": false
+        },
         {
             "ohmyzsh": false
-        }, 
+        },
         {
             "webdriver": false
         }

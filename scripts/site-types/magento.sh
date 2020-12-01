@@ -1,3 +1,14 @@
+declare -A params=$6       # Create an associative array
+
+paramsTXT=""
+if [ -n "$6" ]; then
+   for element in "${!params[@]}"
+   do
+      paramsTXT="${paramsTXT}
+      fastcgi_param ${element} ${params[$element]};"
+   done
+fi
+
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl http2;
@@ -26,6 +37,7 @@ block="server {
 
             fastcgi_index  index.php;
             fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
+            $paramsTXT
             include        fastcgi_params;
         }
 
@@ -48,6 +60,7 @@ block="server {
             fastcgi_index  index.php;
             fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
             fastcgi_param  PATH_INFO        \$fastcgi_path_info;
+            $paramsTXT
             include        fastcgi_params;
         }
 
@@ -144,7 +157,8 @@ block="server {
     location ~ ^/(index|get|static|errors/report|errors/404|errors/503|health_check)\.php$ {
         try_files \$uri =404;
         fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
-        fastcgi_buffers 1024 4k;
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
 
         fastcgi_param  PHP_FLAG  \"session.auto_start=off \n suhosin.session.cryptua=off\";
         fastcgi_param  PHP_VALUE \"memory_limit=756M \n max_execution_time=18000\";
@@ -153,6 +167,7 @@ block="server {
 
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
+        $paramsTXT
         include        fastcgi_params;
     }
 

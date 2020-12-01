@@ -36,7 +36,12 @@ function dusk() {
         Xvfb :0 -screen 0 1280x960x24 &
     fi
 
-    php artisan dusk --filter "$@"
+    if [[ $? -eq 0 ]]
+    then
+        php artisan dusk
+    else
+        php artisan dusk --filter "$@"
+    fi
 }
 
 function php56() {
@@ -73,6 +78,12 @@ function php74() {
     sudo update-alternatives --set php /usr/bin/php7.4
     sudo update-alternatives --set php-config /usr/bin/php-config7.4
     sudo update-alternatives --set phpize /usr/bin/phpize7.4
+}
+
+function php80() {
+    sudo update-alternatives --set php /usr/bin/php8.0
+    sudo update-alternatives --set php-config /usr/bin/php-config8.0
+    sudo update-alternatives --set phpize /usr/bin/phpize8.0
 }
 
 function serve-apache() {
