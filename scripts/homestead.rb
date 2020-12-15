@@ -440,7 +440,7 @@ class Homestead
 
             if site['schedule']
               s.path = script_dir + '/cron-schedule.sh'
-              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to']]
+              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to'], site['php'] ||= '']
             else
               s.inline = "rm -f /etc/cron.d/$1"
               s.args = [site['map'].tr('^A-Za-z0-9', '')]
