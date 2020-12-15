@@ -56,7 +56,7 @@ class Homestead
     end
 
     # Configure A Few VMware Settings
-    ['vmware_fusion', 'vmware_workstation'].each do |vmware|
+    ['vmware_fusion', 'vmware_workstation', 'vmware_desktop'].each do |vmware|
       config.vm.provider vmware do |v|
         v.vmx['displayName'] = settings['name'] ||= 'homestead'
         v.vmx['memsize'] = settings['memory'] ||= 2048
