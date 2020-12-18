@@ -14,7 +14,6 @@ class MakeCommandTest extends TestCase
 {
     use ArraySubsetAsserts, GeneratesSlugs, GeneratesTestDirectory;
 
-
     /** @test */
     public function it_displays_a_success_message()
     {
