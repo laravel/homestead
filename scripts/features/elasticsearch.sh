@@ -12,7 +12,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/elasticsearch ]
 then
-    echo "elasticsearch already installed."
+    echo "Elasticsearch already installed."
     exit 0
 fi
 
@@ -40,6 +40,7 @@ echo "Elasticsearch majorVersion: $majorVersion"
 # Install Java & Elasticsearch
 
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
 if [ ! -f /etc/apt/sources.list.d/elastic-$majorVersion.x.list ]; then
     echo "deb https://artifacts.elastic.co/packages/$majorVersion.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-$majorVersion.x.list
 fi
