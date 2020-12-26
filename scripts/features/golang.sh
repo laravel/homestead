@@ -12,15 +12,15 @@ export DEBIAN_FRONTEND=noninteractive
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/golang ]
 then
-    echo "golang already installed."
+    echo "Golang already installed."
     exit 0
 fi
 
 touch /home/$WSL_USER_NAME/.homestead-features/golang
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-# Install Golang
 
-golangVersion="1.15.5"
+# Install Golang
+golangVersion="1.15.6"
 wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz go
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile

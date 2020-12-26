@@ -12,7 +12,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/mariadb ]
 then
-    echo "mariadb already installed."
+    echo "MariaDB already installed."
     exit 0
 fi
 

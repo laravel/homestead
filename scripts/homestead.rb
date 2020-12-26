@@ -19,7 +19,7 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '~> 10'
+      config.vm.box_version = settings['version'] ||= '>= 11.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
@@ -56,7 +56,7 @@ class Homestead
     end
 
     # Configure A Few VMware Settings
-    ['vmware_fusion', 'vmware_workstation'].each do |vmware|
+    ['vmware_fusion', 'vmware_workstation', 'vmware_desktop'].each do |vmware|
       config.vm.provider vmware do |v|
         v.vmx['displayName'] = settings['name'] ||= 'homestead'
         v.vmx['memsize'] = settings['memory'] ||= 2048
@@ -440,7 +440,7 @@ class Homestead
 
             if site['schedule']
               s.path = script_dir + '/cron-schedule.sh'
-              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to']]
+              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to'], site['php'] ||= '']
             else
               s.inline = "rm -f /etc/cron.d/$1"
               s.args = [site['map'].tr('^A-Za-z0-9', '')]
@@ -591,7 +591,7 @@ class Homestead
     # Update Composer On Every Provision
     config.vm.provision 'shell' do |s|
       s.name = 'Update Composer'
-      s.inline = 'sudo chown -R vagrant:vagrant /usr/local/bin && sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.composer/'
+      s.inline = 'sudo chown -R vagrant:vagrant /usr/local/bin && sudo -u vagrant /usr/local/bin/composer self-update --no-progress && sudo chown -R vagrant:vagrant /home/vagrant/.config/'
       s.privileged = false
     end
 
