@@ -23,12 +23,6 @@ locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
-# Setup ubuntu wsl2 systemd script
-git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git /home/$WSL_USER_NAME/ubuntu-wsl2-systemd-script
-bash /home/$WSL_USER_NAME/ubuntu-wsl2-systemd-script/ubuntu-wsl2-systemd-script.sh
-# Enable ubuntu wsl2 systemd script for shell
-echo 'source $HOME/ubuntu-wsl2-systemd-script/start-systemd-namespace' >> /home/$WSL_USER_NAME/.profile
-
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
 add-apt-repository ppa:chris-lea/redis-server -y
