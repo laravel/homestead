@@ -48,6 +48,12 @@ class Homestead
       if settings.has_key?('gui') && settings['gui']
         vb.gui = true
       end
+      # --paravirtprovider none|default|legacy|minimal|hyperv|kvm
+      # Specifies which paravirtualization interface to provide to
+      # the guest operating system.
+      if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
+        vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
+      end
     end
 
     # Override Default SSH port on the host
