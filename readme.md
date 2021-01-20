@@ -27,7 +27,7 @@ Ubuntu 20.04 can be found in the branch `20.04`
 
 | Ubuntu LTS | Settler Version | Homestead Version | Branch      | Status
 | -----------| -----------     | -----------       | ----------- | -----------
-| 20.04      | TBD             | TBD               | `master`    | Development/Unstable
+| 20.04      | TBD             | TBD               | `main`      | Development/Unstable
 | 20.04      | 10.x            | 11.x              | `20.04`     | Supported
 | 18.04      | 9.x             | 10.x              | `release`   | No Longer Supported
 
@@ -39,7 +39,7 @@ Homestead from composer, forcing it to use a git checkout.
 ```
 $ mkdir homestead && \
     cd homestead && \
-    composer require --prefer-source laravel/homestead:dev-master
+    composer require --prefer-source laravel/homestead:dev-main
 ```
 
 After it's complete, `vendor/laravel/homestead` will be a git checkout and can be used normally.
