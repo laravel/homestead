@@ -24,12 +24,12 @@ sudo apt-get update
 
 # Now install appropriate package for PG version
 if [ -f ~/.homestead-features/wsl_user_name ]; then
-    sudo apt-get -y install timescaledb-postgresql-12
+    sudo apt-get -y install timescaledb-2-postgresql-12
 else
     sudo apt-get -y install timescaledb-postgresql-9.6
     sudo apt-get -y install timescaledb-postgresql-10
-    sudo apt-get -y install timescaledb-postgresql-11
-    sudo apt-get -y install timescaledb-postgresql-12
+    sudo apt-get -y install timescaledb-2-postgresql-11
+    sudo apt-get -y install timescaledb-2-postgresql-12
 fi
 
 sudo timescaledb-tune --quiet --yes
