@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
 
-if [ -f /home/vagrant/.homestead-features/neo4j ]
+if [ -f ~/.homestead-features/wsl_user_name ]; then
+    WSL_USER_NAME="$(cat ~/.homestead-features/wsl_user_name)"
+    WSL_USER_GROUP="$(cat ~/.homestead-features/wsl_user_group)"
+else
+    WSL_USER_NAME=vagrant
+    WSL_USER_GROUP=vagrant
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+if [ -f /home/$WSL_USER_NAME/.homestead-features/neo4j ]
 then
-    echo "Neo4j already installed."
+    echo "neo4j already installed."
     exit 0
 fi
 
-touch /home/vagrant/.homestead-features/neo4j
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+touch /home/$WSL_USER_NAME/.homestead-features/neo4j
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
 echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list

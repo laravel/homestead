@@ -19,7 +19,7 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '~> 9'
+      config.vm.box_version = settings['version'] ||= '>= 11.0.0, < 12.0.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
@@ -48,6 +48,12 @@ class Homestead
       if settings.has_key?('gui') && settings['gui']
         vb.gui = true
       end
+      # --paravirtprovider none|default|legacy|minimal|hyperv|kvm
+      # Specifies which paravirtualization interface to provide to
+      # the guest operating system.
+      if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
+        vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
+      end
     end
 
     # Override Default SSH port on the host
@@ -56,7 +62,7 @@ class Homestead
     end
 
     # Configure A Few VMware Settings
-    ['vmware_fusion', 'vmware_workstation'].each do |vmware|
+    ['vmware_fusion', 'vmware_workstation', 'vmware_desktop'].each do |vmware|
       config.vm.provider vmware do |v|
         v.vmx['displayName'] = settings['name'] ||= 'homestead'
         v.vmx['memsize'] = settings['memory'] ||= 2048
@@ -360,7 +366,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '7.4',      # $5
+              site['php'] ||= '8.0',      # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
@@ -440,7 +446,7 @@ class Homestead
 
             if site['schedule']
               s.path = script_dir + '/cron-schedule.sh'
-              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to']]
+              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to'], site['php'] ||= '']
             else
               s.inline = "rm -f /etc/cron.d/$1"
               s.args = [site['map'].tr('^A-Za-z0-9', '')]
@@ -491,6 +497,11 @@ class Homestead
 
         config.vm.provision 'shell' do |s|
           s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.4/fpm/pool.d/www.conf"
+          s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/8.0/fpm/pool.d/www.conf"
           s.args = [var['key'], var['value']]
         end
 
