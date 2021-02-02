@@ -19,7 +19,7 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '>= 11.0'
+      config.vm.box_version = settings['version'] ||= '>= 11.0.0, < 12.0.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
@@ -366,7 +366,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '7.4',      # $5
+              site['php'] ||= '8.0',      # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
@@ -497,6 +497,11 @@ class Homestead
 
         config.vm.provision 'shell' do |s|
           s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.4/fpm/pool.d/www.conf"
+          s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/8.0/fpm/pool.d/www.conf"
           s.args = [var['key'], var['value']]
         end
 
