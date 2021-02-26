@@ -18,24 +18,25 @@ apt-get update
 apt-get upgrade -y
 
 # Force Locale
-echo "LC_ALL=en_US.UTF-8" >> /etc/defaulcdt/locale
+echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
-add-apt-repository ppa:chris-lea/redis-server -y
+apt-add-repository ppa:chris-lea/redis-server -y
 # NodeJS
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
 END
+
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 ## Install RabbitMQ signing key
-#curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
+curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
 
 #tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
 ### Installs the latest Erlang 23.x release.
@@ -75,13 +76,13 @@ php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7
 php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
 php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
 
-# PHP 7.3
-apt-get install -y --allow-change-held-packages \
-php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant \
-php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring \
-php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode \
-php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip
-
+## PHP 7.3
+#apt-get install -y --allow-change-held-packages \
+#php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant \
+#php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring \
+#php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode \
+#php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip
+#
 ## PHP 7.2
 #apt-get install -y --allow-change-held-packages \
 #php7.2-bcmath php7.2-bz2 php7.2-dba php7.2-enchant php7.2-fpm php7.2-imap php7.2-interbase php7.2-intl \
@@ -120,24 +121,23 @@ update-alternatives --set phpize /usr/bin/phpize7.4
 
 # Fixed php fpm bind listening socket - no such file issue.
 mkdir -p /run/php
+touch /run/php/php8.0-fpm.sock
 touch /run/php/php7.4-fpm.sock
-touch /run/php/php7.3-fpm.sock
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
+chown -R $WSL_USER_NAME:$WSL_USER_NAME /home/$WSL_USER_NAME/.config
 
-## Install Laravel Envoy, Installer, and prestissimo for parallel downloads
+## Install Global Packages
 #sudo su $WSL_USER_NAME <<'EOF'
-#/usr/local/bin/composer global require hirak/prestissimo
 #/usr/local/bin/composer global require "laravel/envoy=^2.0"
-#/usr/local/bin/composer global require "laravel/installer=^3.0.1"
-#/usr/local/bin/composer global require "laravel/lumen-installer=^1.1"
+#/usr/local/bin/composer global require "laravel/installer=^4.0.2"
 #/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
 #/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 #EOF
 
-## Set Some PHP CLI Settings
+# Set Some PHP CLI Settings
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/cli/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/cli/php.ini
 sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
@@ -147,12 +147,12 @@ sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.in
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
 sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
-
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
-
+#
+#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
+#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
+#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/cli/php.ini
+#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
+#
 #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/cli/php.ini
 #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/cli/php.ini
 #sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/cli/php.ini
@@ -172,40 +172,40 @@ sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
 #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/cli/php.ini
 #sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/5.6/cli/php.ini
 #sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/5.6/cli/php.ini
-
-# Install Apache
-apt-get install -y apache2 libapache2-mod-fcgid
-sed -i "s/www-data/$WSL_USER_NAME/" /etc/apache2/envvars
-
-# Enable FPM
+#
+## Install Apache
+#apt-get install -y apache2 libapache2-mod-fcgid
+#sed -i "s/www-data/$WSL_USER_NAME/" /etc/apache2/envvars
+#
+## Enable FPM
 #a2enconf php5.6-fpm
 #a2enconf php7.0-fpm
 #a2enconf php7.1-fpm
 #a2enconf php7.2-fpm
-a2enconf php7.3-fpm
-a2enconf php7.4-fpm
-a2enconf php8.0-fpm
-
-# Assume user wants mode_rewrite support
-sudo a2enmod rewrite
-
-# Turn on HTTPS support
-sudo a2enmod ssl
-
-# Turn on proxy & fcgi
-sudo a2enmod proxy proxy_fcgi
-
-# Turn on headers support
-sudo a2enmod headers actions alias
-
-# Add Mutex to config to prevent auto restart issues
-if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
-then
-    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
-fi
-
-a2dissite 000-default
-systemctl disable apache2
+#a2enconf php7.3-fpm
+#a2enconf php7.4-fpm
+#a2enconf php8.0-fpm
+#
+## Assume user wants mode_rewrite support
+#sudo a2enmod rewrite
+#
+## Turn on HTTPS support
+#sudo a2enmod ssl
+#
+## Turn on proxy & fcgi
+#sudo a2enmod proxy proxy_fcgi
+#
+## Turn on headers support
+#sudo a2enmod headers actions alias
+#
+## Add Mutex to config to prevent auto restart issues
+#if [ -z "$(grep '^Mutex posixsem$' /etc/apache2/apache2.conf)" ]
+#then
+#    echo 'Mutex posixsem' | sudo tee -a /etc/apache2/apache2.conf
+#fi
+#
+#a2dissite 000-default
+#systemctl disable apache2
 
 # Install Nginx
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
@@ -221,47 +221,46 @@ ln -sf /home/$WSL_USER_NAME/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.con
 
 # Setup Some PHP-FPM Options
 echo "xdebug.mode = debug" >> /etc/php/8.0/mods-available/xdebug.ini
-echo "xdebug.discover_client_host = 1" >> /etc/php/8.0/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.client_port = 9003" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/8.0/mods-available/opcache.ini
 
 echo "xdebug.mode = debug" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "xdebug.discover_client_host = 1" >> /etc/php/7.4/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/7.4/mods-available/xdebug.ini
 echo "xdebug.client_port = 9003" >> /etc/php/7.4/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/7.4/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/7.4/mods-available/opcache.ini
-
-echo "xdebug.mode = debug" >> /etc/php/7.3/mods-available/xdebug.ini
-echo "xdebug.discover_client_host = 1" >> /etc/php/7.3/mods-available/xdebug.ini
-echo "xdebug.client_port = 9003" >> /etc/php/7.3/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/7.3/mods-available/xdebug.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/7.3/mods-available/opcache.ini
-
-# echo "xdebug.mode = debug" >> /etc/php/7.2/mods-available/xdebug.ini
-# echo "xdebug.discover_client_host = 1" >> /etc/php/7.2/mods-available/xdebug.ini
-# echo "xdebug.client_port = 9003" >> /etc/php/7.2/mods-available/xdebug.ini
-# echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
-# echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
-
-# echo "xdebug.mode = debug" >> /etc/php/7.1/mods-available/xdebug.ini
-# echo "xdebug.discover_client_host = 1" >> /etc/php/7.1/mods-available/xdebug.ini
-# echo "xdebug.client_port = 9003" >> /etc/php/7.1/mods-available/xdebug.ini
-# echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
-# echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
-
-# echo "xdebug.mode = debug" >> /etc/php/7.0/mods-available/xdebug.ini
-# echo "xdebug.discover_client_host = 1" >> /etc/php/7.0/mods-available/xdebug.ini
-# echo "xdebug.client_port = 9003" >> /etc/php/7.0/mods-available/xdebug.ini
-# echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
-# echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
-
-# echo "xdebug.mode = debug" >> /etc/php/5.6/mods-available/xdebug.ini
-# echo "xdebug.discover_client_host = 1" >> /etc/php/5.6/mods-available/xdebug.ini
-# echo "xdebug.client_port = 9003" >> /etc/php/5.6/mods-available/xdebug.ini
-# echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
-# echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
-
+#
+#echo "xdebug.mode = debug" >> /etc/php/7.3/mods-available/xdebug.ini
+#echo "xdebug.discover_client_host = true" >> /etc/php/7.3/mods-available/xdebug.ini
+#echo "xdebug.client_port = 9003" >> /etc/php/7.3/mods-available/xdebug.ini
+#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.3/mods-available/xdebug.ini
+#echo "opcache.revalidate_freq = 0" >> /etc/php/7.3/mods-available/opcache.ini
+#
+#echo "xdebug.mode = debug" >> /etc/php/7.2/mods-available/xdebug.ini
+#echo "xdebug.discover_client_host = true" >> /etc/php/7.2/mods-available/xdebug.ini
+#echo "xdebug.client_port = 9003" >> /etc/php/7.2/mods-available/xdebug.ini
+#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.2/mods-available/xdebug.ini
+#echo "opcache.revalidate_freq = 0" >> /etc/php/7.2/mods-available/opcache.ini
+#
+#echo "xdebug.mode = debug" >> /etc/php/7.1/mods-available/xdebug.ini
+#echo "xdebug.discover_client_host = true" >> /etc/php/7.1/mods-available/xdebug.ini
+#echo "xdebug.client_port = 9003" >> /etc/php/7.1/mods-available/xdebug.ini
+#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.1/mods-available/xdebug.ini
+#echo "opcache.revalidate_freq = 0" >> /etc/php/7.1/mods-available/opcache.ini
+#
+#echo "xdebug.mode = debug" >> /etc/php/7.0/mods-available/xdebug.ini
+#echo "xdebug.discover_client_host = true" >> /etc/php/7.0/mods-available/xdebug.ini
+#echo "xdebug.client_port = 9003" >> /etc/php/7.0/mods-available/xdebug.ini
+#echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/mods-available/xdebug.ini
+#echo "opcache.revalidate_freq = 0" >> /etc/php/7.0/mods-available/opcache.ini
+#
+#echo "xdebug.mode = debug" >> /etc/php/5.6/mods-available/xdebug.ini
+#echo "xdebug.discover_client_host = true" >> /etc/php/5.6/mods-available/xdebug.ini
+#echo "xdebug.client_port = 9003" >> /etc/php/5.6/mods-available/xdebug.ini
+#echo "xdebug.max_nesting_level = 512" >> /etc/php/5.6/mods-available/xdebug.ini
+#echo "opcache.revalidate_freq = 0" >> /etc/php/5.6/mods-available/opcache.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/fpm/php.ini
 sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/fpm/php.ini
@@ -290,28 +289,28 @@ printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php
 
 printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
-
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.3/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.3/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.3/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/fpm/php.ini
-
-printf "[openssl]\n" | tee -a /etc/php/7.3/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
-
-printf "[curl]\n" | tee -a /etc/php/7.3/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
-
-# sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
-# sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
-# sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
-# sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
-# sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
-# sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
-# sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
+#
+#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
+#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
+#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.3/fpm/php.ini
+#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.3/fpm/php.ini
+#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.3/fpm/php.ini
+#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.3/fpm/php.ini
+#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.3/fpm/php.ini
+#
+#printf "[openssl]\n" | tee -a /etc/php/7.3/fpm/php.ini
+#printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
+#
+#printf "[curl]\n" | tee -a /etc/php/7.3/fpm/php.ini
+#printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.3/fpm/php.ini
+#
+#sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
+#sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
+#sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.2/fpm/php.ini
+#sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.2/fpm/php.ini
+#sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.2/fpm/php.ini
+#sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.2/fpm/php.ini
+#sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.2/fpm/php.ini
 #
 #printf "[openssl]\n" | tee -a /etc/php/7.2/fpm/php.ini
 #printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.2/fpm/php.ini
@@ -360,20 +359,20 @@ printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.
 #
 #printf "[curl]\n" | tee -a /etc/php/5.6/fpm/php.ini
 #printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
-#
-## Disable XDebug On The CLI
+
+# Disable XDebug On The CLI
 sudo phpdismod -s cli xdebug
 
 # Set The Nginx & PHP-FPM User
+sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
+sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
+
 sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/8.0/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = $WSL_USER_NAME/" /etc/php/8.0/fpm/pool.d/www.conf
 
 sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/8.0/fpm/pool.d/www.conf
 sed -i "s/listen\.group.*/listen.group = $WSL_USER_NAME/" /etc/php/8.0/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.0/fpm/pool.d/www.conf
-
-sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
-sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
 sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
@@ -382,12 +381,12 @@ sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.
 sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
-
-sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
-sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
+#sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
+#sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
+#
+#sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
+#sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
+#sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
 #
 #sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.2/fpm/pool.d/www.conf
 #sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.2/fpm/pool.d/www.conf
@@ -420,7 +419,7 @@ sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.3/fpm/pool.d/www.conf
 service nginx restart
 service php8.0-fpm restart
 service php7.4-fpm restart
-service php7.3-fpm restart
+#service php7.3-fpm restart
 #service php7.2-fpm restart
 #service php7.1-fpm restart
 #service php7.0-fpm restart
@@ -443,7 +442,7 @@ apt-get install -y nodejs
 #apt-get install rabbitmq-server -y --fix-missing
 
 # Install SQLite
-#apt-get install -y sqlite3 libsqlite3-dev
+apt-get install -y sqlite3 libsqlite3-dev
 
 # Install MySQL
 echo "mysql-server mysql-server/root_password password secret" | debconf-set-selections
@@ -477,13 +476,13 @@ EOF
 #mount -a
 #chown mysql:mysql /homestead-vg/master
 
-# Move the data directory and symlink it in.
+## Move the data directory and symlink it in.
 #systemctl stop mysql
 #mv /var/lib/mysql/* /homestead-vg/master
 #rm -rf /var/lib/mysql
 #ln -s /homestead-vg/master /var/lib/mysql
-
-# Allow mysqld to access the new data directories.
+#
+## Allow mysqld to access the new data directories.
 #echo '/homestead-vg/ r,' >> /etc/apparmor.d/local/usr.sbin.mysqld
 #echo '/homestead-vg/** rwk,' >> /etc/apparmor.d/local/usr.sbin.mysqld
 #systemctl restart apparmor
@@ -518,11 +517,23 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 service mysql restart
 
 # Install Postgres in this specific order so version 13 gets port 5432
-apt-get install -y postgresql-13 postgresql-server-dev-13 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
-#apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
+#apt-get install -y postgresql-13 postgresql-server-dev-13 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
+apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
 #apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
 #apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
 #apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
+
+# Configure Postgres Users
+# PostggreSQL 13
+sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+## PostggreSQL 12
+#sudo -u postgres psql -p 5433 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+## PostggreSQL 11
+#sudo -u postgres psql -p 5434 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+## PostggreSQL 10
+#sudo -u postgres psql -p 5435 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+## PostggreSQL 9.6
+#sudo -u postgres psql -p 5436 -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
 
 # Configure Postgres Remote Access
 #sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.6/main/postgresql.conf
@@ -531,64 +542,70 @@ apt-get install -y postgresql-13 postgresql-server-dev-13 postgresql-13-postgis-
 #echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
 #sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
 #echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
-#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
-#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
+#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
+#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
 
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
-service postgresql restart
-sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+# Disable Older Versions of Postgres
+#sudo systemctl disable postgresql@9.6-main
+#sudo systemctl disable postgresql@10-main
+#sudo systemctl disable postgresql@11-main
+sudo systemctl disable postgresql@12-main
+#sudo systemctl disable postgresql@13-main
+
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 
+service postgresql@12-main restart
+
 # Install Redis, Memcached, & Beanstalk
-apt-get install -y redis-server
-#apt-get install -y redis-server memcached beanstalkd
+apt-get install -y redis-server memcached beanstalkd
 systemctl enable redis-server
 service redis-server start
 
 # Configure Beanstalkd
 #sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
-# Install & Configure MailHog
-wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
-chmod +x /usr/local/bin/mailhog
-
-sudo tee /etc/systemd/system/mailhog.service <<EOL
-[Unit]
-Description=Mailhog
-After=network.target
-
-[Service]
-User=$WSL_USER_NAME
-ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
-
-[Install]
-WantedBy=multi-user.target
-EOL
-
-systemctl daemon-reload
-systemctl disable mailhog
-
+## Install & Configure MailHog
+#wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+#chmod +x /usr/local/bin/mailhog
+#
+#sudo tee /etc/systemd/system/mailhog.service <<EOL
+#[Unit]
+#Description=Mailhog
+#After=network.target
+#
+#[Service]
+#User=$WSL_USER_NAME
+#ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
+#
+#[Install]
+#WantedBy=multi-user.target
+#EOL
+#
+#systemctl daemon-reload
+#systemctl enable mailhog
+#
 ## Configure Supervisor
 #systemctl enable supervisor.service
 #service supervisor start
 #
 ## Install Heroku CLI
 #curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-
-# Install ngrok
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
-rm -rf ngrok-stable-linux-amd64.zip
-
-# Install Flyway
+#
+## Install ngrok
+#wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+#unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
+#rm -rf ngrok-stable-linux-amd64.zip
+#
+## Install Flyway
 #wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
 #tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
 #chmod +x /usr/local/flyway-4.2.0/flyway
 #ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
 #rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
-
-# Install wp-cli
+#
+## Install wp-cli
 #curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 #chmod +x wp-cli.phar
 #mv wp-cli.phar /usr/local/bin/wp
@@ -611,20 +628,15 @@ apt-get install -y postfix
 sed -i "s/relayhost =/relayhost = [localhost]:1025/g" /etc/postfix/main.cf
 /etc/init.d/postfix reload
 
-# Update / Override motd
-#sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/default/motd-news
+## Update / Override motd
+#echo "export ENABLED=1"| tee -a /etc/default/motd-news
+#sed -i "s/motd.ubuntu.com/homestead.joeferguson.me/g" /etc/update-motd.d/50-motd-news
 #rm -rf /etc/update-motd.d/10-help-text
 #rm -rf /etc/update-motd.d/50-landscape-sysinfo
+#rm -rf /etc/update-motd.d/99-bento
 #service motd-news restart
+#bash /etc/update-motd.d/50-motd-news --force
 
-# Create folders to track features
-mkdir -p "/home/${WSL_USER_NAME}/.homestead-features"
-cat > "/home/${WSL_USER_NAME}/.homestead-features/wsl_user_name" << EOF
-$WSL_USER_NAME
-EOF
-cat > "/home/${WSL_USER_NAME}/.homestead-features/wsl_user_group" << EOF
-$WSL_USER_GROUP
-EOF
 # One last upgrade check
 apt-get upgrade -y
 
@@ -650,14 +662,6 @@ dpkg --list \
     | grep -- '-doc$' \
     | xargs apt-get -y purge;
 
-# Delete obsolete networking
-apt-get -y purge ppp pppconfig pppoeconf
-
-# Configure chronyd to fix clock-drift when VM-host sleeps/hibernates.
-sed -i "s/^makestep.*/makestep 1 -1/" /etc/chrony/chrony.conf
-
-# Delete oddities
-apt-get -y purge popularity-contest installation-report command-not-found friendly-recovery laptop-detect
 
 # Exlude the files we don't need w/o uninstalling linux-firmware
 echo "==> Setup dpkg excludes for linux-firmware"
@@ -673,10 +677,6 @@ rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
 # Disable services to lower initial overhead
-#systemctl disable postgresql@9.6-main
-#systemctl disable postgresql@10-main
-#systemctl disable postgresql@11-main
-#systemctl disable postgresql@12-main
 systemctl disable postgresql@13-main
 
 apt-get -y autoremove;
