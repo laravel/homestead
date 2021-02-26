@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/usr/bin/unzip "$@"
+sleep 0.2

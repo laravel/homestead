@@ -1,0 +1,76 @@
+---
+ip: "192.168.10.10"
+memory: 4096
+cpus: 2
+provider: virtualbox
+ssl: true
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: /Users/freddiebingham/Sites/platform-manager
+      to: /home/vagrant/platform-manager
+
+    - map: /Users/freddiebingham/Sites/rvtw
+      to: /home/vagrant/rvtw
+
+    - map: /Users/freddiebingham/Sites/cgr
+      to: /home/vagrant/cgr
+
+    - map: /Users/freddiebingham/Sites/cgr-admin
+      to: /home/vagrant/cgr-admin
+
+sites:
+   - map: local.rvlife.com
+     to: /home/vagrant/platform-manager/public
+     php: "7.3"
+
+   - map: my-local.rvlife.com
+     to: /home/vagrant/platform-manager/public
+     php: "7.3"
+
+   - map: local.rvtripwizard.com
+     to: /home/vagrant/rvtw/public
+     php: "7.3"
+
+   - map: local.campgroundreviews.com
+     to: /home/vagrant/cgr/public
+     php: "7.3"
+
+   - map: api-local.campgroundreviews.com
+     to: /home/vagrant/cgr/public
+     php: "7.3"
+
+   - map: admin-local.campgroundreviews.com
+     to: /home/vagrant/cgr-admin/public
+     php: "5.6"
+
+databases:
+    - platform_manager
+    - cgr
+    - rvtw
+
+features:
+    - mysql: true
+    - mongodb: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+name: OneHomesteadToRuleThemAll
+
+#services:
+#    - enabled:
+#        - "postgresql@12-main"
+#    - disabled:
+#        - "postgresql@11-main"
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
