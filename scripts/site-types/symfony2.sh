@@ -46,7 +46,6 @@ block="server {
     index index.html index.htm index.php app_dev.php;
 
     charset utf-8;
-    client_max_body_size 20M;
 
     $rewritesTXT
 
