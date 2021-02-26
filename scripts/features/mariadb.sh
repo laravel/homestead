@@ -51,6 +51,8 @@ cat > /etc/mysql/mariadb.conf.d/50-server.cnf << EOF
 [mysqld]
 bind-address = 0.0.0.0
 ignore-db-dir = lost+found
+#general_log
+#general_log_file=/var/log/mysql/mariadb.log
 EOF
 
 export MYSQL_PWD=secret

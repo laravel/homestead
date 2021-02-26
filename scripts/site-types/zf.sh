@@ -57,6 +57,7 @@ block="server {
     root \"$2\";
 
     charset utf-8;
+    client_max_body_size 100M;
 
     index index.php index.html;
 
