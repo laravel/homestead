@@ -27,9 +27,8 @@ Ubuntu 20.04 can be found in the branch `20.04`
 
 | Ubuntu LTS | Settler Version | Homestead Version | Branch      | Status
 | -----------| -----------     | -----------       | ----------- | -----------
-| 20.04      | TBD             | TBD               | `main`      | Development/Unstable
-| 20.04      | 10.x            | 11.x              | `20.04`     | Supported
-| 18.04      | 9.x             | 10.x              | `release`   | No Longer Supported
+| 20.04      | 11.x            | 12.x              | `main`      | Development/Unstable
+| 20.04      | 11.x            | 12.x              | `release`   | Stable
 
 ## Developing Homestead
 

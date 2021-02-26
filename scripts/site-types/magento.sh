@@ -21,6 +21,7 @@ block="server {
     index index.php;
     autoindex off;
     charset utf-8;
+    client_max_body_size 100M;
     error_page 404 403 = /errors/404.php;
 
 

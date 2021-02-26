@@ -52,6 +52,7 @@ server {
     server_name $1;
     root \"$2\";
 
+    client_max_body_size 100M;
     index index.php;
 
     access_log off;

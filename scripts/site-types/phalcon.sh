@@ -46,6 +46,7 @@ block="server {
     index index.php;
 
     charset utf-8;
+    client_max_body_size 100M;
 
     $rewritesTXT
 
@@ -72,8 +73,6 @@ block="server {
     error_log  /var/log/nginx/$1-error.log error;
 
     sendfile off;
-
-    client_max_body_size 100m;
 
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;

@@ -19,6 +19,22 @@ if [ -n "$9" ]; then
    done
 fi
 
+if [ -n "$2" ]
+then
+    if ! [[ "$2" =~ ^[0-9]+$ ]]
+    then
+        proxyPass="
+        proxy_pass ${2};
+        "
+    else proxyPass="
+        proxy_pass http://127.0.0.1:$2;
+        "
+    fi
+else proxyPass="
+proxy_pass http://127.0.0.1;
+"
+fi
+
 block="server {
     listen ${3:-80};
     listen ${4:-443} ssl;
@@ -31,7 +47,7 @@ block="server {
         proxy_set_header Connection "upgrade";
         proxy_set_header Host \$host;
         proxy_http_version 1.1;
-        proxy_pass http://127.0.0.1:${2};
+        $proxyPass
         $headersTXT
         $paramsTXT
     }

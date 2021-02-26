@@ -45,6 +45,7 @@ block="server {
 
     charset utf-8;
 
+    client_max_body_size 100M;
     $rewritesTXT
 
     location / {

@@ -66,6 +66,7 @@ block="server {
         application/vnd.ms-fontobject
         image/svg+xml;
 
+    client_max_body_size 100M;
     $rewritesTXT
 
     location ~ /.well-known {
