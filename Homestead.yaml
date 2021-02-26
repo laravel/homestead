@@ -22,6 +22,9 @@ folders:
     - map: /Users/freddiebingham/Sites/cgr-admin
       to: /home/vagrant/cgr-admin
 
+    - map: /Users/freddiebingham/Sites/homestead
+      to: /home/vagrant/homestead
+
 sites:
    - map: local.rvlife.com
      to: /home/vagrant/platform-manager/public
@@ -45,7 +48,7 @@ sites:
 
    - map: admin-local.campgroundreviews.com
      to: /home/vagrant/cgr-admin/public
-     php: "5.6"
+     php: "7.3"
 
 databases:
     - platform_manager
