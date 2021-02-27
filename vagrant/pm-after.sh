@@ -1,15 +1,17 @@
 #!/bin/sh
 
-if [ -d "platform-manager" ]
+if [ ! -f ".env" ]
 then
-  cd platform-manager
+  cp .env.homestead .env
 fi
 
 mysql -uroot -psecret -e "CREATE DATABASE IF NOT EXISTS test"
 mysql -uroot -psecret platform_manager < /home/vagrant/platform-manager/database/seeds/sso.sql
 
 composer install --no-interaction
-yarn install
+#yarn install
+npm i
+npm run dev
 
 sudo update-alternatives --set php /usr/bin/php7.3
 sudo update-alternatives --set php-config /usr/bin/php-config7.3
@@ -48,5 +50,7 @@ php artisan passport:client --personal
 yarn run dev
 
 cd ../nova-components/StripeProductManage
-yarn install
-yarn run dev
+npm i
+npm run dev
+#yarn install
+#yarn run dev

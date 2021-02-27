@@ -1,22 +1,20 @@
 #!/bin/sh
 
-if [ -d "cgr" ]
+if [ ! -f ".env" ]
 then
-  cd cgr
+  cp .env.homestead .env
 fi
 
 # Set command line to PHP 7.3
-sudo update-alternatives --set php /usr/bin/php7.3
-sudo update-alternatives --set php-config /usr/bin/php-config7.3
-sudo update-alternatives --set phpize /usr/bin/phpize7.3
+
+
 
 composer install --no-interaction
 
-
 # Make this import go A LOT faster (still takes awhile, even on SSD)
 bash vagrant/mysql-faster-imports.sh
-mysql -uroot -psecret cgr < /home/vagrant/cgr/database/seeds/rvpr.sql
-mysql -uroot -psecret cgr < /home/vagrant/cgr/database/seeds/rvprmissing.sql
+mysql -uroot -psecret rvparkreviews < /home/vagrant/cgr/database/seeds/rvpr.sql
+mysql -uroot -psecret rvparkreviews < /home/vagrant/cgr/database/seeds/rvprmissing.sql
 
 # Install Sphinx - if this is executed from the combo homestead box then sphinx will
 # have already been setup
@@ -37,8 +35,6 @@ php artisan migrate
 php artisan key:generate
 php artisan storage:link
 
-yarn install
-yarn run dev
+#npm install
+#npm run dev
 # Build NPM
-# npm run dev
-# --- Build NPM on the host side

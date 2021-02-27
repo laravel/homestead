@@ -29,30 +29,36 @@ sites:
    - map: local.rvlife.com
      to: /home/vagrant/platform-manager/public
      php: "7.3"
+     type: "apache"
 
    - map: my-local.rvlife.com
      to: /home/vagrant/platform-manager/public
      php: "7.3"
+     type: "apache"
 
    - map: local.rvtripwizard.com
      to: /home/vagrant/rvtw/public
      php: "7.3"
+     type: "apache"
 
    - map: local.campgroundreviews.com
      to: /home/vagrant/cgr/public
      php: "7.3"
+     type: "apache"
 
    - map: api-local.campgroundreviews.com
      to: /home/vagrant/cgr/public
      php: "7.3"
+     type: "apache"
 
    - map: admin-local.campgroundreviews.com
      to: /home/vagrant/cgr-admin/public
      php: "7.3"
+     type: "apache"
 
 databases:
     - platform_manager
-    - cgr
+    - rvparkreviews
     - rvtw
 
 features:
