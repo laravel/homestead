@@ -10,7 +10,11 @@ then
 fi
 
 bash ./backend/mysql-faster-imports.sh
+cd /home/vagrant/rvtw/backend/database/seeds
+unrar e /home/vagrant/rvtw/backend/database/seeds/rvtrip.rar
+cd /home/vagrant/rvtw
 mysql -uroot -psecret rvtw < /home/vagrant/rvtw/backend/database/seeds/rvtrip.sql
+rm -f /home/vagrant/rvtw/backend/database/seeds/rvtrip.sql
 
 cd backend
 composer install --no-interaction
