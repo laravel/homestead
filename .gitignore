@@ -13,3 +13,5 @@ phpunit.xml
 wsl-init.log
 .backup/*
 .idea/workspace.xml
+.idea/php.xml
+.idea/vcs.xml
