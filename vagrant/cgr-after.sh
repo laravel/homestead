@@ -1,14 +1,15 @@
 #!/bin/sh
 
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo update-alternatives --set php-config /usr/bin/php-config7.3
+sudo update-alternatives --set phpize /usr/bin/phpize7.3
+
 if [ ! -f ".env" ]
 then
   cp .env.homestead .env
 fi
 
 # Set command line to PHP 7.3
-
-
-
 composer install --no-interaction
 
 # Make this import go A LOT faster (still takes awhile, even on SSD)

@@ -15,3 +15,5 @@ wsl-init.log
 .idea/workspace.xml
 .idea/php.xml
 .idea/vcs.xml
+.idea/homestead.iml
+.idea/modules.xml

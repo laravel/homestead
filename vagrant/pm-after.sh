@@ -1,5 +1,9 @@
 #!/bin/sh
 
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo update-alternatives --set php-config /usr/bin/php-config7.3
+sudo update-alternatives --set phpize /usr/bin/phpize7.3
+
 if [ ! -f ".env" ]
 then
   cp .env.homestead .env
@@ -12,10 +16,6 @@ composer install --no-interaction
 #yarn install
 npm i
 npm run dev
-
-sudo update-alternatives --set php /usr/bin/php7.3
-sudo update-alternatives --set php-config /usr/bin/php-config7.3
-sudo update-alternatives --set phpize /usr/bin/phpize7.3
 
 if [ ! -f ".env" ]
 then

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo update-alternatives --set php-config /usr/bin/php-config7.3
+sudo update-alternatives --set phpize /usr/bin/phpize7.3
+
 if [ ! -f "backend/.env" ]
 then
   cp backend/.env.homestead backend/.env
@@ -10,8 +14,6 @@ mysql -uroot -psecret rvtw < /home/vagrant/rvtw/backend/database/seeds/rvtrip.sq
 
 cd backend
 composer install --no-interaction
-yarn install
-yarn run dev
 
 php artisan migrate
 php artisan key:generate
