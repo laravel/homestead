@@ -1,0 +1,296 @@
+alias ..="cd .."
+alias ...="cd ../.."
+
+alias h='cd ~'
+alias c='clear'
+alias art=artisan
+
+alias codecept='vendor/bin/codecept'
+alias phpspec='vendor/bin/phpspec'
+alias phpunit='vendor/bin/phpunit'
+alias serve=serve-laravel
+
+alias xoff='sudo phpdismod -s cli xdebug'
+alias xon='sudo phpenmod -s cli xdebug'
+
+alias nrd="npm run dev"
+alias nrw="npm run watch"
+alias nrwp="npm run watch-poll"
+alias nrh="npm run hot"
+alias nrp="npm run production"
+
+alias yrd="yarn run dev"
+alias yrw="yarn run watch"
+alias yrwp="yarn run watch-poll"
+alias yrh="yarn run hot"
+alias yrp="yarn run production"
+
+function artisan() {
+    php artisan "$@"
+}
+
+function dusk() {
+    pids=$(pidof /usr/bin/Xvfb)
+
+    if [ ! -n "$pids" ]; then
+        Xvfb :0 -screen 0 1280x960x24 &
+    fi
+
+    if [[ $? -eq 0 ]]
+    then
+        php artisan dusk
+    else
+        php artisan dusk --filter "$@"
+    fi
+}
+
+function php56() {
+    sudo update-alternatives --set php /usr/bin/php5.6
+    sudo update-alternatives --set php-config /usr/bin/php-config5.6
+    sudo update-alternatives --set phpize /usr/bin/phpize5.6
+}
+
+function php70() {
+    sudo update-alternatives --set php /usr/bin/php7.0
+    sudo update-alternatives --set php-config /usr/bin/php-config7.0
+    sudo update-alternatives --set phpize /usr/bin/phpize7.0
+}
+
+function php71() {
+    sudo update-alternatives --set php /usr/bin/php7.1
+    sudo update-alternatives --set php-config /usr/bin/php-config7.1
+    sudo update-alternatives --set phpize /usr/bin/phpize7.1
+}
+
+function php72() {
+    sudo update-alternatives --set php /usr/bin/php7.2
+    sudo update-alternatives --set php-config /usr/bin/php-config7.2
+    sudo update-alternatives --set phpize /usr/bin/phpize7.2
+}
+
+function php73() {
+    sudo update-alternatives --set php /usr/bin/php7.3
+    sudo update-alternatives --set php-config /usr/bin/php-config7.3
+    sudo update-alternatives --set phpize /usr/bin/phpize7.3
+}
+
+function php74() {
+    sudo update-alternatives --set php /usr/bin/php7.4
+    sudo update-alternatives --set php-config /usr/bin/php-config7.4
+    sudo update-alternatives --set phpize /usr/bin/phpize7.4
+}
+
+function php80() {
+    sudo update-alternatives --set php /usr/bin/php8.0
+    sudo update-alternatives --set php-config /usr/bin/php-config8.0
+    sudo update-alternatives --set phpize /usr/bin/phpize8.0
+}
+
+function serve-apache() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/apache.sh
+        sudo bash /vagrant/scripts/site-types/apache.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-apache domain path"
+    fi
+}
+
+function serve-laravel() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/laravel.sh
+        sudo bash /vagrant/scripts/site-types/laravel.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve domain path"
+    fi
+}
+
+function serve-proxy() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /vagrant/scripts/site-types/proxy.sh
+        sudo bash /vagrant/scripts/site-types/proxy.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-proxy domain port"
+    fi
+}
+
+function serve-silverstripe() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/silverstripe.sh
+        sudo bash /vagrant/scripts/site-types/silverstripe.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-silverstripe domain path"
+    fi
+}
+
+function serve-spa() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/spa.sh
+        sudo bash /vagrant/scripts/site-types/spa.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-spa domain path"
+    fi
+}
+
+function serve-statamic() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/statamic.sh
+        sudo bash /vagrant/scripts/site-types/statamic.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-statamic domain path"
+    fi
+}
+
+function serve-symfony2() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/symfony2.sh
+        sudo bash /vagrant/scripts/site-types/symfony2.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-symfony2 domain path"
+    fi
+}
+
+function serve-symfony4() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/symfony4.sh
+        sudo bash /vagrant/scripts/site-types/symfony4.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-symfony4 domain path"
+    fi
+}
+
+function serve-pimcore() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo bash /vagrant/scripts/create-certificate.sh "$1"
+        sudo dos2unix /vagrant/scripts/site-types/pimcore.sh
+        sudo bash /vagrant/scripts/site-types/pimcore.sh "$1" "$2" 80 443 "${3:-7.4}"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve-pimcore domain path"
+    fi
+}
+
+function share() {
+    if [[ "$1" ]]
+    then
+        ngrok http ${@:2} -host-header="$1" 80
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  share domain"
+        echo "Invocation with extra params passed directly to ngrok"
+        echo "  share domain -region=eu -subdomain=test1234"
+    fi
+}
+
+function flip() {
+    sudo bash /vagrant/scripts/flip-webserver.sh
+}
+
+function __has_pv() {
+    $(hash pv 2>/dev/null);
+
+    return $?
+}
+
+function __pv_install_message() {
+    if ! __has_pv; then
+        echo $1
+        echo "Install pv with \`sudo apt-get install -y pv\` then run this command again."
+        echo ""
+    fi
+}
+
+function dbexport() {
+    FILE=${1:-/vagrant/mysqldump.sql.gz}
+
+    # This gives an estimate of the size of the SQL file
+    # It appears that 80% is a good approximation of
+    # the ratio of estimated size to actual size
+    SIZE_QUERY="select ceil(sum(data_length) * 0.8) as size from information_schema.TABLES"
+
+    __pv_install_message "Want to see export progress?"
+
+    echo "Exporting databases to '$FILE'"
+
+    if __has_pv; then
+        ADJUSTED_SIZE=$(mysql --vertical -uhomestead -psecret -e "$SIZE_QUERY" 2>/dev/null | grep 'size' | awk '{print $2}')
+        HUMAN_READABLE_SIZE=$(numfmt --to=iec-i --suffix=B --format="%.3f" $ADJUSTED_SIZE)
+
+        echo "Estimated uncompressed size: $HUMAN_READABLE_SIZE"
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables --routines 2>/dev/null | pv  --size=$ADJUSTED_SIZE | gzip > "$FILE"
+    else
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables --routines 2>/dev/null | gzip > "$FILE"
+    fi
+
+    echo "Done."
+}
+
+function dbimport() {
+    FILE=${1:-/vagrant/mysqldump.sql.gz}
+
+    __pv_install_message "Want to see import progress?"
+
+    echo "Importing databases from '$FILE'"
+
+    if __has_pv; then
+        pv "$FILE" --progress --eta | zcat | mysql -uhomestead -psecret 2>/dev/null
+    else
+        cat "$FILE" | zcat | mysql -uhomestead -psecret 2>/dev/null
+    fi
+
+    echo "Done."
+}
+
+function xphp() {
+    (php -m | grep -q xdebug)
+    if [[ $? -eq 0 ]]
+    then
+        XDEBUG_ENABLED=true
+    else
+        XDEBUG_ENABLED=false
+    fi
+
+    if ! $XDEBUG_ENABLED; then xon; fi
+
+    HOST_IP=$(last --limit=1 | grep -oP '\d+(\.\d+){3}')
+
+    php \
+        -dxdebug.remote_host=${HOST_IP} \
+        -dxdebug.remote_autostart=1 \
+        "$@"
+
+    if ! $XDEBUG_ENABLED; then xoff; fi
+}
