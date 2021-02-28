@@ -36,7 +36,6 @@ sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 sudo apt-get -y install gcc make autoconf libc-dev pkg-config
 sudo apt-get -y install libmcrypt-dev
 sudo pecl install mcrypt-1.0.2
-sudo bash -c "echo extension=mcrypt.so >> /etc/php/7.3/cli/php.ini"
 sudo bash -c "echo extension=mcrypt.so > /etc/php/7.3/mods-available/mcrypt.ini"
 sudo phpenmod -v 7.3 mcrypt
 sudo service apache2 restart
