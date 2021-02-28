@@ -1,39 +1,72 @@
 ---
 ip: "192.168.10.10"
-memory: 2048
+memory: 8192
 cpus: 2
 provider: virtualbox
-
+ssl: true
 authorize: ~/.ssh/id_rsa.pub
 
 keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/code
-      to: /home/vagrant/code
+    - map: [Platform Manager Directory on Host Machine]
+      to: /home/vagrant/platform-manager
+
+    - map: [RV Trip Wizard Directory on Host Machine]
+      to: /home/vagrant/rvtw
+
+    - map: [Campground Reviews Directory on Host Machine]
+      to: /home/vagrant/cgr
+
+    - map: [Campground Reviews Admin Directory on Host Machine]
+      to: /home/vagrant/cgr-admin
+
+    - map: [Homestead Directory on Host Machine]
+      to: /home/vagrant/homestead
 
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+   - map: local.rvlife.com
+     to: /home/vagrant/platform-manager/public
+     php: "7.3"
+     type: "apache"
+
+   - map: my-local.rvlife.com
+     to: /home/vagrant/platform-manager/public
+     php: "7.3"
+     type: "apache"
+
+   - map: local.rvtripwizard.com
+     to: /home/vagrant/rvtw/backend/public
+     php: "7.3"
+     type: "apache"
+
+   - map: local.campgroundreviews.com
+     to: /home/vagrant/cgr/public
+     php: "7.3"
+     type: "apache"
+
+   - map: api-local.campgroundreviews.com
+     to: /home/vagrant/cgr/public
+     php: "7.3"
+     type: "apache"
+
+   - map: admin-local.campgroundreviews.com
+     to: /home/vagrant/cgr-admin/public
+     php: "7.3"
+     type: "apache"
 
 databases:
-    - homestead
+    - platform_manager
+    - rvparkreviews
+    - rvtw
 
 features:
+    - mysql: true
+    - mongodb: true
     - mariadb: false
+    - postgresql: false
     - ohmyzsh: false
     - webdriver: false
 
-#services:
-#    - enabled:
-#        - "postgresql@12-main"
-#    - disabled:
-#        - "postgresql@11-main"
-
-# ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+name: OneHomesteadToRuleThemAll
