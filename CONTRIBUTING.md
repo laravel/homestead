@@ -44,21 +44,25 @@ the host system.
    
 
 6. \<\$host\> cd [host-repo-parent]
-   
+7. \<\$host\> mkdir platform-manager
+8. \<\$host\> mkdir cgr-admin
+9. \<\$host\> mkdir cgr
+10. \<\$host\> mkdir rvtw
+11. \<\$host\> mkdir rvtw\backend
 
-7. \<\$host\> git clone git@github.com:rv-life/homestead.git homestead
-
-
-8. \<\$host\> cd homestead
-
-
-9. \<\$host\> git checkout release
+12. \<\$host\> git clone git@github.com:rv-life/homestead.git homestead
 
 
-10. \<\$host\> cp Homestead.yaml.example Homestead.yaml
+13. \<\$host\> cd homestead
 
 
-11. \<\$host\> nano Homestead.yaml
+14. \<\$host\> git checkout release
+
+
+15. \<\$host\> cp Homestead.yaml.example Homestead.yaml
+
+
+16. \<\$host\> nano Homestead.yaml
 
 	Find ``[Platform Manager Directory on Host Machine]`` and replace with ``[repo-parent]/platform-manager``  
 	Find ``[RV Trip Wizard Directory on Host Machine]`` and replace with ``[repo-parent]/rvtw``  
@@ -72,7 +76,7 @@ the host system.
 
 	For Windows, an example would be 'C:\vagrant\platform-manager'
 
-12.	 
+17.	 
 
 &nbsp;&nbsp;&nbsp;To login to the box, from the homestead directory on the host machine:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant ssh``  
@@ -87,10 +91,10 @@ the host system.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant up>``   
 
 
-13. \<\$host\> vagrant up
+18. \<\$host\> vagrant up
 
 
-14. \<\$host\> vagrant ssh
+19. \<\$host\> vagrant ssh
 
 
 You are now logged into the box.
