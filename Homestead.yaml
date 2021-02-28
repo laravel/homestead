@@ -37,7 +37,7 @@ sites:
      type: "apache"
 
    - map: local.rvtripwizard.com
-     to: /home/vagrant/rvtw/public
+     to: /home/vagrant/rvtw/backend/public
      php: "7.3"
      type: "apache"
 
