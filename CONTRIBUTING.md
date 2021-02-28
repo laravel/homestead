@@ -72,7 +72,7 @@ the host system.
 
 	For Windows, an example would be 'C:\vagrant\platform-manager'
 
-12.	The base box is now setup and ready to setup each individual site within.  
+12.	 
 
 &nbsp;&nbsp;&nbsp;To login to the box, from the homestead directory on the host machine:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant ssh``  
