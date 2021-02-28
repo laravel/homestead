@@ -9,6 +9,7 @@ then
   cp backend/.env.homestead backend/.env
 fi
 
+dos2unix ./backend/mysql-faster-imports.sh
 bash ./backend/mysql-faster-imports.sh
 cd /home/vagrant/rvtw/backend/database/seeds
 unrar e /home/vagrant/rvtw/backend/database/seeds/rvtrip.rar
@@ -24,5 +25,6 @@ php artisan key:generate
 php artisan storage:link
 
 cd ../frontend
+dos2unix build*.sh
 yarn install
 yarn build-dev

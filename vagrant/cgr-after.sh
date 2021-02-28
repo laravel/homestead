@@ -13,6 +13,7 @@ fi
 composer install --no-interaction
 
 # Make this import go A LOT faster (still takes awhile, even on SSD)
+dos2unix vagrant/mysql-faster-imports.sh
 bash vagrant/mysql-faster-imports.sh
 mysql -uroot -psecret rvparkreviews < /home/vagrant/cgr/database/seeds/rvpr.sql
 mysql -uroot -psecret rvparkreviews < /home/vagrant/cgr/database/seeds/rvprmissing.sql
