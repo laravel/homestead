@@ -220,7 +220,7 @@ You can log in with the following credentials:
 * change the username to *homestead*
 * change the password to *secret*
 
-# Note to Bhuwan about step 10
+# Note to Bhuwan about step 11
 database.php needs to be copied to database.php.example and database.php.homestead  
 Update database.php.homestead to have the above values  
 Add the two files to the repo  
