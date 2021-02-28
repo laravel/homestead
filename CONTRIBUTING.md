@@ -1,10 +1,10 @@
-##Notes:
+## Notes:
 
 * It is not uncommon to have issues with the npm commands below. Make sure you have the latest versions of NPM and Node
 installed. You can attempt to execute the NPM commands from inside the box but they generally are more successful from
 the host system.
   
-##Let's Go
+## Let's Go
 
 - Install Vagrant
 - Install Virtual Box
@@ -95,7 +95,7 @@ the host system.
 
 You are now logged into the box.
 
-###Setting up your local hosts file
+### Setting up your local hosts file
 
 For Windows:
 
@@ -114,7 +114,7 @@ Then Add at the end:
 	192.168.10.10 api-local.campgroundreviews.com
 	192.168.10.10 admin-local.campgroundreviews.com
 
-###Setting up RV Trip Wizard
+### Setting up RV Trip Wizard
 
 1. \<\$host\> cd [host-repo-parent]
 
@@ -139,7 +139,7 @@ locally. You may use https://pm-dev.rvlife.com to authenticate. To do that, then
 https://pm-dev.rvlife.com/nova and create your own PM Client. Take the ID and secret, update the SSO_CLIENT_ID and
 SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 
-###Setting Up Platform Manager
+### Setting Up Platform Manager
 
 1. \<\$host\> cd [host-repo-parent]
 
@@ -178,7 +178,7 @@ You can log in with the following credentials:
 *Password*: **password**
 
 
-###Setting up Campground Reviews
+### Setting up Campground Reviews
 
 1. \<\$host\> cd [host-repo-parent]
 
@@ -216,7 +216,7 @@ You can log in with the following credentials:
 * change the username to *homestead*
 * change the password to *secret*
 
-#Note to Bhuwan about step 10
+# Note to Bhuwan about step 10
 database.php needs to be copied to database.php.example and database.php.homestead  
 Update database.php.homestead to have the above values  
 Add the two files to the repo  
