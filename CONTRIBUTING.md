@@ -2,7 +2,7 @@
 
 * It is not uncommon to have issues with the npm commands below. Make sure you have the latest versions of NPM and Node
 installed. You can attempt to execute the NPM commands from inside the box but they generally are more successful from
-the host system.
+the host system. See issues the bottom
   
 ## Let's Go
 
@@ -226,3 +226,6 @@ Update database.php.homestead to have the above values
 Add the two files to the repo  
 Then update cgr-admin-after.sh to copy database.php.homestead to database.php  
 Then update the cgr envoyer release to copy database.php.example to database.php
+
+## Issues
+
