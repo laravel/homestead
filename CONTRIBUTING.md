@@ -8,8 +8,8 @@ the host system.
 
 - Install Vagrant
 - Install Virtual Box
-- Install Node (MacOs should have this already)
-- Install NPM (MacOs should have this already)
+- Install Node (MacOs should have this already) (I used Node v15)
+- Install NPM (MacOs should have this already) (I used NPM v7.5)
 
 1. (Windows) Setup git bash - https://git-scm.com/download/win
 
