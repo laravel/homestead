@@ -14,8 +14,8 @@ mysql -uroot -psecret platform_manager < /home/vagrant/platform-manager/database
 
 composer install --no-interaction
 #yarn install
-npm i
-npm run dev
+#npm i
+#npm run dev
 
 if [ ! -f ".env" ]
 then
@@ -47,10 +47,10 @@ php artisan storage:link
 php artisan passport:keys
 php artisan passport:client --personal
 
-yarn run dev
+#yarn run dev
 
-cd ../nova-components/StripeProductManage
-npm i
-npm run dev
+#cd ../nova-components/StripeProductManage
+#npm i
+#npm run dev
 #yarn install
 #yarn run dev
