@@ -216,6 +216,19 @@ Should have
 * change the username to *homestead*
 * change the password to *secret*
 
+## SSL
+
+1. \<\$vagrant\> cp /etc/ssl/certs/ca.homestead.homestead.crt /home/vagrant/homestead
+
+* MacOs:  
+	\<\$host\> sudo security delete-certificate -c "Homestead homestead Root CA" /Library/Keychains/System.keychain  
+	\<\$host\> sudo security add-trusted-cert -d -r trustRoot -p ssl -k /Library/Keychains/System.keychain ca.homestead.homestead.crt
+   
+* Windows:  
+	https://medium.com/dinssa/ssl-certificates-laravel-homestead-windows-https-f83ec8b3198, using the file copied
+  in the previous step above, proceed to step 4 in the linked article.
+
+
 ## Issues
 
 1. npm says python2 can't be found on Windows - Install Python 2.7
