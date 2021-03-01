@@ -216,7 +216,8 @@ For MacOs, peform the following steps on your host machine:
    
 For Windows:  
 https://medium.com/dinssa/ssl-certificates-laravel-homestead-windows-https-f83ec8b3198  
-Using the file copied in the previous step above, proceed to step 4 in the linked article.
+Using the file copied in the previous step above, proceed to step 4 in the linked article.  
+The file will be located at ``[host-repo-parent]/homestead/ca.homestead.homestead.crt``
 
 
 ## Issues
