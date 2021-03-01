@@ -44,25 +44,27 @@ the host system. See issues the bottom
    
 
 6. \<\$host\> cd [host-repo-parent]
-7. \<\$host\> mkdir platform-manager
-8. \<\$host\> mkdir cgr-admin
-9. \<\$host\> mkdir cgr
-10. \<\$host\> mkdir rvtw
-11. \<\$host\> mkdir rvtw\backend
 
-12. \<\$host\> git clone git@github.com:rv-life/homestead.git homestead
+7. \<\$host\> git clone git@github.com:rv-life/homestead.git homestead
+	
+8. Execute the following commands. Ignore any projects that you don't have access to.:
 
+		<$host> git clone git@github.com:rv-life/rvpr2.git cgr  
+		<$host> git clone git@github.com:rv-life/rvparkreviews.git cgr-admin  
+		<$host> git clone git@github.com:rv-life/platform-manager.git platform-manager  
+		<$host> git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend  
+		<$host> git clone git@github.com:rv-life/rvtw-react.git rvtw/frontend
 
-13. \<\$host\> cd homestead
-
-
-14. \<\$host\> git checkout release
-
-
-15. \<\$host\> cp Homestead.yaml.example Homestead.yaml
+9. \<\$host\> cd homestead
 
 
-16. \<\$host\> nano Homestead.yaml
+10. \<\$host\> git checkout release
+
+
+11. \<\$host\> cp Homestead.yaml.example Homestead.yaml
+
+
+12. \<\$host\> nano Homestead.yaml
 
 	Find ``[Platform Manager Directory on Host Machine]`` and replace with ``[repo-parent]/platform-manager``  
 	Find ``[RV Trip Wizard Directory on Host Machine]`` and replace with ``[repo-parent]/rvtw``  
@@ -76,7 +78,7 @@ the host system. See issues the bottom
 
 	For Windows, an example would be 'C:\vagrant\platform-manager'
 
-17.	 
+13.	 
 
 &nbsp;&nbsp;&nbsp;To login to the box, from the homestead directory on the host machine:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant ssh``  
@@ -91,10 +93,10 @@ the host system. See issues the bottom
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant up>``   
 
 
-18. \<\$host\> vagrant up
+14. \<\$host\> vagrant up
 
 
-19. \<\$host\> vagrant ssh
+15. \<\$host\> vagrant ssh
 
 
 You are now logged into the box.
@@ -123,16 +125,10 @@ Then Add at the end:
 1. \<\$host\> cd [host-repo-parent]
 
 
-2. git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend
+2. \<\$vagrant\> cd /home/vagrant/rvtw
 
 
-3. git clone git@github.com:rv-life/rvtw-react.git rvtw/frontend
-
-
-4. \<\$vagrant\> cd /home/vagrant/rvtw
-
-
-5. \<\$vagrant\> bash after.sh
+3. \<\$vagrant\> bash after.sh
 
 
 RV Trip Wizard should now be accessible at http://local.rvtripwizard.com
@@ -148,31 +144,28 @@ SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 1. \<\$host\> cd [host-repo-parent]
 
 
-2. git clone git@github.com:rv-life/platform-manager.git platform-manager
+2. \<\$host\> cd platform-manager
 
 
-3. cd platform-manager
+3. \<\$host\> npm install
 
 
-4. npm install
+4. \<\$host\> npm run dev
 
 
-5. npm run dev
+5. \<\$host\> cd nova-components/StripeProductManage
 
 
-6. cd nova-components/StripeProductManage
+6. \<\$host\> npm install
 
 
-7. npm install
+7. \<\$host\> npm run dev
 
 
-8. npm run dev
-
-
-9. \<\$vagrant\> cd /home/vagrant/platform-manager
+8. \<\$vagrant\> cd /home/vagrant/platform-manager
 	
 
-10. \<\$vagrant\> bash after.sh
+9. \<\$vagrant\> bash pm-after.sh
 
 
 Platform Manager should now be accessible at http://local.rvlife.com/nova  
@@ -187,34 +180,28 @@ You can log in with the following credentials:
 1. \<\$host\> cd [host-repo-parent]
 
 
-2. git clone git@github.com:rv-life/rvpr2.git cgr
-   
-
-3. git clone git@github.com:rv-life/rvparkreviews.git cgr-admin
+2. \<\$host\> cd cgr
 
 
-4. cd cgr
+3. \<\$host\> npm install
 
 
-4. npm install
+4. \<\$host\> npm run dev
 
 
-5. npm run dev
+5. \<\$vagrant\> cd /home/vagrant/cgr
 
 
-6. \<\$vagrant\> cd /home/vagrant/cgr
+6. \<\$vagrant\> bash after.sh
 
 
-7. \<\$vagrant\> bash after.sh
+7. \<\$vagrant\> cd /home/vagrant/cgr-admin
 
 
-8. \<\$vagrant\> cd /home/vagrant/cgr-admin
+8. \<\$vagrant\> bash after.sh
 
 
-9. \<\$vagrant\> bash after.sh
-
-
-10. nano /home/vagrant/cgr-admin/app/config/database.php
+9. \<\$vagrant\> nano /home/vagrant/cgr-admin/app/config/database.php
 
 &nbsp;&nbsp;&nbsp;In the *rvparkreviews* section:
 * change the username to *homestead*
@@ -223,7 +210,7 @@ You can log in with the following credentials:
 ## Issues
 
 1. npm says python2 can't be found on Windows - Install Python 2.7
-2. Windows NPM problems with node-gyp - Try https://spin.atomicobject.com/2019/03/27/node-gyp-windows/
+2. Windows npm problems with node-gyp - Try https://spin.atomicobject.com/2019/03/27/node-gyp-windows/
 
 
 # Note to Bhuwan about step 11
