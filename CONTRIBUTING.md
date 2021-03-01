@@ -197,23 +197,26 @@ For step 5, in the *rvparkreviews* section:
 Campground Reviews should now be accessible at https://local.campgroundreviews.com  
 Complete the SSL section below to remove the browser warning
 
-## Sphinx
+## Sphinx Search
 
-After setting up the boxes, you need to rotate sphinx
+After setting up the boxes, you need to rotate Sphinx. Inside the vagrant box (vagrant ssh), perform the following step :
 
-	<$vagrant> sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
+	sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 
 ## SSL
 
-1. \<\$vagrant\> cp /etc/ssl/certs/ca.homestead.homestead.crt /home/vagrant/homestead
+Inside the vagrant box (vagrant ssh), perform the following step :
 
-* MacOs:  
-	\<\$host\> sudo security delete-certificate -c "Homestead homestead Root CA" /Library/Keychains/System.keychain  
-	\<\$host\> sudo security add-trusted-cert -d -r trustRoot -p ssl -k /Library/Keychains/System.keychain ca.homestead.homestead.crt
+	cp /etc/ssl/certs/ca.homestead.homestead.crt /home/vagrant/homestead
+
+For MacOs, peform the following steps on your host machine:
+
+	sudo security delete-certificate -c "Homestead homestead Root CA" /Library/Keychains/System.keychain  
+	sudo security add-trusted-cert -d -r trustRoot -p ssl -k /Library/Keychains/System.keychain ca.homestead.homestead.crt
    
-* Windows:  
-	https://medium.com/dinssa/ssl-certificates-laravel-homestead-windows-https-f83ec8b3198, using the file copied
-  in the previous step above, proceed to step 4 in the linked article.
+For Windows:  
+https://medium.com/dinssa/ssl-certificates-laravel-homestead-windows-https-f83ec8b3198  
+Using the file copied in the previous step above, proceed to step 4 in the linked article.
 
 
 ## Issues
