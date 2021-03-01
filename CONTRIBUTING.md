@@ -121,13 +121,11 @@ Then Add at the end:
 
 ### Setting up RV Trip Wizard
 
-1. \<\$host\> cd [host-repo-parent]
+
+1. \<\$vagrant\> cd /home/vagrant/rvtw
 
 
-2. \<\$vagrant\> cd /home/vagrant/rvtw
-
-
-3. \<\$vagrant\> bash after.sh
+2. \<\$vagrant\> bash after.sh
 
 
 RV Trip Wizard should now be accessible at http://local.rvtripwizard.com
