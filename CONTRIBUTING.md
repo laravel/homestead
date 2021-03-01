@@ -241,7 +241,7 @@ After setting up the boxes, you need to rotate sphinx
 2. Windows npm problems with node-gyp - Try https://spin.atomicobject.com/2019/03/27/node-gyp-windows/
 
 
-# Note to Bhuwan about step 11
+# Note to Bhuwan about the last CGR step
 database.php needs to be copied to database.php.example and database.php.homestead  
 Update database.php.homestead to have the above values  
 Add the two files to the repo  
