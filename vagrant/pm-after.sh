@@ -6,7 +6,7 @@ sudo update-alternatives --set phpize /usr/bin/phpize7.3
 
 if [ ! -f ".env" ]
 then
-  cp .env.homestead .env
+  cp .env.example .env
 fi
 
 mysql -uroot -psecret -e "CREATE DATABASE IF NOT EXISTS test"
