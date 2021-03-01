@@ -220,12 +220,15 @@ You can log in with the following credentials:
 * change the username to *homestead*
 * change the password to *secret*
 
+## Issues
+
+1. npm says python2 can't be found on Windows - Install Python 2.7
+2. Windows NPM problems with node-gyp - Try https://spin.atomicobject.com/2019/03/27/node-gyp-windows/
+
+
 # Note to Bhuwan about step 11
 database.php needs to be copied to database.php.example and database.php.homestead  
 Update database.php.homestead to have the above values  
 Add the two files to the repo  
 Then update cgr-admin-after.sh to copy database.php.homestead to database.php  
 Then update the cgr envoyer release to copy database.php.example to database.php
-
-## Issues
-
