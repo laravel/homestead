@@ -73,8 +73,8 @@ the host system. See issues at the bottom
 	Find ``[Homestead Directory on Host Machine]`` and replace with ``[host-repo-parent]/homestead``
 	
 
-	Remember [repo-parent] is replaced with the full path to the parent directory of your repositories.  
-	So if [repo-parent] is "/Users/tom/Sites" then the "/Users/tom/Sites/platform-manager" would be the first replacement above
+	Remember [host-repo-parent] is replaced with the full path to the parent directory of your repositories.  
+	So if [host-repo-parent] is "/Users/tom/Sites" then the "/Users/tom/Sites/platform-manager" would be the first replacement above
 
 	For Windows, an example would be 'C:\vagrant\platform-manager' 
 
