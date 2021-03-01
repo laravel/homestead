@@ -19,6 +19,8 @@ rm -f /home/vagrant/rvtw/backend/database/seeds/rvtrip.sql
 
 cd backend
 composer install --no-interaction
+sudo yarn install
+yarn run dev
 
 php artisan migrate
 php artisan key:generate
