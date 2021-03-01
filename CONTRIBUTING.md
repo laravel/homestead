@@ -216,6 +216,13 @@ Should have
 * change the username to *homestead*
 * change the password to *secret*
 
+## Sphinx
+
+After setting up the boxes, you need to setup Sphinx for CGR and PM
+
+\<\$vagrant\> sudo cp /home/vagrant/homestead/vagrant/combo-sphinx.conf /etc/sphinxsearch/sphinx.conf
+\<\$vagrant\> sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
+
 ## SSL
 
 1. \<\$vagrant\> cp /etc/ssl/certs/ca.homestead.homestead.crt /home/vagrant/homestead

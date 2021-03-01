@@ -24,13 +24,13 @@ sudo update-alternatives --set phpize /usr/bin/phpize7.3
 # Setup sphinx
 # Create combined conf file from PM and CGR, place in ./vagrant
 sudo apt-get --assume-yes install sphinxsearch
-sudo cp /home/vagrant/homestead/vagrant/sphinx.conf /etc/sphinxsearch/sphinx.conf
+sudo cp /home/vagrant/homestead/vagrant/combo-sphinx.conf /etc/sphinxsearch/sphinx.conf
 sudo sudo sed -i 's/START=no/START=yes/g' /etc/default/sphinxsearch
 # Rotate sphinx and add to cron
 line="*/5 * * * * /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all"
 (sudo crontab -u root -l; echo "$line" ) | sudo crontab -u root -
 sudo service sphinxsearch start
-sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
+#sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 
 # This is for CGR Admin which requires mcrypt
 sudo apt-get -y install gcc make autoconf libc-dev pkg-config
