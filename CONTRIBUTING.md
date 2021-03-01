@@ -218,10 +218,9 @@ Should have
 
 ## Sphinx
 
-After setting up the boxes, you need to setup Sphinx for CGR and PM
+After setting up the boxes, you need to rotate sphinx
 
-\<\$vagrant\> sudo cp /home/vagrant/homestead/vagrant/combo-sphinx.conf /etc/sphinxsearch/sphinx.conf
-\<\$vagrant\> sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
+	<$vagrant> sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 
 ## SSL
 
