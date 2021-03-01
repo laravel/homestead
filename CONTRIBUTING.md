@@ -171,8 +171,8 @@ Place the files in the following directory:
 
 Should have
 
-	[host-repo-parent]/database/seeds/rvpr.sql  
-	[host-repo-parent]/database/seeds/rvprmissing.sql
+	[host-repo-parent]/cgr/database/seeds/rvpr.sql  
+	[host-repo-parent]/cgr/database/seeds/rvprmissing.sql
 
 On your host machine, perform the following steps :
 
