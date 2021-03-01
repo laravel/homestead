@@ -76,9 +76,17 @@ the host system. See issues at the bottom
 	Remember [repo-parent] is replaced with the full path to the parent directory of your repositories.  
 	So if [repo-parent] is "/Users/tom/Sites" then the "/Users/tom/Sites/platform-manager" would be the first replacement above
 
-	For Windows, an example would be 'C:\vagrant\platform-manager'
+	For Windows, an example would be 'C:\vagrant\platform-manager' 
 
-13.	 
+
+13. \<\$host\> vagrant up
+
+
+13. \<\$host\> vagrant ssh
+
+
+You are now logged into the box.
+
 
 &nbsp;&nbsp;&nbsp;To login to the box, from the homestead directory on the host machine:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant ssh``  
@@ -90,16 +98,7 @@ the host system. See issues at the bottom
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant destroy``
 
 &nbsp;&nbsp;&nbsp;To start the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant up>``   
-
-
-14. \<\$host\> vagrant up
-
-
-15. \<\$host\> vagrant ssh
-
-
-You are now logged into the box.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant up>``  
 
 ### Setting up your local hosts file
 
