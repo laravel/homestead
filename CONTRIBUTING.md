@@ -160,8 +160,12 @@ You can log in with the following credentials:
 
 
 ### Setting up Campground Reviews
-Get the database backups from Mike. Place them in:
+Get the database backups from Mike. There are two .sql files in the allrvpr.tar.gz archive. To uncompress the archive:
 
+	gzip -d *.gz
+    tar -xvf allrvpr.tar
+
+Place the files in the following directory:
 
 	[host-repo-parent]/database/seeds
 
