@@ -38,7 +38,7 @@ the host system. See issues at the bottom
 		
 5. Decide where your repositories will be in your host filesystem. Create a directory if needed.  
 
-	**[host-repo-parent]** will reference the full path to this directory on the host.
+	**[host-repo-parent]** will reference the full path to this directory on the host.  
 	**\<\$host\>** indicates a shell command you are to execute on your host machine.  
 	**\<\$vagrant\>** indicates a shell command you are to execute inside the vagrant box.
    
