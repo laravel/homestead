@@ -176,32 +176,41 @@ You can log in with the following credentials:
 
 
 ### Setting up Campground Reviews
-
-1. \<\$host\> cd [host-repo-parent]
-
-
-2. \<\$host\> cd cgr
+1. Get the database backups from Mike. Place them in:
 
 
-3. \<\$host\> npm install
+	[host-repo-parent]/database/seeds
+
+Should have
+
+	[host-repo-parent]/database/seeds/rvpr.sql  
+	[host-repo-parent]/database/seeds/rvprmissing.sql
+
+2. \<\$host\> cd [host-repo-parent]
 
 
-4. \<\$host\> npm run dev
+3. \<\$host\> cd cgr
 
 
-5. \<\$vagrant\> cd /home/vagrant/cgr
+4. \<\$host\> npm install
 
 
-6. \<\$vagrant\> bash after.sh
+5. \<\$host\> npm run dev
 
 
-7. \<\$vagrant\> cd /home/vagrant/cgr-admin
+6. \<\$vagrant\> cd /home/vagrant/cgr
 
 
-8. \<\$vagrant\> bash after.sh
+7. \<\$vagrant\> bash after.sh
 
 
-9. \<\$vagrant\> nano /home/vagrant/cgr-admin/app/config/database.php
+8. \<\$vagrant\> cd /home/vagrant/cgr-admin
+
+
+9. \<\$vagrant\> bash after.sh
+
+
+10. \<\$vagrant\> nano /home/vagrant/cgr-admin/app/config/database.php
 
 &nbsp;&nbsp;&nbsp;In the *rvparkreviews* section:
 * change the username to *homestead*
