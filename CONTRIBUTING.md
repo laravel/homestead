@@ -121,11 +121,10 @@ Then Add at the end:
 
 ### Setting up RV Trip Wizard
 
+Inside the vagrant box (vagrant ssh), perform the following steps :
 
-1. \<\$vagrant\> cd /home/vagrant/rvtw
-
-
-2. \<\$vagrant\> bash after.sh
+	1. cd /home/vagrant/rvtw
+	2. bash after.sh
 
 
 RV Trip Wizard should now be accessible at http://local.rvtripwizard.com
@@ -138,32 +137,20 @@ SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 
 ### Setting Up Platform Manager
 
-1. \<\$host\> cd [host-repo-parent]
+On Your host machine, perform the following steps :
 
+	1. cd [host-repo-parent]
+	2. cd platform-manager
+	3. npm install
+	4. npm run dev
+	5. cd nova-components/StripeProductManage
+	6. npm install
+	7. npm run dev
 
-2. \<\$host\> cd platform-manager
+Inside the vagrant box (vagrant ssh), perform the following steps :
 
-
-3. \<\$host\> npm install
-
-
-4. \<\$host\> npm run dev
-
-
-5. \<\$host\> cd nova-components/StripeProductManage
-
-
-6. \<\$host\> npm install
-
-
-7. \<\$host\> npm run dev
-
-
-8. \<\$vagrant\> cd /home/vagrant/platform-manager
-	
-
-9. \<\$vagrant\> bash after.sh
-
+	1. cd /home/vagrant/platform-manager
+	2. bash after.sh
 
 Platform Manager should now be accessible at http://local.rvlife.com/nova  
 You can log in with the following credentials:
@@ -173,7 +160,7 @@ You can log in with the following credentials:
 
 
 ### Setting up Campground Reviews
-1. Get the database backups from Mike. Place them in:
+Get the database backups from Mike. Place them in:
 
 
 	[host-repo-parent]/database/seeds
@@ -183,33 +170,23 @@ Should have
 	[host-repo-parent]/database/seeds/rvpr.sql  
 	[host-repo-parent]/database/seeds/rvprmissing.sql
 
-2. \<\$host\> cd [host-repo-parent]
+On your host machine, perform the following steps :
+
+	1. cd [host-repo-parent]
+	2. cd cgr
+	3. npm install
+	4. npm run dev
+
+Inside the vagrant box (vagrant ssh), perform the following steps :
+
+	1. cd /home/vagrant/cgr
+	2. bash after.sh
+	3. cd /home/vagrant/cgr-admin
+	4. bash after.sh
+	5. nano /home/vagrant/cgr-admin/app/config/database.php
 
 
-3. \<\$host\> cd cgr
-
-
-4. \<\$host\> npm install
-
-
-5. \<\$host\> npm run dev
-
-
-6. \<\$vagrant\> cd /home/vagrant/cgr
-
-
-7. \<\$vagrant\> bash after.sh
-
-
-8. \<\$vagrant\> cd /home/vagrant/cgr-admin
-
-
-9. \<\$vagrant\> bash after.sh
-
-
-10. \<\$vagrant\> nano /home/vagrant/cgr-admin/app/config/database.php
-
-&nbsp;&nbsp;&nbsp;In the *rvparkreviews* section:
+For step 5, in the *rvparkreviews* section:
 * change the username to *homestead*
 * change the password to *secret*
 
