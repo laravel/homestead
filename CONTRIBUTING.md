@@ -66,11 +66,11 @@ the host system. See issues at the bottom
 
 12. \<\$host\> nano Homestead.yaml
 
-	Find ``[Platform Manager Directory on Host Machine]`` and replace with ``[repo-parent]/platform-manager``  
-	Find ``[RV Trip Wizard Directory on Host Machine]`` and replace with ``[repo-parent]/rvtw``  
-	Find ``[Campground Reviews Directory on Host Machine]`` and replace with ``[repo-parent]/cgr``  
-	Find ``[Campground Reviews Admin Directory on Host Machine]`` and replace with ``[repo-parent]/cgr-admin``  
-	Find ``[Homestead Directory on Host Machine]`` and replace with ``[repo-parent]/homestead``
+	Find ``[Platform Manager Directory on Host Machine]`` and replace with ``[host-repo-parent]/platform-manager``  
+	Find ``[RV Trip Wizard Directory on Host Machine]`` and replace with ``[host-repo-parent]/rvtw``  
+	Find ``[Campground Reviews Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr``  
+	Find ``[Campground Reviews Admin Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr-admin``  
+	Find ``[Homestead Directory on Host Machine]`` and replace with ``[host-repo-parent]/homestead``
 	
 
 	Remember [repo-parent] is replaced with the full path to the parent directory of your repositories.  
