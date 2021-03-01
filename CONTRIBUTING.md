@@ -162,7 +162,7 @@ SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 8. \<\$vagrant\> cd /home/vagrant/platform-manager
 	
 
-9. \<\$vagrant\> bash pm-after.sh
+9. \<\$vagrant\> bash after.sh
 
 
 Platform Manager should now be accessible at http://local.rvlife.com/nova  
