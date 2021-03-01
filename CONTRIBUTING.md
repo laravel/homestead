@@ -2,7 +2,7 @@
 
 * It is not uncommon to have issues with the npm commands below. Make sure you have the latest versions of NPM and Node
 installed. You can attempt to execute the NPM commands from inside the box but they generally are more successful from
-the host system. See issues the bottom
+the host system. See issues at the bottom
   
 ## Let's Go
 
