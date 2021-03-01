@@ -213,6 +213,9 @@ Should have
 * change the username to *homestead*
 * change the password to *secret*
 
+Campground Reviews should now be accessible at https://local.campgroundreviews.com  
+Complete the SSL section below to remove the browser warning
+
 ## Sphinx
 
 After setting up the boxes, you need to rotate sphinx
