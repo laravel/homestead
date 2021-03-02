@@ -61,6 +61,9 @@ the host system. See issues at the bottom
 		cp Homestead.yaml.example Homestead.yaml
 		nano Homestead.yaml
 
+	For the previous nano step, you need to update the placeholders with the location of the repos on your host
+   machine.
+
 	Find ``[Platform Manager Directory on Host Machine]`` and replace with ``[host-repo-parent]/platform-manager``  
 	Find ``[RV Trip Wizard Directory on Host Machine]`` and replace with ``[host-repo-parent]/rvtw``  
 	Find ``[Campground Reviews Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr``  
@@ -79,7 +82,6 @@ the host system. See issues at the bottom
 
 
 You are now logged into the box.
-
 
 &nbsp;&nbsp;&nbsp;To login to the box, from the homestead directory on the host machine:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant ssh``  
