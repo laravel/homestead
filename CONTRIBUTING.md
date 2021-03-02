@@ -188,6 +188,7 @@ Inside the vagrant box (vagrant ssh), perform the following steps :
 For the previous nano step, in the *rvparkreviews* section:
 * change the username to *homestead*
 * change the password to *secret*
+* THIS IS TEMPORARY. The environment of this box should be set to 'local', a 'local' dir added under the 'config' dir, then database.php updated there with these values, then remove this step.
 
 Campground Reviews should now be accessible at https://local.campgroundreviews.com  
 Complete the SSL section below to remove the browser warning
@@ -219,11 +220,3 @@ The file will be located at ``[host-repo-parent]/homestead/ca.homestead.homestea
 
 1. npm says python2 can't be found on Windows - Install Python 2.7
 2. Windows npm problems with node-gyp - Try https://spin.atomicobject.com/2019/03/27/node-gyp-windows/
-
-
-# Note to Bhuwan about the last CGR step
-database.php needs to be copied to database.php.example and database.php.homestead  
-Update database.php.homestead to have the above values  
-Add the two files to the repo  
-Then update cgr-admin-after.sh to copy database.php.homestead to database.php  
-Then update the cgr envoyer release to copy database.php.example to database.php
