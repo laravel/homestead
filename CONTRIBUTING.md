@@ -18,15 +18,18 @@ the host system. See issues at the bottom
 	(MacOS)   Open Terminal
 
 	
-3. $ cat ~/.ssh/id_rsa.pub
-	- If you get file not found, then run:
-		$ ssh-keygen -t rsa -C “your_email@example.com”
-		Make sure the email is the same one you use to login to github.
+3. Perform the following command on your host machine:  
+   	
+   	cat ~/.ssh/id_rsa.pub
+   
+	If you get ``file not found``, then execute on your host machine, using your GitHub login email in place
+   of the example email:
+   
+		ssh-keygen -t rsa -C “your_email@example.com”
 		
-		You will be prompted, just press \<enter\> for each.
-		Next, run:
+   You will be prompted, just press \<enter\> for each. Next, execute:
 		
-		$ cat ~/.ssh/id_rsa.pub
+		cat ~/.ssh/id_rsa.pub
 		
 		
 4. You should receive text beginning with "ssh-rsa". Copy all of this text and go to:
@@ -38,33 +41,25 @@ the host system. See issues at the bottom
 		
 5. Decide where your repositories will be in your host filesystem. Create a directory if needed.  
 
-	**[host-repo-parent]** will reference the full path to this directory on the host.  
-	**\<\$host\>** indicates a shell command you are to execute on your host machine.  
-	**\<\$vagrant\>** indicates a shell command you are to execute inside the vagrant box.
+	``[host-repo-parent]`` will reference the full path to this directory on the host in this document
+
+
+6. On your host machine, execute:
    
-
-6. \<\$host\> cd [host-repo-parent]
-
-7. \<\$host\> git clone git@github.com:rv-life/homestead.git homestead
+		cd [host-repo-parent]
+		git clone git@github.com:rv-life/homestead.git homestead
 	
-8. Execute the following commands. Ignore any projects that you don't have access to.:
+7. On your host machine, execute the following commands. Ignore any projects that you don't have access to.:
 
-		<$host> git clone git@github.com:rv-life/rvpr2.git cgr  
-		<$host> git clone git@github.com:rv-life/rvparkreviews.git cgr-admin  
-		<$host> git clone git@github.com:rv-life/platform-manager.git platform-manager  
-		<$host> git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend  
-		<$host> git clone git@github.com:rv-life/rvtw-react.git rvtw/frontend
-
-9. \<\$host\> cd homestead
-
-
-10. \<\$host\> git checkout release
-
-
-11. \<\$host\> cp Homestead.yaml.example Homestead.yaml
-
-
-12. \<\$host\> nano Homestead.yaml
+		git clone git@github.com:rv-life/rvpr2.git cgr  
+		git clone git@github.com:rv-life/rvparkreviews.git cgr-admin  
+		git clone git@github.com:rv-life/platform-manager.git platform-manager  
+		git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend  
+		git clone git@github.com:rv-life/rvtw-react.git rvtw/frontend
+		cd homestead
+		git checkout release
+		cp Homestead.yaml.example Homestead.yaml
+		nano Homestead.yaml
 
 	Find ``[Platform Manager Directory on Host Machine]`` and replace with ``[host-repo-parent]/platform-manager``  
 	Find ``[RV Trip Wizard Directory on Host Machine]`` and replace with ``[host-repo-parent]/rvtw``  
@@ -78,37 +73,37 @@ the host system. See issues at the bottom
 
 	For Windows, an example would be 'C:\vagrant\platform-manager' 
 
+8. On your host machine, execute the following commands:
 
-13. \<\$host\> vagrant up
 
-
-13. \<\$host\> vagrant ssh
+	vagrant up
+	vagrant ssh
 
 
 You are now logged into the box.
 
 
 &nbsp;&nbsp;&nbsp;To login to the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant ssh``  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant ssh``  
 
 &nbsp;&nbsp;&nbsp;To stop the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant halt``
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant halt``
 
 &nbsp;&nbsp;&nbsp;To destroy the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant destroy``
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant destroy``
 
 &nbsp;&nbsp;&nbsp;To start the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``<$host> vagrant up>``  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant up>``  
 
 ### Setting up your local hosts file
 
 For Windows:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit  c:\windows\system32\drivers\etc\hosts
+``nano c:\windows\system32\drivers\etc\hosts``
    
 For MacOs:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sudo nano /etc/hosts
+``sudo nano /etc/hosts``
 
 Then Add at the end:
 
@@ -123,8 +118,8 @@ Then Add at the end:
 
 Inside the vagrant box (vagrant ssh), perform the following steps :
 
-	1. cd /home/vagrant/rvtw
-	2. bash after.sh
+	cd /home/vagrant/rvtw
+	bash after.sh
 
 
 RV Trip Wizard should now be accessible at http://local.rvtripwizard.com
@@ -139,18 +134,18 @@ SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 
 On Your host machine, perform the following steps :
 
-	1. cd [host-repo-parent]
-	2. cd platform-manager
-	3. npm install
-	4. npm run dev
-	5. cd nova-components/StripeProductManage
-	6. npm install
-	7. npm run dev
+	cd [host-repo-parent]
+	cd platform-manager
+	npm install
+	npm run dev
+	cd nova-components/StripeProductManage
+	npm install
+	npm run dev
 
 Inside the vagrant box (vagrant ssh), perform the following steps :
 
-	1. cd /home/vagrant/platform-manager
-	2. bash after.sh
+	cd /home/vagrant/platform-manager
+	bash after.sh
 
 Platform Manager should now be accessible at http://local.rvlife.com/nova  
 You can log in with the following credentials:
@@ -176,21 +171,21 @@ Should have
 
 On your host machine, perform the following steps :
 
-	1. cd [host-repo-parent]
-	2. cd cgr
-	3. npm install
-	4. npm run dev
+	cd [host-repo-parent]
+	cd cgr
+	npm install
+	npm run dev
 
 Inside the vagrant box (vagrant ssh), perform the following steps :
 
-	1. cd /home/vagrant/cgr
-	2. bash after.sh
-	3. cd /home/vagrant/cgr-admin
-	4. bash after.sh
-	5. nano /home/vagrant/cgr-admin/app/config/database.php
+	cd /home/vagrant/cgr
+	bash after.sh
+	cd /home/vagrant/cgr-admin
+	bash after.sh
+	nano /home/vagrant/cgr-admin/app/config/database.php
 
 
-For step 5, in the *rvparkreviews* section:
+For the previous nano step, in the *rvparkreviews* section:
 * change the username to *homestead*
 * change the password to *secret*
 
