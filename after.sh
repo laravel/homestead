@@ -32,11 +32,17 @@ line="*/5 * * * * /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rota
 sudo service sphinxsearch start
 #sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 
+# Update PHP memory limit
+sudo sed -i 's/memory_limit = 512M/memory_limit = 4096M/g' /etc/php/7.3/fpm/php.ini
+sudo sed -i 's/memory_limit = 512M/memory_limit = 4096M/g' /etc/php/7.3/cli/php.ini
+
 # This is for CGR Admin which requires mcrypt
 sudo apt-get -y install gcc make autoconf libc-dev pkg-config
 sudo apt-get -y install libmcrypt-dev
 sudo pecl install mcrypt-1.0.2
 sudo bash -c "echo extension=mcrypt.so > /etc/php/7.3/mods-available/mcrypt.ini"
 sudo phpenmod -v 7.3 mcrypt
+
+# Reload PHP
 sudo service apache2 restart
 sudo service php7.3-fpm restart
