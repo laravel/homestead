@@ -182,13 +182,7 @@ Inside the vagrant box (vagrant ssh), perform the following steps :
 	bash after.sh
 	cd /home/vagrant/cgr-admin
 	bash after.sh
-	nano /home/vagrant/cgr-admin/app/config/database.php
 
-
-For the previous nano step, in the *rvparkreviews* section:
-* change the username to *homestead*
-* change the password to *secret*
-* THIS IS TEMPORARY. The environment of this box should be set to 'local', a 'local' dir added under the 'config' dir, then database.php updated there with these values, then remove this step.
 
 Campground Reviews should now be accessible at https://local.campgroundreviews.com  
 Complete the SSL section below to remove the browser warning
