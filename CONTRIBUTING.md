@@ -93,7 +93,7 @@ You are now logged into the box.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant destroy``
 
 &nbsp;&nbsp;&nbsp;To start the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant up>``  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant up``  
 
 ### Setting up your local hosts file
 
