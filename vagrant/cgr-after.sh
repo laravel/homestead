@@ -9,6 +9,11 @@ then
   cp .env.homestead .env
 fi
 
+if [ ! -f "cypress.env.json" ]
+then
+    cp cypress.env.json.example cypress.env.json
+fi
+
 # Set command line to PHP 7.3
 composer install --no-interaction
 
