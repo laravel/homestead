@@ -191,6 +191,8 @@ Complete the SSL section below to remove the browser warning
 
 After setting up the boxes, you need to rotate Sphinx. Inside the vagrant box (vagrant ssh), perform the following step :
 
+    sudo service sphinxsearch stop
+    sudo service sphinxsearch start
 	sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 
 ## SSL
