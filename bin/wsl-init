@@ -130,12 +130,12 @@ mv composer.phar /usr/local/bin/composer
 chown -R $WSL_USER_NAME:$WSL_USER_NAME /home/$WSL_USER_NAME/.config
 
 ## Install Global Packages
-#sudo su $WSL_USER_NAME <<'EOF'
-#/usr/local/bin/composer global require "laravel/envoy=^2.0"
-#/usr/local/bin/composer global require "laravel/installer=^4.0.2"
-#/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
-#/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
-#EOF
+sudo su $WSL_USER_NAME <<'EOF'
+/usr/local/bin/composer global require "laravel/envoy=^2.0"
+/usr/local/bin/composer global require "laravel/installer=^4.0.2"
+/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
+/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
+EOF
 
 # Set Some PHP CLI Settings
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/cli/php.ini
@@ -566,25 +566,25 @@ service redis-server start
 # Configure Beanstalkd
 #sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
 
-## Install & Configure MailHog
-#wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
-#chmod +x /usr/local/bin/mailhog
-#
-#sudo tee /etc/systemd/system/mailhog.service <<EOL
-#[Unit]
-#Description=Mailhog
-#After=network.target
-#
-#[Service]
-#User=$WSL_USER_NAME
-#ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
-#
-#[Install]
-#WantedBy=multi-user.target
-#EOL
-#
-#systemctl daemon-reload
-#systemctl enable mailhog
+# Install & Configure MailHog
+wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
+chmod +x /usr/local/bin/mailhog
+
+sudo tee /etc/systemd/system/mailhog.service <<EOL
+[Unit]
+Description=Mailhog
+After=network.target
+
+[Service]
+User=$WSL_USER_NAME
+ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+systemctl daemon-reload
+systemctl enable mailhog
 #
 ## Configure Supervisor
 #systemctl enable supervisor.service
@@ -707,3 +707,8 @@ sysctl fs.protected_regular=0
 su $WSL_USER_NAME -c 'composer install'
 su $WSL_USER_NAME -c 'bash init.sh'
 
+## Setup ubuntu wsl2 systemd script
+# git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git /home/$WSL_USER_NAME/ubuntu-wsl2-systemd-script
+# bash /home/$WSL_USER_NAME/ubuntu-wsl2-systemd-script/ubuntu-wsl2-systemd-script.sh
+## Enable ubuntu wsl2 systemd script for shell
+# echo 'source $HOME/ubuntu-wsl2-systemd-script/start-systemd-namespace' >> /home/$WSL_USER_NAME/.profile
