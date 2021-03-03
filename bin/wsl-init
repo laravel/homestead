@@ -707,3 +707,8 @@ sysctl fs.protected_regular=0
 su $WSL_USER_NAME -c 'composer install'
 su $WSL_USER_NAME -c 'bash init.sh'
 
+## Setup ubuntu wsl2 systemd script
+# git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git /home/$WSL_USER_NAME/ubuntu-wsl2-systemd-script
+# bash /home/$WSL_USER_NAME/ubuntu-wsl2-systemd-script/ubuntu-wsl2-systemd-script.sh
+## Enable ubuntu wsl2 systemd script for shell
+# echo 'source $HOME/ubuntu-wsl2-systemd-script/start-systemd-namespace' >> /home/$WSL_USER_NAME/.profile
