@@ -16,6 +16,8 @@ mysql -uroot -psecret platform_manager < /home/vagrant/platform-manager/database
 # dnjhj@hjh.com is a user in PM
 # kenf1111@hotmail.com is a user IN CGR.
 mysql -uroot -psecret -e "UPDATE platform_manager.users SET email = 'kenf1111@hotmail.com' WHERE email = 'dnjhj@hjh.com'"
+# Set support email for the RVTW client so new sign up works
+mysql -uroot -psecret -e "UPDATE platform_manager.oauth_clients SET client_site_contact_email = 'support@rvlife.com' WHERE id = 3"
 
 composer install --no-interaction
 #yarn install
