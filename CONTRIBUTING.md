@@ -93,7 +93,7 @@ You are now logged into the box.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant destroy``
 
 &nbsp;&nbsp;&nbsp;To start the box, from the homestead directory on the host machine:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant up>``  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``vagrant up``  
 
 ### Setting up your local hosts file
 
@@ -182,12 +182,7 @@ Inside the vagrant box (vagrant ssh), perform the following steps :
 	bash after.sh
 	cd /home/vagrant/cgr-admin
 	bash after.sh
-	nano /home/vagrant/cgr-admin/app/config/database.php
 
-
-For the previous nano step, in the *rvparkreviews* section:
-* change the username to *homestead*
-* change the password to *secret*
 
 Campground Reviews should now be accessible at https://local.campgroundreviews.com  
 Complete the SSL section below to remove the browser warning
@@ -196,6 +191,8 @@ Complete the SSL section below to remove the browser warning
 
 After setting up the boxes, you need to rotate Sphinx. Inside the vagrant box (vagrant ssh), perform the following step :
 
+    sudo service sphinxsearch stop
+    sudo service sphinxsearch start
 	sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
 
 ## SSL
@@ -219,11 +216,3 @@ The file will be located at ``[host-repo-parent]/homestead/ca.homestead.homestea
 
 1. npm says python2 can't be found on Windows - Install Python 2.7
 2. Windows npm problems with node-gyp - Try https://spin.atomicobject.com/2019/03/27/node-gyp-windows/
-
-
-# Note to Bhuwan about the last CGR step
-database.php needs to be copied to database.php.example and database.php.homestead  
-Update database.php.homestead to have the above values  
-Add the two files to the repo  
-Then update cgr-admin-after.sh to copy database.php.homestead to database.php  
-Then update the cgr envoyer release to copy database.php.example to database.php
