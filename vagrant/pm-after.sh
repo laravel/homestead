@@ -12,6 +12,11 @@ fi
 mysql -uroot -psecret -e "CREATE DATABASE IF NOT EXISTS test"
 mysql -uroot -psecret platform_manager < /home/vagrant/platform-manager/database/seeds/sso.sql
 
+#update PM user with existing user email / password for this user is 123456
+# dnjhj@hjh.com is a user in PM
+# kenf1111@hotmail.com is a user IN CGR.
+mysql -uroot -psecret -e "UPDATE platform_manager.users SET email = 'kenf1111@hotmail.com' WHERE email = 'dnjhj@hjh.com'"
+
 composer install --no-interaction
 #yarn install
 #npm i
