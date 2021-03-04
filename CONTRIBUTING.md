@@ -49,7 +49,7 @@ the host system. See issues at the bottom
 		cd [host-repo-parent]
 		git clone git@github.com:rv-life/homestead.git homestead
 	
-7. On your host machine, execute the following commands. Ignore any projects that you don't have access to.:
+7. On your host machine, execute the following commands. Ignore any projects that you don't have access to:
 
 		git clone git@github.com:rv-life/rvpr2.git cgr  
 		git clone git@github.com:rv-life/rvparkreviews.git cgr-admin  
@@ -79,6 +79,8 @@ the host system. See issues at the bottom
 
 		vagrant up
 		vagrant ssh
+
+9. (MacOS) If you encounter an error with the previous step, go to System Preferences > Security & Privacy Then hit the "Allow" button to let Oracle (VirtualBox) load.
 
 
 You are now logged into the box.
