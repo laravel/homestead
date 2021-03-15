@@ -20,7 +20,7 @@ touch /home/$WSL_USER_NAME/.homestead-features/golang
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Install Golang
-golangVersion="1.16.1"
+golangVersion="1.16.2"
 wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz go
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
