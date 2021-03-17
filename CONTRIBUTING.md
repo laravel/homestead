@@ -196,6 +196,16 @@ After setting up the boxes, you need to rotate Sphinx. Inside the vagrant box (v
     sudo service sphinxsearch stop
     sudo service sphinxsearch start
 	sudo /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --rotate --all
+    
+## CGR Forum
+
+Download the forum.tar.gz archive from the RVPR Files Server (same place you got the CGR database dumps) and place it in the cgr/public directory.  Via SSH, move to the public folder and decompress the archive:
+
+    [host-repo-parent]/cgr/public tar -zxvf forum.tar.gz
+
+Delete the archive:
+
+    [host-repo-parent]/cgr/public rm forum.tar.gz    
 
 ## SSL
 
