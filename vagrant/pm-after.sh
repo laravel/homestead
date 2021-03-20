@@ -9,6 +9,11 @@ then
   cp .env.example .env
 fi
 
+if [ ! -f ".env.testing" ]
+then
+  cp .env.testing.example .env.testing
+fi
+
 mysql -uroot -psecret -e "CREATE DATABASE IF NOT EXISTS test"
 mysql -uroot -psecret platform_manager < /home/vagrant/platform-manager/database/seeds/sso.sql
 
