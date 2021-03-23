@@ -24,6 +24,9 @@ folders:
 
     - map: [Homestead Directory on Host Machine]
       to: /home/vagrant/homestead
+      
+    - map; [RV Life Profile Directory on Host Machine]
+      to: /home/vagrant/profile
 
 sites:
    - map: local.rvlife.com
@@ -55,6 +58,11 @@ sites:
      to: /home/vagrant/cgr-admin/public
      php: "7.3"
      type: "apache"
+     
+   - map: profile-local.rvlife.com
+     to: /home/vagrant/profile/public
+     php: "7.3"
+     type: "apache"     
 
 databases:
     - platform_manager
