@@ -56,6 +56,7 @@ the host system. See issues at the bottom
 		git clone git@github.com:rv-life/platform-manager.git platform-manager  
 		git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend  
 		git clone git@github.com:rv-life/rvtw-react.git rvtw/frontend
+		git clone git@github.com:rv-life/rvlife-profile.git profile
 		cd homestead
 		git checkout release
 		cp Homestead.yaml.example Homestead.yaml
@@ -69,6 +70,7 @@ the host system. See issues at the bottom
 	Find ``[Campground Reviews Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr``  
 	Find ``[Campground Reviews Admin Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr-admin``  
 	Find ``[Homestead Directory on Host Machine]`` and replace with ``[host-repo-parent]/homestead``
+	Find ``[RV Life Profile Directory on Host Machine]`` and replace with ``[host-repo-parent]/profile``    
    
 		Remember [host-repo-parent] is replaced with the full path to the parent directory of your repositories.  
 		So if [host-repo-parent] is "/Users/tom/Sites" then the "/Users/tom/Sites/platform-manager" would be the first replacement above
@@ -115,6 +117,7 @@ Then Add at the end:
 	192.168.10.10 local.campgroundreviews.com
 	192.168.10.10 api-local.campgroundreviews.com
 	192.168.10.10 admin-local.campgroundreviews.com
+	192.168.10.10 profile-local.rvlife.com
 
 ### Setting up RV Trip Wizard
 
@@ -131,6 +134,8 @@ If you are only working with RV Trip Wizard then you don't have to go any furthe
 locally. You may use https://pm-dev.rvlife.com to authenticate. To do that, then you will need to go to
 https://pm-dev.rvlife.com/nova and create your own PM Client. Take the ID and secret, update the SSO_CLIENT_ID and
 SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
+
+### Setting up RV Life Profile ###
 
 ### Setting Up Platform Manager
 
