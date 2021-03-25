@@ -41,7 +41,7 @@ sites:
 
    - map: local.rvtripwizard.com
      to: /home/vagrant/rvtw/backend/public
-     php: "7.3"
+     php: "7.4"
      type: "apache"
 
    - map: local.campgroundreviews.com
