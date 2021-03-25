@@ -1,6 +1,6 @@
 ---
 ip: "192.168.10.10"
-memory: 8192
+memory: 4096
 cpus: 2
 provider: virtualbox
 ssl: true
