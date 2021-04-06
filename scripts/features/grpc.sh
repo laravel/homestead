@@ -11,7 +11,7 @@ fi
 touch /home/vagrant/.homestead-features/grpc
 chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 
-PROTOC_VERSION=3.13.0
+PROTOC_VERSION=3.15.7
 PROTOC_ZIP=protoc.zip
 wget -qO $PROTOC_ZIP https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-linux-x86_64.zip
 sudo unzip -o $PROTOC_ZIP -d /usr/local/protoc
