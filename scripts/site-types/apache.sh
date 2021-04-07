@@ -36,6 +36,7 @@ block="<VirtualHost *:$3>
     <Directory "$2">
         AllowOverride All
         Require all granted
+        EnableMMAP Off
     </Directory>
     <IfModule mod_fastcgi.c>
         AddHandler php"$5"-fcgi .php
@@ -123,7 +124,7 @@ blockssl="<IfModule mod_ssl.c>
         <IfModule !mod_fastcgi.c>
             <IfModule mod_proxy_fcgi.c>
                 <FilesMatch \".+\.ph(ar|p|tml)$\">
-                    SetHandler \"proxy:unix:/var/run/php/php"$5"-fpm.sock|fcgi://localhost/\"
+                    SetHandler \"proxy:unix:/var/run/php/php"$5"-fpm.sock|fcgi://localhost\"
                 </FilesMatch>
             </IfModule>
         </IfModule>
