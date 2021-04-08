@@ -24,22 +24,24 @@ sudo apt-get update
 
 # Now install appropriate package for PG version
 if [ -f ~/.homestead-features/wsl_user_name ]; then
-    sudo apt-get -y install timescaledb-2-postgresql-12
+    sudo apt-get -y install timescaledb-2-postgresql-13
 else
     sudo apt-get -y install timescaledb-postgresql-9.6
     sudo apt-get -y install timescaledb-postgresql-10
     sudo apt-get -y install timescaledb-2-postgresql-11
     sudo apt-get -y install timescaledb-2-postgresql-12
+    sudo apt-get -y install timescaledb-2-postgresql-13
 fi
 
 sudo timescaledb-tune --quiet --yes
 if [ -f ~/.homestead-features/wsl_user_name ]; then
-    printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/12/main/postgresql.conf
+    printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 else
     printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/9.6/main/postgresql.conf
     printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/10/main/postgresql.conf
     printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/11/main/postgresql.conf
     printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/12/main/postgresql.conf
+    printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 fi
 
 sudo service postgresql restart
