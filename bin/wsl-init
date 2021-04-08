@@ -36,7 +36,7 @@ END
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 ## Install RabbitMQ signing key
-curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
+#curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
 
 #tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
 ### Installs the latest Erlang 23.x release.
@@ -70,11 +70,11 @@ php8.0-mbstring php8.0-mysql php8.0-odbc php8.0-opcache php8.0-pgsql php8.0-phpd
 php8.0-snmp php8.0-soap php8.0-sqlite3 php8.0-sybase php8.0-tidy php8.0-xml php8.0-xsl php8.0-zip
 
 # PHP 7.4
-apt-get install -y --allow-change-held-packages \
-php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
-php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
-php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
-php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
+# apt-get install -y --allow-change-held-packages \
+# php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
+# php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap php7.4-interbase php7.4-intl php7.4-json php7.4-ldap \
+# php7.4-mbstring php7.4-mysql php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
+# php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip
 
 ## PHP 7.3
 #apt-get install -y --allow-change-held-packages \
@@ -115,14 +115,14 @@ php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7
 #php5.6-recode php5.6-snmp php5.6-soap php5.6-sqlite3 php5.6-sybase php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl \
 #php5.6-zip
 
-update-alternatives --set php /usr/bin/php7.4
-update-alternatives --set php-config /usr/bin/php-config7.4
-update-alternatives --set phpize /usr/bin/phpize7.4
+# update-alternatives --set php /usr/bin/php7.4
+# update-alternatives --set php-config /usr/bin/php-config7.4
+# update-alternatives --set phpize /usr/bin/phpize7.4
 
 # Fixed php fpm bind listening socket - no such file issue.
 mkdir -p /run/php
 touch /run/php/php8.0-fpm.sock
-touch /run/php/php7.4-fpm.sock
+# touch /run/php/php7.4-fpm.sock
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
@@ -133,8 +133,8 @@ chown -R $WSL_USER_NAME:$WSL_USER_NAME /home/$WSL_USER_NAME/.config
 sudo su $WSL_USER_NAME <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
 /usr/local/bin/composer global require "laravel/installer=^4.0.2"
-/usr/local/bin/composer global require "laravel/spark-installer=dev-master"
-/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
+# /usr/local/bin/composer global require "laravel/spark-installer=dev-master"
+# /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
 
 # Set Some PHP CLI Settings
@@ -143,10 +143,10 @@ sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.0/cli/php.ini
 sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.0/cli/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.0/cli/php.ini
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
+# sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/cli/php.ini
+# sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/cli/php.ini
+# sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/cli/php.ini
+# sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
 #
 #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/cli/php.ini
 #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/cli/php.ini
@@ -226,11 +226,11 @@ echo "xdebug.client_port = 9003" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/8.0/mods-available/opcache.ini
 
-echo "xdebug.mode = debug" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "xdebug.discover_client_host = true" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "xdebug.client_port = 9003" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/7.4/mods-available/xdebug.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/7.4/mods-available/opcache.ini
+# echo "xdebug.mode = debug" >> /etc/php/7.4/mods-available/xdebug.ini
+# echo "xdebug.discover_client_host = true" >> /etc/php/7.4/mods-available/xdebug.ini
+# echo "xdebug.client_port = 9003" >> /etc/php/7.4/mods-available/xdebug.ini
+# echo "xdebug.max_nesting_level = 512" >> /etc/php/7.4/mods-available/xdebug.ini
+# echo "opcache.revalidate_freq = 0" >> /etc/php/7.4/mods-available/opcache.ini
 #
 #echo "xdebug.mode = debug" >> /etc/php/7.3/mods-available/xdebug.ini
 #echo "xdebug.discover_client_host = true" >> /etc/php/7.3/mods-available/xdebug.ini
@@ -276,19 +276,19 @@ printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php
 printf "[curl]\n" | tee -a /etc/php/8.0/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.0/fpm/php.ini
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.4/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
+# sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.4/fpm/php.ini
 
-printf "[openssl]\n" | tee -a /etc/php/7.4/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
+# printf "[openssl]\n" | tee -a /etc/php/7.4/fpm/php.ini
+# printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
 
-printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
+# printf "[curl]\n" | tee -a /etc/php/7.4/fpm/php.ini
+# printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.4/fpm/php.ini
 #
 #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
 #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
@@ -361,7 +361,7 @@ printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/7.
 #printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
 
 # Disable XDebug On The CLI
-sudo phpdismod -s cli xdebug
+# sudo phpdismod -s cli xdebug
 
 # Set The Nginx & PHP-FPM User
 sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
@@ -374,12 +374,12 @@ sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/8.0/fpm/pool.
 sed -i "s/listen\.group.*/listen.group = $WSL_USER_NAME/" /etc/php/8.0/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.0/fpm/pool.d/www.conf
 
-sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
+# sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
+# sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
-sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
+# sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/7.4/fpm/pool.d/www.conf
+# sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/7.4/fpm/pool.d/www.conf
+# sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
 #sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/7.3/fpm/pool.d/www.conf
 #sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/7.3/fpm/pool.d/www.conf
@@ -418,7 +418,7 @@ sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
 service nginx restart
 service php8.0-fpm restart
-service php7.4-fpm restart
+# service php7.4-fpm restart
 #service php7.3-fpm restart
 #service php7.2-fpm restart
 #service php7.1-fpm restart
@@ -517,8 +517,8 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 service mysql restart
 
 # Install Postgres in this specific order so version 13 gets port 5432
-#apt-get install -y postgresql-13 postgresql-server-dev-13 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
-apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
+apt-get install -y postgresql-13 postgresql-server-dev-13 postgresql-13-postgis-3 postgresql-13-postgis-3-scripts
+#apt-get install -y postgresql-12 postgresql-server-dev-12 postgresql-12-postgis-3 postgresql-12-postgis-3-scripts
 #apt-get install -y postgresql-11 postgresql-server-dev-11 postgresql-11-postgis-3 postgresql-11-postgis-3-scripts
 #apt-get install -y postgresql-10 postgresql-server-dev-10 postgresql-10-postgis-3 postgresql-10-postgis-3-scripts
 #apt-get install -y postgresql-9.6 postgresql-server-dev-9.6 postgresql-9.6-postgis-3 postgresql-9.6-postgis-3-scripts
@@ -542,21 +542,21 @@ sudo -u postgres psql -c "CREATE ROLE homestead LOGIN PASSWORD 'secret' SUPERUSE
 #echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/10/main/pg_hba.conf
 #sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/11/main/postgresql.conf
 #echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/11/main/pg_hba.conf
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
-echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
-#sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
-#echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
+# sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/12/main/postgresql.conf
+# echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/12/main/pg_hba.conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/13/main/postgresql.conf
+echo "host    all             all             10.0.2.2/32               md5" | tee -a /etc/postgresql/13/main/pg_hba.conf
 
 # Disable Older Versions of Postgres
 #sudo systemctl disable postgresql@9.6-main
 #sudo systemctl disable postgresql@10-main
 #sudo systemctl disable postgresql@11-main
-sudo systemctl disable postgresql@12-main
+#sudo systemctl disable postgresql@12-main
 #sudo systemctl disable postgresql@13-main
 
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 
-service postgresql@12-main restart
+service postgresql@13-main restart
 
 # Install Redis, Memcached, & Beanstalk
 apt-get install -y redis-server memcached beanstalkd
@@ -677,7 +677,7 @@ rm -rf /lib/firmware/*
 rm -rf /usr/share/doc/linux-firmware/*
 
 # Disable services to lower initial overhead
-systemctl disable postgresql@13-main
+#systemctl disable postgresql@13-main
 
 apt-get -y autoremove;
 apt-get -y clean;
