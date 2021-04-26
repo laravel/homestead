@@ -60,7 +60,7 @@ python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv mcryp
 
 # Install Generic PHP packages
 apt-get install -y --allow-change-held-packages \
-php-imagick php-memcached php-redis php-xdebug php-dev
+php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
 
 # PHP 8.0
 apt-get install -y --allow-change-held-packages \
