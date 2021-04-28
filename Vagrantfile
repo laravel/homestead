@@ -3,6 +3,7 @@
 
 require 'json'
 require 'yaml'
+require 'erb'
 
 VAGRANTFILE_API_VERSION ||= "2"
 confDir = $confDir ||= File.expand_path(File.dirname(__FILE__))
@@ -26,9 +27,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     if File.exist? homesteadYamlPath then
-        settings = YAML::load(File.read(homesteadYamlPath))
+        settings = YAML::load(ERB.new(File.read(homesteadYamlPath)).result)
     elsif File.exist? homesteadJsonPath then
-        settings = JSON::parse(File.read(homesteadJsonPath))
+        settings = JSON::parse(ERB.new(File.read(homesteadJsonPath)).result)
     else
         abort "Homestead settings file not found in #{confDir}"
     end
