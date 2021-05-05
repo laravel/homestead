@@ -43,6 +43,11 @@ sites:
      to: /home/vagrant/rvtw/backend/public
      php: "7.4"
      type: "apache"
+     
+   - map: dev-cypress.rvtripwizard.com
+     to: /home/vagrant/rvtw/backend/public
+     php: "7.4"
+     type: "apache"     
 
    - map: local.campgroundreviews.com
      to: /home/vagrant/cgr/public
