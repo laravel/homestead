@@ -36,6 +36,7 @@ block="<VirtualHost *:$3>
     <Directory "$2">
         AllowOverride All
         Require all granted
+        EnableMMAP Off
     </Directory>
     <IfModule mod_fastcgi.c>
         AddHandler php"$5"-fcgi .php
