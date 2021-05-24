@@ -12,6 +12,6 @@ chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
 # Install Roadrunner CLI
 roadrunnerVersion="2.2.1"
 wget https://github.com/spiral/roadrunner-binary/releases/download/v${roadrunnerVersion}/roadrunner-${roadrunnerVersion}-linux-amd64.tar.gz -qO roadrunner.tar.gz
-tar -xf roadrunner.tar.gz -C /usr/bin/ --strip-components=1
+tar -xf roadrunner.tar.gz -C /usr/local/bin/ --strip-components=1
 rm -rf roadrunner.tar.gz
-ln -s /usr/bin/rr /usr/local/bin/rr
+ln -s /usr/local/bin/rr /usr/bin/rr
