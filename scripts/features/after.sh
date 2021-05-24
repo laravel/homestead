@@ -15,8 +15,8 @@ sudo systemctl disable "php${version}-fpm.service"
 done
 
 # php memory limit
-sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 4096M/" /etc/php/${1}/fpm/php.ini
-sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 4096M/" /etc/php/${1}/cli/php.ini
+sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 2080M/" /etc/php/${1}/fpm/php.ini
+sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 2080M/" /etc/php/${1}/cli/php.ini
 
 # fpm www pool
 sudo sed -i "s/pm\.max_children\ =\ .*/pm\.max_children\ =\ 20/" /etc/php/${1}/fpm/pool.d/www.conf
@@ -29,7 +29,8 @@ sudo apt-get remove -y openssh-server
 sudo apt-get install -y openssh-server
 sudo sed -i "s/PasswordAuthentication\ no/PasswordAuthentication\ yes/" /etc/ssh/sshd_config
 
+# disable for octane
+sudo systemctl disable php${1}-fpm.service
 # restart services
-sudo systemctl restart php${1}-fpm.service
 sudo systemctl restart nginx.service
 sudo systemctl restart ssh.service

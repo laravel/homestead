@@ -435,6 +435,8 @@ apt-get install -y nodejs
 #/usr/bin/npm install -g bower
 /usr/bin/npm install -g yarn
 #/usr/bin/npm install -g grunt-cli
+# Install chokidar for Octane -- watch
+/usr/bin/npm install -g chokidar
 
 ## Install rabbitmq-server and its dependencies
 #apt-get install rabbitmq-server -y --fix-missing
