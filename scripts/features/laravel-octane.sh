@@ -15,7 +15,7 @@ sudo rm -rf /etc/supervisor/conf.d/"$1".conf
 sudo cat > /etc/supervisor/conf.d/"$1".conf <<EOL
 [program:$1]
 process_name=%(program_name)s
-command=php $2/artisan octane:start --max-requests=250 --server=roadrunner --port=18000 --rpc-port=18001 --watch
+command=php $2/artisan octane:start --max-requests=250 --server=roadrunner --port=18000 --rpc-port=18001 --watch --workers=1
 autostart=true
 autorestart=true
 user=vagrant
