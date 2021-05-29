@@ -288,8 +288,8 @@ function xphp() {
     HOST_IP=$(last --limit=1 | grep -oP '\d+(\.\d+){3}')
 
     php \
-        -dxdebug.remote_host=${HOST_IP} \
-        -dxdebug.remote_autostart=1 \
+        -dxdebug.client_host=${HOST_IP} \
+        -dxdebug.start_with_request=yes \
         "$@"
 
     if ! $XDEBUG_ENABLED; then xoff; fi
