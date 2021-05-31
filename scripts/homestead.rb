@@ -360,6 +360,14 @@ class Homestead
 
           # Convert the site & any options to an array of arguments passed to the
           # specific site type script (defaults to laravel)
+          if site.has_key?('force_ssl')
+            force_ssl = site['force_ssl'] ? 'true' : 'false'
+          elsif settings.has_key?('force_ssl')
+            force_ssl = settings['force_ssl'] ? 'true' : 'false'
+          else
+            force_ssl = 'false';
+          end
+
           s.path = script_dir + "/site-types/#{type}.sh"
           s.args = [
               site['map'],                # $1
@@ -371,7 +379,8 @@ class Homestead
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
               headers ||= '',             # $9
-              rewrites ||= ''             # $10
+              rewrites ||= '',            # $10
+              force_ssl ||= ''            # $11
           ]
 
           # Should we use the wildcard ssl?

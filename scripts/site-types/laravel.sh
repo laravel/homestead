@@ -37,9 +37,25 @@ location /xhgui {
 else configureXhgui=""
 fi
 
-block="server {
+if [ "${11}" = "true" ]
+then block="server {
+    listen ${3:-80};
+    server_name .$1;
+
+    # Redirect all HTTP links to the matching HTTPS page
+    return 301 https://\$host\$request_uri;
+}
+
+server {
+    listen ${4:-443} ssl http2;
+";
+else block="server {
     listen ${3:-80};
     listen ${4:-443} ssl http2;
+";
+fi
+
+block+="
     server_name .$1;
     root \"$2\";
 

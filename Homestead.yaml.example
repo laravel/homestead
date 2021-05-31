@@ -3,6 +3,7 @@ ip: "192.168.10.10"
 memory: 2048
 cpus: 2
 provider: virtualbox
+force_ssl: true
 
 authorize: ~/.ssh/id_rsa.pub
 
@@ -16,6 +17,7 @@ folders:
 sites:
     - map: homestead.test
       to: /home/vagrant/code/public
+#     force_ssl: false
 
 databases:
     - homestead
