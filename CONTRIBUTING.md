@@ -146,9 +146,15 @@ On Your host machine, perform the following steps :
 	cd platform-manager
 	npm install
 	npm run dev
+    
 	cd nova-components/StripeProductManage
 	npm install
 	npm run dev
+    
+    cd nova-components/PartnerSignupImport
+    npm install
+    npm run dev
+
 
 Inside the vagrant box (vagrant ssh), perform the following steps :
 
