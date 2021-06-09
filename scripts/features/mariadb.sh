@@ -22,7 +22,6 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528
 service apparmor stop
-service apparmor teardown
 update-rc.d -f apparmor remove
 
 # Remove MySQL
@@ -40,6 +39,7 @@ curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password secret"
+mkdir  /etc/mysql
 touch /etc/mysql/debian.cnf
 
 # Install MariaDB
