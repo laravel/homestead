@@ -24,6 +24,9 @@ features:
     - mariadb: false
     - ohmyzsh: false
     - webdriver: false
+#    - ngrok:
+#        authtoken: <token>
+#        region: eu
 
 #services:
 #    - enabled:
