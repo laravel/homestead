@@ -11,12 +11,12 @@ cp /root/.my.cnf /home/vagrant/.my.cnf
 
 DB=$1;
 
-mysql=$(pidof mysqld)
+mariadb=$(pidof mariadbd)
 
-if [ -z "$mysql" ]
+if [ -z "$mariadb" ]
 then
-    # Skip Creating MySQL database
-    echo "We didn't find a PID for mysqld, skipping $DB creation"
+    # Skip Creating MariaDB database
+    echo "We didn't find a PID for mariadbd, skipping $DB creation"
 else
     mysql -e "CREATE DATABASE IF NOT EXISTS \`$DB\` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci";
 fi
