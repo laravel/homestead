@@ -145,7 +145,7 @@ class Homestead
     # Configure The Public Key For SSH Access
     if settings.include? 'authorize'
       if File.exist? File.expand_path(settings['authorize'])
-        config.vm.provision 'shell' do |s|
+        config.vm.provision "setting authorize key", type: "shell" do |s|
           s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo \"\n$1\" | tee -a /home/vagrant/.ssh/authorized_keys"
           s.args = [File.read(File.expand_path(settings['authorize']))]
         end
@@ -160,7 +160,7 @@ class Homestead
       end
       settings['keys'].each do |key|
         if File.exist? File.expand_path(key)
-          config.vm.provision 'shell' do |s|
+          config.vm.provision "setting authorize permissions", type: "shell" do |s|
             s.privileged = false
             s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
             s.args = [File.read(File.expand_path(key)), key.split('/').last]
@@ -175,7 +175,7 @@ class Homestead
     # Copy User Files Over to VM
     if settings.include? 'copy'
       settings['copy'].each do |file|
-        config.vm.provision 'file' do |f|
+        config.vm.provision "file", type: "file" do |f|
           f.source = File.expand_path(file['from'])
           f.destination = file['to'].chomp('/') + '/' + file['from'].split('/').last
         end
@@ -222,27 +222,27 @@ class Homestead
 
     # Change PHP CLI version based on configuration
     if settings.has_key?('php') && settings['php']
-      config.vm.provision 'shell' do |s|
+      config.vm.provision "Changing PHP CLI Version", "shell" do |s|
         s.name = 'Changing PHP CLI Version'
         s.inline = "sudo update-alternatives --set php /usr/bin/php#{settings['php']}; sudo update-alternatives --set php-config /usr/bin/php-config#{settings['php']}; sudo update-alternatives --set phpize /usr/bin/phpize#{settings['php']}"
       end
     end
 
     # Creates folder for opt-in features lockfiles
-    config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
-    config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
+    config.vm.provision "mk_features", type: "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
+    config.vm.provision "own_features", type: "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
     # Enable Services
     if settings.has_key?('services')
       settings['services'].each do |service|
         service['enabled'].each do |enable_service|
-          config.vm.provision "shell", inline: "sudo systemctl enable #{enable_service}"
-          config.vm.provision "shell", inline: "sudo systemctl start #{enable_service}"
+          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
+          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
         end if service.include?('enabled')
 
         service['disabled'].each do |disable_service|
-          config.vm.provision "shell", inline: "sudo systemctl disable #{disable_service}"
-          config.vm.provision "shell", inline: "sudo systemctl stop #{disable_service}"
+          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
+          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
         end if service.include?('disabled')
       end
     end
