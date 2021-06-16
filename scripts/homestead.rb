@@ -249,6 +249,16 @@ class Homestead
 
     # Install opt-in features
     if settings.has_key?('features')
+
+      # Ensure we have PHP versions used in sites in our features
+      if settings.has_key?('sites')
+        settings['sites'].each do |site|
+          if site.has_key?('php')
+            settings['features'].push({"php" + site['php'] => true})
+          end
+        end
+      end
+
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
         feature_variables = feature[feature_name]
