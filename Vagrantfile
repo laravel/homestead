@@ -50,6 +50,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.hostmanager.enabled = true
         config.hostmanager.manage_host = true
         config.hostmanager.aliases = settings['sites'].map { |site| site['map'] }
+    elsif Vagrant.has_plugin?('vagrant-goodhosts')
+        config.goodhosts.aliases = settings['sites'].map { |site| site['map'] }
     end
 
     if Vagrant.has_plugin?('vagrant-notify-forwarder')
