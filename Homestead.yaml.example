@@ -65,7 +65,7 @@ sites:
      type: "apache"
      
    - map: profile-local.rvlife.com
-     to: /home/vagrant/profile/public
+     to: /home/vagrant/profile/build
      php: "7.3"
      type: "apache"     
 
