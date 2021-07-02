@@ -115,10 +115,10 @@ Then Add at the end:
 	192.168.10.10 my-local.rvlife.com
 	192.168.10.10 local.rvtripwizard.com
 	192.168.10.10 dev-cypress.rvtripwizard.com	
-	194.168.10.10 local.campgroundreviews.com
-	195.168.10.10 api-local.campgroundreviews.com
-	196.168.10.10 admin-local.campgroundreviews.com
-	197.168.10.10 profile-local.rvlife.com
+	192.168.10.10 local.campgroundreviews.com
+	192.168.10.10 api-local.campgroundreviews.com
+	192.168.10.10 admin-local.campgroundreviews.com
+	192.168.10.10 profile-local.rvlife.com
 
 ### Setting up RV Trip Wizard
 
@@ -137,6 +137,13 @@ https://pm-dev.rvlife.com/nova and create your own PM Client. Take the ID and se
 SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 
 ### Setting up RV Life Profile ###
+
+On Your host machine, perform the following steps :
+
+	cd [host-repo-parent]
+	cd profile
+    yarn install 
+    yarn build
 
 ### Setting Up Platform Manager
 
