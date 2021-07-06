@@ -144,6 +144,7 @@ On Your host machine, perform the following steps :
 	cd profile
     yarn install 
     yarn build
+    bash after.sh
 
 ### Setting Up Platform Manager
 
