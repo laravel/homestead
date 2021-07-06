@@ -139,6 +139,10 @@ SSO_CLIENT_SECRET settings in .env. Update SSO_URL to https://pm-dev.rvlife.com
 
 ### Setting up RV Life Profile ###
 
+Install Yarn on your host machine if you don't have it already
+
+	npm install --global yarn
+
 On Your host machine, perform the following steps :
 
 	cd [host-repo-parent]
