@@ -1,5 +1,6 @@
 ## Notes:
-
+* If you already have this homestead box and you are trying to add a project, please update your homestead repo & 
+run `vagrant reload --provision` before you follow the instructions here 
 * It is not uncommon to have issues with the npm commands below. Make sure you have the latest versions of NPM and Node
 installed. You can attempt to execute the NPM commands from inside the box but they generally are more successful from
 the host system. See issues at the bottom
