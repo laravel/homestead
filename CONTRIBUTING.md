@@ -144,7 +144,11 @@ On Your host machine, perform the following steps :
 	cd profile
     yarn install 
     yarn build
-    bash after.sh
+
+Inside the vagrant box (vagrant ssh), perform the following steps :
+
+	cd /home/vagrant/profile
+	bash after.sh
 
 ### Setting Up Platform Manager
 
