@@ -1,6 +1,4 @@
 ## Notes:
-* If you already have this homestead box and you are trying to add a project, please update your homestead repo & 
-run `vagrant reload --provision` before you follow the instructions here 
 * It is not uncommon to have issues with the npm commands below. Make sure you have the latest versions of NPM and Node
 installed. You can attempt to execute the NPM commands from inside the box but they generally are more successful from
 the host system. See issues at the bottom
@@ -55,11 +53,18 @@ the host system. See issues at the bottom
 		git clone git@github.com:rv-life/rvpr2.git cgr  
 		git clone git@github.com:rv-life/rvparkreviews.git cgr-admin  
 		git clone git@github.com:rv-life/platform-manager.git platform-manager  
-		git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend  
+		git clone git@github.com:rv-life/rvtw-laravel.git rvtw/backend 
 		git clone git@github.com:rv-life/rvtw-react.git rvtw/frontend
 		git clone git@github.com:rv-life/rvlife-profile.git profile
 		cd homestead
 		git checkout release
+        
+   If you are trying to add new project to your existing homstead box: 
+    - manually copy over the project configs (folder & site mapping) from Homestead.yaml.example to Homestead.yaml
+    - run `vagrant reload --provision`
+   
+   Else:
+    
 		cp Homestead.yaml.example Homestead.yaml
 		nano Homestead.yaml
 
