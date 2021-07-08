@@ -17,14 +17,7 @@
 #sudo rm -rf /usr/lib/node_modules/npm/lib
 #sudo rm -rf //etc/apt/sources.list.d/nodesource.list
 
-# Install Node.js v12.x
-#curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-#sudo apt-get install -y nodejs
-
-# Install Node.js v11.x
-#curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-#sudo apt-get install -y nodejs
-
-# Install Node.js v10.x
-#curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+# Install Node.js Version desired (i.e. v13)
+# More info: https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+#curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 #sudo apt-get install -y nodejs
