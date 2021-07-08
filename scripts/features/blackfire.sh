@@ -10,7 +10,8 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/blackfire ]
+# Make sure Blackfire is updated to v2
+if [ -f /home/$WSL_USER_NAME/.homestead-features/blackfire ] && [ ! -f /usr/bin/blackfire-agent ]
 then
     echo "blackfire already installed."
     exit 0
@@ -24,7 +25,7 @@ echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.l
 
 # Install Blackfire
 sudo DEBIAN_FRONTEND=noninteractive apt-get update
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y blackfire-agent blackfire-php
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y blackfire blackfire-php
 
 agent="[blackfire]
 ca-cert=
