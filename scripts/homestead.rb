@@ -222,7 +222,7 @@ class Homestead
 
     # Change PHP CLI version based on configuration
     if settings.has_key?('php') && settings['php']
-      config.vm.provision "Changing PHP CLI Version", "shell" do |s|
+      config.vm.provision "Changing PHP CLI Version", type: "shell" do |s|
         s.name = 'Changing PHP CLI Version'
         s.inline = "sudo update-alternatives --set php /usr/bin/php#{settings['php']}; sudo update-alternatives --set php-config /usr/bin/php-config#{settings['php']}; sudo update-alternatives --set phpize /usr/bin/phpize#{settings['php']}"
       end
