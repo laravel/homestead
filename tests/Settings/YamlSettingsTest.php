@@ -2,6 +2,7 @@
 
 namespace Tests\Settings;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Laravel\Homestead\Settings\YamlSettings;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -9,14 +10,14 @@ use Tests\Traits\GeneratesTestDirectory;
 
 class YamlSettingsTest extends TestCase
 {
-    use GeneratesTestDirectory;
+    use ArraySubsetAsserts, GeneratesTestDirectory;
 
     /** @test */
     public function it_can_be_created_from_a_filename()
     {
         $settings = YamlSettings::fromFile(__DIR__.'/../../resources/Homestead.yaml');
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'ip' => '192.168.10.10',
             'memory' => '2048',
             'cpus' => '2',
@@ -36,7 +37,7 @@ class YamlSettingsTest extends TestCase
         $settings->save($filename);
 
         $this->assertFileExists($filename);
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'ip' => '192.168.10.10',
             'memory' => '2048',
             'cpus' => '1',
@@ -58,7 +59,7 @@ class YamlSettingsTest extends TestCase
             'cpus' => 2,
         ]);
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'ip' => '127.0.0.1',
             'memory' => '4096',
             'cpus' => '2',
@@ -80,7 +81,7 @@ class YamlSettingsTest extends TestCase
             'cpus' => null,
         ]);
 
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'ip' => '192.168.10.10',
             'memory' => '2048',
             'cpus' => '1',

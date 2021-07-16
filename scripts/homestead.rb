@@ -19,7 +19,7 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '~> 9'
+      config.vm.box_version = settings['version'] ||= '>= 11.0.0, < 12.0.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
@@ -48,6 +48,12 @@ class Homestead
       if settings.has_key?('gui') && settings['gui']
         vb.gui = true
       end
+      # --paravirtprovider none|default|legacy|minimal|hyperv|kvm
+      # Specifies which paravirtualization interface to provide to
+      # the guest operating system.
+      if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
+        vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
+      end
     end
 
     # Override Default SSH port on the host
@@ -56,7 +62,7 @@ class Homestead
     end
 
     # Configure A Few VMware Settings
-    ['vmware_fusion', 'vmware_workstation'].each do |vmware|
+    ['vmware_fusion', 'vmware_workstation', 'vmware_desktop'].each do |vmware|
       config.vm.provider vmware do |v|
         v.vmx['displayName'] = settings['name'] ||= 'homestead'
         v.vmx['memsize'] = settings['memory'] ||= 2048
@@ -139,7 +145,7 @@ class Homestead
     # Configure The Public Key For SSH Access
     if settings.include? 'authorize'
       if File.exist? File.expand_path(settings['authorize'])
-        config.vm.provision 'shell' do |s|
+        config.vm.provision "setting authorize key", type: "shell" do |s|
           s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo \"\n$1\" | tee -a /home/vagrant/.ssh/authorized_keys"
           s.args = [File.read(File.expand_path(settings['authorize']))]
         end
@@ -154,7 +160,7 @@ class Homestead
       end
       settings['keys'].each do |key|
         if File.exist? File.expand_path(key)
-          config.vm.provision 'shell' do |s|
+          config.vm.provision "setting authorize permissions", type: "shell" do |s|
             s.privileged = false
             s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
             s.args = [File.read(File.expand_path(key)), key.split('/').last]
@@ -169,7 +175,7 @@ class Homestead
     # Copy User Files Over to VM
     if settings.include? 'copy'
       settings['copy'].each do |file|
-        config.vm.provision 'file' do |f|
+        config.vm.provision "file", type: "file" do |f|
           f.source = File.expand_path(file['from'])
           f.destination = file['to'].chomp('/') + '/' + file['from'].split('/').last
         end
@@ -216,33 +222,43 @@ class Homestead
 
     # Change PHP CLI version based on configuration
     if settings.has_key?('php') && settings['php']
-      config.vm.provision 'shell' do |s|
+      config.vm.provision "Changing PHP CLI Version", type: "shell" do |s|
         s.name = 'Changing PHP CLI Version'
         s.inline = "sudo update-alternatives --set php /usr/bin/php#{settings['php']}; sudo update-alternatives --set php-config /usr/bin/php-config#{settings['php']}; sudo update-alternatives --set phpize /usr/bin/phpize#{settings['php']}"
       end
     end
 
     # Creates folder for opt-in features lockfiles
-    config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
-    config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
+    config.vm.provision "mk_features", type: "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
+    config.vm.provision "own_features", type: "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
     # Enable Services
     if settings.has_key?('services')
       settings['services'].each do |service|
         service['enabled'].each do |enable_service|
-          config.vm.provision "shell", inline: "sudo systemctl enable #{enable_service}"
-          config.vm.provision "shell", inline: "sudo systemctl start #{enable_service}"
+          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
+          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
         end if service.include?('enabled')
 
         service['disabled'].each do |disable_service|
-          config.vm.provision "shell", inline: "sudo systemctl disable #{disable_service}"
-          config.vm.provision "shell", inline: "sudo systemctl stop #{disable_service}"
+          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
+          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
         end if service.include?('disabled')
       end
     end
 
     # Install opt-in features
     if settings.has_key?('features')
+
+      # Ensure we have PHP versions used in sites in our features
+      if settings.has_key?('sites')
+        settings['sites'].each do |site|
+          if site.has_key?('php')
+            settings['features'].push({"php" + site['php'] => true})
+          end
+        end
+      end
+
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
         feature_variables = feature[feature_name]
@@ -360,7 +376,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '7.4',      # $5
+              site['php'] ||= '8.0',      # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
@@ -440,7 +456,7 @@ class Homestead
 
             if site['schedule']
               s.path = script_dir + '/cron-schedule.sh'
-              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to']]
+              s.args = [site['map'].tr('^A-Za-z0-9', ''), site['to'], site['php'] ||= '']
             else
               s.inline = "rm -f /etc/cron.d/$1"
               s.args = [site['map'].tr('^A-Za-z0-9', '')]
@@ -491,6 +507,11 @@ class Homestead
 
         config.vm.provision 'shell' do |s|
           s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.4/fpm/pool.d/www.conf"
+          s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/8.0/fpm/pool.d/www.conf"
           s.args = [var['key'], var['value']]
         end
 

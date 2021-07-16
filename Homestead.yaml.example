@@ -25,6 +25,12 @@ features:
     - ohmyzsh: false
     - webdriver: false
 
+#services:
+#    - enabled:
+#        - "postgresql@12-main"
+#    - disabled:
+#        - "postgresql@11-main"
+
 # ports:
 #     - send: 50000
 #       to: 5000

@@ -1,17 +1,26 @@
 #!/usr/bin/env bash
 
-if [ -f /home/vagrant/.homestead-features/golang ]
+if [ -f ~/.homestead-features/wsl_user_name ]; then
+    WSL_USER_NAME="$(cat ~/.homestead-features/wsl_user_name)"
+    WSL_USER_GROUP="$(cat ~/.homestead-features/wsl_user_group)"
+else
+    WSL_USER_NAME=vagrant
+    WSL_USER_GROUP=vagrant
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+if [ -f /home/$WSL_USER_NAME/.homestead-features/golang ]
 then
     echo "Golang already installed."
     exit 0
 fi
 
-touch /home/vagrant/.homestead-features/golang
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+touch /home/$WSL_USER_NAME/.homestead-features/golang
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Install Golang
-
-golangVersion="1.15.5"
+golangVersion="1.16.6"
 wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
 tar -C /usr/local -xzf golang.tar.gz go
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile

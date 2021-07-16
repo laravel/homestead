@@ -43,8 +43,8 @@ block="server {
     server_name www.$1;
     return 301 http://$1\$request_uri;
 
-    ssl_certificate     /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key /etc/nginx/ssl/$1.key;
+    ssl_certificate     /etc/ssl/certs/$1.crt;
+    ssl_certificate_key /etc/ssl/certs/$1.key;
 }
 
 server {
@@ -56,7 +56,7 @@ server {
     index index.php;
 
     charset utf-8;
-
+    client_max_body_size 100M;
     $rewritesTXT
 
     location / {
@@ -88,8 +88,8 @@ server {
         deny all;
     }
 
-    ssl_certificate     /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key /etc/nginx/ssl/$1.key;
+    ssl_certificate     /etc/ssl/certs/$1.crt;
+    ssl_certificate_key /etc/ssl/certs/$1.key;
 }
 "
 

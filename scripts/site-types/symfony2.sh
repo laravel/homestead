@@ -46,7 +46,7 @@ block="server {
     index index.html index.htm index.php app_dev.php;
 
     charset utf-8;
-    client_max_body_size 20M;
+    client_max_body_size 100M;
 
     $rewritesTXT
 
@@ -76,7 +76,7 @@ block="server {
         fastcgi_buffers 4 16k;
         fastcgi_connect_timeout 300;
         fastcgi_send_timeout 300;
-        fastcgi_read_timeout 300;        
+        fastcgi_read_timeout 300;
     }
 
     # PROD
@@ -99,8 +99,8 @@ block="server {
 
     $configureXhgui
 
-    ssl_certificate     /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key /etc/nginx/ssl/$1.key;
+    ssl_certificate     /etc/ssl/certs/$1.crt;
+    ssl_certificate_key /etc/ssl/certs/$1.key;
 }
 "
 

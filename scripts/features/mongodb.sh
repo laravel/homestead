@@ -1,19 +1,27 @@
 #!/usr/bin/env bash
 
+if [ -f ~/.homestead-features/wsl_user_name ]; then
+    WSL_USER_NAME="$(cat ~/.homestead-features/wsl_user_name)"
+    WSL_USER_GROUP="$(cat ~/.homestead-features/wsl_user_group)"
+else
+    WSL_USER_NAME=vagrant
+    WSL_USER_GROUP=vagrant
+fi
+
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/vagrant/.homestead-features/mongodb ]
+if [ -f /home/$WSL_USER_NAME/.homestead-features/mongodb ]
 then
     echo "MongoDB already installed."
     exit 0
 fi
 
-touch /home/vagrant/.homestead-features/mongodb
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+touch /home/$WSL_USER_NAME/.homestead-features/mongodb
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
-wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
 sudo apt-get update
 
@@ -93,5 +101,15 @@ sudo bash -c "echo 'extension=mongodb.so' > /etc/php/7.4/mods-available/mongo.in
 sudo ln -s /etc/php/7.4/mods-available/mongo.ini /etc/php/7.4/cli/conf.d/20-mongo.ini
 sudo ln -s /etc/php/7.4/mods-available/mongo.ini /etc/php/7.4/fpm/conf.d/20-mongo.ini
 sudo service php7.4-fpm restart
+
+phpize8.0
+./configure --with-php-config=/usr/bin/php-config8.0 > /dev/null
+make clean > /dev/null
+make >/dev/null 2>&1
+sudo make install
+sudo bash -c "echo 'extension=mongodb.so' > /etc/php/8.0/mods-available/mongo.ini"
+sudo ln -s /etc/php/8.0/mods-available/mongo.ini /etc/php/8.0/cli/conf.d/20-mongo.ini
+sudo ln -s /etc/php/8.0/mods-available/mongo.ini /etc/php/8.0/fpm/conf.d/20-mongo.ini
+sudo service php8.0-fpm restart
 
 mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"

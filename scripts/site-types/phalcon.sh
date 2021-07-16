@@ -46,6 +46,7 @@ block="server {
     index index.php;
 
     charset utf-8;
+    client_max_body_size 100M;
 
     $rewritesTXT
 
@@ -59,7 +60,7 @@ block="server {
         if (\$rule_0 = "21"){
             rewrite ^/(.*)$ /index.php?_url=/\$1 last;
         }
-        
+
         $headersTXT
     }
 
@@ -72,8 +73,6 @@ block="server {
     error_log  /var/log/nginx/$1-error.log error;
 
     sendfile off;
-
-    client_max_body_size 100m;
 
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -95,8 +94,8 @@ block="server {
         deny all;
     }
 
-    ssl_certificate     /etc/nginx/ssl/$1.crt;
-    ssl_certificate_key /etc/nginx/ssl/$1.key;
+    ssl_certificate     /etc/ssl/certs/$1.crt;
+    ssl_certificate_key /etc/ssl/certs/$1.key;
 }
 "
 
