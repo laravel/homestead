@@ -249,6 +249,7 @@ class Homestead
 
     # Install opt-in features
     if settings.has_key?('features')
+      config.vm.provision "apt_update", type: "shell", inline: "apt-get update"
 
       # Ensure we have PHP versions used in sites in our features
       if settings.has_key?('sites')
