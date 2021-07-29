@@ -24,6 +24,7 @@ Group=vagrant
 ExecStart=/usr/bin/laravel-echo-server start --dir=${1}
 Restart=always
 RestartSec=10
+SyslogIdentifier=laravel-echo-server
 StandardOutput=syslog
 StandardError=syslog
 Environment=NODE_ENV=production LARAVEL_ECHO_SERVER_PORT=${2} LARAVEL_ECHO_SERVER_AUTH_HOST=${3}

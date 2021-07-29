@@ -546,11 +546,16 @@ sudo tee /etc/systemd/system/mailhog.service <<EOL
 [Unit]
 Description=Mailhog
 After=network.target
-
 [Service]
 User=$WSL_USER_NAME
+Group=$WSL_USER_GROUP
 ExecStart=/usr/bin/env /usr/local/bin/mailhog > /dev/null 2>&1 &
-
+Restart=always
+RestartSec=10
+SyslogIdentifier=mailhog
+StandardOutput=syslog
+StandardError=syslog
+Environment=MH_API_BIND_ADDR=0.0.0.0:8025 MH_UI_BIND_ADDR=0.0.0.0:8025 MH_SMTP_BIND_ADDR=0.0.0.0:1025
 [Install]
 WantedBy=multi-user.target
 EOL
