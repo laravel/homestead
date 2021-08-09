@@ -59,12 +59,7 @@ sites:
    - map: admin-local.campgroundreviews.com
      to: /home/vagrant/cgr-admin/public
      php: "7.3"
-     type: "apache"
-     
-   - map: profile-local.rvlife.com
-     to: /home/vagrant/profile/build
-     php: "7.3"
-     type: "apache"     
+     type: "apache"    
 
 databases:
     - platform_manager
