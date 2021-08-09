@@ -10,7 +10,6 @@ cp -f /home/vagrant/homestead/vagrant/cgr-after.sh /home/vagrant/cgr/after.sh
 cp -f /home/vagrant/homestead/vagrant/pm-after.sh /home/vagrant/platform-manager/after.sh
 cp -f /home/vagrant/homestead/vagrant/rvtw-after.sh /home/vagrant/rvtw/after.sh
 cp -f /home/vagrant/homestead/vagrant/cgr-admin-after.sh /home/vagrant/cgr-admin/after.sh
-cp -f /home/vagrant/homestead/vagrant/profile-after.sh /home/vagrant/profile/after.sh
 
 # composer install on CGR has a race condition in vagrant that is fixed
 # by getting unzip to sleep - see https://github.com/composer/composer/issues/9627
