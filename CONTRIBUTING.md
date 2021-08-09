@@ -151,6 +151,7 @@ On Your host machine, perform the following steps :
 
 	cd [host-repo-parent]
 	cd profile
+    cp .env.example .env 
     
 Install the `mkcert` command using `brew install mkcert` (Linux and Windows instructions are
 [here](https://github.com/FiloSottile/mkcert)). Then run:
