@@ -76,7 +76,6 @@ the host system. See issues at the bottom
 	Find ``[Campground Reviews Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr``  
 	Find ``[Campground Reviews Admin Directory on Host Machine]`` and replace with ``[host-repo-parent]/cgr-admin``  
 	Find ``[Homestead Directory on Host Machine]`` and replace with ``[host-repo-parent]/homestead``
-	Find ``[RV Life Profile Directory on Host Machine]`` and replace with ``[host-repo-parent]/profile``    
    
 		Remember [host-repo-parent] is replaced with the full path to the parent directory of your repositories.  
 		So if [host-repo-parent] is "/Users/tom/Sites" then the "/Users/tom/Sites/platform-manager" would be the first replacement above
@@ -124,7 +123,7 @@ Then Add at the end:
 	192.168.10.10 local.campgroundreviews.com
 	192.168.10.10 api-local.campgroundreviews.com
 	192.168.10.10 admin-local.campgroundreviews.com
-	192.168.10.10 profile-local.rvlife.com
+	127.0.0.1 profile-local.rvlife.com
 
 ### Setting up RV Trip Wizard
 
@@ -154,11 +153,12 @@ On Your host machine, perform the following steps :
 	cd profile
     yarn install 
     yarn build
+    
+Install the `mkcert` command using `brew install mkcert` (Linux and Windows instructions are
+[here](https://github.com/FiloSottile/mkcert)). Then run:
 
-Inside the vagrant box (vagrant ssh), perform the following steps :
-
-	cd /home/vagrant/profile
-	bash after.sh
+    mkcert -install
+    mkcert -key-file ./.certs/server.key -cert-file ./.certs/server.crt "profile-local.rvlife.com"
 
 ### Setting Up Platform Manager
 
