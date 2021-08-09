@@ -151,14 +151,17 @@ On Your host machine, perform the following steps :
 
 	cd [host-repo-parent]
 	cd profile
-    yarn install 
-    yarn build
     
 Install the `mkcert` command using `brew install mkcert` (Linux and Windows instructions are
 [here](https://github.com/FiloSottile/mkcert)). Then run:
 
     mkcert -install
     mkcert -key-file ./.certs/server.key -cert-file ./.certs/server.crt "profile-local.rvlife.com"
+    
+Then run:
+    
+    yarn install 
+    yarn build
 
 ### Setting Up Platform Manager
 
