@@ -25,9 +25,6 @@ folders:
     - map: [Homestead Directory on Host Machine]
       to: /home/vagrant/homestead
       
-    - map; [RV Life Profile Directory on Host Machine]
-      to: /home/vagrant/profile
-
 sites:
    - map: local.rvlife.com
      to: /home/vagrant/platform-manager/public
