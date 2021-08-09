@@ -16,3 +16,4 @@ wsl-init.log
 .idea/homestead.iml
 .idea/modules.xml
 ca.homestead.homestead.crt
+Homestead.yaml~
