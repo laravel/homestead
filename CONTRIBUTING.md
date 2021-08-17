@@ -246,7 +246,7 @@ Inside the vagrant box (vagrant ssh), perform the following step :
 
 	cp /etc/ssl/certs/ca.homestead.homestead.crt /home/vagrant/homestead
 
-For MacOs, peform the following steps on your host machine:
+For MacOs, peform the following steps on your host machine in the homestead folder:
 
 	sudo security delete-certificate -c "Homestead homestead Root CA" /Library/Keychains/System.keychain  
 	sudo security add-trusted-cert -d -r trustRoot -p ssl -k /Library/Keychains/System.keychain ca.homestead.homestead.crt
