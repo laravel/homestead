@@ -157,6 +157,7 @@ Install the `mkcert` command using `brew install mkcert` (Linux and Windows inst
 [here](https://github.com/FiloSottile/mkcert)). Then run:
 
     mkcert -install
+    mkdir .certs
     mkcert -key-file ./.certs/server.key -cert-file ./.certs/server.crt "profile-local.rvlife.com"
     
 Then run:
