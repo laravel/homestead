@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
 
-# Check If MySQL 8 Has Been Installed
-if [[ -f /home/vagrant/.homestead-features/mysql8 ]]; then
-    echo "MySQL 8 already installed."
-    exit 0
+if [ -f ~/.homestead-features/wsl_user_name ]; then
+    WSL_USER_NAME="$(cat ~/.homestead-features/wsl_user_name)"
+    WSL_USER_GROUP="$(cat ~/.homestead-features/wsl_user_group)"
+else
+    WSL_USER_NAME=vagrant
+    WSL_USER_GROUP=vagrant
 fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-touch /home/vagrant/.homestead-features/mysql8
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+if [ -f /home/$WSL_USER_NAME/.homestead-features/mysql8 ]
+then
+    echo "mysql8 already installed."
+    exit 0
+fi
+
+touch /home/$WSL_USER_NAME/.homestead-features/mysql8
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Remove MySQL
 apt-get remove -y --purge mysql-server mysql-client mysql-common
