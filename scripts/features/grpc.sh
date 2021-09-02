@@ -27,12 +27,9 @@ sudo ln -s /usr/local/protoc/bin/protoc /usr/local/bin/protoc
 sudo chmod +x /usr/local/bin/protoc
 sudo rm -f $PROTOC_ZIP
 
-phpize8.0
-./configure --with-php-config=/usr/bin/php-config8.0 > /dev/null
-
 # Update PECL Channel
 sudo pecl channel-update pecl.php.net
-
+# Install grpc and protobuf
 sudo pecl install grpc protobuf
 
 sudo bash -c "echo 'extension=grpc.so' > /etc/php/8.0/mods-available/grpc.ini"

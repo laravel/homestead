@@ -49,7 +49,8 @@ sudo ln -s /etc/php/8.0/mods-available/mongo.ini /etc/php/8.0/cli/conf.d/20-mong
 sudo ln -s /etc/php/8.0/mods-available/mongo.ini /etc/php/8.0/fpm/conf.d/20-mongo.ini
 sudo service php8.0-fpm restart
 
-mongo admin --eval 'db.createUser({user:"homestead",pwd:"secr$t",roles:["root"]})'
+mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
+# mongo admin --eval 'db.createUser({user:"homestead",pwd:"secr$t",roles:["root"]})'
 
 # SECURITY_AUTH="
 # security:
