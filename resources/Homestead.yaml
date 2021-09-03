@@ -34,12 +34,12 @@ features:
 #        - "postgresql@11-main"
 
 #ports:
-#    - send: 3306 # MySQL/MariaDB
-#      to: 33060
+#    - send: 33060 # MySQL/MariaDB
+#      to: 3306
 #    - send: 4040
 #      to: 4040
-#    - send: 5432 # PostgreSQL
-#      to: 54320
+#    - send: 54320 # PostgreSQL
+#      to: 5432
 #    - send: 8025 # Mailhog
 #      to: 8025
 #    - send: 9600
