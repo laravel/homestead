@@ -72,14 +72,19 @@ class WslCreateSiteCommand extends Command
         $settings = $this->parseSettingsFromFile($format, []);
 
         foreach ($settings['wsl_sites'] as $key => $site) {
-            $type = isset($site['type']) ? $site['type'] : 'laravel';
+            $type = $site['type'] ?? 'laravel';
             $create_cmd = '';
             $args = [
-                $site['map'],                                 // $1
-                $site['to'], // $2
-                isset($site['port']) ? $site['port'] : 80,    // $3
-                isset($site['ssl']) ? $site['ssl'] : 443,     // $4
-                isset($site['php']) ? $site['php'] : '7.4',   // $5
+                $site['map'],           // $1
+                $site['to'],            // $2
+                $site['port'] ?? 80,    // $3
+                $site['ssl'] ?? 443,    // $4
+                $site['php'] ?? '7.4',  // $5
+                '',                     // $6 params
+                $site['xhgui'] ?? '',   // $7
+                $site['exec'] ?? false, // $8
+                '',                     // $9 headers
+                '',                     // $10 rewrites
             ];
             $create_cmd = "sudo bash {$this->basePath}/scripts/site-types/{$type}.sh {$args[0]} \"{$args[1]}\"";
             $create_cmd .= " {$args[2]} {$args[3]} {$args[4]}";
