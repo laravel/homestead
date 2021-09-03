@@ -87,7 +87,8 @@ class WslCreateSiteCommand extends Command
                 '',                     // $10 rewrites
             ];
             $create_cmd = "sudo bash {$this->basePath}/scripts/site-types/{$type}.sh {$args[0]} \"{$args[1]}\"";
-            $create_cmd .= " {$args[2]} {$args[3]} {$args[4]}";
+            $create_cmd .= " {$args[2]} {$args[3]} {$args[4]} {$args[5]} {$args[6]} {$args[7]} {$args[8]} {$args[9]}";
+            $create_cmd .= " {$args[10]}";
 
             // run command to create the site
             $shell_output = shell_exec($create_cmd);
