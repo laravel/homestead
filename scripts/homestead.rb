@@ -226,21 +226,6 @@ class Homestead
     config.vm.provision "mk_features", type: "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "own_features", type: "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
-    # Enable Services
-    if settings.has_key?('services')
-      settings['services'].each do |service|
-        service['enabled'].each do |enable_service|
-          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
-          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
-        end if service.include?('enabled')
-
-        service['disabled'].each do |disable_service|
-          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
-          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
-        end if service.include?('disabled')
-      end
-    end
-
     # Install opt-in features
     if settings.has_key?('features')
       config.vm.provision "apt_update", type: "shell", inline: "apt-get update"
@@ -280,6 +265,21 @@ class Homestead
           s.path = feature_path
           s.env = feature_variables
         end
+      end
+    end
+
+    # Enable Services
+    if settings.has_key?('services')
+      settings['services'].each do |service|
+        service['enabled'].each do |enable_service|
+          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
+          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
+        end if service.include?('enabled')
+
+        service['disabled'].each do |disable_service|
+          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
+          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
+        end if service.include?('disabled')
       end
     end
 
