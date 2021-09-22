@@ -1,4 +1,4 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-homestead.svg"></p>
+<p align="center"><img src="/art/logo.svg"></p>
 
 <p align="center">
     <a href="https://github.com/laravel/homestead/actions">
