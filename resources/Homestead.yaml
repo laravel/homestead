@@ -27,9 +27,9 @@ features:
     - ohmyzsh: false
     - webdriver: false
 
-#services:
-#    - enabled:
-#        - "postgresql@12-main"
+services:
+    - enabled:
+          - "mysql"
 #    - disabled:
 #        - "postgresql@11-main"
 
