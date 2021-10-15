@@ -38,5 +38,10 @@
         {
             "webdriver": false
         }
+    ],
+    "services": [
+        {
+            "mysql": true
+        }
     ]
 }
