@@ -91,19 +91,18 @@ block="server {
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ \.php$ {
         try_files \$uri @elgg;
-        fastcgi_index index.php;
         fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include /etc/nginx/fastcgi_params;
+        fastcgi_index index.php;
+        include fastcgi.conf;
     }
 
     location @elgg {
         fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
 
-        include /etc/nginx/fastcgi_params;
+        include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root/index.php;
-        fastcgi_param SCRIPT_NAME     /index.php;
-        fastcgi_param QUERY_STRING    __elgg_uri=\$uri&\$args;
+        fastcgi_param SCRIPT_NAME /index.php;
+        fastcgi_param QUERY_STRING __elgg_uri=\$uri&\$args;
     }
 
     ssl_certificate     /etc/ssl/certs/$1.crt;

@@ -76,8 +76,8 @@ block="server {
         fastcgi_keep_conn on;
         fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
         fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include        fastcgi_params;
+
+        include fastcgi.conf;
         $paramsTXT
     }
 
@@ -120,15 +120,16 @@ block="server {
     }
 
     location ~ \.php$ {
-        fastcgi_keep_conn on;
-        fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
-        fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include        fastcgi_params;
+        fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
+        fastcgi_index index.php;
+
+        include fastcgi.conf;
+        $paramsTXT
+
         fastcgi_buffer_size 32k;
         fastcgi_busy_buffers_size 64k;
+        fastcgi_keep_conn on;
         fastcgi_buffers 4 32k;
-        $paramsTXT
     }
 
     $configureXhgui

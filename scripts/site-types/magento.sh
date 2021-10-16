@@ -29,17 +29,16 @@ block="server {
     location ~* ^/setup($|/) {
         root \$MAGE_ROOT;
         location ~ ^/setup/index.php {
-            fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
+            fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
+            fastcgi_index index.php;
 
-            fastcgi_param  PHP_FLAG  \"session.auto_start=off \n suhosin.session.cryptua=off\";
-            fastcgi_param  PHP_VALUE \"memory_limit=756M \n max_execution_time=600\";
+            include fastcgi.conf;
+            fastcgi_param PHP_FLAG  \"session.auto_start=off \n suhosin.session.cryptua=off\";
+            fastcgi_param PHP_VALUE \"memory_limit=756M \n max_execution_time=600\";
+            $paramsTXT
+
             fastcgi_read_timeout 600s;
             fastcgi_connect_timeout 600s;
-
-            fastcgi_index  index.php;
-            fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
-            $paramsTXT
-            include        fastcgi_params;
         }
 
         location ~ ^/setup/(?!pub/). {
@@ -57,12 +56,12 @@ block="server {
 
         location ~ ^/update/index.php {
             fastcgi_split_path_info ^(/update/index.php)(/.+)$;
-            fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
-            fastcgi_index  index.php;
-            fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
-            fastcgi_param  PATH_INFO        \$fastcgi_path_info;
+            fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
+            fastcgi_index index.php;
+
+            include fastcgi.conf;
+            fastcgi_param PATH_INFO \$fastcgi_path_info;
             $paramsTXT
-            include        fastcgi_params;
         }
 
         # Deny everything but index.php
@@ -157,19 +156,18 @@ block="server {
     # PHP entry point for main application
     location ~ ^/(index|get|static|errors/report|errors/404|errors/503|health_check)\.php$ {
         try_files \$uri =404;
-        fastcgi_pass   unix:/var/run/php/php$5-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php$5-fpm.sock;
+        fastcgi_index index.php;
+
+        include fastcgi.conf;
+        fastcgi_param PHP_FLAG \"session.auto_start=off \n suhosin.session.cryptua=off\";
+        fastcgi_param PHP_VALUE \"memory_limit=756M \n max_execution_time=18000\";
+        $paramsTXT
+
         fastcgi_buffers 16 16k;
         fastcgi_buffer_size 32k;
-
-        fastcgi_param  PHP_FLAG  \"session.auto_start=off \n suhosin.session.cryptua=off\";
-        fastcgi_param  PHP_VALUE \"memory_limit=756M \n max_execution_time=18000\";
         fastcgi_read_timeout 600s;
         fastcgi_connect_timeout 600s;
-
-        fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
-        $paramsTXT
-        include        fastcgi_params;
     }
 
     gzip on;
