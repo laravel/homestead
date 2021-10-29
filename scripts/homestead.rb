@@ -226,6 +226,15 @@ class Homestead
     config.vm.provision "mk_features", type: "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "own_features", type: "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
+    #change software source
+    if settings.has_key?('sources')
+      config.vm.provision 'shell' do |s|
+        s.name = 'Change Software Source'
+        s.path = script_dir + '/change-sources.sh'
+        s.args = [settings['sources']]
+      end
+    end
+
     # Install opt-in features
     if settings.has_key?('features')
       if settings.has_key?('in-flight-service')
