@@ -1,6 +1,4 @@
 ---
-#Software source address, Please enter the address you want, http://archive.ubuntu.com is the default address
-sources: "http://archive.ubuntu.com"
 ip: "192.168.10.10"
 memory: 2048
 cpus: 2
