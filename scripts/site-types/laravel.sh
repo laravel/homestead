@@ -37,10 +37,23 @@ location /xhgui {
 else configureXhgui=""
 fi
 
+listen_80="${3:-80}"
+listen_443="${4:-443} ssl http2"
+server_name=".$1"
+if [[ "${11}" != "false" ]]; then
+    listen_80="80 default_server"
+    listen_443="[::]:80 default_server"
+    server_name="_"
+fi
+
+sudo service apache2 stop
+sudo systemctl disable apache2
+sudo systemctl enable nginx
+
 block="server {
-    listen ${3:-80};
-    listen ${4:-443} ssl http2;
-    server_name .$1;
+    listen $listen_80;
+    listen $listen_443;
+    server_name $server_name;
     root \"$2\";
 
     index index.html index.htm index.php;

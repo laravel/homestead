@@ -226,6 +226,15 @@ class Homestead
     config.vm.provision "mk_features", type: "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "own_features", type: "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
+    #change software source
+    if settings.has_key?('sources')
+      config.vm.provision 'shell' do |s|
+        s.name = 'Change Software Source'
+        s.path = script_dir + '/change-sources.sh'
+        s.args = [settings['sources']]
+      end
+    end
+
     # Install opt-in features
     if settings.has_key?('features')
       if settings.has_key?('in-flight-service')
@@ -295,6 +304,11 @@ class Homestead
       s.path = script_dir + '/clear-nginx.sh'
     end
 
+    # Clear any existing apache sites
+    config.vm.provision 'shell' do |s|
+      s.path = script_dir + '/clear-apache.sh'
+    end
+
     # Clear any Homestead sites and insert markers in /etc/hosts
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/hosts-reset.sh'
@@ -305,7 +319,14 @@ class Homestead
 
       domains = []
 
+      site_default = false
+
       settings['sites'].each do |site|
+        # Default site configuration, Only allow the first site with default configuration to be valid
+        if site_default == false and site['default'] == true
+          default = 'true'
+          site_default = true
+        end
 
         domains.push(site['map'])
 
@@ -383,7 +404,8 @@ class Homestead
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
               headers ||= '',             # $9
-              rewrites ||= ''             # $10
+              rewrites ||= '',            # $10
+              default ||= 'false'         # $11
           ]
 
           # Should we use the wildcard ssl?
