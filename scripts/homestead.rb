@@ -304,6 +304,11 @@ class Homestead
       s.path = script_dir + '/clear-nginx.sh'
     end
 
+    # Clear any existing apache sites
+    config.vm.provision 'shell' do |s|
+      s.path = script_dir + '/clear-apache.sh'
+    end
+
     # Clear any Homestead sites and insert markers in /etc/hosts
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/hosts-reset.sh'
@@ -314,7 +319,15 @@ class Homestead
 
       domains = []
 
+      site_default = false
+
       settings['sites'].each do |site|
+        # Default site configuration
+        # Only allow the first site with default configuration to be valid
+        if site_default == false and site['default'] == true
+          default = 'true'
+          site_default = true
+        end
 
         domains.push(site['map'])
 
@@ -392,7 +405,8 @@ class Homestead
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
               headers ||= '',             # $9
-              rewrites ||= ''             # $10
+              rewrites ||= '',            # $10
+              default ||= 'false'         # $11
           ]
 
           # Should we use the wildcard ssl?

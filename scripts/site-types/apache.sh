@@ -21,6 +21,7 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+# Free switching between nginx and apache
 sudo service nginx stop
 sudo systemctl disable nginx
 sudo systemctl enable apache2
@@ -62,8 +63,15 @@ block="<VirtualHost *:$3>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 "
 
-echo "$block" > "/etc/apache2/sites-available/$1.conf"
-ln -fs "/etc/apache2/sites-available/$1.conf" "/etc/apache2/sites-enabled/$1.conf"
+# Default site configuration
+if [[ "${11}" == "false" ]]; then
+  echo "$block" > "/etc/apache2/sites-available/$1.conf"
+  ln -fs "/etc/apache2/sites-available/$1.conf" "/etc/apache2/sites-enabled/$1.conf"
+else
+  echo "$block" >"/etc/apache2/sites-available/000-default.conf"
+  ln -fs "/etc/apache2/sites-available/000-default.conf" "/etc/apache2/sites-enabled/000-default.conf"
+fi
+
 
 blockssl="<IfModule mod_ssl.c>
     <VirtualHost *:$4>
@@ -140,8 +148,14 @@ blockssl="<IfModule mod_ssl.c>
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 "
 
-echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
-ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
+# Default site configuration
+if [[ "${11}" == "false" ]]; then
+  echo "$blockssl" > "/etc/apache2/sites-available/$1-ssl.conf"
+  ln -fs "/etc/apache2/sites-available/$1-ssl.conf" "/etc/apache2/sites-enabled/$1-ssl.conf"
+else
+  echo "$blockssl" >"/etc/apache2/sites-available/default-ssl.conf"
+  ln -fs "/etc/apache2/sites-available/000-default-ssl.conf" "/etc/apache2/sites-enabled/default-ssl.conf"
+fi
 
 ps auxw | grep apache2 | grep -v grep > /dev/null
 
