@@ -1,5 +1,4 @@
 {
-    "sources": "http://archive.ubuntu.com",
     "ip": "192.168.10.10",
     "memory": 2048,
     "cpus": 2,
