@@ -19,15 +19,16 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/golang
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-ARCH=$(echo uname -a)
+ARCH=$(arch)
 
 # Install Golang
 golangVersion="1.17.2"
-if $ARCH | grep aarch64; then
-  wget https://dl.google.com/go/go${golangVersion}.darwin-arm64.tar.gz -O golang.tar.gz
+if [[ "$ARCH" == "aarch64" ]]; then
+  wget https://dl.google.com/go/go${golangVersion}.linux-arm64.tar.gz -O golang.tar.gz
 else
   wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
 fi
+
 
 tar -C /usr/local -xzf golang.tar.gz go
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
