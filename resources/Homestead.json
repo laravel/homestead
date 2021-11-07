@@ -1,5 +1,5 @@
 {
-    "ip": "192.168.10.10",
+    "ip": "192.168.56.56",
     "memory": 2048,
     "cpus": 2,
     "provider": "virtualbox",

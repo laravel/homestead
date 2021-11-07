@@ -17,7 +17,7 @@ class JsonSettingsTest extends TestCase
         $settings = JsonSettings::fromFile(__DIR__.'/../../resources/Homestead.json');
 
         self::assertArraySubset([
-            'ip' => '192.168.10.10',
+            'ip' => '192.168.56.56',
             'memory' => '2048',
             'cpus' => '2',
         ], $settings->toArray());
@@ -27,7 +27,7 @@ class JsonSettingsTest extends TestCase
     public function it_can_be_saved_to_a_file()
     {
         $settings = new JsonSettings([
-            'ip' => '192.168.10.10',
+            'ip' => '192.168.56.56',
             'memory' => '2048',
             'cpus' => 1,
         ]);
@@ -38,7 +38,7 @@ class JsonSettingsTest extends TestCase
         $this->assertFileExists($filename);
         $attributes = json_decode(file_get_contents($filename), true);
         self::assertArraySubset([
-            'ip' => '192.168.10.10',
+            'ip' => '192.168.56.56',
             'memory' => '2048',
             'cpus' => '1',
         ], $settings->toArray());
@@ -48,7 +48,7 @@ class JsonSettingsTest extends TestCase
     public function it_can_update_its_attributes()
     {
         $settings = new JsonSettings([
-            'ip' => '192.168.10.10',
+            'ip' => '192.168.56.56',
             'memory' => '2048',
             'cpus' => 1,
         ]);
@@ -70,7 +70,7 @@ class JsonSettingsTest extends TestCase
     public function it_updates_only_not_null_attributes()
     {
         $settings = new JsonSettings([
-            'ip' => '192.168.10.10',
+            'ip' => '192.168.56.56',
             'memory' => '2048',
             'cpus' => 1,
         ]);
@@ -82,7 +82,7 @@ class JsonSettingsTest extends TestCase
         ]);
 
         self::assertArraySubset([
-            'ip' => '192.168.10.10',
+            'ip' => '192.168.56.56',
             'memory' => '2048',
             'cpus' => '1',
         ], $settings->toArray());
