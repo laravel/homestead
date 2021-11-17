@@ -55,8 +55,8 @@ class WslCreateSiteCommand extends Command
     /**
      * Execute the command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
      * @return int
      */
     public function execute(InputInterface $input, OutputInterface $output)
@@ -72,17 +72,38 @@ class WslCreateSiteCommand extends Command
         $settings = $this->parseSettingsFromFile($format, []);
 
         foreach ($settings['wsl_sites'] as $key => $site) {
-            $type = isset($site['type']) ? $site['type'] : 'laravel';
+            $type = $site['type'] ?? 'laravel';
             $create_cmd = '';
+            $headers = false;
+            $rewrites = false;
+            // check & process headers
+            if (array_key_exists('headers', $site)) {
+                foreach ($site['headers'] as $header) {
+                    $headers[$header['key']] = $header['value'];
+                }
+            }
+            // check & process rewrites
+            if (array_key_exists('rewrites', $site)) {
+                foreach ($site['rewrites'] as $rewrite) {
+                    $rewrites[$rewrite['map']] = $rewrite['to'];
+                }
+            }
+
             $args = [
-                $site['map'],                                 // $1
-                $site['to'], // $2
-                isset($site['port']) ? $site['port'] : 80,    // $3
-                isset($site['ssl']) ? $site['ssl'] : 443,     // $4
-                isset($site['php']) ? $site['php'] : '7.4',   // $5
+                $site['map'],           // $0
+                $site['to'],            // $1
+                $site['port'] ?? 80,    // $2
+                $site['ssl'] ?? 443,    // $3
+                $site['php'] ?? '8.0',  // $4
+                '',                     // $5 params
+                $site['xhgui'] ?? '',   // $6
+                $site['exec'] ?? false, // $7
+                $headers,               // $8 headers
+                $rewrites,              // $9 rewrites
             ];
+
             $create_cmd = "sudo bash {$this->basePath}/scripts/site-types/{$type}.sh {$args[0]} \"{$args[1]}\"";
-            $create_cmd .= " {$args[2]} {$args[3]} {$args[4]}";
+            $create_cmd .= " {$args[2]} {$args[3]} {$args[4]} {$args[5]} {$args[6]} {$args[7]} {$args[8]} {$args[9]}";
 
             // run command to create the site
             $shell_output = shell_exec($create_cmd);
@@ -109,8 +130,8 @@ class WslCreateSiteCommand extends Command
     }
 
     /**
-     * @param string $format
-     * @param array $options
+     * @param  string  $format
+     * @param  array  $options
      * @return mixed
      */
     protected function parseSettingsFromFile(string $format, array $options)
