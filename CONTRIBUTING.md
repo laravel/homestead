@@ -9,8 +9,9 @@
 ## Let's Go
 
 -   Install Vagrant
--   Install Virtual Box (Parallels for M1 Macs)
--   Mac M1 run
+-   (Windows/Intel Macs) Install Virtual Box
+-   (M1 Macs) Install Parallels Desktop
+-   (M1 Macs) run
 
         vagrant plugin install vagrant-parallels
 
