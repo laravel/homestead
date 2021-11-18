@@ -227,6 +227,8 @@ _Password_: **password**
 
 ### Setting up Campground Reviews
 
+-   As of 2021/11/18 CGR requires Node 15.x.x.
+
 Get the database backups from Mike. There are two .sql files in the allrvpr.tar.gz archive. To uncompress the archive:
 
     gzip -d allrvpr.tar.gz
