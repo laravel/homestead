@@ -10,6 +10,10 @@
 
 -   Install Vagrant
 -   Install Virtual Box (Parallels for M1 Macs)
+-   Mac M1 run
+
+        vagrant plugin install vagrant-parallels
+
 -   Install Node (MacOs should have this already)
 -   Install NPM (MacOs should have this already)
 
@@ -94,10 +98,34 @@
 
     (Mac M1) If you encounter an error with the previous step:
 
-        vagrant ssh
-        sudo apt-get install mongodb
-        exit
-        vagrant reload --provision
+    -   (might need to change `bindIp` in `etc/mongod.conf` to `0.0.0.0`)
+    -   (might need to add `extension=mongodb.so` to `/etc/php/7.3/cli/php.ini`)
+
+              vagrant ssh
+              sudo apt-get purge mongodb-org*
+              sudo apt remove mongodb
+              sudo apt purge mongodb
+              sudo apt autoremove
+              sudo rm -r /var/log/mongodb
+              sudo rm -r /var/lib/mongodb
+              sudo apt-get install gnupg
+              wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+              echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+              sudo apt-get update
+              sudo apt-get upgrade
+              sudo apt update
+              sudo apt upgrade
+              sudo apt-get install -y mongodb-org
+              sudo apt-get install libc6
+              sudo service mongod start
+              sudo su
+              service mongod stop
+              systemctl start mongod
+              systemctl enable mongodb.service
+              exit
+              sudo apt-get install php7.3-mongodb
+              exit
+              vagrant reload --provision
 
 You are now logged into the box.
 
@@ -125,13 +153,13 @@ For MacOs:
 
 Then Add at the end:
 
-    192.168.10.10 local.rvlife.com
-    192.168.10.10 my-local.rvlife.com
-    192.168.10.10 local.rvtripwizard.com
-    192.168.10.10 dev-cypress.rvtripwizard.com
-    192.168.10.10 local.campgroundreviews.com
-    192.168.10.10 api-local.campgroundreviews.com
-    192.168.10.10 admin-local.campgroundreviews.com
+    192.168.56.56 local.rvlife.com
+    192.168.56.56 my-local.rvlife.com
+    192.168.56.56 local.rvtripwizard.com
+    192.168.56.56 dev-cypress.rvtripwizard.com
+    192.168.56.56 local.campgroundreviews.com
+    192.168.56.56 api-local.campgroundreviews.com
+    192.168.56.56 admin-local.campgroundreviews.com
     127.0.0.1 profile-local.rvlife.com
 
 ### Setting up RV Trip Wizard
@@ -201,7 +229,7 @@ _Password_: **password**
 
 Get the database backups from Mike. There are two .sql files in the allrvpr.tar.gz archive. To uncompress the archive:
 
-    gzip -d \*.gz
+    gzip -d allrvpr.tar.gz
     tar -xvf allrvpr.tar
 
 Place the files in the following directory:
