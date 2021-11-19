@@ -100,7 +100,6 @@
     (Mac M1) If you encounter an error with the previous step:
 
     -   (might need to change `bindIp` in `etc/mongod.conf` to `0.0.0.0`)
-    -   (might need to add `extension=mongodb.so` to `/etc/php/7.3/cli/php.ini`)
 
               vagrant ssh
               sudo apt-get purge mongodb-org*
