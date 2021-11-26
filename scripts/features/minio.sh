@@ -16,10 +16,17 @@ then
     exit 0
 fi
 
+ARCH=$(echo uname -a)
+
+
 touch /home/$WSL_USER_NAME/.homestead-features/minio
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-wget https://dl.minio.io/server/minio/release/linux-amd64/minio
+if $ARCH | grep aarch64; then
+  wget https://dl.minio.io/server/minio/release/linux-arm64/minio
+else
+  wget https://dl.minio.io/server/minio/release/linux-amd64/minio
+fi
 
 sudo chmod +x minio
 sudo mv minio /usr/local/bin
