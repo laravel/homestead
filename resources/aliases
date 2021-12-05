@@ -7,7 +7,6 @@ alias art=artisan
 
 alias codecept='vendor/bin/codecept'
 alias phpspec='vendor/bin/phpspec'
-alias phpunit='vendor/bin/phpunit'
 alias serve=serve-laravel
 
 alias xoff='sudo phpdismod -s cli xdebug'
@@ -43,6 +42,22 @@ function dusk() {
         php artisan dusk --filter "$@"
     fi
 }
+
+function p() {
+    if [ -f vendor/bin/pest ]; then
+       vendor/bin/pest "$@"
+    else
+       vendor/bin/phpunit "$@"
+    fi
+ }
+ 
+ function pf() {
+    if [ -f vendor/bin/pest ]; then
+       vendor/bin/pest --filter "$@"
+    else
+       vendor/bin/phpunit --filter "$@"
+    fi
+ }
 
 function php56() {
     sudo update-alternatives --set php /usr/bin/php5.6
