@@ -22,7 +22,7 @@ ARCH=$(echo uname -a)
 touch /home/$WSL_USER_NAME/.homestead-features/minio
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-if $ARCH | grep aarch64; then
+if [[ "$ARCH" == "aarch64" ]]; then
   curl -sO https://dl.minio.io/server/minio/release/linux-arm64/minio
 else
   curl -sO https://dl.minio.io/server/minio/release/linux-amd64/minio
@@ -56,7 +56,7 @@ sudo systemctl start minio
 sudo ufw allow 9600
 
 # Installing Minio Client
-if $ARCH | grep aarch64; then
+if [[ "$ARCH" == "aarch64" ]]; then
   curl -sO https://dl.minio.io/client/mc/release/linux-arm64/mc
 else
   curl -sO https://dl.minio.io/client/mc/release/linux-amd64/mc
