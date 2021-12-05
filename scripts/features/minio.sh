@@ -16,7 +16,7 @@ then
     exit 0
 fi
 
-ARCH=$(echo uname -a)
+ARCH=$(arch)
 
 
 touch /home/$WSL_USER_NAME/.homestead-features/minio
