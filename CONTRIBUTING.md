@@ -257,7 +257,7 @@ Inside the vagrant box (vagrant ssh), perform the following steps :
     cd /home/vagrant/cgr-admin
     bash after.sh
 
-Campground Reviews should now be accessible at <https://local.campgroundreviews.com>  
+Campground Reviews should now be accessible at <https://campgrounds.local-rvlife.com/>  
 Complete the SSL section below to remove the browser warning
 
 ## Sphinx Search
