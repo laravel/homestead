@@ -157,8 +157,8 @@ Then Add at the end:
     192.168.56.56 my-local.rvlife.com
     192.168.56.56 local.rvtripwizard.com
     192.168.56.56 dev-cypress.rvtripwizard.com
-    192.168.56.56 local.campgroundreviews.com
-    192.168.56.56 api-local.campgroundreviews.com
+    192.168.56.56 campgrounds.local-rvlife.com
+    192.168.56.56 cgr-api.local-rvlife.com
     192.168.56.56 admin-local.campgroundreviews.com
     127.0.0.1 profile-local.rvlife.com
 
