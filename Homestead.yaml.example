@@ -46,12 +46,12 @@ sites:
      php: "7.4"
      type: "apache"     
 
-   - map: local.campgroundreviews.com
+   - map: campgrounds.local-rvlife.com
      to: /home/vagrant/cgr/public
      php: "7.3"
      type: "apache"
 
-   - map: api-local.campgroundreviews.com
+   - map: cgr-api.local-rvlife.com
      to: /home/vagrant/cgr/public
      php: "7.3"
      type: "apache"
