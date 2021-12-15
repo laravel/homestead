@@ -16,10 +16,17 @@ then
     exit 0
 fi
 
+ARCH=$(arch)
+
+
 touch /home/$WSL_USER_NAME/.homestead-features/minio
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-wget https://dl.minio.io/server/minio/release/linux-amd64/minio
+if [[ "$ARCH" == "aarch64" ]]; then
+  curl -sO https://dl.minio.io/server/minio/release/linux-arm64/minio
+else
+  curl -sO https://dl.minio.io/server/minio/release/linux-amd64/minio
+fi
 
 sudo chmod +x minio
 sudo mv minio /usr/local/bin
@@ -49,7 +56,12 @@ sudo systemctl start minio
 sudo ufw allow 9600
 
 # Installing Minio Client
-curl -sO https://dl.minio.io/client/mc/release/linux-amd64/mc
+if [[ "$ARCH" == "aarch64" ]]; then
+  curl -sO https://dl.minio.io/client/mc/release/linux-arm64/mc
+else
+  curl -sO https://dl.minio.io/client/mc/release/linux-amd64/mc
+fi
+
 chmod +x mc
 sudo mv mc /usr/local/bin
 mc config host add homestead http://127.0.1.1:9600 homestead secretkey

@@ -19,13 +19,13 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '>= 11.0.0, < 12.0.0'
+      config.vm.box_version = settings['version'] ||= '>= 12.0.0, < 13.0.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
     # Configure A Private Network IP
     if settings['ip'] != 'autonetwork'
-      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.10.10'
+      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56'
     else
       config.vm.network :private_network, ip: '0.0.0.0', auto_network: true
     end
@@ -118,12 +118,6 @@ class Homestead
     default_ports = {
       80 => 8000,
       443 => 44300,
-      3306 => 33060,
-      4040 => 4040,
-      5432 => 54320,
-      8025 => 8025,
-      9600 => 9600,
-      27017 => 27017
     }
 
     # Use Default Port Forwarding Unless Overridden
@@ -232,23 +226,16 @@ class Homestead
     config.vm.provision "mk_features", type: "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
     config.vm.provision "own_features", type: "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
 
-    # Enable Services
-    if settings.has_key?('services')
-      settings['services'].each do |service|
-        service['enabled'].each do |enable_service|
-          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
-          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
-        end if service.include?('enabled')
-
-        service['disabled'].each do |disable_service|
-          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
-          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
-        end if service.include?('disabled')
-      end
-    end
-
     # Install opt-in features
     if settings.has_key?('features')
+      if settings.has_key?('in-flight-service')
+        config.vm.provision 'shell' do |s|
+          s.name = 'Running our in-flight-service.'
+          s.path = script_dir + '/in-flight-service.sh'
+        end
+      end
+
+      config.vm.provision "apt_update", type: "shell", inline: "apt-get update"
 
       # Ensure we have PHP versions used in sites in our features
       if settings.has_key?('sites')
@@ -285,6 +272,21 @@ class Homestead
           s.path = feature_path
           s.env = feature_variables
         end
+      end
+    end
+
+    # Enable Services
+    if settings.has_key?('services')
+      settings['services'].each do |service|
+        service['enabled'].each do |enable_service|
+          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
+          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
+        end if service.include?('enabled')
+
+        service['disabled'].each do |disable_service|
+          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
+          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
+        end if service.include?('disabled')
       end
     end
 
@@ -376,7 +378,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '8.0',      # $5
+              site['php'] ||= '8.1',      # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
@@ -516,13 +518,18 @@ class Homestead
         end
 
         config.vm.provision 'shell' do |s|
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/8.1/fpm/pool.d/www.conf"
+          s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
           s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
           s.args = [var['key'], var['value']]
         end
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart; service php8.0-fpm restart;'
+        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart; service php8.0-fpm restart; service php8.1-fpm restart;'
       end
     end
 

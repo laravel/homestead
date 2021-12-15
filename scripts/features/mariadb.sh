@@ -29,7 +29,7 @@ apt-get remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
 
-rm -rf /var/lib/mysql
+rm -rf /var/lib/mysql/*
 rm -rf /var/log/mysql
 rm -rf /etc/mysql
 

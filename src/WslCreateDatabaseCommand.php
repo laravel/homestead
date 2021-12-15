@@ -55,8 +55,8 @@ class WslCreateDatabaseCommand extends Command
     /**
      * Execute the command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
      * @return int
      */
     public function execute(InputInterface $input, OutputInterface $output)
@@ -81,8 +81,8 @@ class WslCreateDatabaseCommand extends Command
     }
 
     /**
-     * @param string $format
-     * @param array $options
+     * @param  string  $format
+     * @param  array  $options
      * @return mixed
      */
     protected function parseSettingsFromFile(string $format, array $options)
