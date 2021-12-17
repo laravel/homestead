@@ -665,6 +665,10 @@ class Homestead
         if enabled_databases.include? 'postgresql'
           Homestead.backup_postgres(database, "#{dir_prefix}/postgres_backup", config)
         end
+        # Backup MongoDB
+        if enabled_databases.include? 'mongodb'
+          Homestead.backup_mongodb(database, "#{dir_prefix}/mongodb_backup", config)
+        end
       end
     end
 
@@ -692,6 +696,14 @@ class Homestead
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up postgres database #{database}..."
       trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && echo localhost:5432:#{database}:homestead:secret > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U homestead -h localhost #{database} > #{dir}/#{now}/#{database}-#{now}.sql"}
+    end
+  end
+
+  def self.backup_mongodb(database, dir, config)
+    now = Time.now.strftime("%Y%m%d%H%M")
+    config.trigger.before :destroy do |trigger|
+      trigger.warn = "Backing up mongodb database #{database}..."
+      trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && mongodump --db #{database} --out #{dir}/#{now}"}
     end
   end
 end
