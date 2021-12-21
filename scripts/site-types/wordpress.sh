@@ -118,6 +118,8 @@ if ( ! defined( 'WP_CONTENT_DIR' ) ) {\\n\
 if ( ! defined( 'WP_CONTENT_URL' ) ) {\\n\
 	define( 'WP_CONTENT_URL', WP_HOME . '/wp-content' );\\n\
 }\\n\
+\\n\
+define( 'WP_DEBUG', true ); \\n\
 "
 
 
