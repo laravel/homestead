@@ -19,7 +19,7 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '>= 11.0.0, < 12.0.0'
+      config.vm.box_version = settings['version'] ||= '>= 12.0.0, < 13.0.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
@@ -378,7 +378,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '8.0',      # $5
+              site['php'] ||= '8.1',      # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
@@ -518,13 +518,18 @@ class Homestead
         end
 
         config.vm.provision 'shell' do |s|
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/8.1/fpm/pool.d/www.conf"
+          s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
           s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
           s.args = [var['key'], var['value']]
         end
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart; service php8.0-fpm restart;'
+        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart; service php8.0-fpm restart; service php8.1-fpm restart;'
       end
     end
 
@@ -660,6 +665,10 @@ class Homestead
         if enabled_databases.include? 'postgresql'
           Homestead.backup_postgres(database, "#{dir_prefix}/postgres_backup", config)
         end
+        # Backup MongoDB
+        if enabled_databases.include? 'mongodb'
+          Homestead.backup_mongodb(database, "#{dir_prefix}/mongodb_backup", config)
+        end
       end
     end
 
@@ -687,6 +696,14 @@ class Homestead
     config.trigger.before :destroy do |trigger|
       trigger.warn = "Backing up postgres database #{database}..."
       trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && echo localhost:5432:#{database}:homestead:secret > ~/.pgpass && chmod 600 ~/.pgpass && pg_dump -U homestead -h localhost #{database} > #{dir}/#{now}/#{database}-#{now}.sql"}
+    end
+  end
+
+  def self.backup_mongodb(database, dir, config)
+    now = Time.now.strftime("%Y%m%d%H%M")
+    config.trigger.before :destroy do |trigger|
+      trigger.warn = "Backing up mongodb database #{database}..."
+      trigger.run_remote = {inline: "mkdir -p #{dir}/#{now} && mongodump --db #{database} --out #{dir}/#{now}"}
     end
   end
 end

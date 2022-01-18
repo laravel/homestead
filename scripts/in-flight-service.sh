@@ -4,5 +4,5 @@
 # Without having to ship an entirely new base box.
 
 # Fix expired certs: https://github.com/laravel/homestead/issues/1707
-sudo rm -rf /usr/share/ca-certificates/mozilla/DST_Root_CA_X3.crt
-sudo update-ca-certificates
+# sudo rm -rf /usr/share/ca-certificates/mozilla/DST_Root_CA_X3.crt
+# sudo update-ca-certificates
