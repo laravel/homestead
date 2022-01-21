@@ -141,6 +141,10 @@ echo "xdebug.mode = off" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.discover_client_host = true" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.client_port = 9003" >> /etc/php/8.0/mods-available/xdebug.ini
 echo "xdebug.max_nesting_level = 512" >> /etc/php/8.0/mods-available/xdebug.ini
+
+# Setup opcache
+echo "opcache.enable = 1" >> /etc/php/8.0/mods-available/opcache.ini
+echo "opcache.enable_cli = 1" >> /etc/php/8.0/mods-available/opcache.ini
 echo "opcache.revalidate_freq = 0" >> /etc/php/8.0/mods-available/opcache.ini
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.0/fpm/php.ini
