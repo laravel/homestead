@@ -328,6 +328,7 @@ class Homestead
         load_balancer = settings['load_balancer'] ||= false
         http_port = load_balancer ? '8111' : '80'
         https_port = load_balancer ? '8112' : '443'
+        site_php = settings.has_key?('php') ? settings['php'] : '8.1'
 
         if load_balancer
           config.vm.provision 'shell' do |s|
@@ -378,7 +379,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '8.1',      # $5
+              site['php'] ||= site_php,   # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
