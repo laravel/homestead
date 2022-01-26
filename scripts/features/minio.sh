@@ -29,8 +29,7 @@ else
 fi
 
 sudo chmod +x minio
-sudo mkdir -p /opt/bin
-sudo mv minio /opt/bin
+sudo mv minio /usr/local/bin
 sudo useradd -r minio-user -s /sbin/nologin
 sudo mkdir /usr/local/share/minio
 sudo mkdir /etc/minio
