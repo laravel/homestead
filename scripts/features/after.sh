@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# Remove unused php version
+for version in 5.6 7.0 7.1 7.2 7.3 7.4 8.1
+do
+    sudo update-alternatives --remove php /usr/bin/php$version
+    sudo update-alternatives --remove php-config /usr/bin/php-config$version
+    sudo update-alternatives --remove phpize /usr/bin/phpize$version
+    sudo apt purge -y "php${version}*"
+    sudo systemctl disable "php${version}-fpm.service"
+done
+
 # php memory limit
 sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 2080M/" /etc/php/8.0/fpm/php.ini
 sudo sed -i "s/memory_limit\ =\ .*/memory_limit\ =\ 2080M/" /etc/php/8.0/cli/php.ini
