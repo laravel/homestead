@@ -374,16 +374,17 @@ class Homestead
           # specific site type script (defaults to laravel)
           s.path = script_dir + "/site-types/#{type}.sh"
           s.args = [
-              site['map'],                # $1
-              site['to'],                 # $2
-              site['port'] ||= http_port, # $3
-              site['ssl'] ||= https_port, # $4
-              site['php'] ||= '8.1',      # $5
-              params ||= '',              # $6
-              site['xhgui'] ||= '',       # $7
-              site['exec'] ||= 'false',   # $8
-              headers ||= '',             # $9
-              rewrites ||= ''             # $10
+              site['map'],                   # $1
+              site['to'],                    # $2
+              site['port'] ||= http_port,    # $3
+              site['ssl'] ||= https_port,    # $4
+              site['php'] ||= '8.1',         # $5
+              params ||= '',                 # $6
+              site['xhgui'] ||= '',          # $7
+              site['exec'] ||= 'false',      # $8
+              headers ||= '',                # $9
+              rewrites ||= '',               # $10
+              site['webman_port'] ||= '8787' # $11
           ]
 
           # Should we use the wildcard ssl?
