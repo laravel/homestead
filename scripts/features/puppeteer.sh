@@ -25,11 +25,11 @@ echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee
 
 apt-get update
 
-apt-get -y install libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb gtk2-engines-pixbuf \
+apt-get -y install libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 chromium-browser xvfb gtk2-engines-pixbuf \
 xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps google-chrome-stable \
 fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf
 
 npm config set puppeteer_skip_chromium_download true -g && npm install --unsafe-perm --global puppeteer
 
-ln -s /usr/bin/google-chrome-stable /usr/bin/google-chrome
+ln -s /usr/bin/google-chrome-stable
 chmod -R o+rx /usr/bin/google-chrome*
