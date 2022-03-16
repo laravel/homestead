@@ -37,7 +37,7 @@ location /xhgui {
 else configureXhgui=""
 fi
 
-block="upstream webman {
+block="upstream upstream {
     server 127.0.0.1:${11};
 }
 
@@ -59,7 +59,7 @@ server {
         $headersTXT
 
         if (!-f \$request_filename){
-          proxy_pass http://webman;
+          proxy_pass http://upstream;
         }
     }
 

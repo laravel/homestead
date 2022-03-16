@@ -384,7 +384,7 @@ class Homestead
               site['exec'] ||= 'false',      # $8
               headers ||= '',                # $9
               rewrites ||= '',               # $10
-              site['webman_port'] ||= '8787' # $11
+              site['upstream'] ||= '8787'    # $11
           ]
 
           # Should we use the wildcard ssl?
