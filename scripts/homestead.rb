@@ -154,7 +154,7 @@ class Homestead
       end
       settings['keys'].each do |key|
         if File.exist? File.expand_path(key)
-          config.vm.provision "setting authorize permissions", type: "shell" do |s|
+          config.vm.provision "setting authorize permissions for #{key.split('/').last}", type: "shell" do |s|
             s.privileged = false
             s.inline = "echo \"$1\" > /home/vagrant/.ssh/$2 && chmod 600 /home/vagrant/.ssh/$2"
             s.args = [File.read(File.expand_path(key)), key.split('/').last]
@@ -169,7 +169,7 @@ class Homestead
     # Copy User Files Over to VM
     if settings.include? 'copy'
       settings['copy'].each do |file|
-        config.vm.provision "file", type: "file" do |f|
+        config.vm.provision 'file' do |f|
           f.source = File.expand_path(file['from'])
           f.destination = file['to'].chomp('/') + '/' + file['from'].split('/').last
         end
