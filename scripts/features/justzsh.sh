@@ -21,9 +21,13 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 
 # Install zsh
 sudo cp /etc/zsh/newuser.zshrc.recommended /home/vagrant/.zshrc
-# zsh zplug
-export ZPLUG_HOME=/home/vagrant/.zplug
-git clone https://github.com/zplug/zplug $ZPLUG_HOME
+
+# Setup zsh plugins
+export ZSHPLUGINS_HOME=/home/vagrant/.zshplugins
+git clone https://github.com/dracula/zsh.git $ZSHPLUGINS_HOME/dracula
+git clone https://github.com/zsh-users/zsh-autosuggestions $ZSHPLUGINS_HOME/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSHPLUGINS_HOME/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-history-substring-search $ZSHPLUGINS_HOME/zsh-history-substring-search
 
 # myzshrc
 sudo ln -s /mnt/c/wsl/.myzshrc /home/vagrant/.myzshrc
@@ -36,16 +40,12 @@ chown vagrant:vagrant /home/vagrant/.zshrc
 chown vagrant:vagrant /home/vagrant/.zprofile
 chsh -s /bin/zsh vagrant
 
-ZPLUG_CONFIG="
-source ~/.zplug/init.zsh
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-history-substring-search"
-zplug 'dracula/zsh', as:theme
-if ! zplug check --verbose; then
-    echo; zplug install
-fi
-zplug load
+ZSHPLUGINS_CONFIG="
+source $ZSHPLUGINS_HOME/dracula/dracula.zsh-theme
+source $ZSHPLUGINS_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSHPLUGINS_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSHPLUGINS_HOME/zsh-history-substring-search/zsh-history-substring-search.zsh
+ZSH_THEME="dracula"
 "
 
-echo "$ZPLUG_CONFIG" | sudo tee -a /home/vagrant/.zshrc
+echo "$ZSHPLUGINS_CONFIG" | sudo tee -a /home/vagrant/.zshrc
