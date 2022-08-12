@@ -24,9 +24,6 @@
     ],
     "features": [
         {
-            "mysql": true
-        },
-        {
             "mariadb": false
         },
         {
