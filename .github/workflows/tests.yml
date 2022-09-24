@@ -40,3 +40,20 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
+
+  shellcheck:
+    name: ShellCheck
+
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Differential ShellCheck
+        uses: redhat-plumbers-in-action/differential-shellcheck@latest
+        with:
+          severity: warning
+          token: ${{ secrets.GITHUB_TOKEN }}
