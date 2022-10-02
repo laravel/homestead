@@ -19,39 +19,17 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/elasticsearch
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-# Determine version from config
-
-set -- "$1"
-IFS=".";
-
-if [ -z "${version}" ]; then
-    installVersion="" # by not specifying we'll install latest
-    majorVersion="7" # default to version 7
-else
-    installVersion="=$version"
-    majorVersion="$(echo $version | head -c 1)"
-fi
-
-
-echo "Elasticsearch installVersion: $installVersion"
-echo "Elasticsearch majorVersion: $majorVersion"
-
-
 # Install Java & Elasticsearch
 
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-
-if [ ! -f /etc/apt/sources.list.d/elastic-$majorVersion.x.list ]; then
-    echo "deb https://artifacts.elastic.co/packages/$majorVersion.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-$majorVersion.x.list
-fi
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
 
 sudo apt-get update
-sudo apt-get -y install openjdk-11-jre
-sudo apt-get -y install elasticsearch"$installVersion"
+sudo apt-get -y install openjdk-11-jre elasticsearch
 
 # Start Elasticsearch on boot
 
-sudo update-rc.d elasticsearch defaults 95 10
+sudo systemctl enable elasticsearch
 
 # Update configuration to use 'homestead' as the cluster
 
