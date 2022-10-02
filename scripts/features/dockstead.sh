@@ -19,16 +19,5 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/dockstead
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-# Stop the default MySQL Service
-sudo service mysql stop
-
 # Ensure we're in swarm mode
 docker swarm init --advertise-addr 192.168.56.56
-
-# Update /home/vagrant/.my.cnf
-sed -i "s/localhost/127.0.0.1/" /home/vagrant/.my.cnf
-
-# Start the MySQL 5.7 stack
-docker stack deploy -c /vagrant/scripts/features/dockstead/mysql-5.7.yaml mysql-57
-echo "Sleeping for 30 seconds while we wait for MySQL service to come up"
-sleep 30
