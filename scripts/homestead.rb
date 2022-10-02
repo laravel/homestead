@@ -275,18 +275,28 @@ class Homestead
       end
     end
 
-    # Enable Services
+    # Parse our Services configuration
     if settings.has_key?('services')
+      enabled_services = Array.new
+      disabled_services = Array.new
       settings['services'].each do |service|
-        service['enabled'].each do |enable_service|
-          config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
-          config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
-        end if service.include?('enabled')
+        service_name = service.keys[0]
+        service_enabled = service[service_name]
+        if service_enabled
+          enabled_services.push service_name
+        else
+          disabled_services.push service_name
+        end
+      end
 
-        service['disabled'].each do |disable_service|
-          config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
-          config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
-        end if service.include?('disabled')
+      enabled_services.each do |enable_service|
+        config.vm.provision "enable #{enable_service}", type: "shell", inline: "sudo systemctl enable #{enable_service}"
+        config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
+      end
+
+      disabled_services.each do |disable_service|
+        config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
+        config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
       end
     end
 
@@ -543,42 +553,22 @@ class Homestead
       s.path = script_dir + '/restart-webserver.sh'
     end
 
-    # Configure All Of The Configured Databases
+    # Create All Of The specified databases
     if settings.has_key?('databases')
-      enabled_databases = Array.new
-      # Check which databases are enabled
-      if settings.has_key?('features')
-        settings['features'].each do |feature|
-          feature_name = feature.keys[0]
-          feature_arguments = feature[feature_name]
-
-          # If feature is set to false, ignore
-          if feature_arguments == false
-            next
-          end
-
-          enabled_databases.push feature_name
-        end
-      end
-
       settings['databases'].each do |db|
-        if (enabled_databases.include? 'mysql') || (enabled_databases.include? 'mysql8') || (enabled_databases.include? 'mariadb')
-          config.vm.provision 'shell' do |s|
-            s.name = 'Creating MySQL / MariaDB Database: ' + db
-            s.path = script_dir + '/create-mysql.sh'
-            s.args = [db]
-          end
+        config.vm.provision 'shell' do |s|
+          s.name = 'Creating MySQL / MariaDB Database: ' + db
+          s.path = script_dir + '/create-mysql.sh'
+          s.args = [db]
         end
 
-        if enabled_databases.include? 'postgresql'
-          config.vm.provision 'shell' do |s|
-            s.name = 'Creating Postgres Database: ' + db
-            s.path = script_dir + '/create-postgres.sh'
-            s.args = [db]
-          end
+        config.vm.provision 'shell' do |s|
+          s.name = 'Creating Postgres Database: ' + db
+          s.path = script_dir + '/create-postgres.sh'
+          s.args = [db]
         end
 
-        if enabled_databases.include? 'mongodb'
+        if enabled_services.include? 'mongodb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Mongo Database: ' + db
             s.path = script_dir + '/create-mongo.sh'
@@ -586,7 +576,7 @@ class Homestead
           end
         end
 
-        if enabled_databases.include? 'couchdb'
+        if enabled_services.include? 'couchdb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating Couch Database: ' + db
             s.path = script_dir + '/create-couch.sh'
@@ -594,7 +584,7 @@ class Homestead
           end
         end
 
-        if enabled_databases.include? 'influxdb'
+        if enabled_services.include? 'influxdb'
           config.vm.provision 'shell' do |s|
             s.name = 'Creating InfluxDB Database: ' + db
             s.path = script_dir + '/create-influxdb.sh'
@@ -637,36 +627,18 @@ class Homestead
 
     if settings.has_key?('backup') && settings['backup'] && (Vagrant::VERSION >= '2.1.0' || Vagrant.has_plugin?('vagrant-triggers'))
       dir_prefix = '/vagrant/.backup'
-
-      # Rebuild the enabled_databases so we can check before backing up
-      enabled_databases = Array.new
-      # Check which databases are enabled
-      if settings.has_key?('features')
-        settings['features'].each do |feature|
-          feature_name = feature.keys[0]
-          feature_arguments = feature[feature_name]
-
-          # If feature is set to false, ignore
-          if feature_arguments == false
-            next
-          end
-
-          enabled_databases.push feature_name
-        end
-      end
-
       # Loop over each DB
       settings['databases'].each do |database|
         # Backup MySQL/MariaDB
-        if (enabled_databases.include? 'mysql') || (enabled_databases.include? 'mariadb')
+        if (enabled_services.include? 'mysql') || (enabled_services.include? 'mariadb')
           Homestead.backup_mysql(database, "#{dir_prefix}/mysql_backup", config)
         end
         # Backup PostgreSQL
-        if enabled_databases.include? 'postgresql'
+        if enabled_services.include? 'postgresql'
           Homestead.backup_postgres(database, "#{dir_prefix}/postgres_backup", config)
         end
         # Backup MongoDB
-        if enabled_databases.include? 'mongodb'
+        if enabled_services.include? 'mongodb'
           Homestead.backup_mongodb(database, "#{dir_prefix}/mongodb_backup", config)
         end
       end
