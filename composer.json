@@ -2,7 +2,7 @@
     "name": "laravel/homestead",
     "description": "A virtual machine for web artisans.",
     "require": {
-        "php": "^8.0 || <8.2",
+        "php": "^8.0 || <8.3",
         "symfony/console": "^5.0 || ^6.0",
         "symfony/process": "^5.0 || ^6.0",
         "symfony/yaml": "^5.0 || ^6.0"
