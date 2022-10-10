@@ -19,7 +19,7 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/grpc
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-PROTOC_VERSION=3.17.3
+PROTOC_VERSION=21.7
 PROTOC_ZIP=protoc.zip
 wget -qO $PROTOC_ZIP https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-linux-x86_64.zip
 sudo unzip -o $PROTOC_ZIP -d /usr/local/protoc
