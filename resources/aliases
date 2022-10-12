@@ -7,6 +7,7 @@ alias art=artisan
 
 alias codecept='vendor/bin/codecept'
 alias phpspec='vendor/bin/phpspec'
+alias pint='vendor/bin/pint'
 alias serve=serve-laravel
 
 alias xoff='sudo phpdismod -s cli xdebug'
