@@ -38,7 +38,7 @@ function p() {
        vendor/bin/phpunit "$@"
     fi
  }
- 
+
  function pf() {
     if [ -f vendor/bin/pest ]; then
        vendor/bin/pest --filter "$@"
@@ -93,6 +93,12 @@ function php81() {
     sudo update-alternatives --set php /usr/bin/php8.1
     sudo update-alternatives --set php-config /usr/bin/php-config8.1
     sudo update-alternatives --set phpize /usr/bin/phpize8.1
+}
+
+function php82() {
+    sudo update-alternatives --set php /usr/bin/php8.2
+    sudo update-alternatives --set php-config /usr/bin/php-config8.2
+    sudo update-alternatives --set phpize /usr/bin/phpize8.2
 }
 
 function serve-apache() {
