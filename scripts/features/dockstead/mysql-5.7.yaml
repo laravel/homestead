@@ -1,0 +1,25 @@
+---
+#
+# docker stack deploy -c /vagrant/scripts/features/dockstead/mysql-5.7.yaml mysql-56
+#
+version: "3.7"
+services:
+    mysql:
+        image: mysql:5.7
+        volumes:
+            - type: volume
+              source: mysql-data
+              target: /var/lib/mysql
+              volume:
+                  nocopy: true
+        ports:
+            - "3306:3306"
+        healthcheck:
+            test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+            interval: 3s
+            timeout: 1s
+            retries: 5
+        env_file:
+            - env.docker
+volumes:
+    mysql-data:
