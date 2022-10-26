@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   tests:
 
@@ -11,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.0, 8.1]
+        php: [8.0, 8.1, 8.2]
 
     name: PHP_${{ matrix.php }}
 
