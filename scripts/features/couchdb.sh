@@ -19,7 +19,7 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/couchdb
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-echo "deb https://apache.bintray.com/couchdb-deb focal main" \
+echo "deb https://apache.bintray.com/couchdb-deb $(lsb_release -cs) main" \
     | sudo tee -a /etc/apt/sources.list.d/couchdb.list
 
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \

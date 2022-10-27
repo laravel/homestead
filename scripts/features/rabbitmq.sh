@@ -33,17 +33,17 @@ sudo apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F6609E60DC62814
 sudo tee /etc/apt/sources.list.d/rabbitmq.list <<EOF
 ## Provides modern Erlang/OTP releases
 ##
-## "focal" as distribution name should work for any reasonably recent Ubuntu or Debian release.
+## "$(lsb_release -cs)" as distribution name should work for any reasonably recent Ubuntu or Debian release.
 ## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
-deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
-deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
+deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu $(lsb_release -cs) main
+deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu $(lsb_release -cs) main
 
 ## Provides RabbitMQ
 ##
-## "focal" as distribution name should work for any reasonably recent Ubuntu or Debian release.
+## "$(lsb_release -cs)" as distribution name should work for any reasonably recent Ubuntu or Debian release.
 ## See the release to distribution mapping table in RabbitMQ doc guides to learn more.
-deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
-deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
+deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ $(lsb_release -cs) main
+deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ $(lsb_release -cs) main
 EOF
 
 ## Update package indices

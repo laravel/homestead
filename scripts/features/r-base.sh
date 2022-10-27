@@ -20,5 +20,5 @@ touch /home/$WSL_USER_NAME/.homestead-features/r-base
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
+add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/'
 apt install -y r-base
