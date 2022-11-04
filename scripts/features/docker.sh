@@ -27,7 +27,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 mkdir /etc/systemd/system/docker.service.d
 echo '[Service]
@@ -39,6 +39,10 @@ echo '{
 
 systemctl daemon-reload
 systemctl restart docker.service
+
+addgroup --system docker
+adduser $WSL_USER_NAME docker
+newgrp docker
 
 # optional portainer gui https://docker.local:9443
 docker volume create portainer_data
