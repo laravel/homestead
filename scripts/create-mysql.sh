@@ -7,7 +7,15 @@ password = secret
 host = 127.0.0.1
 EOF
 
-cp /root/.my.cnf /home/vagrant/.my.cnf
+cat > /home/vagrant/.my.cnf << EOF
+[client]
+user = homestead
+password = secret
+host = 127.0.0.1
+EOF
+
+chown vagrant /home/vagrant/.my.cnf
+
 
 DB=$1;
 
