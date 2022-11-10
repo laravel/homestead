@@ -40,9 +40,7 @@ echo '{
 systemctl daemon-reload
 systemctl restart docker.service
 
-addgroup --system docker
-adduser $WSL_USER_NAME docker
-newgrp docker
+usermod -aG docker $WSL_USER_NAME
 
 # optional portainer gui https://docker.local:9443
 docker volume create portainer_data

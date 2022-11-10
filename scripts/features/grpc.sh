@@ -29,8 +29,9 @@ sudo rm -f $PROTOC_ZIP
 
 # Update PECL Channel
 sudo pecl channel-update pecl.php.net
-# Install grpc and protobuf
-sudo pecl install grpc protobuf
+# Install protobuf and grpc
+sudo pecl install protobuf
+sudo pecl install grpc
 
 sudo bash -c "echo 'extension=grpc.so' > /etc/php/8.0/mods-available/grpc.ini"
 sudo ln -s /etc/php/8.0/mods-available/grpc.ini /etc/php/8.0/cli/conf.d/20-grpc.ini

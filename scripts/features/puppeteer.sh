@@ -31,5 +31,5 @@ fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont
 
 npm config set puppeteer_skip_chromium_download true -g && npm install --unsafe-perm --global puppeteer
 
-ln -s /usr/bin/google-chrome-stable
+ln -s /usr/bin/google-chrome-stable /usr/bin/google-chrome
 chmod -R o+rx /usr/bin/google-chrome*
