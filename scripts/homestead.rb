@@ -25,7 +25,7 @@ class Homestead
 
     # Configure A Private Network IP
     if settings['ip'] != 'autonetwork'
-      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56'
+      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56', name: "HostOnly", virtualbox__intnet: true
     else
       config.vm.network :private_network, ip: '0.0.0.0', auto_network: true
     end
@@ -45,6 +45,7 @@ class Homestead
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
       vb.customize ['modifyvm', :id, '--natdnshostresolver1', settings['natdnshostresolver'] ||= 'on']
       vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
+      vb.customize ["modifyvm", :id, "--nic9", "hostonlynet", "--host-only-net9=HostOnly"]
       if settings.has_key?('gui') && settings['gui']
         vb.gui = true
       end
