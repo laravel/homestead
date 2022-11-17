@@ -23,12 +23,12 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 
 
 if [[ "$ARCH" == "aarch64" ]]; then
-  echo "deb [ arch=arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  echo "deb [ arch=arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 else
-  echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 fi
 
-curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
 
 sudo apt-get update
 
@@ -41,7 +41,7 @@ sudo systemctl enable mongod
 sudo systemctl start mongod
 
 sudo rm -rf /tmp/mongo-php-driver /usr/src/mongo-php-driver
-git clone -c advice.detachedHead=false -q -b '1.14.1' --single-branch https://github.com/mongodb/mongo-php-driver.git /tmp/mongo-php-driver
+git clone -c advice.detachedHead=false -q -b '1.14.2' --single-branch https://github.com/mongodb/mongo-php-driver.git /tmp/mongo-php-driver
 sudo mv /tmp/mongo-php-driver /usr/src/mongo-php-driver
 cd /usr/src/mongo-php-driver
 git submodule -q update --init
@@ -150,4 +150,4 @@ sudo ln -s /etc/php/8.1/mods-available/mongo.ini /etc/php/8.1/cli/conf.d/20-mong
 sudo ln -s /etc/php/8.1/mods-available/mongo.ini /etc/php/8.1/fpm/conf.d/20-mongo.ini
 sudo service php8.1-fpm restart
 
-mongo admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
+mongosh admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
