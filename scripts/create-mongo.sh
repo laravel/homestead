@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-mongo $1 --eval "db.test.insert({name:'db creation'})"
+mongosh $1 --eval "db.test.insertOne({name:'db creation'})"
