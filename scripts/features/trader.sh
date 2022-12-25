@@ -31,6 +31,14 @@ sudo cp /usr/lib/php/20190902/trader.so /usr/lib/php/20170718/trader.so
 sudo cp /usr/lib/php/20190902/trader.so /usr/lib/php/20180731/trader.so
 sudo cp /usr/lib/php/20190902/trader.so /usr/lib/php/20200930/trader.so
 
+
+sudo touch /etc/php/8.1/mods-available/trader.ini
+sudo bash -c 'echo "extension=trader.so" >> /etc/php/8.1/mods-available/trader.ini'
+sudo ln -s /etc/php/8.1/mods-available/trader.ini /etc/php/8.1/fpm/conf.d/20-trader.ini
+sudo ln -s /etc/php/8.1/mods-available/trader.ini /etc/php/8.1/cgi/conf.d/20-trader.ini
+sudo ln -s /etc/php/8.1/mods-available/trader.ini /etc/php/8.1/cli/conf.d/20-trader.ini
+sudo ln -s /etc/php/8.1/mods-available/trader.ini /etc/php/8.1/phpdbg/conf.d/20-trader.ini
+
 sudo touch /etc/php/8.0/mods-available/trader.ini
 sudo bash -c 'echo "extension=trader.so" >> /etc/php/8.0/mods-available/trader.ini'
 sudo ln -s /etc/php/8.0/mods-available/trader.ini /etc/php/8.0/fpm/conf.d/20-trader.ini
