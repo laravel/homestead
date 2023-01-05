@@ -19,7 +19,7 @@ class Homestead
     config.vm.define settings['name'] ||= 'homestead'
     config.vm.box = settings['box'] ||= 'laravel/homestead'
     unless settings.has_key?('SpeakFriendAndEnter')
-      config.vm.box_version = settings['version'] ||= '>= 12.0.0, < 13.0.0'
+      config.vm.box_version = settings['version'] ||= '>= 13.0.0, < 14.0.0'
     end
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
@@ -379,7 +379,7 @@ class Homestead
               site['to'],                 # $2
               site['port'] ||= http_port, # $3
               site['ssl'] ||= https_port, # $4
-              site['php'] ||= '8.1',      # $5
+              site['php'] ||= '8.2',      # $5
               params ||= '',              # $6
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
@@ -524,13 +524,18 @@ class Homestead
         end
 
         config.vm.provision 'shell' do |s|
+          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/8.2/fpm/pool.d/www.conf"
+          s.args = [var['key'], var['value']]
+        end
+
+        config.vm.provision 'shell' do |s|
           s.inline = "echo \"\n# Set Homestead Environment Variable\nexport $1=$2\" >> /home/vagrant/.profile"
           s.args = [var['key'], var['value']]
         end
       end
 
       config.vm.provision 'shell' do |s|
-        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart; service php8.0-fpm restart; service php8.1-fpm restart;'
+        s.inline = 'service php5.6-fpm restart;service php7.0-fpm restart;service  php7.1-fpm restart; service php7.2-fpm restart; service php7.3-fpm restart; service php7.4-fpm restart; service php8.0-fpm restart; service php8.1-fpm restart; service php8.2-fpm restart;'
       end
     end
 
