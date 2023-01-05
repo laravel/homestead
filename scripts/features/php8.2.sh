@@ -10,13 +10,13 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/php81 ]
+if [ -f /home/$WSL_USER_NAME/.homestead-features/php82 ]
 then
    echo "PHP 8.2 already installed."
    exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/php81
+touch /home/$WSL_USER_NAME/.homestead-features/php82
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # PHP 8.2
