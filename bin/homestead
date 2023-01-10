@@ -8,7 +8,7 @@ if(is_file( __DIR__.'/../vendor/autoload.php')) {
     require __DIR__.'/../../../autoload.php';
 }
 
-$app = new Symfony\Component\Console\Application('Laravel Homestead', '14.0.0');
+$app = new Symfony\Component\Console\Application('Laravel Homestead', '14.0.1');
 
 $app->add(new Laravel\Homestead\MakeCommand);
 $app->add(new Laravel\Homestead\WslApplyFeatures);
