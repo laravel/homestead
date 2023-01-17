@@ -25,7 +25,7 @@ class Homestead
 
     # Configure A Private Network IP
     if settings['ip'] != 'autonetwork'
-      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56', name: "HostOnly", virtualbox__intnet: true
+      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56'
     else
       config.vm.network :private_network, ip: '0.0.0.0', auto_network: true
     end
@@ -45,7 +45,7 @@ class Homestead
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
       vb.customize ['modifyvm', :id, '--natdnshostresolver1', settings['natdnshostresolver'] ||= 'on']
       vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
-      vb.customize ["modifyvm", :id, "--nic9", "hostonlynet", "--host-only-net9=HostOnly"]
+
       if settings.has_key?('gui') && settings['gui']
         vb.gui = true
       end
@@ -104,6 +104,18 @@ class Homestead
       v.cpus = settings['cpus'] ||= 1
     end
 
+    # Configure libvirt settings
+    config.vm.provider "libvirt" do |libvirt|
+      libvirt.memory = settings["memory"] ||= "2048"
+      libvirt.cpus = settings["cpus"] ||= "1"
+      libvirt.disk_bus = "virtio"
+      libvirt.disk_driver :cache => "writeback"
+      libvirt.memorybacking :access, :mode => 'shared'
+      libvirt.nic_model_type = "virtio"
+      libvirt.qemu_use_session = false
+      config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+    end
+  
     # Standardize Ports Naming Schema
     if settings.has_key?('ports')
       settings['ports'].each do |port|
@@ -185,6 +197,10 @@ class Homestead
 
           if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'hyperv'
             folder['type'] = 'smb'
+          end
+
+          if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
+            folder['type'] = 'virtiofs'
           end
 
           if folder['type'] == 'nfs'
