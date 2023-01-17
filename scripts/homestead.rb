@@ -104,18 +104,6 @@ class Homestead
       v.cpus = settings['cpus'] ||= 1
     end
 
-    # Configure libvirt settings
-    config.vm.provider "libvirt" do |libvirt|
-      libvirt.memory = settings["memory"] ||= "2048"
-      libvirt.cpus = settings["cpus"] ||= "1"
-      libvirt.disk_bus = "virtio"
-      libvirt.disk_driver :cache => "writeback"
-      libvirt.memorybacking :access, :mode => 'shared'
-      libvirt.nic_model_type = "virtio"
-      libvirt.qemu_use_session = false
-      config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
-    end
-  
     # Standardize Ports Naming Schema
     if settings.has_key?('ports')
       settings['ports'].each do |port|
