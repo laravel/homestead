@@ -140,7 +140,7 @@ then
     sudo service php8.0-fpm restart
 fi
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/php80 ]
+if [ -f /home/$WSL_USER_NAME/.homestead-features/php81 ]
 then
     phpize8.1
     ./configure --with-php-config=/usr/bin/php-config8.1 > /dev/null
