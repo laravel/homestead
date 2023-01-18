@@ -20,10 +20,8 @@ touch /home/$WSL_USER_NAME/.homestead-features/meilisearch
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # add the sources for meilisearch
-echo "deb [trusted=yes] https://apt.fury.io/meilisearch/ /" > /etc/apt/sources.list.d/fury.list
-
-# update apt and install meilisearch
-apt-get update && apt-get install meilisearch-http
+curl -L https://install.meilisearch.com | sh
+mv ./meilisearch /usr/bin/
 
 # Create a service file
 cat > /etc/systemd/system/meilisearch.service << EOF
