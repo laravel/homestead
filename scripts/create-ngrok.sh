@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PATH_NGROK="/home/vagrant/.ngrok2"
+PATH_NGROK="/home/vagrant/.config/ngrok"
 PATH_CONFIG="${PATH_NGROK}/ngrok.yml"
 
 # Only create a ngrok config file if there isn't one already there.
