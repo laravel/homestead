@@ -429,4 +429,3 @@ sysctl fs.protected_regular=0
 # Setup Homestead repo
 su $WSL_USER_NAME -c 'composer install'
 su $WSL_USER_NAME -c 'bash init.sh'
-
