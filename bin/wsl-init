@@ -186,7 +186,6 @@ apt-get install -y nodejs
 /usr/bin/npm install -g npm
 #/usr/bin/npm install -g gulp-cli
 #/usr/bin/npm install -g bower
-/usr/bin/npm install -g yarn
 #/usr/bin/npm install -g grunt-cli
 
 ## Install rabbitmq-server and its dependencies
@@ -429,4 +428,3 @@ sysctl fs.protected_regular=0
 # Setup Homestead repo
 su $WSL_USER_NAME -c 'composer install'
 su $WSL_USER_NAME -c 'bash init.sh'
-
