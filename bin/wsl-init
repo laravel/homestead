@@ -26,8 +26,7 @@ apt-get install -y software-properties-common curl
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
-# NodeJS
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
@@ -180,13 +179,6 @@ service php8.0-fpm restart
 usermod -a -G www-data $WSL_USER_NAME
 id $WSL_USER_NAME
 groups $WSL_USER_GROUP
-
-# Install Node
-apt-get install -y nodejs
-/usr/bin/npm install -g npm
-#/usr/bin/npm install -g gulp-cli
-#/usr/bin/npm install -g bower
-#/usr/bin/npm install -g grunt-cli
 
 ## Install rabbitmq-server and its dependencies
 #apt-get install rabbitmq-server -y --fix-missing
