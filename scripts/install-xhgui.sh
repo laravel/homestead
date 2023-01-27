@@ -151,4 +151,3 @@ auto_prepend_file="/opt/xhgui/external/header.php"
 EOT
 done
 phpenmod -v ALL xhgui
-
