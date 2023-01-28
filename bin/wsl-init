@@ -49,7 +49,7 @@ python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv mcryp
 apt-get install -y --allow-change-held-packages \
 php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
 
-# PHP 8.0
+# PHP 8.2
 apt-get install -y --allow-change-held-packages \
 php8.2 php8.2-bcmath php8.2-bz2 php8.2-cgi php8.2-cli php8.2-common php8.2-curl php8.2-dba php8.2-dev \
 php8.2-enchant php8.2-fpm php8.2-gd php8.2-gmp php8.2-imap php8.2-interbase php8.2-intl php8.2-ldap \
