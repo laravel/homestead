@@ -106,6 +106,7 @@ class Homestead
     
     # Configure libvirt settings
     config.vm.provider "libvirt" do |libvirt|
+      libvirt.default_prefix = ''
       libvirt.memory = settings["memory"] ||= "2048"
       libvirt.cpu_model = settings["cpus"] ||= "1"
       libvirt.nested = "true"
