@@ -220,7 +220,7 @@ function serve-pimcore() {
 function share() {
     if [[ "$1" ]]
     then
-        ngrok http ${@:2} -host-header="$1" 80
+        ngrok http ${@:2} $1:80
     else
         echo "Error: missing required parameters."
         echo "Usage: "

@@ -21,19 +21,28 @@ databases:
     - homestead
 
 features:
+    - mysql: true
     - mariadb: false
+    - postgresql: false
     - ohmyzsh: false
     - webdriver: false
 
-#services:
-#    - enabled:
-#        - "postgresql@12-main"
+services:
+    - enabled:
+          - "mysql"
 #    - disabled:
 #        - "postgresql@11-main"
 
-# ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+#ports:
+#    - send: 33060 # MySQL/MariaDB
+#      to: 3306
+#    - send: 4040
+#      to: 4040
+#    - send: 54320 # PostgreSQL
+#      to: 5432
+#    - send: 8025 # Mailhog
+#      to: 8025
+#    - send: 9600
+#      to: 9600
+#    - send: 27017
+#      to: 27017
