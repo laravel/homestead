@@ -33,6 +33,7 @@ mkdir /etc/systemd/system/docker.service.d
 echo '[Service]
 ExecStart=
 ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock' | tee /etc/systemd/system/docker.service.d/docker.conf > /dev/null
+mkdir /etc/docker
 echo '{
   "hosts": ["fd://", "tcp://0.0.0.0:2375"]
 }' | tee /etc/docker/daemon.json > /dev/null
