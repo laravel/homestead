@@ -55,6 +55,10 @@ class Homestead
       if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
         vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
       end
+      
+      if Vagrant::Util::Platform.windows?
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+      end
     end
 
     # Override Default SSH port on the host
