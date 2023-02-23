@@ -203,8 +203,7 @@ class Homestead
           end
 
           if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
-            folder['type'] = 'virtiofs'
-            config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+            folder['type'] ||= 'virtiofs'
           end
 
           if folder['type'] == 'nfs'
@@ -233,6 +232,11 @@ class Homestead
           end
         end
       end
+    end
+
+    # use virtiofs for /vagrant mount when using libvirt provider
+    if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
+      config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
     end
 
     # Change PHP CLI version based on configuration
