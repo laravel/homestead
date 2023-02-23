@@ -25,7 +25,7 @@ service apparmor stop
 update-rc.d -f apparmor remove
 
 # Remove MySQL
-apt-get remove -y --purge mysql-server mysql-client mysql-common
+apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
 
