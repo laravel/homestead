@@ -657,6 +657,13 @@ class Homestead
       s.privileged = false
     end
 
+    # Publish Composer Bash Completions On Every Provision
+    config.vm.provision 'shell' do |s|
+      s.name = 'Publish Composer Bash Completions'
+      s.inline = 'composer completion bash > completion.bash && sudo mv completion.bash /etc/bash_completion.d/composer'
+      s.privileged = false
+    end
+
     # Add config file for ngrok
     config.vm.provision 'shell' do |s|
       s.path = script_dir + '/create-ngrok.sh'
