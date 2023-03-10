@@ -55,6 +55,10 @@ class Homestead
       if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
         vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
       end
+      
+      if Vagrant::Util::Platform.windows?
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+      end
     end
 
     # Override Default SSH port on the host
@@ -106,6 +110,7 @@ class Homestead
     
     # Configure libvirt settings
     config.vm.provider "libvirt" do |libvirt|
+      libvirt.default_prefix = ''
       libvirt.memory = settings["memory"] ||= "2048"
       libvirt.cpu_model = settings["cpus"] ||= "1"
       libvirt.nested = "true"
@@ -202,8 +207,7 @@ class Homestead
           end
 
           if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
-            folder['type'] = 'virtiofs'
-            config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+            folder['type'] ||= 'virtiofs'
           end
 
           if folder['type'] == 'nfs'
@@ -232,6 +236,11 @@ class Homestead
           end
         end
       end
+    end
+
+    # use virtiofs for /vagrant mount when using libvirt provider
+    if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
+      config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
     end
 
     # Change PHP CLI version based on configuration
