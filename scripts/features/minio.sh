@@ -38,9 +38,10 @@ cat <<EOT >> /etc/default/minio
 # Local export path.
 MINIO_VOLUMES="/usr/local/share/minio/"
 # Use if you want to run Minio on a custom port.
-MINIO_OPTS="--config-dir /etc/minio --address :9600"
-MINIO_ACCESS_KEY=homestead
-MINIO_SECRET_KEY=secretkey
+MINIO_OPTS="--config-dir /etc/minio --address :9600 --console-address :9601"
+MINIO_CONFIG_ENV_FILE=/etc/default/minio
+MINIO_ROOT_USER=homestead
+MINIO_ROOT_PASSWORD=secretkey
 
 EOT
 
