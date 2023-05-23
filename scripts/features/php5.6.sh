@@ -10,6 +10,13 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+SERVICE_STATUS=$(systemctl is-enabled php5.6-fpm.service)
+
+if [ "$SERVICE_STATUS" == "disabled" ];
+then
+  systemctl enable php5.6-fpm
+fi
+
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php56 ]
 then
     echo "PHP 5.6 already installed."

@@ -10,6 +10,13 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+SERVICE_STATUS=$(systemctl is-enabled php7.2-fpm.service)
+
+if [ "$SERVICE_STATUS" == "disabled" ];
+then
+  systemctl enable php7.2-fpm
+fi
+
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php72 ]
 then
     echo "PHP 7.2 already installed."

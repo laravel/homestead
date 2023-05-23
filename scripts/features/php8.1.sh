@@ -10,6 +10,13 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+SERVICE_STATUS=$(systemctl is-enabled php8.1-fpm.service)
+
+if [ "$SERVICE_STATUS" == "disabled" ];
+then
+  systemctl enable php8.1-fpm
+fi
+
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php81 ]
 then
    echo "PHP 8.1 already installed."

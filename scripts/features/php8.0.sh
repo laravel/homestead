@@ -10,6 +10,13 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+SERVICE_STATUS=$(systemctl is-enabled php8.0-fpm.service)
+
+if [ "$SERVICE_STATUS" == "disabled" ];
+then
+  systemctl enable php8.0-fpm
+fi
+
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php80 ]
 then
     echo "PHP 8.0 already installed."
