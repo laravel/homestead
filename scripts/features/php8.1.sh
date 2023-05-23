@@ -15,6 +15,7 @@ SERVICE_STATUS=$(systemctl is-enabled php8.1-fpm.service)
 if [ "$SERVICE_STATUS" == "disabled" ];
 then
   systemctl enable php8.1-fpm
+  service php8.1-fpm restart
 fi
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php81 ]

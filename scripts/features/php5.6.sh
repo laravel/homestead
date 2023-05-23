@@ -15,6 +15,7 @@ SERVICE_STATUS=$(systemctl is-enabled php5.6-fpm.service)
 if [ "$SERVICE_STATUS" == "disabled" ];
 then
   systemctl enable php5.6-fpm
+  service php5.6-fpm restart
 fi
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php56 ]

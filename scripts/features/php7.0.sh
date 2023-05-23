@@ -15,6 +15,7 @@ SERVICE_STATUS=$(systemctl is-enabled php7.0-fpm.service)
 if [ "$SERVICE_STATUS" == "disabled" ];
 then
   systemctl enable php7.0-fpm
+  service php7.0-fpm restart
 fi
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php70 ]
