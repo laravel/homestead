@@ -26,7 +26,7 @@ sudo chmod -R o+rx /usr/bin/laravel-echo-server
 SERVICE_CONF="
 [Unit]
 Description=Laravel Echo - socket.io server
-Requires=After=redis-server.service
+Requires=redis-server.service
 [Service]
 User=vagrant
 Group=vagrant

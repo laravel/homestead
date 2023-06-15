@@ -87,14 +87,14 @@ server {
         $headersTXT
     }
 
-    location /socket.io {
+    location /app {
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host \$host;
         proxy_http_version 1.1;
-        proxy_pass http://127.0.0.1:16001;
+        proxy_pass http://127.0.0.1:16001/app;
         $headersTXT
         $paramsTXT
 
@@ -104,7 +104,7 @@ server {
         proxy_redirect off;
     }
 
-    location /socket.io/apps {
+    location /apps {
         proxy_pass http://127.0.0.1:16001/apps;
         proxy_http_version 1.1;
     }
@@ -114,7 +114,7 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
-    access_log off;
+    access_log /var/log/nginx/$1-access.log;
     error_log  /var/log/nginx/$1-error.log error;
 
     sendfile off;
