@@ -9,7 +9,7 @@ else
 fi
 
 export DEBIAN_FRONTEND=noninteractive
-ROADRUNNER_VERSION="2.12.2"
+ROADRUNNER_VERSION="2023.1.5"
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/roadrunner-$ROADRUNNER_VERSION ]
 then
