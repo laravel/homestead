@@ -22,7 +22,7 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 ARCH=$(arch)
 
 # Install Golang
-golangVersion="1.19.5"
+golangVersion="1.20"
 if [[ "$ARCH" == "aarch64" ]]; then
   wget https://dl.google.com/go/go${golangVersion}.linux-arm64.tar.gz -O golang.tar.gz
 else
