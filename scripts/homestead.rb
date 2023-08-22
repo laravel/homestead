@@ -274,6 +274,9 @@ class Homestead
           end
         end
       end
+        
+      # Remove duplicate features to prevent trying to install it multiple times
+      settings['features'] = settings['features'].uniq{ |e| e.keys[0] }
 
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
