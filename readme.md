@@ -23,6 +23,13 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 Official documentation [is located here](https://laravel.com/docs/homestead).
 
+#### Components
+
+Homestead is made up of 2 different projects. The first is this repo which is the *Homestead application* itself. The application is a wrapper around Vagrant which is an API consumer of a virtualization hypervisor, or provider such as Virtualbox, Hyper-V, VMware, Or Parallels. The second part of Homestead is *Settler*, which is essentially JSON & Bash scripts to turn a minimalistic Ubuntu OS into what we call *Homestead base box*. Homestead and Settler (AKA *Homestead Base / Base Box*) combined give you the Homestead development environment.
+
+> When you run `vagrant up` for the first time Vagrant will download the large base box from Vagrant cloud. The base box is the output from Settler. The base box will be stored at `~/.vagrant.d/` and copied to the folder you ran vagrant up command from in a hidden folder named `.vagrant`. This is what allows vagrant to create a VM and destroy it quickly and without having to download the large base box again.
+
+##### Current versions
 | Ubuntu LTS | Settler Version | Homestead Version | Branch      | Status
 | -----------|-----------------|-------------------| ----------- | -----------
 | 20.04      | 13.x            | 14.x              | `main`      | Development/Unstable
