@@ -55,6 +55,10 @@ class Homestead
       if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
         vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
       end
+
+      if Vagrant::Util::Platform.windows?
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+      end
     end
 
     # Override Default SSH port on the host
@@ -102,6 +106,21 @@ class Homestead
       v.update_guest_tools = settings['update_parallels_tools'] ||= false
       v.memory = settings['memory'] ||= 2048
       v.cpus = settings['cpus'] ||= 1
+    end
+
+    # Configure libvirt settings
+    config.vm.provider "libvirt" do |libvirt|
+      libvirt.default_prefix = ''
+      libvirt.memory = settings["memory"] ||= "2048"
+      libvirt.cpu_model = settings["cpus"] ||= "1"
+      libvirt.nested = "true"
+      libvirt.disk_bus = "virtio"
+      libvirt.machine_type = "q35"
+      libvirt.disk_driver :cache => "none"
+      libvirt.memorybacking :access, :mode => 'shared'
+      libvirt.nic_model_type = "virtio"
+      libvirt.driver = "kvm"
+      libvirt.qemu_use_session = false
     end
 
     # Standardize Ports Naming Schema
@@ -188,7 +207,7 @@ class Homestead
           end
 
           if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
-            folder['type'] = 'virtiofs'
+            folder['type'] ||= 'virtiofs'
           end
 
           if folder['type'] == 'nfs'
@@ -217,6 +236,11 @@ class Homestead
           end
         end
       end
+    end
+
+    # use virtiofs for /vagrant mount when using libvirt provider
+    if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
+      config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
     end
 
     # Change PHP CLI version based on configuration
@@ -250,6 +274,9 @@ class Homestead
           end
         end
       end
+
+      # Remove duplicate features to prevent trying to install it multiple times
+      settings['features'] = settings['features'].uniq{ |e| e.keys[0] }
 
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
@@ -388,7 +415,8 @@ class Homestead
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
               headers ||= '',             # $9
-              rewrites ||= ''             # $10
+              rewrites ||= '',             # $10
+              site['prod'] ||=''          # $11
           ]
 
           # Should we use the wildcard ssl?

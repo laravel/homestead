@@ -25,7 +25,7 @@ service apparmor stop
 update-rc.d -f apparmor remove
 
 # Remove MySQL
-apt-get remove -y --purge mysql-server mysql-client mysql-common
+apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mysql-server mysql-client
 apt-get autoremove -y
 apt-get autoclean
 
@@ -43,7 +43,7 @@ mkdir  /etc/mysql
 touch /etc/mysql/debian.cnf
 
 # Install MariaDB
-apt-get install -y mariadb-server mariadb-client
+apt-get -o Dpkg::Options::="--force-confnew" install -y mariadb-server mariadb-client mysql-common
 
 # Configure Maria Remote Access and ignore db dirs
 sed -i "s/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -57,14 +57,14 @@ EOF
 
 export MYSQL_PWD=secret
 
-mysql --user="root" -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 service mysql restart
 
-mysql --user="root" -e "CREATE USER IF NOT EXISTS 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
-mysql --user="root" -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" -e "FLUSH PRIVILEGES;"
+mysql --user="root" --password="secret" -h localhost -e "CREATE USER IF NOT EXISTS 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mysql --user="root" --password="secret" -h localhost -e "FLUSH PRIVILEGES;"
 service mysql restart
 
 mysql_upgrade --user="root" --verbose --force

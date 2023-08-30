@@ -19,12 +19,6 @@ alias nrwp="npm run watch-poll"
 alias nrh="npm run hot"
 alias nrp="npm run production"
 
-alias yrd="yarn run dev"
-alias yrw="yarn run watch"
-alias yrwp="yarn run watch-poll"
-alias yrh="yarn run hot"
-alias yrp="yarn run production"
-
 function artisan() {
     php artisan "$@"
 }
@@ -233,7 +227,7 @@ function serve-pimcore() {
 function share() {
     if [[ "$1" ]]
     then
-        ngrok http ${@:2} -host-header="$1" 80
+        ngrok http ${@:2} $1:80
     else
         echo "Error: missing required parameters."
         echo "Usage: "
