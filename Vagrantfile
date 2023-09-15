@@ -33,6 +33,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         abort "Homestead settings file not found in #{confDir}"
     end
 
+    sshUsername = settings['ssh_username']
+    sshPassword = settings['ssh_password']
+    if !sshUsername.empty?
+        config.ssh.username = sshUsername
+        puts "Configure SSH username #{sshUsername}"
+    end
+    if !sshPassword.empty?
+        config.ssh.password = sshPassword
+        puts "Configure SSH password #{sshPassword}"
+    end
+
     Homestead.configure(config, settings)
 
     if File.exist? afterScriptPath then
