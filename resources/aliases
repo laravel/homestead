@@ -237,6 +237,19 @@ function share() {
     fi
 }
 
+function sshare() {
+    if [[ "$1" ]]
+    then
+        ngrok http ${@:2} $1:443 --host-header=rewrite
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  sshare domain"
+        echo "Invocation with extra params passed directly to ngrok"
+        echo "  sshare domain --subdomain=test1234"
+    fi
+}
+
 function flip() {
     sudo bash /vagrant/scripts/flip-webserver.sh
 }
