@@ -21,7 +21,6 @@ ARCH=$(arch)
 touch /home/$WSL_USER_NAME/.homestead-features/mongodb
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-
 if [[ "$ARCH" == "aarch64" ]]; then
   echo "deb [ arch=arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 else
@@ -41,7 +40,7 @@ sudo systemctl enable mongod
 sudo systemctl start mongod
 
 sudo rm -rf /tmp/mongo-php-driver /usr/src/mongo-php-driver
-git clone -c advice.detachedHead=false -q -b '1.15.0' --single-branch https://github.com/mongodb/mongo-php-driver.git /tmp/mongo-php-driver
+git clone -c advice.detachedHead=false -q -b '1.16.2' --single-branch https://github.com/mongodb/mongo-php-driver.git /tmp/mongo-php-driver
 sudo mv /tmp/mongo-php-driver /usr/src/mongo-php-driver
 cd /usr/src/mongo-php-driver
 git submodule -q update --init
