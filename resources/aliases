@@ -19,6 +19,12 @@ alias nrwp="npm run watch-poll"
 alias nrh="npm run hot"
 alias nrp="npm run production"
 
+alias yrd="yarn dev"
+alias yrw="yarn watch"
+alias yrwp="yarn watch-poll"
+alias yrh="yarn hot"
+alias yrp="yarn production"
+
 function artisan() {
     php artisan "$@"
 }
