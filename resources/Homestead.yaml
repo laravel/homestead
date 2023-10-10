@@ -1,7 +1,7 @@
 ---
-ip: "192.168.56.56"
+ip: "192.167.55.55"
 memory: 2048
-cpus: 2
+cpus: 4
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -10,15 +10,16 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/code
-      to: /home/vagrant/code
+    - map: C:Users\white\OneDrive\Documents\GitHub\2011scape-website
+      to: /home/vagrant/2011scape-website
+      type: "nfs"
 
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+    - map: 2011scape.test
+      to: /home/vagrant/2011scape-website/public
 
 databases:
-    - homestead
+    - 2011scape
 
 features:
     - mysql: true
