@@ -112,7 +112,7 @@ class Homestead
     config.vm.provider "libvirt" do |libvirt|
       libvirt.default_prefix = ''
       libvirt.memory = settings["memory"] ||= "2048"
-      libvirt.cpu_model = settings["cpus"] ||= "1"
+      libvirt.cpus = settings["cpus"] ||= "1"
       libvirt.nested = "true"
       libvirt.disk_bus = "virtio"
       libvirt.machine_type = "q35"
