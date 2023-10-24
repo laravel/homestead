@@ -25,7 +25,7 @@ service apparmor stop
 update-rc.d -f apparmor remove
 
 # Remove MySQL
-apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mysql-server mysql-client mysql-common
+apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mysql-server mysql-client
 apt-get autoremove -y
 apt-get autoclean
 
@@ -43,7 +43,7 @@ mkdir  /etc/mysql
 touch /etc/mysql/debian.cnf
 
 # Install MariaDB
-apt-get install -y mariadb-server mariadb-client
+apt-get -o Dpkg::Options::="--force-confnew" install -y mariadb-server mariadb-client mysql-common
 
 # Configure Maria Remote Access and ignore db dirs
 sed -i "s/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf

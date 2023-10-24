@@ -56,7 +56,7 @@ class Homestead
       if settings.has_key?('paravirtprovider') && settings['paravirtprovider']
         vb.customize ['modifyvm', :id, '--paravirtprovider', settings['paravirtprovider'] ||= 'kvm']
       end
-      
+
       if Vagrant::Util::Platform.windows?
         vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
       end
@@ -108,7 +108,7 @@ class Homestead
       v.memory = settings['memory'] ||= 2048
       v.cpus = settings['cpus'] ||= 1
     end
-    
+
     # Configure libvirt settings
     config.vm.provider "libvirt" do |libvirt|
       libvirt.default_prefix = ''
@@ -276,6 +276,9 @@ class Homestead
         end
       end
 
+      # Remove duplicate features to prevent trying to install it multiple times
+      settings['features'] = settings['features'].uniq{ |e| e.keys[0] }
+
       settings['features'].each do |feature|
         feature_name = feature.keys[0]
         feature_variables = feature[feature_name]
@@ -413,7 +416,8 @@ class Homestead
               site['xhgui'] ||= '',       # $7
               site['exec'] ||= 'false',   # $8
               headers ||= '',             # $9
-              rewrites ||= ''             # $10
+              rewrites ||= '',             # $10
+              site['prod'] ||=''          # $11
           ]
 
           # Should we use the wildcard ssl?

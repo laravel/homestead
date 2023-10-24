@@ -64,3 +64,8 @@ sudo rabbitmq-plugins enable rabbitmq_management
 sudo rabbitmqctl add_user homestead secret
 sudo rabbitmqctl set_user_tags homestead administrator
 sudo rabbitmqctl set_permissions -p / homestead ".*" ".*" ".*"
+sudo rabbitmqctl set_topic_permissions -p / homestead ".*" ".*" ".*"
+
+# Install rabbitmqadmin CLI tool - https://www.rabbitmq.com/management-cli.html
+sudo wget -q http://localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
+sudo chmod +x /usr/local/bin/rabbitmqadmin
