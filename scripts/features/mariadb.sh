@@ -33,8 +33,19 @@ rm -rf /var/lib/mysql/*
 rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
+# Determine version from config
+
+set -- "$1"
+IFS=".";
+
 # Add Maria PPA
-curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+if [ -z "${version}" ]; then
+    curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash  
+else
+    curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+    sudo bash mariadb_repo_setup --mariadb-server-version="$version"
+    echo "MariaDB specific target version : $version"
+fi
 
 debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
