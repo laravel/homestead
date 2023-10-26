@@ -59,6 +59,9 @@ block="<VirtualHost *:$3>
     ServerName $1
     ServerAlias www.$1
 
+    ProxyPreserveHost On
+    RequestHeader set X-Real-IP "%{REMOTE_ADDR}s"
+
     $paramsTXT
     $headersTXT
 
@@ -77,7 +80,11 @@ blockssl="<IfModule mod_ssl.c>
         ServerName $1
         ServerAlias www.$1
 
+        ProxyPreserveHost On
+        RequestHeader set X-Real-IP "%{REMOTE_ADDR}s"
+
         $paramsTXT
+        $headersTXT
 
         SSLEngine on
 
