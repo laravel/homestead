@@ -60,7 +60,10 @@ block="<VirtualHost *:$3>
     ServerAlias www.$1
 
     ProxyPreserveHost On
-    RequestHeader set X-Real-IP "%{REMOTE_ADDR}s"
+    RequestHeader set X-Real-IP %{REMOTE_ADDR}s
+    RequestHeader set X-Forwarded-For %{X-Forwarded-For}i
+    RequestHeader set Upgrade websocket
+    RequestHeader set Connection Upgrade
 
     $paramsTXT
     $headersTXT
@@ -81,7 +84,10 @@ blockssl="<IfModule mod_ssl.c>
         ServerAlias www.$1
 
         ProxyPreserveHost On
-        RequestHeader set X-Real-IP "%{REMOTE_ADDR}s"
+        RequestHeader set X-Real-IP %{REMOTE_ADDR}s
+        RequestHeader set X-Forwarded-For %{X-Forwarded-For}i
+        RequestHeader set Upgrade websocket
+        RequestHeader set Connection Upgrade
 
         $paramsTXT
         $headersTXT
