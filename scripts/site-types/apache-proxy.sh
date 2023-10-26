@@ -61,7 +61,6 @@ block="<VirtualHost *:$3>
 
     ProxyPreserveHost On
     RequestHeader set X-Real-IP %{REMOTE_ADDR}s
-    RequestHeader set X-Forwarded-For %{X-Forwarded-For}i
     RequestHeader set Upgrade websocket
     RequestHeader set Connection Upgrade
 
@@ -85,7 +84,6 @@ blockssl="<IfModule mod_ssl.c>
 
         ProxyPreserveHost On
         RequestHeader set X-Real-IP %{REMOTE_ADDR}s
-        RequestHeader set X-Forwarded-For %{X-Forwarded-For}i
         RequestHeader set Upgrade websocket
         RequestHeader set Connection Upgrade
 
