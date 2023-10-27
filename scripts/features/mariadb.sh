@@ -76,7 +76,7 @@ mariadb --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO '
 mariadb --user="root" --password="secret" -h localhost -e "FLUSH PRIVILEGES;"
 service mariadb restart
 
-mariadb_upgrade --user="root" --verbose --force
+mariadb-upgrade --user="root" --verbose --force
 service mariadb restart
 
 unset MYSQL_PWD
