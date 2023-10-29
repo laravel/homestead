@@ -10,12 +10,12 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/rust ]; then
+if [ -f /home/$WSL_USER_NAME/.homestead-features/rustc ]; then
     echo "Rust already installed."
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/rust
+touch /home/$WSL_USER_NAME/.homestead-features/rustc
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Run the Rust installation script as the user
