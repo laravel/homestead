@@ -11,7 +11,7 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/rust ]; then
-    echo "Rust is already installed."
+    echo "Rust already installed."
     exit 0
 fi
 
