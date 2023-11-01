@@ -10,8 +10,7 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/mariadb ]
-then
+if [ -f /home/$WSL_USER_NAME/.homestead-features/mariadb ]; then
     echo "MariaDB already installed."
     exit 0
 fi
@@ -34,13 +33,12 @@ rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
 # Determine version from config
-
 set -- "$1"
-IFS=".";
+IFS="."
 
 # Add Maria PPA
 if [ -z "${version}" ]; then
-    curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash  
+    curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 else
     curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
     sudo bash mariadb_repo_setup --mariadb-server-version="$version"
@@ -50,7 +48,7 @@ fi
 debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password secret"
-mkdir  /etc/mysql
+mkdir /etc/mysql
 touch /etc/mysql/debian.cnf
 
 # Install MariaDB
@@ -68,17 +66,17 @@ EOF
 
 export MYSQL_PWD=secret
 
-mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-service mysql restart
+mariadb --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mariadb --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+service mariadb restart
 
-mysql --user="root" --password="secret" -h localhost -e "CREATE USER IF NOT EXISTS 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
-mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-mysql --user="root" --password="secret" -h localhost -e "FLUSH PRIVILEGES;"
-service mysql restart
+mariadb --user="root" --password="secret" -h localhost -e "CREATE USER IF NOT EXISTS 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret';"
+mariadb --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO 'homestead'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mariadb --user="root" --password="secret" -h localhost -e "GRANT ALL ON *.* TO 'homestead'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+mariadb --user="root" --password="secret" -h localhost -e "FLUSH PRIVILEGES;"
+service mariadb restart
 
-mysql_upgrade --user="root" --verbose --force
-service mysql restart
+mariadb-upgrade --user="root" --verbose --force
+service mariadb restart
 
 unset MYSQL_PWD
