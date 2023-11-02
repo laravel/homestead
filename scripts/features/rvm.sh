@@ -24,4 +24,4 @@ gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB8
 \curl -sSL https://get.rvm.io | bash -s stable --ruby --gems=bundler
 
 # To start using RVM we need to run
-source /home/vagrant/.rvm/scripts/rvm
+source /usr/local/rvm/scripts/rvm
