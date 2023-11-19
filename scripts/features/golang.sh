@@ -22,13 +22,13 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 ARCH=$(arch)
 
 # Install Golang
-golangVersion="1.21.4"
 if [[ "$ARCH" == "aarch64" ]]; then
-  wget https://dl.google.com/go/go${golangVersion}.linux-arm64.tar.gz -O golang.tar.gz
+    GOLANG_LATEST_STABLE_VERSION=$(curl https://go.dev/dl/?mode=json | grep -o 'go.*.linux-arm64.tar.gz' | head -n 1 | tr -d '\r\n')
+    wget https://dl.google.com/go/${GOLANG_LATEST_STABLE_VERSION} -O golang.tar.gz
 else
-  wget https://dl.google.com/go/go${golangVersion}.linux-amd64.tar.gz -O golang.tar.gz
+    GOLANG_LATEST_STABLE_VERSION=$(curl https://go.dev/dl/?mode=json | grep -o 'go.*.linux-amd64.tar.gz' | head -n 1 | tr -d '\r\n')
+    wget https://dl.google.com/go/${GOLANG_LATEST_STABLE_VERSION} -O golang.tar.gz
 fi
-
 
 tar -C /usr/local -xzf golang.tar.gz go
 printf "\nPATH=\"/usr/local/go/bin:\$PATH\"\n" | tee -a /home/vagrant/.profile
