@@ -26,6 +26,7 @@ features:
     - postgresql: false
     - ohmyzsh: false
     - webdriver: false
+    - influxdb: false
 
 services:
     - enabled:
