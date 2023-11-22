@@ -45,6 +45,14 @@ class InitScriptTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_an_before_shell_script()
+    {
+        exec('bash init.sh');
+
+        $this->assertFileExists(self::$testDirectory.'/before.sh');
+    }
+
+    /** @test */
     public function it_creates_an_after_shell_script()
     {
         exec('bash init.sh');

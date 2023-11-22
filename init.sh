@@ -6,6 +6,7 @@ else
     cp -i resources/Homestead.yaml Homestead.yaml
 fi
 
+cp -i resources/before.sh before.sh
 cp -i resources/after.sh after.sh
 cp -i resources/aliases aliases
 

@@ -7,6 +7,7 @@ if ["%~1"]==[""] (
     copy /-y resources\Homestead.yaml Homestead.yaml
 )
 
+copy /-y resources\before.sh before.sh
 copy /-y resources\after.sh after.sh
 copy /-y resources\aliases aliases
 

@@ -9,6 +9,7 @@ confDir = $confDir ||= File.expand_path(File.dirname(__FILE__))
 
 homesteadYamlPath = confDir + "/Homestead.yaml"
 homesteadJsonPath = confDir + "/Homestead.json"
+beforeScriptPath = confDir + "/before.sh"
 afterScriptPath = confDir + "/after.sh"
 customizationScriptPath = confDir + "/user-customizations.sh"
 aliasesPath = confDir + "/aliases"
@@ -23,6 +24,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision "handle_aliases", type: "shell" do |s|
             s.inline = "awk '{ sub(\"\r$\", \"\"); print }' /tmp/bash_aliases > /home/vagrant/.bash_aliases && chown vagrant:vagrant /home/vagrant/.bash_aliases"
         end
+    end
+
+    if File.exist? beforeScriptPath then
+        config.vm.provision "Run before.sh", type: "shell", path: beforeScriptPath, keep_color: true
     end
 
     if File.exist? homesteadYamlPath then

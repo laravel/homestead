@@ -52,6 +52,7 @@ class MakeCommand extends Command
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'The name of the virtual machine.', $this->defaultProjectName)
             ->addOption('hostname', null, InputOption::VALUE_OPTIONAL, 'The hostname of the virtual machine.', $this->defaultProjectName)
             ->addOption('ip', null, InputOption::VALUE_OPTIONAL, 'The IP address of the virtual machine.')
+            ->addOption('no-before', null, InputOption::VALUE_NONE, 'Determines if the before.sh file is not created.')
             ->addOption('no-after', null, InputOption::VALUE_NONE, 'Determines if the after.sh file is not created.')
             ->addOption('no-aliases', null, InputOption::VALUE_NONE, 'Determines if the aliases file is not created.')
             ->addOption('example', null, InputOption::VALUE_NONE, 'Determines if a Homestead example file is created.')
@@ -73,6 +74,10 @@ class MakeCommand extends Command
 
         if (! $input->getOption('no-aliases') && ! $this->aliasesFileExists()) {
             $this->createAliasesFile();
+        }
+
+        if (! $input->getOption('no-before') && ! $this->beforeShellScriptExists()) {
+            $this->createBeforeShellScript();
         }
 
         if (! $input->getOption('no-after') && ! $this->afterShellScriptExists()) {
@@ -159,9 +164,29 @@ class MakeCommand extends Command
      *
      * @return bool
      */
+    protected function beforeShellScriptExists()
+    {
+        return file_exists("{$this->basePath}/before.sh");
+    }
+
+    /**
+     * Determine if the after shell script exists.
+     *
+     * @return bool
+     */
     protected function afterShellScriptExists()
     {
         return file_exists("{$this->basePath}/after.sh");
+    }
+
+    /**
+     * Create the after shell script.
+     *
+     * @return void
+     */
+    protected function createAfterShellScript()
+    {
+        copy(__DIR__.'/../resources/before.sh', "{$this->basePath}/before.sh");
     }
 
     /**
