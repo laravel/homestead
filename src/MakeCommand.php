@@ -184,7 +184,7 @@ class MakeCommand extends Command
      *
      * @return void
      */
-    protected function createAfterShellScript()
+    protected function createBeforeShellScript()
     {
         copy(__DIR__.'/../resources/before.sh', "{$this->basePath}/before.sh");
     }
