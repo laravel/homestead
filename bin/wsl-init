@@ -4,7 +4,7 @@
 # sudo ./bin/homestead/wsl-init  #
 ##################################
 export DEBIAN_FRONTEND=noninteractive
-export NODE_VERSION="20"
+export NODE_MAJOR="20"
 export PHP_VERSION="8.1"
 
 echo "What is your WSL user name?"
@@ -29,13 +29,19 @@ apt-get install -y software-properties-common curl
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
 # NodeJS
-curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
+apt-get update
+apt-get install -y ca-certificates curl gnupg
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+apt-get update
+apt-get install nodejs -y
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main
 END
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 ## Update Package Lists
 apt-get update
@@ -60,9 +66,9 @@ mkdir -p /run/php
 touch /run/php/php$PHP_VERSION-fpm.sock
 
 # Set php$PHP_VERSION as default
-sudo update-alternatives --set php /usr/bin/php$PHP_VERSION
-sudo update-alternatives --set php-config /usr/bin/php-config$PHP_VERSION
-sudo update-alternatives --set phpize /usr/bin/phpize$PHP_VERSION
+update-alternatives --set php /usr/bin/php$PHP_VERSION
+update-alternatives --set php-config /usr/bin/php-config$PHP_VERSION
+update-alternatives --set phpize /usr/bin/phpize$PHP_VERSION
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
@@ -70,7 +76,7 @@ mv composer.phar /usr/local/bin/composer
 chown -R $WSL_USER_NAME:$WSL_USER_NAME /home/$WSL_USER_NAME/.config
 
 ## Install Global Packages
-sudo su $WSL_USER_NAME <<'EOF'
+su $WSL_USER_NAME <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
 /usr/local/bin/composer global require "laravel/installer=^4.2"
 /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
@@ -122,7 +128,7 @@ echo "opcache.enable_cli = 1" >> /etc/php/$PHP_VERSION/mods-available/opcache.in
 echo "opcache.revalidate_freq = 0" >> /etc/php/$PHP_VERSION/mods-available/opcache.ini
 
 # Disable XDebug On The CLI
-sudo phpdismod -s cli xdebug
+phpdismod -s cli xdebug
 
 # Set The Nginx & PHP-FPM User
 sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
@@ -168,7 +174,7 @@ rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
 # Add Maria PPA
-curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
 
 echo "mariadb-server mysql-server/data-dir select ''" | debconf-set-selections
 echo "mariadb-server mysql-server/root_password password secret" | debconf-set-selections
@@ -230,7 +236,7 @@ service redis-server start
 wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64
 chmod +x /usr/local/bin/mailhog
 
-sudo tee /etc/systemd/system/mailhog.service <<EOL
+tee /etc/systemd/system/mailhog.service <<EOL
 [Unit]
 Description=Mailhog
 After=network.target
