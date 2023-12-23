@@ -21,11 +21,11 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 
 # Install .net core
 
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -qO /tmp/packages-microsoft-prod.deb
+wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -cs)/packages-microsoft-prod.deb -qO /tmp/packages-microsoft-prod.deb
 sudo dpkg -i /tmp/packages-microsoft-prod.deb
 
 sudo apt-get update
 sudo apt-get install -y apt-transport-https
 sudo apt-get update
-sudo apt-get install -y dotnet-sdk-5.0
+sudo apt-get install -y dotnet-sdk-$1
 rm -rf /tmp/packages-microsoft-prod.deb

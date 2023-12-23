@@ -27,10 +27,10 @@ apt-get install -y software-properties-common curl
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
 # NodeJS
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
-deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main
 END
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
