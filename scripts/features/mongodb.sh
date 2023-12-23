@@ -27,8 +27,7 @@ else
   echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/$1 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-"$1".list
 fi
 
-wget -qO - https://www.mongodb.org/static/pgp/server-"$1".asc | sudo apt-key add -
-
+curl -fsSL https://pgp.mongodb.com/server-$1.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-$1.gpg --dearmor
 sudo apt-get update
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confnew" install mongodb-org autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev php-dev
