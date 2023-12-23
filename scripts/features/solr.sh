@@ -21,7 +21,7 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 
 # Install Java Runtime Enviroment
 sudo apt update
-sudo apt install default-jre php-solr -y
+sudo apt install openjdk-17-jre php-solr -y
 
 # Install Solr 7.7.1
 wget -q http://archive.apache.org/dist/lucene/solr/7.7.1/solr-7.7.1.tgz

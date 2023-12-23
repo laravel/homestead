@@ -46,7 +46,7 @@ if [ ! -f /etc/apt/sources.list.d/elastic-$majorVersion.x.list ]; then
 fi
 
 sudo apt-get update
-sudo apt-get -y install openjdk-11-jre
+sudo apt-get -y install openjdk-17-jre
 sudo apt-get -y install elasticsearch"$installVersion"
 
 # Start Elasticsearch on boot

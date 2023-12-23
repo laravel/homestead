@@ -21,6 +21,6 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 
 # JDK
 sudo apt-get update
-sudo apt-get install -y default-jdk
+sudo apt-get install -y openjdk-17-jdk
 
 echo $JAVA_HOME
