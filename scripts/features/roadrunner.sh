@@ -9,26 +9,25 @@ else
 fi
 
 export DEBIAN_FRONTEND=noninteractive
-ROADRUNNER_VERSION="2023.3.0"
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/roadrunner-$ROADRUNNER_VERSION ]
+if [ -f /home/$WSL_USER_NAME/.homestead-features/roadrunner-$1 ]
 then
-    echo "roadrunner-$ROADRUNNER_VERSION already installed."
+    echo "roadrunner-$1 already installed."
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/roadrunner-$ROADRUNNER_VERSION
+touch /home/$WSL_USER_NAME/.homestead-features/roadrunner-$1
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Install Roadrunner CLI
-wget https://github.com/roadrunner-server/roadrunner/releases/download/v${ROADRUNNER_VERSION}/roadrunner-${ROADRUNNER_VERSION}-linux-amd64.tar.gz -qO roadrunner.tar.gz
+wget https://github.com/roadrunner-server/roadrunner/releases/download/v$1/roadrunner-$1-linux-amd64.tar.gz -qO roadrunner.tar.gz
 tar -xf roadrunner.tar.gz -C /usr/local/bin/ --strip-components=1
 rm -rf roadrunner.tar.gz
 rm -rf /usr/bin/rr
 ln -s /usr/local/bin/rr /usr/bin/rr
 
 # Install Roadrunner GRPC
-wget https://github.com/roadrunner-server/roadrunner/releases/download/v${ROADRUNNER_VERSION}/protoc-gen-php-grpc-${ROADRUNNER_VERSION}-linux-amd64.tar.gz -qO protoc-gen-php-grpc.tar.gz
+wget https://github.com/roadrunner-server/roadrunner/releases/download/v$1/protoc-gen-php-grpc-$1-linux-amd64.tar.gz -qO protoc-gen-php-grpc.tar.gz
 tar -xf protoc-gen-php-grpc.tar.gz -C /usr/local/bin/ --strip-components=1
 rm -rf protoc-gen-php-grpc.tar.gz
 rm -rf /usr/bin/protoc-gen-php-grpc
