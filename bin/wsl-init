@@ -4,6 +4,8 @@
 # sudo ./bin/homestead/wsl-init  #
 ##################################
 export DEBIAN_FRONTEND=noninteractive
+export NODE_VERSION="20"
+export PHP_VERSION="8.1"
 
 echo "What is your WSL user name?"
 read WSL_USER_NAME
@@ -27,7 +29,7 @@ apt-get install -y software-properties-common curl
 apt-add-repository ppa:ondrej/php -y
 apt-add-repository ppa:chris-lea/redis-server -y
 # NodeJS
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
 # PostgreSQL
 tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main
@@ -45,22 +47,22 @@ python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv mcryp
 ## Set My Timezone
 #ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
-# PHP 8.1
+# PHP
 apt-get install -y --allow-change-held-packages \
-php8.1 php8.1-bcmath php8.1-bz2 php8.1-cgi php8.1-cli php8.1-common php8.1-curl php8.1-dba php8.1-dev \
-php8.1-enchant php8.1-fpm php8.1-gd php8.1-gmp php8.1-imap php8.1-interbase php8.1-intl php8.1-ldap \
-php8.1-mbstring php8.1-mysql php8.1-odbc php8.1-opcache php8.1-pgsql php8.1-phpdbg php8.1-pspell php8.1-readline \
-php8.1-snmp php8.1-soap php8.1-sqlite3 php8.1-sybase php8.1-tidy php8.1-xml php8.1-xsl \
-php8.1-zip php8.1-imagick php8.1-memcached php8.1-redis php8.1-xdebug php8.1-dev php8.1-swoole
+php$PHP_VERSION php$PHP_VERSION-bcmath php$PHP_VERSION-bz2 php$PHP_VERSION-cgi php$PHP_VERSION-cli php$PHP_VERSION-common php$PHP_VERSION-curl php$PHP_VERSION-dba php$PHP_VERSION-dev \
+php$PHP_VERSION-enchant php$PHP_VERSION-fpm php$PHP_VERSION-gd php$PHP_VERSION-gmp php$PHP_VERSION-imap php$PHP_VERSION-interbase php$PHP_VERSION-intl php$PHP_VERSION-ldap \
+php$PHP_VERSION-mbstring php$PHP_VERSION-mysql php$PHP_VERSION-odbc php$PHP_VERSION-opcache php$PHP_VERSION-pgsql php$PHP_VERSION-phpdbg php$PHP_VERSION-pspell php$PHP_VERSION-readline \
+php$PHP_VERSION-snmp php$PHP_VERSION-soap php$PHP_VERSION-sqlite3 php$PHP_VERSION-sybase php$PHP_VERSION-tidy php$PHP_VERSION-xml php$PHP_VERSION-xsl \
+php$PHP_VERSION-zip php$PHP_VERSION-imagick php$PHP_VERSION-memcached php$PHP_VERSION-redis php$PHP_VERSION-xdebug php$PHP_VERSION-dev php$PHP_VERSION-swoole
 
 # Fixed php fpm bind listening socket - no such file issue.
 mkdir -p /run/php
-touch /run/php/php8.1-fpm.sock
+touch /run/php/php$PHP_VERSION-fpm.sock
 
-# Set php8.1 as default
-sudo update-alternatives --set php /usr/bin/php8.1
-sudo update-alternatives --set php-config /usr/bin/php-config8.1
-sudo update-alternatives --set phpize /usr/bin/phpize8.1
+# Set php$PHP_VERSION as default
+sudo update-alternatives --set php /usr/bin/php$PHP_VERSION
+sudo update-alternatives --set php-config /usr/bin/php-config$PHP_VERSION
+sudo update-alternatives --set phpize /usr/bin/phpize$PHP_VERSION
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
@@ -76,10 +78,10 @@ sudo su $WSL_USER_NAME <<'EOF'
 EOF
 
 # Configure php.ini for CLI
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/cli/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.1/cli/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/cli/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/cli/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/$PHP_VERSION/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/$PHP_VERSION/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/$PHP_VERSION/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/$PHP_VERSION/cli/php.ini
 
 # Install Nginx
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
@@ -94,30 +96,30 @@ touch /home/$WSL_USER_NAME/.config/nginx/nginx.conf
 ln -sf /home/$WSL_USER_NAME/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Setup Some PHP-FPM Options
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.1/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.1/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.1/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.1/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/fpm/php.ini
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/$PHP_VERSION/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/$PHP_VERSION/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/$PHP_VERSION/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/$PHP_VERSION/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/$PHP_VERSION/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/$PHP_VERSION/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/$PHP_VERSION/fpm/php.ini
 
-printf "[openssl]\n" | tee -a /etc/php/8.1/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
+printf "[openssl]\n" | tee -a /etc/php/$PHP_VERSION/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/$PHP_VERSION/fpm/php.ini
 
-printf "[curl]\n" | tee -a /etc/php/8.1/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
+printf "[curl]\n" | tee -a /etc/php/$PHP_VERSION/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/$PHP_VERSION/fpm/php.ini
 
 # Setup xdebug
-echo "xdebug.mode = off" >> /etc/php/8.1/mods-available/xdebug.ini
-echo "xdebug.discover_client_host = true" >> /etc/php/8.1/mods-available/xdebug.ini
-echo "xdebug.client_port = 9003" >> /etc/php/8.1/mods-available/xdebug.ini
-echo "xdebug.max_nesting_level = 512" >> /etc/php/8.1/mods-available/xdebug.ini
+echo "xdebug.mode = off" >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini
 
 # Setup opcache
-echo "opcache.enable = 1" >> /etc/php/8.1/mods-available/opcache.ini
-echo "opcache.enable_cli = 1" >> /etc/php/8.1/mods-available/opcache.ini
-echo "opcache.revalidate_freq = 0" >> /etc/php/8.1/mods-available/opcache.ini
+echo "opcache.enable = 1" >> /etc/php/$PHP_VERSION/mods-available/opcache.ini
+echo "opcache.enable_cli = 1" >> /etc/php/$PHP_VERSION/mods-available/opcache.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/$PHP_VERSION/mods-available/opcache.ini
 
 # Disable XDebug On The CLI
 sudo phpdismod -s cli xdebug
@@ -126,15 +128,15 @@ sudo phpdismod -s cli xdebug
 sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/8.1/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = $WSL_USER_NAME/" /etc/php/8.1/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $WSL_USER_NAME/" /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/8.1/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = $WSL_USER_NAME/" /etc/php/8.1/fpm/pool.d/www.conf
-sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.1/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $WSL_USER_NAME/" /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
 
 service nginx restart
-service php8.1-fpm restart
+service php$PHP_VERSION-fpm restart
 
 # Add $WSL_USER_NAME User To WWW-Data
 usermod -a -G www-data $WSL_USER_NAME
