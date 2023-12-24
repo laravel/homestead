@@ -25,9 +25,8 @@ locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
-# Install Some PPAs
+# Install PHP PPAs
 apt-add-repository ppa:ondrej/php -y
-apt-add-repository ppa:chris-lea/redis-server -y
 # NodeJS
 apt-get update
 apt-get install -y ca-certificates curl gnupg
