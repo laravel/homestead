@@ -25,7 +25,7 @@ locale-gen en_US.UTF-8
 
 apt-get install -y software-properties-common curl
 
-# Install PHP PPAs
+# Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
 # NodeJS
 apt-get update
@@ -40,7 +40,7 @@ tee /etc/apt/sources.list.d/pgdg.list <<END
 deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main
 END
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 ## Update Package Lists
 apt-get update
@@ -75,7 +75,7 @@ mv composer.phar /usr/local/bin/composer
 chown -R $WSL_USER_NAME:$WSL_USER_NAME /home/$WSL_USER_NAME/.config
 
 ## Install Global Packages
-su $WSL_USER_NAME <<'EOF'
+sudo su $WSL_USER_NAME <<'EOF'
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
 /usr/local/bin/composer global require "laravel/installer=^4.2"
 /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
