@@ -127,7 +127,7 @@ echo "opcache.enable_cli = 1" >> /etc/php/$PHP_VERSION/mods-available/opcache.in
 echo "opcache.revalidate_freq = 0" >> /etc/php/$PHP_VERSION/mods-available/opcache.ini
 
 # Disable XDebug On The CLI
-phpdismod -s cli xdebug
+sudo phpdismod -s cli xdebug
 
 # Set The Nginx & PHP-FPM User
 sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
@@ -173,7 +173,7 @@ rm -rf /var/log/mysql
 rm -rf /etc/mysql
 
 # Add Maria PPA
-curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
+curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 
 echo "mariadb-server mysql-server/data-dir select ''" | debconf-set-selections
 echo "mariadb-server mysql-server/root_password password secret" | debconf-set-selections
