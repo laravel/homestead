@@ -41,7 +41,7 @@ services:
 #      to: 4040
 #    - send: 54320 # PostgreSQL
 #      to: 5432
-#    - send: 8025 # Mailhog
+#    - send: 8025 # Mailpit
 #      to: 8025
 #    - send: 9600
 #      to: 9600
