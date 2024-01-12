@@ -36,6 +36,6 @@ ExecStart=/usr/bin/env /usr/local/bin/mailpit
 WantedBy=multi-user.target
 EOF
 
-systemctl disable --now mailhog
+systemctl disable --now mailpit
 
 systemctl enable --now mailpit
