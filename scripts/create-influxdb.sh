@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-influx -execute "create database $1"
+influx bucket create --token="homestead_secret" --name="$1" --org="homestead"

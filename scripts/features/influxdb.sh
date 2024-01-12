@@ -27,5 +27,16 @@ echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg] https
 apt-get update
 apt-get install -y influxdb2
 
+systemctl enable --now influxdb
+
+influx setup \
+    --force \
+    --username "homestead" \
+    --password "secretkey" \
+    --org "homestead" \
+    --bucket "homestead" \
+    --name "homestead" \
+    --token "homestead_secret"
+
 touch /home/$WSL_USER_NAME/.homestead-features/influxdb
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
