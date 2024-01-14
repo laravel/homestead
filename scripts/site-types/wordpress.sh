@@ -59,7 +59,7 @@ block="server {
     }
 
     location @prod_site {
-        rewrite ^/(.*)$ https://${11}/$1 redirect;
+        rewrite ^/(.*)$ https://\${11}/\$1 redirect;
     }
 
     location ~ /.*\.(jpg|jpeg|png|js|css)$ {
