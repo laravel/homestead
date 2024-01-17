@@ -604,6 +604,11 @@ class Homestead
         end
       end
 
+      # Enable MySQL if MariaDB is not enabled
+      if (!enabled_databases.include? 'mysql') && (!enabled_databases.include? 'mariadb')
+        enabled_databases.push 'mysql'
+      end
+
       settings['databases'].each do |db|
         if (enabled_databases.include? 'mysql') || (enabled_databases.include? 'mysql8') || (enabled_databases.include? 'mariadb')
           config.vm.provision 'shell' do |s|
@@ -696,6 +701,11 @@ class Homestead
 
           enabled_databases.push feature_name
         end
+      end
+
+      # Enable MySQL if MariaDB is not enabled
+      if (!enabled_databases.include? 'mysql') && (!enabled_databases.include? 'mariadb')
+        enabled_databases.push 'mysql'
       end
 
       # Loop over each DB
