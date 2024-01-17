@@ -16,10 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/rabbitmq
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
-
 sudo apt-get install curl gnupg debian-keyring debian-archive-keyring apt-transport-https -y
 
 ## Team RabbitMQ's main signing key
@@ -69,3 +65,6 @@ sudo rabbitmqctl set_topic_permissions -p / homestead ".*" ".*" ".*"
 # Install rabbitmqadmin CLI tool - https://www.rabbitmq.com/management-cli.html
 sudo wget -q http://localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
 sudo chmod +x /usr/local/bin/rabbitmqadmin
+
+touch /home/$WSL_USER_NAME/.homestead-features/rabbitmq
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

@@ -15,9 +15,6 @@ if [ -f /home/$WSL_USER_NAME/.homestead-features/mariadb ]; then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/mariadb
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Disable Apparmor
 # See https://github.com/laravel/homestead/issues/629#issue-247524528
 service apparmor stop
@@ -80,3 +77,6 @@ mariadb-upgrade --user="root" --verbose --force
 service mariadb restart
 
 unset MYSQL_PWD
+
+touch /home/$WSL_USER_NAME/.homestead-features/mariadb
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

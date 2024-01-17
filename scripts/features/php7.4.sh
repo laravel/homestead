@@ -24,9 +24,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/php74
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # PHP 7.4
 apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --allow-change-held-packages \
 php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl php7.4-dba php7.4-dev \
@@ -71,3 +68,6 @@ sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.4/fpm/pool.d/www.conf
 
 systemctl enable php7.4-fpm
 service php7.4-fpm restart
+
+touch /home/$WSL_USER_NAME/.homestead-features/php74
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

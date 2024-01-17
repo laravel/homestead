@@ -17,9 +17,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/blackfire
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
 echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
 
@@ -57,3 +54,6 @@ service php7.3-fpm restart
 service php7.4-fpm restart
 service php8.0-fpm restart
 service blackfire-agent restart
+
+touch /home/$WSL_USER_NAME/.homestead-features/blackfire
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

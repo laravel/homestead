@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/solr
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install Java Runtime Enviroment
 sudo apt update
 sudo apt install default-jre php-solr -y
@@ -32,3 +29,6 @@ rm solr-7.7.1.tgz install_solr_service.sh
 # Install Homestead Core
 
 sudo su -c "/opt/solr/bin/solr create -c homestead" solr
+
+touch /home/$WSL_USER_NAME/.homestead-features/solr
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/neo4j
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
 echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
 apt-get update
@@ -50,3 +47,6 @@ cypher-shell -u neo4j -p secret "CALL dbms.security.createUser('homestead', 'sec
 
 # Delete default Neo4j user
 cypher-shell -u homestead -p secret "CALL dbms.security.deleteUser('neo4j');"
+
+touch /home/$WSL_USER_NAME/.homestead-features/neo4j
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

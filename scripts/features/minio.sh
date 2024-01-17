@@ -18,10 +18,6 @@ fi
 
 ARCH=$(arch)
 
-
-touch /home/$WSL_USER_NAME/.homestead-features/minio
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 if [[ "$ARCH" == "aarch64" ]]; then
   curl -sO https://dl.minio.io/server/minio/release/linux-arm64/minio
 else
@@ -66,3 +62,6 @@ fi
 chmod +x mc
 sudo mv mc /usr/local/bin
 mc config host add homestead http://127.0.1.1:9600 homestead secretkey
+
+touch /home/$WSL_USER_NAME/.homestead-features/minio
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

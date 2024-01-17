@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/oh-my-zsh
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install oh-my-zsh
 git clone https://github.com/ohmyzsh/ohmyzsh.git /home/vagrant/.oh-my-zsh
 cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
@@ -37,3 +34,6 @@ chown -R vagrant:vagrant /home/vagrant/.oh-my-zsh
 chown vagrant:vagrant /home/vagrant/.zshrc
 chown vagrant:vagrant /home/vagrant/.zprofile
 chsh -s /bin/zsh vagrant
+
+touch /home/$WSL_USER_NAME/.homestead-features/oh-my-zsh
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

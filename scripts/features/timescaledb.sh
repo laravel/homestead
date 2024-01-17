@@ -16,8 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/timescale
-
 # Add TimeScaleDB PPA
 sudo sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/ubuntu/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list"
 wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add -
@@ -30,4 +28,5 @@ printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/13/ma
 
 sudo service postgresql restart
 
+touch /home/$WSL_USER_NAME/.homestead-features/timescale
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

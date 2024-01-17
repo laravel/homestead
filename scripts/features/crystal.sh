@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/crystal
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install Crystal Programming Language Support
 curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
 echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
@@ -36,3 +33,6 @@ mv lucky /usr/local/bin/.
 cd /home/vagrant
 rm -rf lucky_cli-0.11.0
 rm -rf v0.11.0.tar.gz
+
+touch /home/$WSL_USER_NAME/.homestead-features/crystal
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

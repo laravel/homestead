@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/logstash
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Determine version from config
 
 set -- "$1"
@@ -52,3 +49,6 @@ sudo apt-get -y install logstash"$installVersion"
 # Enable Start Elasticsearch
 
 sudo systemctl enable --now logstash.service
+
+touch /home/$WSL_USER_NAME/.homestead-features/logstash
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

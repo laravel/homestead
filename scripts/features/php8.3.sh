@@ -16,9 +16,6 @@ then
    exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/php83
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # PHP 8.3
 apt-get install -y --allow-change-held-packages \
 php8.3 php8.3-bcmath php8.3-bz2 php8.3-cgi php8.3-cli php8.3-common php8.3-curl php8.3-dba php8.3-dev \
@@ -61,3 +58,6 @@ sed -i "s/group = www-data/group = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
 sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
 sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.3/fpm/pool.d/www.conf
+
+touch /home/$WSL_USER_NAME/.homestead-features/php83
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

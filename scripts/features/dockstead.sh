@@ -16,8 +16,8 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/dockstead
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Ensure we're in swarm mode
 docker swarm init --advertise-addr 192.168.56.56
+
+touch /home/$WSL_USER_NAME/.homestead-features/dockstead
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

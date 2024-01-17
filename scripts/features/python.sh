@@ -16,12 +16,12 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/pythontools
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install Python
 apt-get update
 apt-get install -y python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv
 sudo -H -u vagrant bash -c 'pip3 install django'
 sudo -H -u vagrant bash -c 'pip3 install numpy'
 sudo -H -u vagrant bash -c 'pip3 install masonite'
+
+touch /home/$WSL_USER_NAME/.homestead-features/pythontools
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

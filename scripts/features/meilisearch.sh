@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/meilisearch
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # add the sources for meilisearch
 curl -L https://install.meilisearch.com | sh
 mv ./meilisearch /usr/bin/
@@ -43,3 +40,6 @@ systemctl enable meilisearch
 
 # Start the meilisearch service
 systemctl start meilisearch
+
+touch /home/$WSL_USER_NAME/.homestead-features/meilisearch
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

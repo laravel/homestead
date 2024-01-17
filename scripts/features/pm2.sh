@@ -16,8 +16,8 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/pm2
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install pm2
 npm install -g pm2
+
+touch /home/$WSL_USER_NAME/.homestead-features/pm2
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

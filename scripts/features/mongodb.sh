@@ -18,9 +18,6 @@ fi
 
 ARCH=$(arch)
 
-touch /home/$WSL_USER_NAME/.homestead-features/mongodb
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 if [[ "$ARCH" == "aarch64" ]]; then
   echo "deb [ arch=arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 else
@@ -163,3 +160,6 @@ sudo ln -s /etc/php/8.2/mods-available/mongo.ini /etc/php/8.2/fpm/conf.d/20-mong
 sudo service php8.2-fpm restart
 
 mongosh admin --eval "db.createUser({user:'homestead',pwd:'secret',roles:['root']})"
+
+touch /home/$WSL_USER_NAME/.homestead-features/mongodb
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

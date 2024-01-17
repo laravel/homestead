@@ -16,12 +16,12 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/flyway
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install Flyway
 wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz
 tar -zxvf flyway-commandline-4.2.0-linux-x64.tar.gz -C /usr/local
 chmod +x /usr/local/flyway-4.2.0/flyway
 ln -s /usr/local/flyway-4.2.0/flyway /usr/local/bin/flyway
 rm -rf flyway-commandline-4.2.0-linux-x64.tar.gz
+
+touch /home/$WSL_USER_NAME/.homestead-features/flyway
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

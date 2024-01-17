@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/openresty
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Install Openresty
 
 wget -qO - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
@@ -33,3 +30,6 @@ sudo sed -i "s/listen\s*80;/listen\       8888;/g" /etc/openresty/nginx.conf
 
 sudo service openresty restart
 sudo service nginx start
+
+touch /home/$WSL_USER_NAME/.homestead-features/openresty
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

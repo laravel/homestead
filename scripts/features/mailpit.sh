@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/mailpit
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 curl -sL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh | sh
 
 chown -f $WSL_USER_NAME:$WSL_USER_GROUP /usr/local/bin/mailpit
@@ -39,3 +36,6 @@ EOF
 systemctl disable --now mailpit
 
 systemctl enable --now mailpit
+
+touch /home/$WSL_USER_NAME/.homestead-features/mailpit
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features

@@ -16,9 +16,6 @@ then
     exit 0
 fi
 
-touch /home/$WSL_USER_NAME/.homestead-features/elasticsearch
-chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
-
 # Determine version from config
 
 set -- "$1"
@@ -32,10 +29,8 @@ else
     majorVersion="$(echo $version | head -c 1)"
 fi
 
-
 echo "Elasticsearch installVersion: $installVersion"
 echo "Elasticsearch majorVersion: $majorVersion"
-
 
 # Install Java & Elasticsearch
 
@@ -61,3 +56,6 @@ sudo sed -i "s/#cluster.name: my-application/cluster.name: homestead/" /etc/elas
 
 sudo systemctl enable elasticsearch.service
 sudo service elasticsearch start
+
+touch /home/$WSL_USER_NAME/.homestead-features/elasticsearch
+chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
