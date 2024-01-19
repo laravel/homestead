@@ -20,8 +20,9 @@ touch /home/$WSL_USER_NAME/.homestead-features/crystal
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Install Crystal Programming Language Support
-curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
-echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
+curl -fsSL https://keybase.io/crystal/pgp_keys.asc | sudo gpg --dearmor -o /etc/apt/keyrings/crystal.gpg
+echo "deb [signed-by=/etc/apt/keyrings/crystal.gpg] https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
+
 apt-get update
 apt-get install -y crystal
 
