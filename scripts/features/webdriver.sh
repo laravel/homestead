@@ -19,11 +19,14 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/webdriverutils
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-# Install The Chrome Web Driver & Dusk Utilities
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee -a /etc/apt/sources.list.d/google-chrome.list
+ARCH=$(arch)
 
-apt-get update
+# Install The Chrome Web Driver & Dusk Utilities
+if [[ "$ARCH" != "aarch64" ]]; then
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
+    dpkg -i /tmp/chrome.deb
+    rm -f /tmp/chrome.deb
+fi
 
 apt-get -y install libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 chromium-browser xvfb gtk2-engines-pixbuf \
-xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps google-chrome-stable
+xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps

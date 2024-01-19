@@ -20,10 +20,9 @@ touch /home/$WSL_USER_NAME/.homestead-features/openresty
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Install Openresty
+curl -fsSL https://openresty.org/package/pubkey.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/openresty.gpg
+echo "deb [signed-by=/etc/apt/keyrings/openresty.gpg] http://openresty.org/package/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/openresty.list
 
-wget -qO - https://openresty.org/package/pubkey.gpg | sudo apt-key add -
-sudo apt-get install -y software-properties-common
-sudo add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main"
 sudo apt-get update
 sudo service nginx stop
 sudo apt-get install -y openresty

@@ -20,8 +20,9 @@ touch /home/$WSL_USER_NAME/.homestead-features/cassandra
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
 # Install Cassandra and driver dependencies
-echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
-wget -q -O - https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+echo "deb https://debian.cassandra.apache.org 41x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+curl https://downloads.apache.org/cassandra/KEYS | sudo apt-key add -
+
 sudo DEBIAN_FRONTEND=noninteractive apt update
 sudo DEBIAN_FRONTEND=noninteractive apt install cassandra openjdk-8-jdk git libgmp-dev php7.1-dev php7.2-dev php7.3-dev php7.4-dev -y
 
