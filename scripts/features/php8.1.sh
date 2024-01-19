@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if [ -f ~/.homestead-features/wsl_user_name ]; then
-   WSL_USER_NAME="$(cat ~/.homestead-features/wsl_user_name)"
-   WSL_USER_GROUP="$(cat ~/.homestead-features/wsl_user_group)"
+    WSL_USER_NAME="$(cat ~/.homestead-features/wsl_user_name)"
+    WSL_USER_GROUP="$(cat ~/.homestead-features/wsl_user_group)"
 else
-   WSL_USER_NAME=vagrant
-   WSL_USER_GROUP=vagrant
+    WSL_USER_NAME=vagrant
+    WSL_USER_GROUP=vagrant
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -20,8 +20,8 @@ fi
 
 if [ -f /home/$WSL_USER_NAME/.homestead-features/php81 ]
 then
-   echo "PHP 8.1 already installed."
-   exit 0
+    echo "PHP 8.1 already installed."
+    exit 0
 fi
 
 touch /home/$WSL_USER_NAME/.homestead-features/php81
