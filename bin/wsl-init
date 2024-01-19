@@ -21,64 +21,71 @@ apt-get upgrade -y
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
 
-apt-get install -y software-properties-common curl
+apt-get install -y software-properties-common curl gnupg debian-keyring debian-archive-keyring apt-transport-https \
+ca-certificates
 
 # Install Some PPAs
 apt-add-repository ppa:ondrej/php -y
-apt-add-repository ppa:chris-lea/redis-server -y
-# NodeJS
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-# PostgreSQL
-tee /etc/apt/sources.list.d/pgdg.list <<END
-deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
-END
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+# Prepare keyrings directory
+sudo mkdir -p /etc/apt/keyrings
+
+# NodeJS
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_21.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+
+# PostgreSQL
+curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/keyrings/postgresql.gpg
+sudo sh -c 'echo "deb [signed-by=/etc/apt/keyrings/postgresql.gpg] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
 ## Update Package Lists
-apt-get update
+apt-get update -y
 
 # Install Some Basic Packages
-apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev unzip make \
-python3-pip re2c supervisor unattended-upgrades whois vim libnotify-bin pv mcrypt bash-completion zsh imagemagick
-
-## Set My Timezone
-#ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+apt-get install -y build-essential dos2unix gcc git git-lfs libmcrypt4 libpcre3-dev libpng-dev chrony unzip make pv \
+python3-pip re2c supervisor unattended-upgrades whois vim cifs-utils bash-completion zsh graphviz avahi-daemon tshark
 
 # Install Generic PHP packages
 apt-get install -y --allow-change-held-packages \
 php-imagick php-memcached php-redis php-xdebug php-dev php-swoole
 
-# PHP 8.2
+# PHP 8.3
 apt-get install -y --allow-change-held-packages \
-php8.2 php8.2-bcmath php8.2-bz2 php8.2-cgi php8.2-cli php8.2-common php8.2-curl php8.2-dba php8.2-dev \
-php8.2-enchant php8.2-fpm php8.2-gd php8.2-gmp php8.2-imap php8.2-interbase php8.2-intl php8.2-ldap \
-php8.2-mbstring php8.2-mysql php8.2-odbc php8.2-opcache php8.2-pgsql php8.2-phpdbg php8.2-pspell php8.2-readline \
-php8.2-snmp php8.2-soap php8.2-sqlite3 php8.2-sybase php8.2-tidy php8.2-xml php8.2-xsl \
-php8.2-zip
+php8.3 php8.3-bcmath php8.3-bz2 php8.3-cgi php8.3-cli php8.3-common php8.3-curl php8.3-dba php8.3-dev \
+php8.3-enchant php8.3-fpm php8.3-gd php8.3-gmp php8.3-imap php8.3-interbase php8.3-intl php8.3-ldap \
+php8.3-mbstring php8.3-mysql php8.3-odbc php8.3-opcache php8.3-pgsql php8.3-phpdbg php8.3-pspell php8.3-readline \
+php8.3-snmp php8.3-soap php8.3-sqlite3 php8.3-sybase php8.3-tidy php8.3-xml php8.3-xsl \
+php8.3-zip php8.3-imagick php8.3-memcached php8.3-redis php8.3-xmlrpc php8.3-xdebug
+
+# Configure php.ini for CLI
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.3/cli/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.3/cli/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.3/cli/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.3/cli/php.ini
+
+# Configure Xdebug
+echo "xdebug.mode = debug" >> /etc/php/8.3/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/8.3/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/8.3/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/8.3/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/8.3/mods-available/opcache.ini
 
 # Fixed php fpm bind listening socket - no such file issue.
 mkdir -p /run/php
-touch /run/php/php8.2-fpm.sock
+touch /run/php/php8.3-fpm.sock
 
-# Install Composer
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-chown -R $WSL_USER_NAME:$WSL_USER_NAME /home/$WSL_USER_NAME/.config
+  # Install Composer
+  curl -sS https://getcomposer.org/installer | php
+  mv composer.phar /usr/local/bin/composer
+  chown -R vagrant:vagrant /home/vagrant/.config
 
-## Install Global Packages
-sudo su $WSL_USER_NAME <<'EOF'
-/usr/local/bin/composer global require "laravel/envoy=^2.0"
-/usr/local/bin/composer global require "laravel/installer=^4.2"
-/usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
-/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
+  # Install Global Packages
+  sudo su vagrant <<'EOF'
+  /usr/local/bin/composer global require "laravel/envoy=^2.0"
+  /usr/local/bin/composer global require "laravel/installer=^5.0"
+  /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
+  /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
-
-# Configure php.ini for CLI
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.2/cli/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.2/cli/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.2/cli/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.2/cli/php.ini
 
 # Install Nginx
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
@@ -92,37 +99,36 @@ chown -R $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME
 touch /home/$WSL_USER_NAME/.config/nginx/nginx.conf
 ln -sf /home/$WSL_USER_NAME/.config/nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
-# Setup Some PHP-FPM Options
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.2/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.2/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.2/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.2/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.2/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.2/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.2/fpm/php.ini
+# Configure php.ini for FPM
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.3/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/8.3/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.3/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.3/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.3/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.3/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.3/fpm/php.ini
 
-printf "[openssl]\n" | tee -a /etc/php/8.2/fpm/php.ini
-printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.2/fpm/php.ini
-
-printf "[curl]\n" | tee -a /etc/php/8.2/fpm/php.ini
-printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.2/fpm/php.ini
-
-# Disable XDebug On The CLI
-sudo phpdismod -s cli xdebug
+printf "[openssl]\n" | tee -a /etc/php/8.3/fpm/php.ini
+printf "openssl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.3/fpm/php.ini
+printf "[curl]\n" | tee -a /etc/php/8.3/fpm/php.ini
+printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.3/fpm/php.ini
 
 # Set The Nginx & PHP-FPM User
 sed -i "s/user www-data;/user $WSL_USER_NAME;/" /etc/nginx/nginx.conf
 sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/8.2/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = $WSL_USER_NAME/" /etc/php/8.2/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/8.3/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $WSL_USER_NAME/" /etc/php/8.3/fpm/pool.d/www.conf
 
-sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/8.2/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = $WSL_USER_NAME/" /etc/php/8.2/fpm/pool.d/www.conf
-sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.2/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/8.3/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $WSL_USER_NAME/" /etc/php/8.3/fpm/pool.d/www.conf
+sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.3/fpm/pool.d/www.conf
+
+# Disable XDebug On The CLI
+sudo phpdismod -s cli xdebug
 
 service nginx restart
-service php8.0-fpm restart
+service php8.3-fpm restart
 
 # Add $WSL_USER_NAME User To WWW-Data
 usermod -a -G www-data $WSL_USER_NAME
