@@ -20,8 +20,8 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/blackfire
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-wget -q -O - https://packages.blackfire.io/gpg.key | apt-key add -
-echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list
+curl -fsSL https://packages.blackfire.io/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/blackfire.gpg
+echo "deb [signed-by=/etc/apt/keyrings/blackfire.gpg] http://packages.blackfire.io/debian any main" | sudo tee /etc/apt/sources.list.d/blackfire.list
 
 # Install Blackfire
 sudo DEBIAN_FRONTEND=noninteractive apt-get update

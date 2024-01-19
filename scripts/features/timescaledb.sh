@@ -18,15 +18,14 @@ fi
 
 touch /home/$WSL_USER_NAME/.homestead-features/timescale
 
-# Add TimeScaleDB PPA
-sudo sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/ubuntu/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list"
-wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add -
-sudo apt-get update
+curl -fsSL https://packagecloud.io/timescale/timescaledb/gpgkey | sudo gpg --dearmor -o /etc/apt/keyrings/timescaledb.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/timescaledb.gpg] https://packagecloud.io/timescale/timescaledb/ubuntu/ jammy main' | sudo tee /etc/apt/sources.list.d/timescaledb.list
 
-sudo apt-get -y install timescaledb-2-postgresql-13
+sudo apt-get update
+sudo apt-get -y install timescaledb-2-postgresql-15
 
 sudo timescaledb-tune --quiet --yes
-printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
+printf "\ntimescaledb.telemetry_level=off\n" | sudo tee -a /etc/postgresql/15/main/postgresql.conf
 
 sudo service postgresql restart
 
