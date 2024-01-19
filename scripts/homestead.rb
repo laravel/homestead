@@ -610,7 +610,7 @@ class Homestead
       end
 
       settings['databases'].each do |db|
-        if (enabled_databases.include? 'mysql') || (enabled_databases.include? 'mysql8') || (enabled_databases.include? 'mariadb')
+        if (enabled_databases.include? 'mysql') || (enabled_databases.include? 'mariadb')
           config.vm.provision 'shell' do |s|
             s.name = 'Creating MySQL / MariaDB Database: ' + db
             s.path = script_dir + '/create-mysql.sh'
