@@ -32,8 +32,8 @@ Homestead is made up of 2 different projects. The first is this repo which is th
 ##### Current versions
 | Ubuntu LTS | Settler Version | Homestead Version | Branch    | Status               |
 |------------|-----------------|-------------------|-----------|----------------------|
-| 22.04      | 14.x            | 14.x              | `main`    | Development/Unstable |
-| 20.04      | 13.x            | 14.x              | `release` | Stable               |
+| 22.04      | 14.x            | 15.x              | `main`    | Development/Unstable |
+| 22.04      | 14.x            | 15.x              | `release` | Stable               |
 
 ## Developing Homestead
 
