@@ -212,14 +212,20 @@ class Homestead
 
           if folder['type'] == 'nfs'
             mount_opts = folder['mount_options'] ? folder['mount_options'] : ['actimeo=1', 'nolock']
+
+            # Ubuntu 22.04 does not support NFS UDP, so we need to ensure it is disabled
+            nfs_options = {nfs_udp: false}
           elsif folder['type'] == 'smb'
             mount_opts = folder['mount_options'] ? folder['mount_options'] : ['vers=3.02', 'mfsymlinks']
 
             smb_creds = {smb_host: folder['smb_host'], smb_username: folder['smb_username'], smb_password: folder['smb_password']}
           end
-
+          
           # For b/w compatibility keep separate 'mount_opts', but merge with options
-          options = (folder['options'] || {}).merge({ mount_options: mount_opts }).merge(smb_creds || {})
+          options = (folder['options'] || {})
+            .merge({ mount_options: mount_opts })
+            .merge(smb_creds || {})
+            .merge(nfs_options || {})
 
           # Double-splat (**) operator only works with symbol keys, so convert
           options.keys.each{|k| options[k.to_sym] = options.delete(k) }
