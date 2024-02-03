@@ -60,3 +60,6 @@ sed -i "s/group = www-data/group = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
 sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
 sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.3/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.3/fpm/pool.d/www.conf
+
+systemctl enable php8.3-fpm
+service php8.3-fpm restart
