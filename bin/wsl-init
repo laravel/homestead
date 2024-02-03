@@ -80,17 +80,17 @@ echo "opcache.revalidate_freq = 0" >> /etc/php/8.3/mods-available/opcache.ini
 mkdir -p /run/php
 touch /run/php/php8.3-fpm.sock
 
-  # Install Composer
-  curl -sS https://getcomposer.org/installer | php
-  mv composer.phar /usr/local/bin/composer
-  chown -R vagrant:vagrant /home/vagrant/.config
+# Install Composer
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+chown -R $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.config
 
-  # Install Global Packages
-  sudo su vagrant <<'EOF'
-  /usr/local/bin/composer global require "laravel/envoy=^2.0"
-  /usr/local/bin/composer global require "laravel/installer=^5.0"
-  /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
-  /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
+# Install Global Packages
+sudo su $WSL_USER_NAME <<'EOF'
+/usr/local/bin/composer global require "laravel/envoy=^2.0"
+/usr/local/bin/composer global require "laravel/installer=^5.0"
+/usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
+/usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
 
 # Install Nginx
