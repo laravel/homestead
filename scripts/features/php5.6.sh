@@ -64,10 +64,10 @@ printf "[curl]\n" | tee -a /etc/php/5.6/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/5.6/fpm/php.ini
 
 # Configure FPM
-sed -i "s/user = www-data/user = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/5.6/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/5.6/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/5.6/fpm/pool.d/www.conf
 
 systemctl enable php5.6-fpm
