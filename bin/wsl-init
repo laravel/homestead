@@ -11,6 +11,11 @@ read WSL_USER_NAME
 echo "What is your WSL user group? (Same as username if you're unsure)"
 read WSL_USER_GROUP
 
+# Save necessary information for features
+mkdir -p ~/.homestead-features
+echo $WSL_USER_NAME > ~/.homestead-features/wsl_user_name
+echo $WSL_USER_GROUP > ~/.homestead-features/wsl_user_group
+
 # Update Package List
 apt-get update
 
