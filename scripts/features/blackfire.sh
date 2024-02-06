@@ -47,7 +47,7 @@ timeout=15s
 "
 
 echo "$agent" > "/etc/blackfire/agent"
-echo "$client" > "/home/vagrant/.blackfire.ini"
+echo "$client" > "/home/$WSL_USER_NAME/.blackfire.ini"
 
 service php5.6-fpm restart
 service php7.0-fpm restart
