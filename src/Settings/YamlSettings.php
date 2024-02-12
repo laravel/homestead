@@ -4,7 +4,7 @@ namespace Laravel\Homestead\Settings;
 
 use Symfony\Component\Yaml\Yaml;
 
-class YamlSettings extends HomesteadSettings
+final class YamlSettings extends HomesteadSettings
 {
     /**
      * Create an instance from a file.
