@@ -13,3 +13,4 @@ phpunit.xml
 wsl-init.log
 .backup/*
 .DS_Store
+/.idea
