@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "Changing current working directory to Homestead directory..."
 cd "$(dirname "$0")/.."
-echo "Script is now running in ${pwd}"
+echo "Script is now running in ".`pwd`
 
 # Configure logging
 log_file="wsl-init.log"
@@ -73,6 +73,7 @@ fi
 
 # Configure feature tracking path
 mkdir -p ~/.homestead-features
+mkdir -p /home/$WSL_UER_NAME/.homestead-features
 echo $WSL_USER_NAME > ~/.homestead-features/wsl_user_name
 echo $WSL_USER_GROUP > ~/.homestead-features/wsl_user_group
 
