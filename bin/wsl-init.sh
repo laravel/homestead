@@ -20,8 +20,14 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-UNAME=$(awk -F= '/^NAME/{print $2}' /etc/os-release | sed 's/\"//g')
+UNAME=$(lsb_release -is)
 if [[ "$UNAME" != "Ubuntu" ]]; then
+    echo "Error: WSL Homestead only supports Ubuntu Distro">&2
+
+    exit 1
+fi
+UBUNTU_VERSION=$(lsb_release -rs)
+if [[ "$UBUNTU_VERSION" != "20.04" && "$UBUNTU_VERSION" != "22.04" ]]; then
     echo "Error: WSL Homestead only supports Ubuntu 20.04 and 22.04.">&2
 
     exit 1
