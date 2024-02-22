@@ -2,6 +2,10 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
+echo "Changing current working directory to Homestead directory..."
+cd "$(dirname "$0")/.."
+echo "Script is now running in ${pwd}"
+
 if [[ $EUID -ne 0 ]]; then
     echo "This script must be run as root."
 
