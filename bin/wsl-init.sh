@@ -6,22 +6,30 @@ echo "Changing current working directory to Homestead directory..."
 cd "$(dirname "$0")/.."
 echo "Script is now running in ${pwd}"
 
+# Configure logging
+log_file="wsl-init.log"
+error_log_file="wsl-init-error.log"
+# Redirect stdout to both screen and log file
+exec > >(tee "$log_file")
+# Redirect stderr to error log file
+exec 2> "$error_log_file"
+
 if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root."
+    echo "Error: This script must be run as root.">&2
 
     exit 1
 fi
 
 UNAME=$(awk -F= '/^NAME/{print $2}' /etc/os-release | sed 's/\"//g')
 if [[ "$UNAME" != "Ubuntu" ]]; then
-    echo "WSL Homestead only supports Ubuntu 20.04 and 22.04."
+    echo "Error: WSL Homestead only supports Ubuntu 20.04 and 22.04.">&2
 
     exit 1
 fi
 
 if [[ -f /root/.homestead-provisioned ]]; then
-    echo "This server has already been provisioned by Laravel Homestead."
-    echo "If you need to re-provision, you may remove the /root/.homestead-provisioned file and try again."
+    echo "Error: This server has already been provisioned by Laravel Homestead.">&2
+    echo "If you need to re-provision, you may remove the /root/.homestead-provisioned file and try again.">&2
 
     exit 1
 fi
@@ -42,17 +50,17 @@ fi
 
 # Validate user and group
 if ! id "$WSL_USER_NAME" &>/dev/null; then
-    echo "User $WSL_USER_NAME does not exist."
+    echo "Error: User $WSL_USER_NAME does not exist.">&2
 
     exit 1
 fi
 if ! getent group "$WSL_USER_GROUP" &>/dev/null; then
-    echo "Group $WSL_USER_GROUP does not exist."
+    echo "Error: Group $WSL_USER_GROUP does not exist.">&2
 
     exit 1
 fi
 if ! groups "$WSL_USER_NAME" | grep -q "\b$WSL_USER_GROUP\b"; then
-    echo "User $WSL_USER_NAME is not a member of group $WSL_USER_GROUP."
+    echo "Error: User $WSL_USER_NAME is not a member of group $WSL_USER_GROUP.">&2
 
     exit 1
 fi
@@ -316,5 +324,3 @@ touch /root/.homestead-provisioned
 # Copy aliases to $WSL_UER_NAME
 cp ./resources/aliases /home/${WSL_USER_NAME}/.bash_aliases && chown ${WSL_USER_NAME}:${WSL_USER_GROUP} /home/${WSL_USER_NAME}/.bash_aliases && source /home/${WSL_USER_NAME}/.bash_aliases
 
-# Copy ssl root certificate to Homestead folder for installing it in windows certificate store easily
-cp /etc/ssl/certs/ca.homestead.*.crt .

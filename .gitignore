@@ -11,6 +11,7 @@ phpunit.xml
 /user-customizations.sh
 .phpunit.result.cache
 wsl-init.log
+wsl-init-error.log
 .backup/*
 .DS_Store
 /.idea
