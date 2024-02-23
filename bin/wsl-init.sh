@@ -73,7 +73,7 @@ fi
 
 # Configure feature tracking path
 mkdir -p ~/.homestead-features
-mkdir -p /home/$WSL_UER_NAME/.homestead-features
+mkdir -p /home/$WSL_USER_NAME/.homestead-features
 echo $WSL_USER_NAME > ~/.homestead-features/wsl_user_name
 echo $WSL_USER_GROUP > ~/.homestead-features/wsl_user_group
 
@@ -328,6 +328,6 @@ su $WSL_USER_NAME -c 'bash init.sh'
 # Mark wsl homestead provisioning completed
 touch /root/.homestead-provisioned
 
-# Copy aliases to $WSL_UER_NAME
+# Copy aliases to $WSL_USER_NAME
 cp ./resources/aliases /home/${WSL_USER_NAME}/.bash_aliases && chown ${WSL_USER_NAME}:${WSL_USER_GROUP} /home/${WSL_USER_NAME}/.bash_aliases && source /home/${WSL_USER_NAME}/.bash_aliases
 
