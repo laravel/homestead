@@ -9,10 +9,10 @@ echo "Script is now running in ".`pwd`
 # Configure logging
 log_file="wsl-init.log"
 error_log_file="wsl-init-error.log"
-# Redirect stdout to both screen and log file
+# Redirect all outout (stdout and stderror) to log_file and stdout
 exec > >(tee "$log_file")
-# Redirect stderr to error log file
-exec 2> "$error_log_file"
+# Redirect stderr to error_log_file and stdout
+exec 2> >(tee "$error_log_file")
 
 if [[ $EUID -ne 0 ]]; then
     echo "Error: This script must be run as root.">&2
@@ -34,11 +34,12 @@ if [[ "$UBUNTU_VERSION" != "20.04" && "$UBUNTU_VERSION" != "22.04" ]]; then
 fi
 
 if [[ -f /root/.homestead-provisioned ]]; then
-    echo "Error: This server has already been provisioned by Laravel Homestead.">&2
-    echo "If you need to re-provision, you may remove the /root/.homestead-provisioned file and try again.">&2
+    echo "Error: This server has already been provisioned by Laravel Homestead." >&2
+    echo "If you need to re-provision, you may remove the /root/.homestead-provisioned file and try again." >&2
 
     exit 1
 fi
+echo "Starting..."
 
 echo "What is your WSL user name? [vagrant]"
 read WSL_USER_NAME
@@ -161,6 +162,8 @@ update-alternatives --set php /usr/bin/php8.3
 update-alternatives --set php-config /usr/bin/php-config8.3
 update-alternatives --set phpize /usr/bin/phpize8.3
 
+echo "INFO: Installing composer\n" >&2
+echo "INFO2: Installing composer\n"
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
@@ -169,6 +172,8 @@ chown -R ${WSL_USER_NAME}:${WSL_USER_GROUP} /home/${WSL_USER_NAME}/.config
 
 # Add Composer Global Bin To Path
 printf "\nPATH=\"$(sudo su - ${WSL_USER_NAME} -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/${WSL_USER_NAME}/.profile
+echo "INFO: Installing composer global packages" >&2
+echo "INFO2: Installing composer global packages"
 
 # Install Global Packages
 sudo su ${WSL_USER_NAME} <<EOF
@@ -177,6 +182,8 @@ sudo su ${WSL_USER_NAME} <<EOF
 /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
 /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
+echo "INFO: Installing nginx packages" >&2
+echo "INFO2: Installing nginx packages"
 
 # Install Nginx
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
@@ -321,13 +328,17 @@ sysctl fs.protected_regular=0
 /sbin/mkswap /var/swap.1
 /sbin/swapon /var/swap.1
 
+echo "INFO: Composer install Homestead" >&2
+echo "INFO2: Composer install Homestead"
 # Setup Homestead repo
 su $WSL_USER_NAME -c 'composer install'
 su $WSL_USER_NAME -c 'bash init.sh'
+echo "INFO: Installation completed." >&2
+echo "INFO2: Installation completed."
 
 # Mark wsl homestead provisioning completed
 touch /root/.homestead-provisioned
 
 # Copy aliases to $WSL_USER_NAME
-cp ./resources/aliases /home/${WSL_USER_NAME}/.bash_aliases && chown ${WSL_USER_NAME}:${WSL_USER_GROUP} /home/${WSL_USER_NAME}/.bash_aliases && source /home/${WSL_USER_NAME}/.bash_aliases
-
+cp ./resources/aliases /home/${WSL_USER_NAME}/.bash_aliases && chown ${WSL_USER_NAME}:${WSL_USER_GROUP} /home/${WSL_USER_NAME}/.bash_aliases
+echo "Aliases have been coppied to ${WSL_USER_NAME}'s home directory run 'source /home/${WSL_USER_NAME}/.bash_aliases' start using it in current session."
