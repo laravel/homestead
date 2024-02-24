@@ -162,8 +162,6 @@ update-alternatives --set php /usr/bin/php8.3
 update-alternatives --set php-config /usr/bin/php-config8.3
 update-alternatives --set phpize /usr/bin/phpize8.3
 
-echo "INFO: Installing composer\n" >&2
-echo "INFO2: Installing composer\n"
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
@@ -172,18 +170,14 @@ chown -R ${WSL_USER_NAME}:${WSL_USER_GROUP} /home/${WSL_USER_NAME}/.config
 
 # Add Composer Global Bin To Path
 printf "\nPATH=\"$(sudo su - ${WSL_USER_NAME} -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/${WSL_USER_NAME}/.profile
-echo "INFO: Installing composer global packages" >&2
-echo "INFO2: Installing composer global packages"
 
 # Install Global Packages
-sudo su ${WSL_USER_NAME} <<EOF
+sudo su ${WSL_USER_NAME} <<EOF 2>&1
 /usr/local/bin/composer global require "laravel/envoy=^2.0"
 /usr/local/bin/composer global require "laravel/installer=^5.0"
 /usr/local/bin/composer global config --no-plugins allow-plugins.slince/composer-registry-manager true
 /usr/local/bin/composer global require "slince/composer-registry-manager=^2.0"
 EOF
-echo "INFO: Installing nginx packages" >&2
-echo "INFO2: Installing nginx packages"
 
 # Install Nginx
 apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages nginx
@@ -328,13 +322,9 @@ sysctl fs.protected_regular=0
 /sbin/mkswap /var/swap.1
 /sbin/swapon /var/swap.1
 
-echo "INFO: Composer install Homestead" >&2
-echo "INFO2: Composer install Homestead"
 # Setup Homestead repo
 su $WSL_USER_NAME -c 'composer install'
 su $WSL_USER_NAME -c 'bash init.sh'
-echo "INFO: Installation completed." >&2
-echo "INFO2: Installation completed."
 
 # Mark wsl homestead provisioning completed
 touch /root/.homestead-provisioned
