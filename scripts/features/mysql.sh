@@ -18,8 +18,13 @@ fi
 touch /home/$WSL_USER_NAME/.homestead-features/mysql
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
+# Stop MariDB service
+service mariadb stop
+# Remove old PPA
+rm -f /etc/apt/sources.list.d/mariadb.list
+rm -f /etc/apt/sources.list.d/mariadb.list.old_1
 # Remove MariaDB
-apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mariadb-server mariadb-client
+apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mariadb-server mariadb-client  mysql-common
 apt-get autoremove -y
 apt-get autoclean
 
@@ -34,6 +39,7 @@ echo "mysql-server mysql-server/root_password_again password secret" | debconf-s
 apt-get install -y mysql-server
 
 # Configure MySQL 8 Remote Access and Native Pluggable Authentication
+mkdir -p /etc/mysql/conf.d
 cat > /etc/mysql/conf.d/mysqld.cnf << EOF
 [mysqld]
 bind-address = 0.0.0.0

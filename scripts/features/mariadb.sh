@@ -23,14 +23,17 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 service apparmor stop
 update-rc.d -f apparmor remove
 
+# Stop MySQL service
+service mysql stop
 # Remove MySQL
-apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mysql-server mysql-client
+apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mysql-server mysql-client mysql-common
 apt-get autoremove -y
 apt-get autoclean
 
 rm -rf /var/lib/mysql/*
 rm -rf /var/log/mysql
 rm -rf /etc/mysql
+rm -f /home/$WSL_USER_NAME/.homestead-features/mysql
 
 # Determine version from config
 set -- "$1"
@@ -38,12 +41,14 @@ IFS="."
 
 # Add Maria PPA
 if [ -z "${version}" ]; then
-    curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+    #curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+    curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
 else
     curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
     sudo bash mariadb_repo_setup --mariadb-server-version="$version"
     echo "MariaDB specific target version : $version"
 fi
+apt-get update
 
 debconf-set-selections <<< "mariadb-server mysql-server/data-dir select ''"
 debconf-set-selections <<< "mariadb-server mysql-server/root_password password secret"
