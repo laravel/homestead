@@ -21,8 +21,7 @@ chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-feature
 # Stop MariDB service
 service mariadb stop
 # Remove old PPA
-rm -f /etc/apt/sources.list.d/mariadb.list
-rm -f /etc/apt/sources.list.d/mariadb.list.old_1
+rm -f /etc/apt/sources.list.d/mariadb.list*
 # Remove MariaDB
 apt-get -o Dpkg::Options::="--force-confnew" remove -y --purge mariadb-server mariadb-client  mysql-common
 apt-get autoremove -y

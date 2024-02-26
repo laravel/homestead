@@ -41,10 +41,10 @@ if [[ -f /root/.homestead-provisioned ]]; then
 fi
 echo "Starting..."
 
-echo "What is your WSL user name? [vagrant]"
+echo "What is your WSL user name? [vagrant]: "
 read WSL_USER_NAME
 
-echo "What is your WSL user group? (Same as username if you're unsure) [vagrant]"
+echo "What is your WSL user group? (Same as username if you're unsure) [vagrant]: "
 read WSL_USER_GROUP
 
 # Set default
