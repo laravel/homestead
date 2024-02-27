@@ -73,7 +73,7 @@ class WslCreateSiteCommand extends Command
 
         foreach ($settings['sites'] as $key => $site) {
             $type = $site['type'] ?? 'laravel';
-            $output->writeln("Configuring site: ". $site['map'] ." of type ". $type);
+            $output->writeln('Configuring site: '.$site['map'].' of type '.$type);
             $create_cmd = '';
             $headers = false;
             $rewrites = false;

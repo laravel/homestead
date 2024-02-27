@@ -77,7 +77,7 @@ class WslApplyFeatures extends Command
             $feature_cmd = '';
             $feature_name = array_key_first($feature);
             $feature_variables = $feature[$feature_name];
-            $output->writeln(PHP_EOL. ($feature[$feature_name]? "":"Not ") . "Configuring feature: ". $feature_name);
+            $output->writeln(PHP_EOL.($feature[$feature_name] ? '' : 'Not ').'Configuring feature: '.$feature_name);
             if ($feature_variables !== false) {
                 $feature_path = "{$this->featuresPath}/{$feature_name}.sh | tee ~/.homestead-features/{$feature_name}.log";
                 // Prepare the feature variables if provided.
@@ -92,7 +92,7 @@ class WslApplyFeatures extends Command
             }
         }
 
-        $output->writeln(PHP_EOL. 'WSL features have been configured!');
+        $output->writeln(PHP_EOL.'WSL features have been configured!');
 
         return 0;
     }

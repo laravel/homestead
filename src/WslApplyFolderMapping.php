@@ -44,7 +44,7 @@ class WslApplyFolderMapping extends Command
             $folder_map_cmd = "rm -r {$folder_to} ; mkdir -p {$parent_directory} && ln -s {$folder_map} {$folder_to}";
             $out = shell_exec($folder_map_cmd);
             print_r($out);
-            $output->writeln("Created symbolic link ".$folder_to." to ".$folder_map. ".");
+            $output->writeln('Created symbolic link '.$folder_to.' to '.$folder_map.'.');
         }
 
         $output->writeln('WSL folders have been mapped!');
