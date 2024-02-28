@@ -44,11 +44,11 @@ sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/8.1/cli/php.ini
 sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/8.1/cli/php.ini
 
 # Configure Xdebug
-# echo "xdebug.mode = debug" >> /etc/php/8.1/mods-available/xdebug.ini
-# echo "xdebug.discover_client_host = true" >> /etc/php/8.1/mods-available/xdebug.ini
-# echo "xdebug.client_port = 9003" >> /etc/php/8.1/mods-available/xdebug.ini
-# echo "xdebug.max_nesting_level = 512" >> /etc/php/8.1/mods-available/xdebug.ini
-# echo "opcache.revalidate_freq = 0" >> /etc/php/8.1/mods-available/opcache.ini
+echo "xdebug.mode = debug" >> /etc/php/8.1/mods-available/xdebug.ini
+echo "xdebug.discover_client_host = true" >> /etc/php/8.1/mods-available/xdebug.ini
+echo "xdebug.client_port = 9003" >> /etc/php/8.1/mods-available/xdebug.ini
+echo "xdebug.max_nesting_level = 512" >> /etc/php/8.1/mods-available/xdebug.ini
+echo "opcache.revalidate_freq = 0" >> /etc/php/8.1/mods-available/opcache.ini
 
 # Configure php.ini for FPM
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/8.1/fpm/php.ini
@@ -65,10 +65,10 @@ printf "[curl]\n" | tee -a /etc/php/8.1/fpm/php.ini
 printf "curl.cainfo = /etc/ssl/certs/ca-certificates.crt\n" | tee -a /etc/php/8.1/fpm/php.ini
 
 # Configure FPM
-sed -i "s/user = www-data/user = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-sed -i "s/group = www-data/group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-sed -i "s/listen\.owner.*/listen.owner = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
-sed -i "s/listen\.group.*/listen.group = vagrant/" /etc/php/8.1/fpm/pool.d/www.conf
+sed -i "s/user = www-data/user = $WSL_USER_NAME/" /etc/php/8.1/fpm/pool.d/www.conf
+sed -i "s/group = www-data/group = $WSL_USER_GROUP/" /etc/php/8.1/fpm/pool.d/www.conf
+sed -i "s/listen\.owner.*/listen.owner = $WSL_USER_NAME/" /etc/php/8.1/fpm/pool.d/www.conf
+sed -i "s/listen\.group.*/listen.group = $WSL_USER_GROUP/" /etc/php/8.1/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/8.1/fpm/pool.d/www.conf
 
 systemctl enable php8.1-fpm

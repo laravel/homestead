@@ -47,7 +47,7 @@ timeout=15s
 "
 
 echo "$agent" > "/etc/blackfire/agent"
-echo "$client" > "/home/vagrant/.blackfire.ini"
+echo "$client" > "/home/$WSL_USER_NAME/.blackfire.ini"
 
 service php5.6-fpm restart
 service php7.0-fpm restart
@@ -56,4 +56,7 @@ service php7.2-fpm restart
 service php7.3-fpm restart
 service php7.4-fpm restart
 service php8.0-fpm restart
+service php8.1-fpm restart
+service php8.2-fpm restart
+service php8.3-fpm restart
 service blackfire-agent restart

@@ -117,13 +117,14 @@ class WslCreateSiteCommand extends Command
             if (! is_null($shell_output)) {
                 var_dump($shell_output);
             }
-
-            // Restart nginx
-            $shell_output = shell_exec('sudo service nginx restart');
-            if (! is_null($shell_output)) {
-                var_dump($shell_output);
-            }
         }
+
+        // Restart nginx
+        $shell_output = shell_exec('sudo service nginx restart');
+        if (! is_null($shell_output)) {
+            var_dump($shell_output);
+        }
+
         $output->writeln('WSL sites have been created!');
 
         return 0;

@@ -34,6 +34,6 @@ cd lucky_cli-0.11.0
 shards install
 crystal build src/lucky.cr --release --no-debug
 mv lucky /usr/local/bin/.
-cd /home/vagrant
+cd /home/$WSL_USER_NAME
 rm -rf lucky_cli-0.11.0
 rm -rf v0.11.0.tar.gz
