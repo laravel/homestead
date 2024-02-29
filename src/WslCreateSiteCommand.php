@@ -118,7 +118,6 @@ class WslCreateSiteCommand extends Command
             if (! is_null($shell_output)) {
                 var_dump($shell_output);
             }
-
             // run command to setup schedule cron
             if ($type == 'laravel' && ($site['schedule'] ?? false)) {
                 $output->writeln('Configuring scheduler cron ...');
