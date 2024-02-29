@@ -111,13 +111,6 @@ class WslCreateSiteCommand extends Command
             if (! is_null($shell_output)) {
                 var_dump($shell_output);
             }
-
-            // run command to create the site's SSL certificates
-            $cert_cmd = "sudo bash {$this->basePath}/scripts/create-certificate.sh {$site['map']}";
-            $shell_output = shell_exec($cert_cmd);
-            if (! is_null($shell_output)) {
-                var_dump($shell_output);
-            }
             // run command to setup schedule cron
             if ($type == 'laravel' && ($site['schedule'] ?? false)) {
                 $output->writeln('Configuring scheduler cron ...');
@@ -132,6 +125,12 @@ class WslCreateSiteCommand extends Command
                 if (! is_null($shell_output)) {
                     var_dump($shell_output);
                 }
+            }
+            // run command to create the site's SSL certificates
+            $cert_cmd = "sudo bash {$this->basePath}/scripts/create-certificate.sh {$site['map']}";
+            $shell_output = shell_exec($cert_cmd);
+            if (! is_null($shell_output)) {
+                var_dump($shell_output);
             }
         }
 
