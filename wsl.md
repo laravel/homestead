@@ -93,7 +93,7 @@ cd ~/Homestead
 ### Provision Homestead on WSL Distro
 ```
 cd ~/Homestead
-sudo ./bin/wsl-init.sh
+sudo ./bin/wsl-init
 ```
 This will prompt you for the WSL username and the user's group name. Provide the username that you selected at the time of distro installation, and provide the user's group name (generally the same as the username).
 
