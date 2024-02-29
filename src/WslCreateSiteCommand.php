@@ -120,7 +120,7 @@ class WslCreateSiteCommand extends Command
             }
 
             // run command to setup schedule cron
-            if($type == 'laravel' && ($site['schedule'] ?? false)){
+            if ($type == 'laravel' && ($site['schedule'] ?? false)) {
                 $output->writeln('Configuring scheduler cron ...');
                 $cron_cmd = "sudo -E bash {$this->basePath}/scripts/cron-schedule.sh {$site['map']} {$site['to']} {$args[4]}";
                 $shell_output = shell_exec($cron_cmd);
