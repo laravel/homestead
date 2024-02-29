@@ -10,20 +10,18 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ -f /home/$WSL_USER_NAME/.homestead-features/postgresql ]; then
-    echo "PostgreSQL already installed."
+if [ -f /home/$WSL_USER_NAME/.homestead-features/postgresql ]
+then
+    echo "postgresql already installed."
     exit 0
 fi
 
 touch /home/$WSL_USER_NAME/.homestead-features/postgresql
 chown -Rf $WSL_USER_NAME:$WSL_USER_GROUP /home/$WSL_USER_NAME/.homestead-features
 
-# Add PostgreSQL PPA
+# PostgreSQL
 curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/keyrings/postgresql.gpg
 sudo sh -c 'echo "deb [signed-by=/etc/apt/keyrings/postgresql.gpg] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-
-## Update Package Lists
-apt-get update -y
 
 # Install Postgres 15
 apt-get install -y postgresql-15 postgresql-server-dev-15 postgresql-15-postgis-3 postgresql-15-postgis-3-scripts
@@ -37,5 +35,5 @@ echo "host    all             all             10.0.2.2/32               md5" | t
 
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
-
-
+# Disable to lower initial overhead
+systemctl disable postgresql

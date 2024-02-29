@@ -64,7 +64,7 @@ class WslCreateSiteCommand extends Command
         // Remove any existing nginx sites
         $shell_output = shell_exec('sudo rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*');
         if (! is_null($shell_output)) {
-            print_r($shell_output);
+            var_dump($shell_output);
         }
 
         // Grab the current settings or create an example configuration
@@ -109,22 +109,23 @@ class WslCreateSiteCommand extends Command
             // run command to create the site
             $shell_output = shell_exec($create_cmd);
             if (! is_null($shell_output)) {
-                print_r($shell_output);
+                var_dump($shell_output);
             }
 
             // run command to create the site's SSL certificates
             $cert_cmd = "sudo bash {$this->basePath}/scripts/create-certificate.sh {$site['map']}";
             $shell_output = shell_exec($cert_cmd);
             if (! is_null($shell_output)) {
-                print_r($shell_output);
-            }
-
-            // Restart nginx
-            $shell_output = shell_exec('sudo service nginx restart');
-            if (! is_null($shell_output)) {
-                print_r($shell_output);
+                var_dump($shell_output);
             }
         }
+
+        // Restart nginx
+        $shell_output = shell_exec('sudo service nginx restart');
+        if (! is_null($shell_output)) {
+            var_dump($shell_output);
+        }
+
         $output->writeln('WSL sites have been created!');
 
         return 0;
