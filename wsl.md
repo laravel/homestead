@@ -285,5 +285,3 @@ The following software features can be installed as optional features using the 
 - wp-cli *
 - lmm *
 - Apache *
-
- 2. To be able to configure schedule:run cron job from Homestead.yaml file
