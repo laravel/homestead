@@ -47,7 +47,7 @@ class WslCreateSiteCommand extends Command
         $this->defaultProjectName = $this->slug($this->projectName);
 
         $this
-            ->setName('wsl:create-sites')
+            ->setName('wsl:sites')
             ->setDescription('Create Sites in WSL from Homestead configuration')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
@@ -62,7 +62,7 @@ class WslCreateSiteCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         // Remove any existing nginx sites
-        $shell_output = shell_exec('sudo rm -rf /etc/nginx/sites-available/*');
+        $shell_output = shell_exec('sudo rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*');
         if (! is_null($shell_output)) {
             var_dump($shell_output);
         }
@@ -71,8 +71,9 @@ class WslCreateSiteCommand extends Command
         $format = $input->getOption('json') ? 'json' : 'yaml';
         $settings = $this->parseSettingsFromFile($format, []);
 
-        foreach ($settings['wsl_sites'] as $key => $site) {
+        foreach ($settings['sites'] as $key => $site) {
             $type = $site['type'] ?? 'laravel';
+            $output->writeln('Configuring site: '.$site['map'].' of type '.$type);
             $create_cmd = '';
             $headers = false;
             $rewrites = false;
@@ -94,7 +95,7 @@ class WslCreateSiteCommand extends Command
                 $site['to'],            // $1
                 $site['port'] ?? 80,    // $2
                 $site['ssl'] ?? 443,    // $3
-                $site['php'] ?? '8.0',  // $4
+                $site['php'] ?? '8.3',  // $4
                 '',                     // $5 params
                 $site['xhgui'] ?? '',   // $6
                 $site['exec'] ?? false, // $7
@@ -116,6 +117,22 @@ class WslCreateSiteCommand extends Command
             $shell_output = shell_exec($cert_cmd);
             if (! is_null($shell_output)) {
                 var_dump($shell_output);
+            }
+
+            // run command to setup schedule cron
+            if ($type == 'laravel' && ($site['schedule'] ?? false)) {
+                $output->writeln('Configuring scheduler cron ...');
+                $cron_cmd = "sudo -E bash {$this->basePath}/scripts/cron-schedule.sh {$site['map']} {$site['to']} {$args[4]}";
+                $shell_output = shell_exec($cron_cmd);
+                if (! is_null($shell_output)) {
+                    var_dump($shell_output);
+                }
+            } else {
+                $no_cron_cmd = "sudo rm -f /etc/cron.d/{$site['map']}";
+                $shell_output = shell_exec($no_cron_cmd);
+                if (! is_null($shell_output)) {
+                    var_dump($shell_output);
+                }
             }
         }
 
