@@ -96,13 +96,6 @@ sudo ./bin/wsl-init
 ```
 This will prompt you for the WSL username and the user's group name. Provide the username that you selected at the time of distro installation, and provide the user's group name (generally the same as the username).
 
-```
-wsl:
-    - user_name: vagrant
-      user_group: vagrant
-```
--->
-
 This process will take several minutes to provision your WSL Distro, so grab a cup of coffee and relax. This step needs to be done only once.
 
 ### Installing Optional Features
