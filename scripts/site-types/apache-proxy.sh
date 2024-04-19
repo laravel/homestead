@@ -25,7 +25,7 @@ then
     then
         if ! [[ "$2" =~ ^https: ]]
         then
-            socket=$(echo "$2" | sed -E "s/^http(s?):\/\//wss:\/\//g")
+            socket=$(echo "$2" | sed -E "s/^http(s?):\/\//ws:\/\//g")
         else
             socket=$(echo "$2" | sed -E "s/^http(s?):\/\//wss:\/\//g")
         fi
