@@ -2,7 +2,7 @@
 
 namespace Laravel\Homestead\Settings;
 
-class JsonSettings extends HomesteadSettings
+final class JsonSettings extends HomesteadSettings
 {
     /**
      * Create an instance from a file.
