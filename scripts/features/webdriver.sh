@@ -24,7 +24,7 @@ ARCH=$(arch)
 # Install The Chrome Web Driver & Dusk Utilities
 if [[ "$ARCH" != "aarch64" ]]; then
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
-    dpkg -i /tmp/chrome.deb
+    apt-get install -y /tmp/chrome.deb
     rm -f /tmp/chrome.deb
 fi
 
