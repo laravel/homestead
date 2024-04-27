@@ -15,7 +15,7 @@ class WslApplyFeatures extends Command
     use GeneratesSlugs;
 
     /**
-     * The base path of the Laravel installation.
+     * The base path of the Homestead installation.
      *
      * @var string
      */
@@ -55,7 +55,7 @@ class WslApplyFeatures extends Command
         $this->featuresPath = getcwd().'/scripts/features';
 
         $this
-            ->setName('wsl:apply-features')
+            ->setName('wsl:features')
             ->setDescription('Configure features in WSL from Homestead configuration')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Determines if the Homestead settings file will be in json format.');
     }
@@ -77,9 +77,9 @@ class WslApplyFeatures extends Command
             $feature_cmd = '';
             $feature_name = array_key_first($feature);
             $feature_variables = $feature[$feature_name];
-
+            $output->writeln(PHP_EOL.($feature[$feature_name] ? '' : 'Not ').'Configuring feature: '.$feature_name);
             if ($feature_variables !== false) {
-                $feature_path = "{$this->featuresPath}/{$feature_name}.sh > ~/.homestead-features/{$feature_name}.log";
+                $feature_path = "{$this->featuresPath}/{$feature_name}.sh | tee ~/.homestead-features/{$feature_name}.log";
                 // Prepare the feature variables if provided.
                 if (is_array($feature_variables)) {
                     $variables = join(' ', $feature_variables);
@@ -88,11 +88,11 @@ class WslApplyFeatures extends Command
                     $feature_cmd = "sudo -E bash {$feature_path}";
                 }
                 shell_exec($feature_cmd);
-                $output->writeln("Command output can be found via: sudo cat ~/.homestead-features/{$feature_name}.log");
+                $output->writeln("Feature installation log can be found via: sudo cat ~/.homestead-features/{$feature_name}.log");
             }
         }
 
-        $output->writeln('WSL features have been configured!');
+        $output->writeln(PHP_EOL.'WSL features have been configured!');
 
         return 0;
     }

@@ -5,11 +5,66 @@
 ##################################
 export DEBIAN_FRONTEND=noninteractive
 
-echo "What is your WSL user name?"
+echo "Changing current working directory to Homestead directory..."
+cd "$(dirname "$0")/.."
+
+if [[ $EUID -ne 0 ]]; then
+    echo "Error: This script must be run as root.">&2
+
+    exit 1
+fi
+
+UNAME=$(lsb_release -is)
+if [[ "$UNAME" != "Ubuntu" ]]; then
+    echo "Error: WSL Homestead only supports Ubuntu Distro">&2
+
+    exit 1
+fi
+UBUNTU_VERSION=$(lsb_release -rs)
+if [[ "$UBUNTU_VERSION" != "20.04" && "$UBUNTU_VERSION" != "22.04" ]]; then
+    echo "Error: WSL Homestead only supports Ubuntu 20.04 and 22.04.">&2
+
+    exit 1
+fi
+
+if [[ -f /root/.homestead-provisioned ]]; then
+    echo "Error: This server has already been provisioned by Laravel Homestead." >&2
+    echo "If you need to re-provision, you may remove the /root/.homestead-provisioned file and try again." >&2
+
+    exit 1
+fi
+echo "Starting..."
+
+echo "What is your WSL user name? [vagrant]: "
 read WSL_USER_NAME
 
-echo "What is your WSL user group? (Same as username if you're unsure)"
+echo "What is your WSL user group? (Same as username if you're unsure) [vagrant]: "
 read WSL_USER_GROUP
+
+# Set default
+if [ -z "${WSL_USER_NAME}" ]; then
+    WSL_USER_NAME=vagrant
+fi
+if [ -z "${WSL_USER_GROUP}" ]; then
+    WSL_USER_GROUP=vagrant
+fi
+
+# Validate user and group
+if ! id "$WSL_USER_NAME" &>/dev/null; then
+    echo "Error: User $WSL_USER_NAME does not exist.">&2
+
+    exit 1
+fi
+if ! getent group "$WSL_USER_GROUP" &>/dev/null; then
+    echo "Error: Group $WSL_USER_GROUP does not exist.">&2
+
+    exit 1
+fi
+if ! groups "$WSL_USER_NAME" | grep -q "\b$WSL_USER_GROUP\b"; then
+    echo "Error: User $WSL_USER_NAME is not a member of group $WSL_USER_GROUP.">&2
+
+    exit 1
+fi
 
 # Save necessary information for features
 mkdir -p ~/.homestead-features

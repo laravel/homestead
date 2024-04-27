@@ -35,5 +35,3 @@ echo "host    all             all             10.0.2.2/32               md5" | t
 
 sudo -u postgres /usr/bin/createdb --echo --owner=homestead homestead
 service postgresql restart
-# Disable to lower initial overhead
-systemctl disable postgresql
