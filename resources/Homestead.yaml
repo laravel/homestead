@@ -7,41 +7,41 @@ provider: virtualbox
 authorize: ~/.ssh/id_rsa.pub
 
 keys:
-    - ~/.ssh/id_rsa
+  - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/code
-      to: /home/vagrant/code
+  - map: ~/code
+    to: /home/vagrant/code
 
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+  - map: homestead.test
+    to: /home/vagrant/code/public
 
 databases:
-    - homestead
+  - homestead
 
 features:
-    - mariadb: false
-    - postgresql: false
-    - ohmyzsh: false
-    - webdriver: false
+  - mariadb: false
+  - postgresql: false
+  - ohmyzsh: false
+  - webdriver: false
 
 services:
-    - enabled:
-          - "mysql"
-#    - disabled:
-#        - "postgresql@11-main"
+  - enabled:
+      - "mysql"
+#   - disabled:
+#       - "postgresql@11-main"
 
-#ports:
-#    - send: 33060 # MySQL/MariaDB
-#      to: 3306
-#    - send: 4040
-#      to: 4040
-#    - send: 54320 # PostgreSQL
-#      to: 5432
-#    - send: 8025 # Mailpit
-#      to: 8025
-#    - send: 9600
-#      to: 9600
-#    - send: 27017
-#      to: 27017
+# ports:
+#   - send: 33060 # MySQL/MariaDB
+#     to: 3306
+#   - send: 4040
+#     to: 4040
+#   - send: 54320 # PostgreSQL
+#     to: 5432
+#   - send: 8025 # Mailpit
+#     to: 8025
+#   - send: 9600
+#     to: 9600
+#   - send: 27017
+#     to: 27017
