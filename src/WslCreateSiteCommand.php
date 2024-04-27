@@ -40,7 +40,7 @@ class WslCreateSiteCommand extends Command
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
@@ -59,7 +59,7 @@ class WslCreateSiteCommand extends Command
      * @param  OutputInterface  $output
      * @return int
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         // Remove any existing nginx sites
         $shell_output = shell_exec('sudo rm -rf /etc/nginx/sites-available/*');
