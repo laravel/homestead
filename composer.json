@@ -9,7 +9,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "dms/phpunit-arraysubset-asserts": "^0.2.1"
+        "dms/phpunit-arraysubset-asserts": "^0.2.1",
+        "phpstan/phpstan": "^1.10"
     },
     "license": "MIT",
     "authors": [

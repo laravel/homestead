@@ -40,7 +40,7 @@ class WslCreateDatabaseCommand extends Command
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
@@ -59,7 +59,7 @@ class WslCreateDatabaseCommand extends Command
      * @param  OutputInterface  $output
      * @return int
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         // Grab the current settings or create an example configuration
         $format = $input->getOption('json') ? 'json' : 'yaml';
@@ -85,7 +85,7 @@ class WslCreateDatabaseCommand extends Command
      * @param  array  $options
      * @return mixed
      */
-    protected function parseSettingsFromFile(string $format, array $options)
+    protected function parseSettingsFromFile(string $format, array $options): mixed
     {
         $SettingsClass = ($format === 'json') ? JsonSettings::class : YamlSettings::class;
         $filename = __DIR__."/../Homestead.{$format}";
