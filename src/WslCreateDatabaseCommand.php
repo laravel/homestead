@@ -66,7 +66,6 @@ class WslCreateDatabaseCommand extends Command
         $settings = $this->parseSettingsFromFile($format, []);
 
         foreach ($settings['databases'] as $db) {
-            $create_cmd = '';
             $query = "CREATE DATABASE IF NOT EXISTS {$db} DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci";
             $create_cmd = 'mariadb -u homestead -psecret -e "'.$query.'"';
             // run command to create the database
