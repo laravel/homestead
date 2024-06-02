@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ##################################
 # Usage:                         #
-# sudo ./bin/homestead/wsl-init  #
+# sudo ./bin/wsl-init            #
 ##################################
 export DEBIAN_FRONTEND=noninteractive
 

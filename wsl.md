@@ -209,16 +209,16 @@ Following softwares are not installed in WSL by default unlike Homestead Vagrant
 - PHP 7.0
 - PHP 5.6
 - PostgreSQL 15
-- Beanstalkd *
-- Docker *
-- Mailpit *
-- ngrok *
-- XHProf / Tideways / XHGui *
-- wp-cli *
-- lmm *
-- Apache *
+- Beanstalkd [^1]
+- Docker [^1]
+- Mailpit [^1]
+- ngrok [^1]
+- XHProf / Tideways / XHGui [^1]
+- wp-cli [^1]
+- lmm [^1]
+- Apache [^1]
 
-* - (Not available as optional feature, need to install manually)
+[^1]: Not available as optional feature, need to install manually
 
 ### Optional Software
 The following software features can be installed as optional features using the wsl:features command after updating the Homestead.yaml file:
