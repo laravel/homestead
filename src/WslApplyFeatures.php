@@ -47,7 +47,7 @@ class WslApplyFeatures extends Command
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->basePath = getcwd();
         $this->projectName = basename($this->basePath);
@@ -67,7 +67,7 @@ class WslApplyFeatures extends Command
      * @param  OutputInterface  $output
      * @return int
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         // Grab the current settings or create an example configuration
         $format = $input->getOption('json') ? 'json' : 'yaml';
