@@ -27,7 +27,7 @@ Welcome to the _"Initial Draft"_ documentation for using Homestead to provision 
 
 ## Requirements
 
-**WSL Version**: WSL2
+**WSL Version**: 2
 
 Homestead for WSL is currently tested only with WSL version 2 (WSL2), though it can also work with WSL version 1.
 
@@ -65,6 +65,10 @@ To install a distribution, use the following command:
 ```powershell
 > wsl --install Ubuntu-22.04
 ```
+
+or install via the Microsoft Store:
+- [Ubuntu 20.04 LTS](https://apps.microsoft.com/detail/9n6svws3rx71)
+- [Ubuntu 22.04 LTS](https://apps.microsoft.com/detail/9pn20msr04dw)
 
 After finishing up the download and/or installation of the distro, it will ask for username and password.
 Can give any username but recommend using __vagrant__ (_vagrant_ is default user created while using Homestead with other Providers)
