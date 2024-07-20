@@ -77,16 +77,17 @@ class WslApplyFeatures extends Command
             $feature_cmd = '';
             $feature_name = array_key_first($feature);
             $feature_variables = $feature[$feature_name];
-            $output->writeln(PHP_EOL.($feature[$feature_name] ? '' : 'Not ').'Configuring feature: '.$feature_name);
-            if ($feature_variables !== false) {
-                $feature_path = "{$this->featuresPath}/{$feature_name}.sh | tee ~/.homestead-features/{$feature_name}.log";
+            $output->writeln(PHP_EOL.($feature[$feature_name] ? '' : 'Not ').'Configuring feature: '.$feature_name);           
+			if ($feature_variables !== false) {
                 // Prepare the feature variables if provided.
-                if (is_array($feature_variables)) {
-                    $variables = join(' ', $feature_variables);
-                    $feature_cmd = "sudo -E bash {$feature_path} {$variables}";
-                } else {
-                    $feature_cmd = "sudo -E bash {$feature_path}";
-                }
+				if (is_array($feature_variables)) {
+					foreach ($feature_variables as $var_name => $var_value) {
+						$output->writeln("Set option ".$var_name." = ".$var_value);
+						putenv("$var_name=$var_value");
+					}
+				}
+				$feature_path = "{$this->featuresPath}/{$feature_name}.sh | tee ~/.homestead-features/{$feature_name}.log";
+                $feature_cmd = "sudo -E bash {$feature_path}";				
                 shell_exec($feature_cmd);
                 $output->writeln("Feature installation log can be found via: sudo cat ~/.homestead-features/{$feature_name}.log");
             }
