@@ -24,10 +24,16 @@ class Homestead
     config.vm.hostname = settings['hostname'] ||= 'homestead'
 
     # Configure A Private Network IP
-    if settings['ip'] != 'autonetwork'
-      config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56'
+    if ['vmware_desktop', 'vmware_fusion'].include? ENV['VAGRANT_DEFAULT_PROVIDER']
+      if RUBY_PLATFORM.match(/darwin2/)
+        config.vm.network :private_network
+      end
     else
-      config.vm.network :private_network, ip: '0.0.0.0', auto_network: true
+      if settings['ip'] != 'autonetwork'
+        config.vm.network :private_network, ip: settings['ip'] ||= '192.168.56.56'
+      else
+        config.vm.network :private_network, ip: '0.0.0.0', auto_network: true
+      end
     end
 
     # Configure Additional Networks
