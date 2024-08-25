@@ -321,7 +321,7 @@ class Homestead
           config.vm.provision "start #{enable_service}", type: "shell", inline: "sudo systemctl start #{enable_service}"
         end if service.include?('enabled')
 
-        service['disabled'].each do |disable_service|
+        (service['disabled'] || []).each do |disable_service|
           config.vm.provision "disable #{disable_service}", type: "shell", inline: "sudo systemctl disable #{disable_service}"
           config.vm.provision "stop #{disable_service}", type: "shell", inline: "sudo systemctl stop #{disable_service}"
         end if service.include?('disabled')
