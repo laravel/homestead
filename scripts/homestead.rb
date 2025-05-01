@@ -270,6 +270,8 @@ class Homestead
         end
       end
 
+      config.vm.provision "allow_apt_changes", type: "shell", path: script_dir + "/allow-apt-repository-changes.sh"
+
       config.vm.provision "apt_update", type: "shell", inline: "apt-get update"
 
       # Ensure we have PHP versions used in sites in our features
