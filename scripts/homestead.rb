@@ -270,7 +270,7 @@ class Homestead
         end
       end
 
-      config.vm.provision "apt_update", type: "shell", inline: "apt-get update"
+      config.vm.provision "apt_update", type: "shell", inline: "apt-get --allow-releaseinfo-change update"
 
       # Ensure we have PHP versions used in sites in our features
       if settings.has_key?('sites')
